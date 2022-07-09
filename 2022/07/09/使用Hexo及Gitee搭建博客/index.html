@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">376</span>
+            <span class="post-count">672</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -137,7 +137,11 @@
 <p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
-<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
+<p>如果需要同时添加多个仓库则如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
+<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
 
 <h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
@@ -145,6 +149,25 @@
 
 <p>该命令也可简写为<code>hexo g -d</code></p>
 <p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
+<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置多个标签。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置一个分类。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
