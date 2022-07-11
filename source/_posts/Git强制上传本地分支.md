@@ -25,3 +25,12 @@ git commit -m 'XXXX'
 git push origin master:source -f
 ```
 
+这样处理以后再拉取仓库，并设置追踪
+
+```shell
+git pull origin source:master
+git branch --set-upstream-to origin/source
+```
+
+后续更新文件后`git push`就不会提示 `To push the current branch and set the remote as upstream, use git push --set-upstream origin master`及`error: failed to push some refs to`了。
+
