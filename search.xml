@@ -28,79 +28,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Debian-Pi-arch64 安装nextcloud</title>
-    <url>/2019/11/25/Debian-Pi-arch64%20%E5%AE%89%E8%A3%85nextcloud/</url>
-    <content><![CDATA[<h1 id="Debian-Pi-arch64-安装nextcloud"><a href="#Debian-Pi-arch64-安装nextcloud" class="headerlink" title="Debian-Pi-arch64 安装nextcloud"></a>Debian-Pi-arch64 安装nextcloud</h1><p>安装nextcloud过程中出现了,工具安装问题,u盘不能读取问题,NTFS格式U盘会提示0770权限问题的错误,下面详细说明下怎么解决的这些问题</p>
-<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p>这里我们使用apache2作为服务器，通过以下命令安装apache2.80端口被封的话自己改端口</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
-
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>NextCloud可用的数据库有MySQL/MariaDB，PostgreSQL，Oracle。官方推荐MySQL/MariaDB，这里以mysql为例，执行以下指令安装mysql：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
-
-<p>期间会让你设置root密码和密码强度，请自行判断。</p>
-<p>进入mysql命令界面：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
-
-<p>创建数据库</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> database nextcloud;</span><br></pre></td></tr></table></figure>
-
-<p>再为NextCloud创建一个数据库用户:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>其中<code>your_username</code>是用户名,<code>localhost</code>指明只能通过本地访问。要想通过远程访问可改为<code>remote</code>同时配置你的mysql访问策略。<code>your_passwd</code>即所对应的密码。<br> 如果遇到<code>Your password does not satisfy the current policy requirements</code> 问题，这是因为你的密码强度级别设置太高，通过<code>set global validate_password_policy=0</code>可以设置为最低级别，关于密码强度的说明请参考百度。</p>
-<p>为所创建的用户授予权限:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> nextcloud.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
-
-<p>到此数据库的部分已经完成了。</p>
-<h3 id="运行环境要求"><a href="#运行环境要求" class="headerlink" title="运行环境要求"></a>运行环境要求</h3><p>执行下面的命令安装php</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
-
-<p>官方要求php5.0+，通过以下指令查看php版本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
-
-<p>然后安装NextCloud所需的其它php依赖</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php-zip</span><br><span class="line">apt-get install php-dompdf</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mysql</span><br></pre></td></tr></table></figure>
-
-<p>到此环境配置已经完成,</p>
-<h2 id="配置nextcloud"><a href="#配置nextcloud" class="headerlink" title="配置nextcloud"></a>配置nextcloud</h2><p>已经将从官网下载的安装包上传到服务器</p>
-<p>下面进行解压缩</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -xjf nextcloud-XX.XX.tar.bz2</span><br></pre></td></tr></table></figure>
-
-<p>更改文件权限</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo chown -R root:root nextcloud</span><br></pre></td></tr></table></figure>
-
-<p>移动文件到<code>/var/www/html/</code>中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mv nextcloud /var/www/html</span><br></pre></td></tr></table></figure>
-
-<p>这时已经可以在浏览器输入<code>http://localhost/nextcloud</code>访问了</p>
-<p>但是还存在一堆问题.现在切换到root用户开始更改配置文件.</p>
-<p>打开config.php文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /var/www/html/nextcloud/config</span><br></pre></td></tr></table></figure>
-
-<p>配置储存盘/数据目录.我是将NTFS格式的U盘挂载到了<code>/home/pi/mydisk/</code>并创建了nextcloud文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;datadirectory&#x27; =&gt; &#x27;/home/pi/mydisk/nextcloud&#x27;,</span><br></pre></td></tr></table></figure>
-
-<p>当提示数据目录要0770权限时:</p>
-<p>在nextcloud目录下config/config.php文件中加入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;check_data_directory_permissions&#x27; =&gt; false</span><br></pre></td></tr></table></figure>
-
-<p>这一条语句是取消文件权限检测.</p>
-<h2 id="添加离线下载功能"><a href="#添加离线下载功能" class="headerlink" title="添加离线下载功能"></a>添加离线下载功能</h2><p>安装ocDownload插件.</p>
-<p>安装aria2</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install aria2 curl php-curl</span><br></pre></td></tr></table></figure>
-
-<p>配置aria2</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir /var/log/aria2c /var/local/aria2c</span><br><span class="line">touch /var/log/aria2c/aria2c.log</span><br><span class="line">touch /var/local/aria2c/aria2c.sess</span><br><span class="line">chown www-data.www-data -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">chmod 770 -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">sudo -u www-data aria2c --enable-rpc --rpc-allow-origin-all -c -D --log=/var/log/aria2c/aria2c.log --check-certificate=false --save-session=/var/local/aria2c/aria2c.sess --save-session-interval=2 --continue=true --input-file=/var/local/aria2c/aria2c.sess --rpc-save-upload-metadata=true --force-save=true --log-level=warn --rpc-listen-all=false</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Debian</tag>
-        <tag>Linux</tag>
-        <tag>Nextcloud</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android实现Spinner重复监听</title>
     <url>/2021/03/26/Android_%E5%AE%9E%E7%8E%B0Spinner%E9%87%8D%E5%A4%8D%E7%9B%91%E5%90%AC/</url>
     <content><![CDATA[<p>首先重构Spinner类</p>
@@ -114,80 +41,6 @@
       </categories>
       <tags>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FLASK入门</title>
-    <url>/2020/06/10/FLASK%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h1 id="FLASK入门"><a href="#FLASK入门" class="headerlink" title="FLASK入门"></a>FLASK入门</h1><ol>
-<li><p>装饰器: 函数前使用<code>@app.*</code></p>
-<p><code>route(&#39;/&#39;)</code>设置url 路径,’/‘为根目录</p>
-</li>
-<li><p>变量规则</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@app.route(&#x27;/user/&lt;username&gt;&#x27;)</span><br><span class="line">def show_user_profile(username):</span><br><span class="line">    # 显示用户名</span><br><span class="line">    return &#x27;User &#123;&#125;&#x27;.format(username)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/post/&lt;int:post_id&gt;&#x27;)</span><br><span class="line">def show_post(post_id):</span><br><span class="line">    # 显示提交整型的用户&quot;id&quot;的结果，注意&quot;int&quot;是将输入的字符串形式转换为整型数据</span><br><span class="line">    return &#x27;Post &#123;&#125;&#x27;.format(post_id)</span><br></pre></td></tr></table></figure>
-
-<p>转换器类型:</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>string</td>
-<td>默认的数据类型，接受没有任何斜杠“/”的字符串</td>
-</tr>
-<tr>
-<td>int</td>
-<td>接受整型</td>
-</tr>
-<tr>
-<td>float</td>
-<td>接受浮点类型</td>
-</tr>
-<tr>
-<td>path</td>
-<td>和 string 类似，但是接受斜杠“/”</td>
-</tr>
-<tr>
-<td>uuid</td>
-<td>只接受 uuid 字符串</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>Urls</p>
-<p><strong>重定向</strong></p>
-<p>在代码的 URL 设置时斜线只可多写不可少写；</p>
-<p><code>@app.route(&#39;/about&#39;)</code></p>
-<p>当访问 <code>http://127.0.0.1:5000/about</code> 时，页面会显示 <code>The about page</code> ；但是当访问 <code>http://127.0.0.1:5000/about/</code> 时，页面就会报错 <code>Not Found</code> 。</p>
-<p><code>@app.route(&#39;/about/&#39;)</code>都可以访问</p>
-<p>用 <code>redirect()</code> 函数重定向用户到其它地方。能够用 <code>abort()</code> 函数提前中断一个请求并带有一个错误代码。</p>
-<p><strong>URL构建</strong></p>
-<p>去构建一个 URL 来匹配一个特定的函数可以使用 <code>url_for()</code> 方法。</p>
-<p><code>url_for(&#39;static&#39;, filename=&#39;style.css&#39;)</code>这个文件应该存储在文件系统上的 static/style.css 。</p>
-</li>
-<li><p>渲染模板</p>
-<p> <code>render_template()</code> 来渲染模板,<code>render_template(&#39;hello.html&#39;, name=name)</code></p>
-</li>
-<li><p>请求对象</p>
-<p><code>from flask import request</code></p>
-<p><code>@app.route(&#39;/login&#39;, methods=[&#39;POST&#39;, &#39;GET&#39;])</code>装饰器声明方法</p>
-<p><code>  if request.method == &#39;POST&#39;:</code>判断方法</p>
-<p> <code>log_the_user_in(request.form[&#39;username&#39;]) </code> request请求表单属性</p>
-</li>
-<li><p>文件上传</p>
-<p>HTML表单中需要设置属性<code>enctype=&quot;multipart/form-data&quot;</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/&#x27;</span> + secure_filename(f.filename))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></li>
-<li></li>
-</ol>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>Flask</tag>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -308,9 +161,179 @@
         <category>学习笔记</category>
       </categories>
       <tags>
-        <tag>Flask</tag>
-        <tag>Python</tag>
         <tag>计算机网络</tag>
+        <tag>Python</tag>
+        <tag>Flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Debian-Pi-arch64 安装nextcloud</title>
+    <url>/2019/11/25/Debian-Pi-arch64%20%E5%AE%89%E8%A3%85nextcloud/</url>
+    <content><![CDATA[<h1 id="Debian-Pi-arch64-安装nextcloud"><a href="#Debian-Pi-arch64-安装nextcloud" class="headerlink" title="Debian-Pi-arch64 安装nextcloud"></a>Debian-Pi-arch64 安装nextcloud</h1><p>安装nextcloud过程中出现了,工具安装问题,u盘不能读取问题,NTFS格式U盘会提示0770权限问题的错误,下面详细说明下怎么解决的这些问题</p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p>这里我们使用apache2作为服务器，通过以下命令安装apache2.80端口被封的话自己改端口</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>NextCloud可用的数据库有MySQL/MariaDB，PostgreSQL，Oracle。官方推荐MySQL/MariaDB，这里以mysql为例，执行以下指令安装mysql：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<p>期间会让你设置root密码和密码强度，请自行判断。</p>
+<p>进入mysql命令界面：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<p>创建数据库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> database nextcloud;</span><br></pre></td></tr></table></figure>
+
+<p>再为NextCloud创建一个数据库用户:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>your_username</code>是用户名,<code>localhost</code>指明只能通过本地访问。要想通过远程访问可改为<code>remote</code>同时配置你的mysql访问策略。<code>your_passwd</code>即所对应的密码。<br> 如果遇到<code>Your password does not satisfy the current policy requirements</code> 问题，这是因为你的密码强度级别设置太高，通过<code>set global validate_password_policy=0</code>可以设置为最低级别，关于密码强度的说明请参考百度。</p>
+<p>为所创建的用户授予权限:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> nextcloud.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<p>到此数据库的部分已经完成了。</p>
+<h3 id="运行环境要求"><a href="#运行环境要求" class="headerlink" title="运行环境要求"></a>运行环境要求</h3><p>执行下面的命令安装php</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+
+<p>官方要求php5.0+，通过以下指令查看php版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
+
+<p>然后安装NextCloud所需的其它php依赖</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php-zip</span><br><span class="line">apt-get install php-dompdf</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mysql</span><br></pre></td></tr></table></figure>
+
+<p>到此环境配置已经完成,</p>
+<h2 id="配置nextcloud"><a href="#配置nextcloud" class="headerlink" title="配置nextcloud"></a>配置nextcloud</h2><p>已经将从官网下载的安装包上传到服务器</p>
+<p>下面进行解压缩</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -xjf nextcloud-XX.XX.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<p>更改文件权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo chown -R root:root nextcloud</span><br></pre></td></tr></table></figure>
+
+<p>移动文件到<code>/var/www/html/</code>中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mv nextcloud /var/www/html</span><br></pre></td></tr></table></figure>
+
+<p>这时已经可以在浏览器输入<code>http://localhost/nextcloud</code>访问了</p>
+<p>但是还存在一堆问题.现在切换到root用户开始更改配置文件.</p>
+<p>打开config.php文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /var/www/html/nextcloud/config</span><br></pre></td></tr></table></figure>
+
+<p>配置储存盘/数据目录.我是将NTFS格式的U盘挂载到了<code>/home/pi/mydisk/</code>并创建了nextcloud文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;datadirectory&#x27; =&gt; &#x27;/home/pi/mydisk/nextcloud&#x27;,</span><br></pre></td></tr></table></figure>
+
+<p>当提示数据目录要0770权限时:</p>
+<p>在nextcloud目录下config/config.php文件中加入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;check_data_directory_permissions&#x27; =&gt; false</span><br></pre></td></tr></table></figure>
+
+<p>这一条语句是取消文件权限检测.</p>
+<h2 id="添加离线下载功能"><a href="#添加离线下载功能" class="headerlink" title="添加离线下载功能"></a>添加离线下载功能</h2><p>安装ocDownload插件.</p>
+<p>安装aria2</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install aria2 curl php-curl</span><br></pre></td></tr></table></figure>
+
+<p>配置aria2</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir /var/log/aria2c /var/local/aria2c</span><br><span class="line">touch /var/log/aria2c/aria2c.log</span><br><span class="line">touch /var/local/aria2c/aria2c.sess</span><br><span class="line">chown www-data.www-data -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">chmod 770 -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">sudo -u www-data aria2c --enable-rpc --rpc-allow-origin-all -c -D --log=/var/log/aria2c/aria2c.log --check-certificate=false --save-session=/var/local/aria2c/aria2c.sess --save-session-interval=2 --continue=true --input-file=/var/local/aria2c/aria2c.sess --rpc-save-upload-metadata=true --force-save=true --log-level=warn --rpc-listen-all=false</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Debian</tag>
+        <tag>Linux</tag>
+        <tag>Nextcloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FLASK入门</title>
+    <url>/2020/06/10/FLASK%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h1 id="FLASK入门"><a href="#FLASK入门" class="headerlink" title="FLASK入门"></a>FLASK入门</h1><ol>
+<li><p>装饰器: 函数前使用<code>@app.*</code></p>
+<p><code>route(&#39;/&#39;)</code>设置url 路径,’/‘为根目录</p>
+</li>
+<li><p>变量规则</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@app.route(&#x27;/user/&lt;username&gt;&#x27;)</span><br><span class="line">def show_user_profile(username):</span><br><span class="line">    # 显示用户名</span><br><span class="line">    return &#x27;User &#123;&#125;&#x27;.format(username)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/post/&lt;int:post_id&gt;&#x27;)</span><br><span class="line">def show_post(post_id):</span><br><span class="line">    # 显示提交整型的用户&quot;id&quot;的结果，注意&quot;int&quot;是将输入的字符串形式转换为整型数据</span><br><span class="line">    return &#x27;Post &#123;&#125;&#x27;.format(post_id)</span><br></pre></td></tr></table></figure>
+
+<p>转换器类型:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>默认的数据类型，接受没有任何斜杠“/”的字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>接受整型</td>
+</tr>
+<tr>
+<td>float</td>
+<td>接受浮点类型</td>
+</tr>
+<tr>
+<td>path</td>
+<td>和 string 类似，但是接受斜杠“/”</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>只接受 uuid 字符串</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Urls</p>
+<p><strong>重定向</strong></p>
+<p>在代码的 URL 设置时斜线只可多写不可少写；</p>
+<p><code>@app.route(&#39;/about&#39;)</code></p>
+<p>当访问 <code>http://127.0.0.1:5000/about</code> 时，页面会显示 <code>The about page</code> ；但是当访问 <code>http://127.0.0.1:5000/about/</code> 时，页面就会报错 <code>Not Found</code> 。</p>
+<p><code>@app.route(&#39;/about/&#39;)</code>都可以访问</p>
+<p>用 <code>redirect()</code> 函数重定向用户到其它地方。能够用 <code>abort()</code> 函数提前中断一个请求并带有一个错误代码。</p>
+<p><strong>URL构建</strong></p>
+<p>去构建一个 URL 来匹配一个特定的函数可以使用 <code>url_for()</code> 方法。</p>
+<p><code>url_for(&#39;static&#39;, filename=&#39;style.css&#39;)</code>这个文件应该存储在文件系统上的 static/style.css 。</p>
+</li>
+<li><p>渲染模板</p>
+<p> <code>render_template()</code> 来渲染模板,<code>render_template(&#39;hello.html&#39;, name=name)</code></p>
+</li>
+<li><p>请求对象</p>
+<p><code>from flask import request</code></p>
+<p><code>@app.route(&#39;/login&#39;, methods=[&#39;POST&#39;, &#39;GET&#39;])</code>装饰器声明方法</p>
+<p><code>  if request.method == &#39;POST&#39;:</code>判断方法</p>
+<p> <code>log_the_user_in(request.form[&#39;username&#39;]) </code> request请求表单属性</p>
+</li>
+<li><p>文件上传</p>
+<p>HTML表单中需要设置属性<code>enctype=&quot;multipart/form-data&quot;</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/&#x27;</span> + secure_filename(f.filename))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git强制上传本地分支</title>
+    <url>/2022/07/11/Git%E5%BC%BA%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF/</url>
+    <content><![CDATA[<p>采用这个方法可以让一个仓库存储不同的软件代码。如主分支存Hexo的网页代码，一个存Hexo的源代码。</p>
+<p>现在git上建立分支新source。</p>
+<p>如果还未建立本地git仓库。先执行如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/XXXX/XXXXX.git </span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;XXXX&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>创建好本地仓库并关联远程仓库后执行如下指令.其中master替换为本地分支名，source替换为远程分支名。<code> -f</code>表示清空远程分支。如果不加<code> -f</code> 则会提示<code>error: failed to push some refs to</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin master:source -f</span><br></pre></td></tr></table></figure>
+
+<p>这样处理以后再拉取仓库，并设置追踪</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull origin source:master</span><br><span class="line">git branch --set-upstream-to origin/source</span><br></pre></td></tr></table></figure>
+
+<p>后续更新文件后<code>git push</code>就不会提示 <code>To push the current branch and set the remote as upstream, use git push --set-upstream origin master</code>及<code>error: failed to push some refs to</code>了。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -684,6 +707,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Ocaml语言学习笔记</title>
+    <url>/2019/11/07/Ocaml%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Ocaml语言学习笔记"><a href="#Ocaml语言学习笔记" class="headerlink" title="Ocaml语言学习笔记"></a>Ocaml语言学习笔记</h1><h2 id="unit类型和简单的输入输出"><a href="#unit类型和简单的输入输出" class="headerlink" title="unit类型和简单的输入输出"></a>unit类型和简单的输入输出</h2><ol>
+<li><p>unit类型只有一个值();</p>
+</li>
+<li><p>从标准输入上读取整数: read_int    浮点数,字符串类似 (没有单独读取一个字符的),read_line</p>
+</li>
+<li><p>打印函数为 print_int ; 浮点数,字符,字符串类似.还有print_newline() 打印新行</p>
+<p>print_endline 也可以打印字符串,并换行</p>
+</li>
+<li><p>合并字符串 操作符 str1 ^ str2</p>
+</li>
+<li><p>字符串换    int_of_string   /float_of_string</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>MySQL ERROR 1698 (28000) 解决方案</title>
     <url>/2022/06/30/MySQL%20ERROR%201698%20(28000)%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
     <content><![CDATA[<h1 id="MySQL-ERROR-1698-28000-解决方案"><a href="#MySQL-ERROR-1698-28000-解决方案" class="headerlink" title="MySQL ERROR 1698 (28000) 解决方案"></a>MySQL ERROR 1698 (28000) 解决方案</h1><p>解决步骤：<br>1、停止MySQL服务</p>
@@ -710,22 +751,19 @@
       </tags>
   </entry>
   <entry>
-    <title>Ocaml语言学习笔记</title>
-    <url>/2019/11/07/Ocaml%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="Ocaml语言学习笔记"><a href="#Ocaml语言学习笔记" class="headerlink" title="Ocaml语言学习笔记"></a>Ocaml语言学习笔记</h1><h2 id="unit类型和简单的输入输出"><a href="#unit类型和简单的输入输出" class="headerlink" title="unit类型和简单的输入输出"></a>unit类型和简单的输入输出</h2><ol>
-<li><p>unit类型只有一个值();</p>
-</li>
-<li><p>从标准输入上读取整数: read_int    浮点数,字符串类似 (没有单独读取一个字符的),read_line</p>
-</li>
-<li><p>打印函数为 print_int ; 浮点数,字符,字符串类似.还有print_newline() 打印新行</p>
-<p>print_endline 也可以打印字符串,并换行</p>
-</li>
-<li><p>合并字符串 操作符 str1 ^ str2</p>
-</li>
-<li><p>字符串换    int_of_string   /float_of_string</p>
-</li>
-</ol>
+    <title>Python批处理文档为Hexo格式</title>
+    <url>/2022/07/11/Python%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E6%A1%A3%E4%B8%BAHexo%E6%A0%BC%E5%BC%8F/</url>
+    <content><![CDATA[<p>需要将要处理的文件放到同一个文件夹，并在该文件夹下创建python文件。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, time</span><br><span class="line"></span><br><span class="line">path = <span class="string">r&quot;./&quot;</span>	<span class="comment">#采用相对路径读取当前目录md文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(path, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">&quot;.md&quot;</span> <span class="keyword">in</span> name: <span class="keyword">continue</span></span><br><span class="line">        <span class="built_in">print</span>(name)</span><br><span class="line">        _path = os.path.join(root, name)</span><br><span class="line">        <span class="comment">#editTime = time.strptime(os.path.getmtime(_path), &quot;%Y-%m-%d %H:%M:%S&quot;)</span></span><br><span class="line">        editTime = time.localtime(os.path.getmtime(_path)) <span class="comment">#获取文档最后修改时间</span></span><br><span class="line">        editTime = time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, editTime) <span class="comment">#格式化时间戳</span></span><br><span class="line">        _name = name[:<span class="built_in">len</span>(name)-<span class="number">3</span>]</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(_path, <span class="string">&quot;r+&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            old = f.read()</span><br><span class="line">            f.seek(<span class="number">0</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;title: %s\n&quot;</span> %_name)</span><br><span class="line">            f.write(<span class="string">&quot;date: %s\n&quot;</span> %editTime)</span><br><span class="line">            f.write(<span class="string">&quot;categories:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;tags:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(old) <span class="comment">#将文件原内容追加到前缀后面</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>安卓RecyclerView封装库</title>
@@ -750,27 +788,6 @@
       </tags>
   </entry>
   <entry>
-    <title>apache2添加验证</title>
-    <url>/2019/11/24/apache2%E6%B7%BB%E5%8A%A0%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<p>如果希望将某些或所有网站限制仅允许特定用户或组访问，使用HTTP Auth（基于apache2）方式很容易实现。<br> 一、在CentOS上，httpd的配置文件默认在/etc/httpd/conf/httpd.conf文件，</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">&lt;Directory <span class="string">&quot;/var/www/html&quot;</span>&gt;</span><br><span class="line">    Options Indexes FollowSymLinks</span><br><span class="line"><span class="meta"># 下面这3行是默认的，可以直接改，或者注释掉</span></span><br><span class="line"><span class="meta">#    AllowOverride ALL</span></span><br><span class="line"><span class="meta">#    Order allow,deny</span></span><br><span class="line"><span class="meta">#    Allow from all</span></span><br><span class="line"><span class="meta"># 改成下面这样</span></span><br><span class="line">    AllowOverride authconfig</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow <span class="keyword">from</span> all</span><br><span class="line">    AuthName <span class="string">&quot;Web Access&quot;</span></span><br><span class="line"><span class="meta">#名字随意</span></span><br><span class="line">    AuthType Basic</span><br><span class="line">    AuthUserFile /<span class="keyword">var</span>/www/html/.htpasswd</span><br><span class="line"><span class="meta">#认证文件名字和位置和下面生成的要一致</span></span><br><span class="line">    Require valid-user</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里存放用户密码的文件就是.htpasswd， 位置和名称可以改。<br> 生成用户密码文件：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">htpasswd <span class="operator">-</span>c <span class="operator">/</span><span class="keyword">var</span><span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>.htpasswd <span class="operator">&lt;</span>username<span class="operator">&gt;</span></span><br><span class="line">#创建第一个认证用户的时候用<span class="operator">-</span>c，其他用户要把<span class="operator">-</span>c去掉，否则会被覆盖掉</span><br><span class="line">重启httpd服务即可</span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
-
-<p>也可使用用户组来控制，也是编辑httpd配置文件，这里不写了。<br> 二、Ubuntu的apache配置文件编辑/etc/apache2/sites-enabled/目录下的文件，根据虚拟站点有不同的名称，比如我的nagios配置文件就叫nagios.conf，看起来是这样子的：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Alias /nagios <span class="string">&quot;/usr/local/nagios/share&quot;</span></span><br><span class="line">&lt;<span class="built_in">Directory</span> <span class="string">&quot;/usr/local/nagios/share&quot;</span>&gt;</span><br><span class="line"><span class="comment">#  SSLRequireSSL</span></span><br><span class="line">   Options None</span><br><span class="line">   AllowOverride None</span><br><span class="line">   &lt;IfVersion &gt;= <span class="number">2.3</span>&gt;</span><br><span class="line">      &lt;RequireAll&gt;</span><br><span class="line">         Require all granted</span><br><span class="line"><span class="comment">#        Require host 127.0.0.1</span></span><br><span class="line">         AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">         AuthType Basic</span><br><span class="line">         AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">         Require valid-user</span><br><span class="line">      &lt;/RequireAll&gt;</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line"> &lt;IfVersion &lt; <span class="number">2.3</span>&gt;</span><br><span class="line">      Order allow,deny</span><br><span class="line">      Allow <span class="keyword">from</span> all</span><br><span class="line">     Order deny,allow</span><br><span class="line">     Deny <span class="keyword">from</span> all</span><br><span class="line">      AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">      AuthType Basic</span><br><span class="line">      AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">      Require valid-user</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line">&lt;/<span class="built_in">Directory</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Ubuntu如果默认没有安装htpasswd工具的话，要先安装apache2-utils包：<br> sudo apt install apache2-utils<br> 生成用户密码的用法和CentOS是一样的。</p>
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Apache</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu使用deb包安装JDK</title>
     <url>/2019/09/14/Ubuntu%E4%BD%BF%E7%94%A8deb%E5%8C%85%E5%AE%89%E8%A3%85JDK/</url>
     <content><![CDATA[<h1 id="Ubuntu使用deb包安装JDK"><a href="#Ubuntu使用deb包安装JDK" class="headerlink" title="Ubuntu使用deb包安装JDK"></a>Ubuntu使用deb包安装JDK</h1><h2 id="1-在oracle下载所需版本的jdk的deb包"><a href="#1-在oracle下载所需版本的jdk的deb包" class="headerlink" title="1.在oracle下载所需版本的jdk的deb包"></a>1.在oracle下载所需版本的jdk的deb包</h2><h3 id="2-安装jdk包"><a href="#2-安装jdk包" class="headerlink" title="2. 安装jdk包"></a>2. 安装jdk包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dpkg -i jdk-12.0.2_linux-x64_bin.deb (替换成自己的包的名称)</span><br></pre></td></tr></table></figure>
@@ -791,6 +808,27 @@
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apache2添加验证</title>
+    <url>/2019/11/24/apache2%E6%B7%BB%E5%8A%A0%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<p>如果希望将某些或所有网站限制仅允许特定用户或组访问，使用HTTP Auth（基于apache2）方式很容易实现。<br> 一、在CentOS上，httpd的配置文件默认在/etc/httpd/conf/httpd.conf文件，</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">&lt;Directory <span class="string">&quot;/var/www/html&quot;</span>&gt;</span><br><span class="line">    Options Indexes FollowSymLinks</span><br><span class="line"><span class="meta"># 下面这3行是默认的，可以直接改，或者注释掉</span></span><br><span class="line"><span class="meta">#    AllowOverride ALL</span></span><br><span class="line"><span class="meta">#    Order allow,deny</span></span><br><span class="line"><span class="meta">#    Allow from all</span></span><br><span class="line"><span class="meta"># 改成下面这样</span></span><br><span class="line">    AllowOverride authconfig</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow <span class="keyword">from</span> all</span><br><span class="line">    AuthName <span class="string">&quot;Web Access&quot;</span></span><br><span class="line"><span class="meta">#名字随意</span></span><br><span class="line">    AuthType Basic</span><br><span class="line">    AuthUserFile /<span class="keyword">var</span>/www/html/.htpasswd</span><br><span class="line"><span class="meta">#认证文件名字和位置和下面生成的要一致</span></span><br><span class="line">    Require valid-user</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里存放用户密码的文件就是.htpasswd， 位置和名称可以改。<br> 生成用户密码文件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">htpasswd <span class="operator">-</span>c <span class="operator">/</span><span class="keyword">var</span><span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>.htpasswd <span class="operator">&lt;</span>username<span class="operator">&gt;</span></span><br><span class="line">#创建第一个认证用户的时候用<span class="operator">-</span>c，其他用户要把<span class="operator">-</span>c去掉，否则会被覆盖掉</span><br><span class="line">重启httpd服务即可</span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
+
+<p>也可使用用户组来控制，也是编辑httpd配置文件，这里不写了。<br> 二、Ubuntu的apache配置文件编辑/etc/apache2/sites-enabled/目录下的文件，根据虚拟站点有不同的名称，比如我的nagios配置文件就叫nagios.conf，看起来是这样子的：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Alias /nagios <span class="string">&quot;/usr/local/nagios/share&quot;</span></span><br><span class="line">&lt;<span class="built_in">Directory</span> <span class="string">&quot;/usr/local/nagios/share&quot;</span>&gt;</span><br><span class="line"><span class="comment">#  SSLRequireSSL</span></span><br><span class="line">   Options None</span><br><span class="line">   AllowOverride None</span><br><span class="line">   &lt;IfVersion &gt;= <span class="number">2.3</span>&gt;</span><br><span class="line">      &lt;RequireAll&gt;</span><br><span class="line">         Require all granted</span><br><span class="line"><span class="comment">#        Require host 127.0.0.1</span></span><br><span class="line">         AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">         AuthType Basic</span><br><span class="line">         AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">         Require valid-user</span><br><span class="line">      &lt;/RequireAll&gt;</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line"> &lt;IfVersion &lt; <span class="number">2.3</span>&gt;</span><br><span class="line">      Order allow,deny</span><br><span class="line">      Allow <span class="keyword">from</span> all</span><br><span class="line">     Order deny,allow</span><br><span class="line">     Deny <span class="keyword">from</span> all</span><br><span class="line">      AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">      AuthType Basic</span><br><span class="line">      AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">      Require valid-user</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line">&lt;/<span class="built_in">Directory</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu如果默认没有安装htpasswd工具的话，要先安装apache2-utils包：<br> sudo apt install apache2-utils<br> 生成用户密码的用法和CentOS是一样的。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Apache</tag>
       </tags>
   </entry>
   <entry>
@@ -830,76 +868,6 @@
       </categories>
       <tags>
         <tag>KodExplorer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Hexo及Gitee搭建博客</title>
-    <url>/2022/07/09/%E4%BD%BF%E7%94%A8Hexo%E5%8F%8AGitee%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p> Hexo官方文档地址：<a href="https://hexo.io/zh-cn/docs/">文档 | Hexo</a></p>
-<h1 id="Step1：安装Node-Js"><a href="#Step1：安装Node-Js" class="headerlink" title="Step1：安装Node.Js"></a>Step1：安装Node.Js</h1><p>前往<a href="%5Bnodejs.org%5D(https://nodejs.org/)">NPM官网</a>下载适合自己系统的Node.Js。</p>
-<p>更换为国内镜像源：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-<p>查看当前镜像是否修改成功：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
-<p>Gitee生成/添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成/添加SSH公钥 - Gitee.com</a></p>
-<h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<p>同时为了推送到Gitee需要安装如下插件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step4：Hexo生成blog目录"><a href="#Step4：Hexo生成blog目录" class="headerlink" title="Step4：Hexo生成blog目录"></a>Step4：Hexo生成blog目录</h1><p>使用如下指令在指定文件夹中新建所需要的文件，<code>&lt;folder&gt;</code>为指定的空文件夹名</p>
-<p>如果是Window操作系统，需要设置PoweShell允许脚本运行。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step5：修改网站配置信息"><a href="#Step5：修改网站配置信息" class="headerlink" title="Step5：修改网站配置信息"></a>Step5：修改网站配置信息</h1><p>进入网站文件目录下，目录结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
-
-<p>对<code> _config.yml</code>进行修改。</p>
-<p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<p>如果需要同时添加多个仓库则如下配置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
-<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-
-<p>该命令也可简写为<code>hexo g -d</code></p>
-<p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
-<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-
-<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
-<p>一篇文章只能设置多个标签。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
-
-<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
-<p>一篇文章只能设置一个分类。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -1101,38 +1069,6 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
       </categories>
       <tags>
         <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vim简单使用</title>
-    <url>/2020/05/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C/</url>
-    <content><![CDATA[<h1 id="模式转换"><a href="#模式转换" class="headerlink" title="模式转换"></a>模式转换</h1><ul>
-<li><p><code>vi</code>启动后，进入普通模式</p>
-<p>控制屏幕光标的移动; 删除字符或行; 复制、粘贴; 查找文本</p>
-<ul>
-<li>输入键<code>i</code>，进入插入模式</li>
-<li>输入键<code>:</code>，进入命令模式</li>
-</ul>
-</li>
-<li><p>在插入模式下</p>
-<p>输入字符; 在命令模式下的命令，作为普通字符被插入到光标当前位置</p>
-<ul>
-<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
-</ul>
-</li>
-<li><p>在命令模式下</p>
-<p>替换文本; 保存文件; 退出程序</p>
-<ul>
-<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>Vim</tag>
       </tags>
   </entry>
   <entry>
@@ -1798,6 +1734,130 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
       </tags>
   </entry>
   <entry>
+    <title>如何开启代理上传Git</title>
+    <url>/2022/07/11/%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF%E4%BB%A3%E7%90%86%E4%B8%8A%E4%BC%A0Git/</url>
+    <content><![CDATA[<p>如果Git上传时出现<code>Failed to connect to github.com port 443: Timed out</code>，则说明当前网络环境连不上Github，需要开启代理。</p>
+<p>以代理工具Clash为例。</p>
+<p>先开启Clash的系统代理<code>System Proxy</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111803521.png" alt="image-20220711180300486"></p>
+<p>然后再终端执行如下代码开启代理</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy https://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+
+<p>等上传结束后再执行指令关闭代理</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Clash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Hexo及Gitee搭建博客</title>
+    <url>/2022/07/09/%E4%BD%BF%E7%94%A8Hexo%E5%8F%8AGitee%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p> Hexo官方文档地址：<a href="https://hexo.io/zh-cn/docs/">文档 | Hexo</a></p>
+<h1 id="Step1：安装Node-Js"><a href="#Step1：安装Node-Js" class="headerlink" title="Step1：安装Node.Js"></a>Step1：安装Node.Js</h1><p>前往<a href="%5Bnodejs.org%5D(https://nodejs.org/)">NPM官网</a>下载适合自己系统的Node.Js。</p>
+<p>更换为国内镜像源：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>查看当前镜像是否修改成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
+<p>Gitee生成/添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成/添加SSH公钥 - Gitee.com</a></p>
+<h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>同时为了推送到Gitee需要安装如下插件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step4：Hexo生成blog目录"><a href="#Step4：Hexo生成blog目录" class="headerlink" title="Step4：Hexo生成blog目录"></a>Step4：Hexo生成blog目录</h1><p>使用如下指令在指定文件夹中新建所需要的文件，<code>&lt;folder&gt;</code>为指定的空文件夹名</p>
+<p>如果是Window操作系统，需要设置PoweShell允许脚本运行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step5：修改网站配置信息"><a href="#Step5：修改网站配置信息" class="headerlink" title="Step5：修改网站配置信息"></a>Step5：修改网站配置信息</h1><p>进入网站文件目录下，目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+
+<p>对<code> _config.yml</code>进行修改。</p>
+<p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>如果需要同时添加多个仓库则如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
+<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<p>该命令也可简写为<code>hexo g -d</code></p>
+<p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
+<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置多个标签。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置一个分类。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vim简单使用</title>
+    <url>/2020/05/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<h1 id="模式转换"><a href="#模式转换" class="headerlink" title="模式转换"></a>模式转换</h1><ul>
+<li><p><code>vi</code>启动后，进入普通模式</p>
+<p>控制屏幕光标的移动; 删除字符或行; 复制、粘贴; 查找文本</p>
+<ul>
+<li>输入键<code>i</code>，进入插入模式</li>
+<li>输入键<code>:</code>，进入命令模式</li>
+</ul>
+</li>
+<li><p>在插入模式下</p>
+<p>输入字符; 在命令模式下的命令，作为普通字符被插入到光标当前位置</p>
+<ul>
+<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
+</ul>
+</li>
+<li><p>在命令模式下</p>
+<p>替换文本; 保存文件; 退出程序</p>
+<ul>
+<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Vim</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据结构必背算法</title>
     <url>/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="矩阵快速转置"><a href="#矩阵快速转置" class="headerlink" title="矩阵快速转置"></a>矩阵快速转置</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*稀疏矩阵用三元组表示。</span></span><br><span class="line"><span class="comment">需要设置num和cpot两个向量。</span></span><br><span class="line"><span class="comment">num[col]表示矩阵M中第col列中非零元的个数。</span></span><br><span class="line"><span class="comment">copt[col]指示M中第col列的第一个非零元在转置后的三元组的位置。</span></span><br><span class="line"><span class="comment">cpot[1] = 1; cpot[col] = cpot[col - 1] + num[col - 1],2&lt;=col&lt;=列数nu；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Status <span class="title">FastTransposeSMatrix</span><span class="params">( TSMatrix M, TSMatrix &amp;T)</span> </span>&#123;</span><br><span class="line">    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu; <span class="comment">//T的行数列数=M的列数行数，非零元个数相同</span></span><br><span class="line">    <span class="keyword">if</span>(T.tu) &#123;</span><br><span class="line">        <span class="keyword">for</span>(col = <span class="number">1</span>; col &lt; M.nu; ++col) num[col] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(t = <span class="number">1</span>; t &lt;= M.nu; ++t) ++num[M.data[t].j]; <span class="comment">//求M中每一列含非零元个数</span></span><br><span class="line">        cpot[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(col =  <span class="number">2</span>; col &lt;= M.nu; ++col)</span><br><span class="line">            cpot[col] = cpot[col - <span class="number">1</span>] + num[col - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(p = <span class="number">1</span>; p &lt;= M.tu; ++p) &#123;</span><br><span class="line">            col = M.data[p].j; q = cpot[col];</span><br><span class="line">            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;</span><br><span class="line">            T.data[q].e = M.data[p].e; ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -2117,66 +2177,6 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
       </categories>
       <tags>
         <tag>软件工程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git强制上传本地分支</title>
-    <url>/2022/07/11/Git%E5%BC%BA%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF/</url>
-    <content><![CDATA[<p>采用这个方法可以让一个仓库存储不同的软件代码。如主分支存Hexo的网页代码，一个存Hexo的源代码。</p>
-<p>现在git上建立分支新source。</p>
-<p>如果还未建立本地git仓库。先执行如下指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/XXXX/XXXXX.git </span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;XXXX&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>创建好本地仓库并关联远程仓库后执行如下指令.其中master替换为本地分支名，source替换为远程分支名。<code> -f</code>表示清空远程分支。如果不加<code> -f</code> 则会提示<code>error: failed to push some refs to</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin master:source -f</span><br></pre></td></tr></table></figure>
-
-<p>这样处理以后再拉取仓库，并设置追踪</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull origin source:master</span><br><span class="line">git branch --set-upstream-to origin/source</span><br></pre></td></tr></table></figure>
-
-<p>后续更新文件后<code>git push</code>就不会提示 <code>To push the current branch and set the remote as upstream, use git push --set-upstream origin master</code>及<code>error: failed to push some refs to</code>了。</p>
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何开启代理上传Git</title>
-    <url>/2022/07/11/%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF%E4%BB%A3%E7%90%86%E4%B8%8A%E4%BC%A0Git/</url>
-    <content><![CDATA[<p>如果Git上传时出现<code>Failed to connect to github.com port 443: Timed out</code>，则说明当前网络环境连不上Github，需要开启代理。</p>
-<p>以代理工具Clash为例。</p>
-<p>先开启Clash的系统代理<code>System Proxy</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111803521.png" alt="image-20220711180300486"></p>
-<p>然后再终端执行如下代码开启代理</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy https://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
-
-<p>等上传结束后再执行指令关闭代理</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-        <tag>Clash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python批处理文档为Hexo格式</title>
-    <url>/2022/07/11/Python%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E6%A1%A3%E4%B8%BAHexo%E6%A0%BC%E5%BC%8F/</url>
-    <content><![CDATA[<p>需要将要处理的文件放到同一个文件夹，并在该文件夹下创建python文件。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, time</span><br><span class="line"></span><br><span class="line">path = <span class="string">r&quot;./&quot;</span>	<span class="comment">#采用相对路径读取当前目录md文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(path, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">&quot;.md&quot;</span> <span class="keyword">in</span> name: <span class="keyword">continue</span></span><br><span class="line">        <span class="built_in">print</span>(name)</span><br><span class="line">        _path = os.path.join(root, name)</span><br><span class="line">        <span class="comment">#editTime = time.strptime(os.path.getmtime(_path), &quot;%Y-%m-%d %H:%M:%S&quot;)</span></span><br><span class="line">        editTime = time.localtime(os.path.getmtime(_path)) <span class="comment">#获取文档最后修改时间</span></span><br><span class="line">        editTime = time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, editTime) <span class="comment">#格式化时间戳</span></span><br><span class="line">        _name = name[:<span class="built_in">len</span>(name)-<span class="number">3</span>]</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(_path, <span class="string">&quot;r+&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            old = f.read()</span><br><span class="line">            f.seek(<span class="number">0</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;title: %s\n&quot;</span> %_name)</span><br><span class="line">            f.write(<span class="string">&quot;date: %s\n&quot;</span> %editTime)</span><br><span class="line">            f.write(<span class="string">&quot;categories:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;tags:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(old) <span class="comment">#将文件原内容追加到前缀后面</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
