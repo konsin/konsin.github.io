@@ -1,76 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>使用Hexo及Gitee搭建博客</title>
-    <url>/2022/07/09/%E4%BD%BF%E7%94%A8Hexo%E5%8F%8AGitee%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p> Hexo官方文档地址：<a href="https://hexo.io/zh-cn/docs/">文档 | Hexo</a></p>
-<h1 id="Step1：安装Node-Js"><a href="#Step1：安装Node-Js" class="headerlink" title="Step1：安装Node.Js"></a>Step1：安装Node.Js</h1><p>前往<a href="%5Bnodejs.org%5D(https://nodejs.org/)">NPM官网</a>下载适合自己系统的Node.Js。</p>
-<p>更换为国内镜像源：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-<p>查看当前镜像是否修改成功：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
-<p>Gitee生成/添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成/添加SSH公钥 - Gitee.com</a></p>
-<h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<p>同时为了推送到Gitee需要安装如下插件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step4：Hexo生成blog目录"><a href="#Step4：Hexo生成blog目录" class="headerlink" title="Step4：Hexo生成blog目录"></a>Step4：Hexo生成blog目录</h1><p>使用如下指令在指定文件夹中新建所需要的文件，<code>&lt;folder&gt;</code>为指定的空文件夹名</p>
-<p>如果是Window操作系统，需要设置PoweShell允许脚本运行。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Step5：修改网站配置信息"><a href="#Step5：修改网站配置信息" class="headerlink" title="Step5：修改网站配置信息"></a>Step5：修改网站配置信息</h1><p>进入网站文件目录下，目录结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
-
-<p>对<code> _config.yml</code>进行修改。</p>
-<p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<p>如果需要同时添加多个仓库则如下配置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
-<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-
-<p>该命令也可简写为<code>hexo g -d</code></p>
-<p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
-<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-
-<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
-<p>一篇文章只能设置多个标签。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
-
-<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
-<p>一篇文章只能设置一个分类。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ARM64系统安装softether</title>
     <url>/2019/06/30/ARM64%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85softether/</url>
     <content><![CDATA[<h1 id="ARM64系统安装softether"><a href="#ARM64系统安装softether" class="headerlink" title="ARM64系统安装softether"></a>ARM64系统安装softether</h1><p>官方文档 <a href="https://github.com/SoftEtherVPN/SoftEtherVPN/blob/master/src/BUILD_UNIX.md">https://github.com/SoftEtherVPN/SoftEtherVPN/blob/master/src/BUILD_UNIX.md</a> </p>
@@ -96,22 +26,6 @@
       <categories>
         <category>配置教程</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Android实现Spinner重复监听</title>
-    <url>/2021/03/26/Android_%E5%AE%9E%E7%8E%B0Spinner%E9%87%8D%E5%A4%8D%E7%9B%91%E5%90%AC/</url>
-    <content><![CDATA[<p>首先重构Spinner类</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.widget.Spinner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">重构spinner以实现点击重复的选项仍然监听</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReSpinner</span> <span class="keyword">extends</span> <span class="title class_">Spinner</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> isDropDownMenuShown=<span class="literal">false</span>;<span class="comment">//标志下拉列表是否正在显示</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position, <span class="type">boolean</span> animate)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position, animate);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            <span class="comment">// 如果选择项是Spinner当前已选择的项,则 OnItemSelectedListener并不会触发,因此这里手动触发回调</span></span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">performClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.performClick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isDropDownMenuShown</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDropDownMenuShown</span><span class="params">(<span class="type">boolean</span> isDropDownMenuShown)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown=isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onDetachedFromWindow</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDetachedFromWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后将布局文件的标签修改为重构的View类</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这里使用了自定义控件的全路径名称 --&gt;</span><span class="tag">&lt;<span class="name">com.example.common.util.ReSpinner</span></span></span><br><span class="line"><span class="tag">      <span class="attr">...</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-      </tags>
   </entry>
   <entry>
     <title>Debian-Pi-arch64 安装nextcloud</title>
@@ -182,8 +96,24 @@
       </categories>
       <tags>
         <tag>Debian</tag>
-        <tag>Nextcloud</tag>
         <tag>Linux</tag>
+        <tag>Nextcloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android实现Spinner重复监听</title>
+    <url>/2021/03/26/Android_%E5%AE%9E%E7%8E%B0Spinner%E9%87%8D%E5%A4%8D%E7%9B%91%E5%90%AC/</url>
+    <content><![CDATA[<p>首先重构Spinner类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.widget.Spinner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">重构spinner以实现点击重复的选项仍然监听</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReSpinner</span> <span class="keyword">extends</span> <span class="title class_">Spinner</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> isDropDownMenuShown=<span class="literal">false</span>;<span class="comment">//标志下拉列表是否正在显示</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position, <span class="type">boolean</span> animate)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position, animate);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            <span class="comment">// 如果选择项是Spinner当前已选择的项,则 OnItemSelectedListener并不会触发,因此这里手动触发回调</span></span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">performClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.performClick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isDropDownMenuShown</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDropDownMenuShown</span><span class="params">(<span class="type">boolean</span> isDropDownMenuShown)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown=isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onDetachedFromWindow</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDetachedFromWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后将布局文件的标签修改为重构的View类</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这里使用了自定义控件的全路径名称 --&gt;</span><span class="tag">&lt;<span class="name">com.example.common.util.ReSpinner</span></span></span><br><span class="line"><span class="tag">      <span class="attr">...</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -381,32 +311,6 @@
         <tag>Flask</tag>
         <tag>Python</tag>
         <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL ERROR 1698 (28000) 解决方案</title>
-    <url>/2022/06/30/MySQL%20ERROR%201698%20(28000)%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
-    <content><![CDATA[<h1 id="MySQL-ERROR-1698-28000-解决方案"><a href="#MySQL-ERROR-1698-28000-解决方案" class="headerlink" title="MySQL ERROR 1698 (28000) 解决方案"></a>MySQL ERROR 1698 (28000) 解决方案</h1><p>解决步骤：<br>1、停止MySQL服务</p>
-<p>~$ sudo service mysql stop</p>
-<p>2、以安全模式启动MySQL</p>
-<p>~$ sudo mysqld_safe –skip-grant-tables &amp;</p>
-<p>3、然后无需密码直接进入MySQL</p>
-<p>~$ mysql -u root</p>
-<p>4、查看user表，发现错误原因user表被修改了</p>
-<p>命令：mysql&gt; select user ,plugin from mysql.user</p>
-<p>错误：</p>
-<p>5、root的plugin应该和剩下的三种一样为 mysql_native_password</p>
-<p>即正确为：</p>
-<p>6、所以我们只需要修改过来就可以了</p>
-<p>mysql&gt; update mysql.user set authentication_string=PASSWORD(‘newPwd’), plugin=’mysql_native_password’ where user=’root’;</p>
-<p>mysql&gt; flush privileges;</p>
-<p>mysql&gt; quit；</p>
-]]></content>
-      <categories>
-        <category>异常处理</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -780,6 +684,50 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL ERROR 1698 (28000) 解决方案</title>
+    <url>/2022/06/30/MySQL%20ERROR%201698%20(28000)%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h1 id="MySQL-ERROR-1698-28000-解决方案"><a href="#MySQL-ERROR-1698-28000-解决方案" class="headerlink" title="MySQL ERROR 1698 (28000) 解决方案"></a>MySQL ERROR 1698 (28000) 解决方案</h1><p>解决步骤：<br>1、停止MySQL服务</p>
+<p>~$ sudo service mysql stop</p>
+<p>2、以安全模式启动MySQL</p>
+<p>~$ sudo mysqld_safe –skip-grant-tables &amp;</p>
+<p>3、然后无需密码直接进入MySQL</p>
+<p>~$ mysql -u root</p>
+<p>4、查看user表，发现错误原因user表被修改了</p>
+<p>命令：mysql&gt; select user ,plugin from mysql.user</p>
+<p>错误：</p>
+<p>5、root的plugin应该和剩下的三种一样为 mysql_native_password</p>
+<p>即正确为：</p>
+<p>6、所以我们只需要修改过来就可以了</p>
+<p>mysql&gt; update mysql.user set authentication_string=PASSWORD(‘newPwd’), plugin=’mysql_native_password’ where user=’root’;</p>
+<p>mysql&gt; flush privileges;</p>
+<p>mysql&gt; quit；</p>
+]]></content>
+      <categories>
+        <category>异常处理</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ocaml语言学习笔记</title>
+    <url>/2019/11/07/Ocaml%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Ocaml语言学习笔记"><a href="#Ocaml语言学习笔记" class="headerlink" title="Ocaml语言学习笔记"></a>Ocaml语言学习笔记</h1><h2 id="unit类型和简单的输入输出"><a href="#unit类型和简单的输入输出" class="headerlink" title="unit类型和简单的输入输出"></a>unit类型和简单的输入输出</h2><ol>
+<li><p>unit类型只有一个值();</p>
+</li>
+<li><p>从标准输入上读取整数: read_int    浮点数,字符串类似 (没有单独读取一个字符的),read_line</p>
+</li>
+<li><p>打印函数为 print_int ; 浮点数,字符,字符串类似.还有print_newline() 打印新行</p>
+<p>print_endline 也可以打印字符串,并换行</p>
+</li>
+<li><p>合并字符串 操作符 str1 ^ str2</p>
+</li>
+<li><p>字符串换    int_of_string   /float_of_string</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>安卓RecyclerView封装库</title>
     <url>/2021/04/20/RecyclerView/</url>
     <content><![CDATA[<p>代码仓库: <a href="https://github.com/yanzhenjie/SwipeRecyclerView">https://github.com/yanzhenjie/SwipeRecyclerView</a></p>
@@ -799,6 +747,27 @@
       </categories>
       <tags>
         <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apache2添加验证</title>
+    <url>/2019/11/24/apache2%E6%B7%BB%E5%8A%A0%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<p>如果希望将某些或所有网站限制仅允许特定用户或组访问，使用HTTP Auth（基于apache2）方式很容易实现。<br> 一、在CentOS上，httpd的配置文件默认在/etc/httpd/conf/httpd.conf文件，</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">&lt;Directory <span class="string">&quot;/var/www/html&quot;</span>&gt;</span><br><span class="line">    Options Indexes FollowSymLinks</span><br><span class="line"><span class="meta"># 下面这3行是默认的，可以直接改，或者注释掉</span></span><br><span class="line"><span class="meta">#    AllowOverride ALL</span></span><br><span class="line"><span class="meta">#    Order allow,deny</span></span><br><span class="line"><span class="meta">#    Allow from all</span></span><br><span class="line"><span class="meta"># 改成下面这样</span></span><br><span class="line">    AllowOverride authconfig</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow <span class="keyword">from</span> all</span><br><span class="line">    AuthName <span class="string">&quot;Web Access&quot;</span></span><br><span class="line"><span class="meta">#名字随意</span></span><br><span class="line">    AuthType Basic</span><br><span class="line">    AuthUserFile /<span class="keyword">var</span>/www/html/.htpasswd</span><br><span class="line"><span class="meta">#认证文件名字和位置和下面生成的要一致</span></span><br><span class="line">    Require valid-user</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里存放用户密码的文件就是.htpasswd， 位置和名称可以改。<br> 生成用户密码文件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">htpasswd <span class="operator">-</span>c <span class="operator">/</span><span class="keyword">var</span><span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>.htpasswd <span class="operator">&lt;</span>username<span class="operator">&gt;</span></span><br><span class="line">#创建第一个认证用户的时候用<span class="operator">-</span>c，其他用户要把<span class="operator">-</span>c去掉，否则会被覆盖掉</span><br><span class="line">重启httpd服务即可</span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
+
+<p>也可使用用户组来控制，也是编辑httpd配置文件，这里不写了。<br> 二、Ubuntu的apache配置文件编辑/etc/apache2/sites-enabled/目录下的文件，根据虚拟站点有不同的名称，比如我的nagios配置文件就叫nagios.conf，看起来是这样子的：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Alias /nagios <span class="string">&quot;/usr/local/nagios/share&quot;</span></span><br><span class="line">&lt;<span class="built_in">Directory</span> <span class="string">&quot;/usr/local/nagios/share&quot;</span>&gt;</span><br><span class="line"><span class="comment">#  SSLRequireSSL</span></span><br><span class="line">   Options None</span><br><span class="line">   AllowOverride None</span><br><span class="line">   &lt;IfVersion &gt;= <span class="number">2.3</span>&gt;</span><br><span class="line">      &lt;RequireAll&gt;</span><br><span class="line">         Require all granted</span><br><span class="line"><span class="comment">#        Require host 127.0.0.1</span></span><br><span class="line">         AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">         AuthType Basic</span><br><span class="line">         AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">         Require valid-user</span><br><span class="line">      &lt;/RequireAll&gt;</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line"> &lt;IfVersion &lt; <span class="number">2.3</span>&gt;</span><br><span class="line">      Order allow,deny</span><br><span class="line">      Allow <span class="keyword">from</span> all</span><br><span class="line">     Order deny,allow</span><br><span class="line">     Deny <span class="keyword">from</span> all</span><br><span class="line">      AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">      AuthType Basic</span><br><span class="line">      AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">      Require valid-user</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line">&lt;/<span class="built_in">Directory</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu如果默认没有安装htpasswd工具的话，要先安装apache2-utils包：<br> sudo apt install apache2-utils<br> 生成用户密码的用法和CentOS是一样的。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Apache</tag>
       </tags>
   </entry>
   <entry>
@@ -822,27 +791,6 @@
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>apache2添加验证</title>
-    <url>/2019/11/24/apache2%E6%B7%BB%E5%8A%A0%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<p>如果希望将某些或所有网站限制仅允许特定用户或组访问，使用HTTP Auth（基于apache2）方式很容易实现。<br> 一、在CentOS上，httpd的配置文件默认在/etc/httpd/conf/httpd.conf文件，</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">&lt;Directory <span class="string">&quot;/var/www/html&quot;</span>&gt;</span><br><span class="line">    Options Indexes FollowSymLinks</span><br><span class="line"><span class="meta"># 下面这3行是默认的，可以直接改，或者注释掉</span></span><br><span class="line"><span class="meta">#    AllowOverride ALL</span></span><br><span class="line"><span class="meta">#    Order allow,deny</span></span><br><span class="line"><span class="meta">#    Allow from all</span></span><br><span class="line"><span class="meta"># 改成下面这样</span></span><br><span class="line">    AllowOverride authconfig</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow <span class="keyword">from</span> all</span><br><span class="line">    AuthName <span class="string">&quot;Web Access&quot;</span></span><br><span class="line"><span class="meta">#名字随意</span></span><br><span class="line">    AuthType Basic</span><br><span class="line">    AuthUserFile /<span class="keyword">var</span>/www/html/.htpasswd</span><br><span class="line"><span class="meta">#认证文件名字和位置和下面生成的要一致</span></span><br><span class="line">    Require valid-user</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里存放用户密码的文件就是.htpasswd， 位置和名称可以改。<br> 生成用户密码文件：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">htpasswd <span class="operator">-</span>c <span class="operator">/</span><span class="keyword">var</span><span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>.htpasswd <span class="operator">&lt;</span>username<span class="operator">&gt;</span></span><br><span class="line">#创建第一个认证用户的时候用<span class="operator">-</span>c，其他用户要把<span class="operator">-</span>c去掉，否则会被覆盖掉</span><br><span class="line">重启httpd服务即可</span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
-
-<p>也可使用用户组来控制，也是编辑httpd配置文件，这里不写了。<br> 二、Ubuntu的apache配置文件编辑/etc/apache2/sites-enabled/目录下的文件，根据虚拟站点有不同的名称，比如我的nagios配置文件就叫nagios.conf，看起来是这样子的：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Alias /nagios <span class="string">&quot;/usr/local/nagios/share&quot;</span></span><br><span class="line">&lt;<span class="built_in">Directory</span> <span class="string">&quot;/usr/local/nagios/share&quot;</span>&gt;</span><br><span class="line"><span class="comment">#  SSLRequireSSL</span></span><br><span class="line">   Options None</span><br><span class="line">   AllowOverride None</span><br><span class="line">   &lt;IfVersion &gt;= <span class="number">2.3</span>&gt;</span><br><span class="line">      &lt;RequireAll&gt;</span><br><span class="line">         Require all granted</span><br><span class="line"><span class="comment">#        Require host 127.0.0.1</span></span><br><span class="line">         AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">         AuthType Basic</span><br><span class="line">         AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">         Require valid-user</span><br><span class="line">      &lt;/RequireAll&gt;</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line"> &lt;IfVersion &lt; <span class="number">2.3</span>&gt;</span><br><span class="line">      Order allow,deny</span><br><span class="line">      Allow <span class="keyword">from</span> all</span><br><span class="line">     Order deny,allow</span><br><span class="line">     Deny <span class="keyword">from</span> all</span><br><span class="line">      AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">      AuthType Basic</span><br><span class="line">      AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">      Require valid-user</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line">&lt;/<span class="built_in">Directory</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Ubuntu如果默认没有安装htpasswd工具的话，要先安装apache2-utils包：<br> sudo apt install apache2-utils<br> 生成用户密码的用法和CentOS是一样的。</p>
-]]></content>
-      <categories>
-        <category>配置教程</category>
-      </categories>
-      <tags>
-        <tag>Apache</tag>
       </tags>
   </entry>
   <entry>
@@ -882,6 +830,76 @@
       </categories>
       <tags>
         <tag>KodExplorer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Hexo及Gitee搭建博客</title>
+    <url>/2022/07/09/%E4%BD%BF%E7%94%A8Hexo%E5%8F%8AGitee%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p> Hexo官方文档地址：<a href="https://hexo.io/zh-cn/docs/">文档 | Hexo</a></p>
+<h1 id="Step1：安装Node-Js"><a href="#Step1：安装Node-Js" class="headerlink" title="Step1：安装Node.Js"></a>Step1：安装Node.Js</h1><p>前往<a href="%5Bnodejs.org%5D(https://nodejs.org/)">NPM官网</a>下载适合自己系统的Node.Js。</p>
+<p>更换为国内镜像源：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>查看当前镜像是否修改成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
+<p>Gitee生成/添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成/添加SSH公钥 - Gitee.com</a></p>
+<h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>同时为了推送到Gitee需要安装如下插件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step4：Hexo生成blog目录"><a href="#Step4：Hexo生成blog目录" class="headerlink" title="Step4：Hexo生成blog目录"></a>Step4：Hexo生成blog目录</h1><p>使用如下指令在指定文件夹中新建所需要的文件，<code>&lt;folder&gt;</code>为指定的空文件夹名</p>
+<p>如果是Window操作系统，需要设置PoweShell允许脚本运行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step5：修改网站配置信息"><a href="#Step5：修改网站配置信息" class="headerlink" title="Step5：修改网站配置信息"></a>Step5：修改网站配置信息</h1><p>进入网站文件目录下，目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+
+<p>对<code> _config.yml</code>进行修改。</p>
+<p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>如果需要同时添加多个仓库则如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
+<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<p>该命令也可简写为<code>hexo g -d</code></p>
+<p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
+<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置多个标签。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置一个分类。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -1115,346 +1133,6 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
       </categories>
       <tags>
         <tag>Vim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>软件工程导论复习</title>
-    <url>/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/</url>
-    <content><![CDATA[<p><strong>【软件工程导论】</strong></p>
-<p>软件 = 知识+程序+数据+文档</p>
-<p><strong>文档的概念和作用</strong>文档记录软件开发的活动和中间制品，记录软件的配置及变更，用于软件专业人员和用户的交流，用于软件开发、过程管理和运行阶段的维护。<strong>如</strong>:需求报告对所开发软 件的功能、性能、用户界面及运行环境等作出详细的说明，它是用户与开发人员双方 对软件需求取得共同理解基础上达成的协议，也是实施开发工作的基础。设计说明书 是概要设计阶段的工作成果，它应说明功能分配、模块划分、程序的总体结构、输入 输出以及接口设计、运行设计、数据结构设计和出错处理设计等，为详细设计奠定基 础。详细设计说明书着重描述每一模块是怎样实现的，包括实现算法、逻辑流程等</p>
-<p><strong>软件特点：</strong>逻辑实体、智力产品;制造即拷贝;无磨损和老化,不遵循“浴盆曲线”,但 存在退化问题。尚未摆脱手工方式;软件移植的需要;复杂（问题复杂性 / 程序结构复 杂性）软件开发的性质如成本、进度、质量等难以估计控制,维护困难，有可复用性</p>
-<p><strong>定义</strong>:将系统的、规范的、可量化的方法应用于软件的开发、运行和维护的过程及上述方法的研究</p>
-<p><strong>三要素：过程</strong>:管理部分;<strong>方法</strong>:完成软件工程项目的技术手段;<strong>工具</strong>自动或 半自动地支持软件的开发、维护和管理。 </p>
-<p><strong>目标：</strong>在给定成本、进度的前提下，开发出满足用户或市场需要的高质量的软件产品</p>
-<p><strong>原则：</strong>抽象(自顶向下逐步求精)、信息隐藏（封装的接口）、模块化（相对独立/类）、局部化（相互关联/局部变量）、一致性（接口和规范）、完全性和可验证性(应易于检查、测试和评审)</p>
-<p>**传统软件生命周期:**需求,设计,编码、测试,软件测试,运行、维护,退役</p>
-<p><strong>瀑布模型生命周期</strong>:1 可行性研究,2 需求分析,3 概要设计,4 详细设计,5 实现,6 集成测试,7 确认 测试,8 使用与维护,9 退役(软件定义:1-2 软件开发 3-7 维护 8-9)</p>
-<p><strong>各种模型的含义、优缺点、场景:</strong> </p>
-<p>**瀑布模型:**假设软件需求在初期几乎可完全确定;<strong>主要思想</strong>:1.软件开发过程与软件生 命周期是一致的;2.相邻二阶段之间存在因果关系 3.每一阶段的结束点作为里程碑;4. 需对阶段性产品进行评审，如果评审不合格,需返工;<strong>优点</strong>:**1.**使用时间最长,应用面比较广泛;<strong>2.<strong>是其他一些开发模型的基础;3.思路简洁,明确,阶段间因果明确,紧密联系;4. 其可行性研究、需求、设计、编码、测试分离,有利于软件的体系结构设计,规范了软 件开发活动,有利于开发人员的组织管理;5.缓解软件危机</strong>缺点</strong>:1.必须确定软件需求后 才能进行后续开发工作,但多数场合给出全部需求是困难的;**2.<strong>到最后阶段才能得到可运行的软件版本不能适应用户需求的变 化 ;3.上游阶段的“过失”会为软件制品带 来“缺陷”并潜伏在制品中,会误导下游的开发活动,若未被发现运行时会造成“故障” , 寻找修复故障会比较困难</strong>场景:**对于规模较小、软件需求比较稳定的项目或子系统,能够显著提高软件开发的质量和效率;<strong>原型模型</strong>:**概念:**软件开发人员根据客户提出的软件(部分或全部)定义,快速地开发一个原型。原型向客户展示了待开发软件系统的全部 或部分功能和性能,在征求客户对原型意见的过程中,进一步修改、完善、确认软件系 统的需求并达到一致的理解;**优点1.**支持需求的动态变化;**2.**有助于获取用户需求,便于用户对需求的理解;**3.**尽早发现软件中的错误;**缺点:<strong>不支持风险分析.<strong>适用场景：</strong>开发 团队对所开发领域比较熟悉而且有快速的原型开发工具</strong>螺旋模型: 基本思想:<strong>1.将瀑布模型与原型模型进行有机结合;2.增加风险分析步骤。</strong>优点:**1.支持需求的动态变化;2. 有助于获取用户需求,便于用户对需求的理解;3.尽早发现软件中的错误;4.支持风险分 析,可降低或者尽早消除软件开发风险;5.适合于需求动态变化、开发风险较大的系统; **缺点:**由于确定的不确定性,软件开发初期无法进行软件体系结构设计,多次迭代会导 致软件体系结构变坏,为软件理解和维护带来困难;<strong>场景:<strong>在需求不明确的情况下,适合用螺旋模型进行开发,便于风险控制和需求变更;特别适合于大型复杂的系统.<strong>原型模型和螺旋模型既是迭代模型,又是进化模型。</strong> <strong>喷泉模型:基本思想</strong>:1.软件复用与生命周期中多项开发活动集成2.主要支持面向对象的开发方法;<strong>优点</strong> 1软件系统可维护性较好 2各阶段相互重叠,表明了面向对象开发方法各阶段间的交叉和无缝过渡 3整个模型是一个迭代的过程,包括一个阶段内部的迭代和跨阶段的迭代 4模型具有增量开发特性,即能做到“</strong>分析一点,设计一点,实现一点,测试一点</strong>”,使相关功能随之加入到演化的系统中 5模型由对象驱动,对象是各阶段活动的主体,也是项目管理的基本内容 6该模型很自然地支持软部件的重用。</p>
-<p><strong>工具： 项目管理工具</strong> AMSRealtime,MicrosoftProject,Viewpoint, Project ControlPanel ,Ittoolkit <strong>软件开发工具：业务系统建模工具：</strong>RationalRose,ArgoUML,Visio,Real-TimeStudo(以 上也可以是对应的<strong>分析和设计工具</strong>）<strong>测试工具：</strong>CodeMedic(为标准 UNIX 调试器 gdb 提供图形界面，支持 C/C++、Java、汇编、FORTRAN、Modua-2 测试) BugCollectorPro （实现多用户数据库，支持软件团队追踪已报告的 bug、管理调试工作 流） JprobeThreadAnalyzer（支持线程测试问题：死锁、延迟） C++Test（C／C++ 单元测试）**原型建造工具（专用性）用户界面工具:**Macromedia Authorware,PowerDesigner/PowerBuilder,MotifCommonDesktopEnvironment </p>
-<p><strong>【第 2 章 UML 与 RUP 统一过程】</strong>(用例图(UC图),类图)</p>
-<p><strong>面向对象的软件开发方法</strong> 面向对象的软件开发方法通过提供对象,对象间消息传递等语言机制让分析人员在解空间中直接模拟问题空间中的对象及其行为,从而削减了<strong>语义断层</strong>,拉近了问题空间与解空间的距离,从而简化了软件工程师在二者之间架设“桥梁”的工作,并为软件 开发活动提供了直观,自然的语言支持和方法学指导。</p>
-<p><strong>面向对象 = {对象+类+继承+聚合+多态+消息}</strong> 基本要素</p>
-<p><strong>面向对象方法的优势</strong>:1.简化软件开发过程。面向对象方法不仅可以用来进行需求分析，还可以支持软件 的设计、实现和测试，构成了覆盖软件开发主要阶段的广谱软件开发方法学。 2.支持软件复用。在源代码级复用方面，面向对象方法通过继承机制和代理方法使得复用者不需要直接修改被复用的类；在设计级复用方面，近年来迅速发展的设计技术在软件界大显身手，贡献良多。 3.改善软件结构。面向对象方法通过对属性和操作的封装实现了软件工程倡导的信<strong>息隐藏原则</strong>。</p>
-<p><strong>用例图</strong>:用例图，从外部用户的角度描述系统功能，并指出参与者. 1.<strong>关联</strong>：参与者—执行用例。2.**包含(**include):一个用例 A 使用了另外一个用例 B。 A- -&gt;B。边上 include。3.<strong>扩展</strong>(extend):A 扩展自 B。A- -&gt;B。边上 extend</p>
-<p>**结构视图:**（不同层面,系统的静态结构): 包图(描述系统的分解结构,表示包与包之间的关系);对象图(类图的一个实例,描述在某个状态下,或者某个时间段系统中活跃的对象及关系);<strong>类图</strong>(描述系统静态结构),<strong>①泛化与特化</strong>：表示类的继承关系。子类 父类。 <strong>②关联</strong>：类之间有关联（对象组合）A 类用到了 B 类的信息 A-&gt;B。一对多的时候，边 上：<code>1—*</code>。双向关联没有箭头，单向关联有箭头，我们一般用单向。 <strong>③聚合</strong>：强关联，整体与部分的关系。Engine Car。一对多：1-*。 <strong>④组合</strong>：强聚合，整体的对象负责代表部分的对象的生命周期。Limb MonkeyKing <strong>⑤依赖</strong>： ClassA的定义依赖于 ClassB的定义。例子： A 的构造函数的参数中有 ClassB。 A 中有个函数以 B 作为参数。A - -&gt;B。</p>
-<p><strong>行为视图</strong>: (不同侧面系统的动态行为):交互图［描述对象之间通过消息传递进行的交互和协作,分为**顺序图(**对象之间消息发送的时间序), 通信图(对象间的动态协作关系,也可通过消息序号表示消息传递的时间序,不如顺序图直观)］, 状态图(描述类的对象的动态行为), <strong>活动图</strong>［控制流（一个操作完成后对其后续操 作的触发）、信息流（刻画操作间的信息交换）］</p>
-<p><strong>构件视图</strong>：构件图(描述软件系统中各组成构件,构件的内部结构以及构件间依赖关系) </p>
-<p><strong>部署视图</strong>：部署图（描述软件系统中各类工件在物理运行环境中的分布情况） </p>
-<p><strong>【第六章 软件设计基本原则】</strong>(PDL伪代码格式)</p>
-<p><strong>内聚度：偶然性内聚</strong>、逻辑性内聚、<strong>时间性内聚</strong>（经典内聚）/程度低/-&gt;过程性内聚,<strong>通信性内聚</strong>/程度中/-&gt;信息内聚,<strong>功能性内聚</strong>/程度高/</p>
-<p><strong>耦合度</strong>:：1 非直接耦合-&gt;2 <strong>数据耦合</strong>与控制耦合-&gt;3 外部耦合-&gt;4 公共耦合-&gt;5 <strong>内容耦合</strong>。尽量使用 1/2，限制 3/4，杜绝 5。 </p>
-<p><strong>选三种内聚度、三种耦合度各举一个例子说明。</strong></p>
-<p><strong>功能内聚</strong>：一个模块中各个部分都是完成某一具体功能必不可少的组成部分，或该模块中所有部分都是为了完成一项具体功能而协同工作，紧密联系，不可分割.(不建议举此例)<strong>信息内聚</strong>：完成多个功能各个功能都在同一数据结构上操作，每一项功能 有一个唯一的入口点。如课程管理系统上的查找课程、删除课程、修改课程都会使用 “课程”这个数据结构。<strong>通信内聚</strong>：一个模块各个功能部分都使用了相同的输入数据， 或产生了相同的输出数据。个人信息管理系统中：从文件中读取信息，打印功能和统计功能都会使用文件中的信息。<strong>逻辑内聚</strong>：这种模块把几种相关的功能组合在一起， 每次被调用时，由传送给模块的判定参数来确定该模块应执行哪一种功能。 <strong>非直接耦合</strong>：两个模块之间没有直接关系，它们之间的练习完全时通过主模块的控制 和调用来实现的。main()函数调用 A B C 函数，其中 A 用到 B 的返回值。<strong>控制耦合</strong>： 通过传送开关、标志、名字等控制信息，明显的控制选择另一模块的功能。如 A 的返 回值为 0 时调用 C，A 的返回值为 1 时调用 B。<strong>公共耦合</strong>：一组模块都访问同一个公 共数据环境。如 A\B 都调用以局部变量 time,并且会对其修改。 </p>
-<p><strong>如何降低耦合度</strong>：根据问题的特点，选择适当的耦合类型；降低模块接口的复杂性(传送信息的数量,耦合方式,传送信息的结构)；把模块的通信信息放在缓冲区中; </p>
-<p><strong>软件设计的原则</strong>：提高模块独立性；调整模块的大小；适当的模块深度、宽度、扇出 和扇入模块的作用范围应在控制范围之内简化模块的接口的复杂程度。 </p>
-<p><strong>启发式设计策略</strong>：改造软件结构，降低耦合度，提高内聚度；减少扇出，追求高扇入； 使任一模块的作用域在其控制域内(<strong>作用域</strong>是指受模块内部判定影响的所有模块,控制域是指其所有的下属模块);降低模块接口复杂度和冗余度,提高协调性。 <strong>变换流</strong>：信息通常以“外部世界”所具有的形式进入系统，经过处理后，又以这种形式离开系统，呈现在结果界面上。<strong>事务流</strong>数据沿输入通道到达一个转换，该转换根据输入流的类型和特征在若干动作路径中选择一条来执行。</p>
-<p>变换分析：复审基本系统模型；理解和精化数据流图；确定数据流图的类型；划分输入流、输出流的边界；执行二级分解；精化、改良软件结构。 </p>
-<p><strong>【第八章、人机交互设计】</strong></p>
-<p> 老人：图片字体大且清晰，描述简单，目录层级少，打开步骤少，操作简单，实用性 好，功能不复杂、只需要基本功能 小孩：色彩丰富。避免繁杂，大量图片和文字作为提示，风格轻松愉快，宽松简洁的 布局，高明度色彩，带拼音，可爱的卡通形象和字体设计，趣味和有故事性的背景</p>
-<p><strong>用户界面设计的基本原则</strong>①易理解性；②易操作性；③灵敏性；④一致性；⑤容错 性；⑥人性化。</p>
-<p><strong>用户界面设计模型的表示</strong>：①静态元素（无变化的文本、图标、图形、图像等）； ②动态元素（因运行状态而异自动呈现的不允许修改的文本、表格、图标、图形、图 像等）；③用户输入元素（可编辑文本、单选按钮、多选框、选择列表、可编辑的表 格）；④用户命令元素（按钮、菜单、超链接等）。 </p>
-<p><strong>用户界面设计过程的主要活动:</strong> 1.<strong>用户分析、任务分析及建模</strong>。首先必须分析用户的特征，分析用户需要通过目标软件系统完成哪些工作任务，为完成这些任务人机之间需要进行哪些信息交互。2.<strong>概念设计</strong>。主要目标是确定屏幕中应该包含的主要内容，以及用户基于该屏幕可施行的主要操作。3.<strong>界面流设计</strong>。主要目标是确定屏幕之间的跳转关系，即一幅屏幕在何种情况下,或者在响应何种用户操作命令后将跳转至另一屏幕.两种原因：①单屏幕空间容量有限，不足以表现所有必要界面元素；②用户的界面操作可能导出新的屏幕，以便在新的屏幕上进行面向特定业务功能的界面交互。表示方式主要是 UML 交互图（顺序图）和类图。4.<strong>界面精化</strong>。主要任务是基于概念设计和界面流设计，给出目标软件产品界面的完整的、详细的设计。 </p>
-<p><strong>【第九章、软件详细设计】</strong>主要活动①用例设计；②子系统设计；③构件设计；④类设计；⑤ 数据模型设计；⑥设计整合与验证。</p>
-<p><strong>【第十章、软件实现】</strong></p>
-<p><strong>程序设计语言的演化</strong>：第一代：汇编；第二代：Fortran/Cobol/Basic，有成熟的 函数库；第三代：结构化语言 C/Pascal/Ada；面向对象语言 C++/Java；专用领域语 言 Lisp/Prolog；第四代：数据库查询语言 Sql。</p>
-<ol>
-<li><p>第三代语言的特点：支持结构化程序设计，具有较强的过程能力和数据结构能力。</p>
-</li>
-<li><p>第四代特点：更高的抽象层次；只需要告诉计算机“做什么”，而不必告知“怎么做” 。 </p>
-</li>
-</ol>
-<p><strong>编程的规则</strong>：1.节俭化（代码尽量简洁）；2.模块化；3.简单化（命名一致性，数 据结构尽量简单） 4.结构化（缩进统一/函数代替重复出现的代码/代码单入口单出口） 5.文档化（文档自说明）6.格式化</p>
-<p><strong>编程风格:<strong>1.节俭化 2.模块化 3.简单化 4.结构化 5.文档化 6.格式化. 编程风格在很大程度上</strong>影响着程序</strong>的可读性、可测试性、可维护性。 <strong>结构化</strong>要做到按标准化的次序说明数据，按字母顺序说明对象名，使用容易理解的结 构化程序部件，根据背景排列程序各部分</p>
-<p><strong>调试策略</strong>：1.原始法（单步执行，printf）2.回溯法（沿着代码控制流往回找）3. 排除法</p>
-<p><strong>【第十一章】</strong>（设计题）</p>
-<p><strong>数据流图DFD与数据字典、实体—关系图、面向数据流设计方法（事务流/变换流）</strong></p>
-<p><strong>【第十三章、软件维护】</strong></p>
-<p><strong>·维护的分类</strong>(按原因划分):1.纠错性维护。为诊断和改正软件系统中潜藏的缺陷而进行的活动.2.适应性维护.为适应软件运行环境变化(如操作系统变更等)而修改软件的活动.3.完善性维护.是根据用户在软件使用过程中提出的一些新需求而实施的维护活动.4.预防性维护。是优化软件系统结构和可理解性，改善可维护性和可靠性。</p>
-<p><strong>·可维护性</strong>：软件的可维护性是指理解.改正.调整和改进软件的<strong>难易程度</strong>。是软件质量的重要属性，是指导软件工程活动的一条基本原则，也是软件工程追求的一个目标。 </p>
-<p><strong>·影响可维护性的因素</strong>：开发方法有关：设计、编码和测试不规范，软件配置不全开发环境有关：①训练有素的软件团队；②维护团队是否熟悉经过多次维护的系统；③ 软件的可理解性，包括软件结构、描述软件制品的语言、文档及标准化程度等；④操作系统的标准化程度；⑤维护工具和环境；⑥生成测试用例的能力；⑦对于嵌入式系 统维护应有专门的调试工具。</p>
-<p><strong>·维护的技术手段</strong>：软件重构。包括：文档重构、重组（简化与结构化源代码）、逆 向工程、再工程。</p>
-<p><strong>【第十五章、软件度量与估算】</strong></p>
-<p> <strong>·</strong>测量（Measure）是按照统一的规则为现实世界的实体属性定值。软件工程的测量 是按照测量标准直接、客观地采集软件制品、过程或资源的特征、属性，并获得数据。 例如：测量程序的代码行数、操作符的种类、个数，程序中缺陷的个数等等。测量涉 及测量对象、选用的量纲、方法、工具、过程和数据结果。</p>
-<p> <strong>·</strong>软件估算（Estimation）是根据经验、历史资料或模型，结合项目实际对软件 制 品、过程、资源进行预测。估算一般用于签订合同、制定工作计划、进行项目预算等。 这里涉及软件过程工作量的估算。</p>
-<p> <strong>·</strong>软件度量（Metrics）软件产品、软件开发过程或资源简单属性的定量描述，（如 程序规模、操作数个数、占用内存）能用以解释软件所具有的一个给定属性对软件质 量影响的程度。 </p>
-<p><strong>软件度量：规模度量、复杂性度量（McCabe基于图论；Halstead基于操作符与操作数）、质量度量、可靠性度量</strong></p>
-<p><strong>·内部属性与外部属性：软件工程的软件制品、过程、资源都具有外部属性和内部属性。外部属性体现了软件制品、过程、资源与环境的关系。内部属性指软件制品\过程和资源本身的技术属性。 二者关系:外部属性在软件开发过程中很难测量和控制，但它是由软件的内部属性决定的。</strong></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>软件制品</th>
-<th>过程</th>
-<th>资源</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>内 部</td>
-<td>程序语言；代码风格；模块化;复用性;耦合度与内聚度</td>
-<td>项目管理过程；业务建模过程；需求过程；设计过程；构造过程；测试过程；部署过程；配置管理过程；工具与环境支持过程</td>
-<td>人;软硬件环境; 经验</td>
-</tr>
-<tr>
-<td>外 部</td>
-<td>软件系统的可靠性;健壮性；效率;可用性;可维护性;可移植性</td>
-<td>资源保障；可控制性；可观察性；稳定性</td>
-<td>成本；时 间；合作 机制</td>
-</tr>
-</tbody></table>
-<p><strong>▲软件规模的度量</strong> (计算题)</p>
-<p><strong>（一）代码行度量</strong>（直接度量，依赖于程序设计语言）</p>
-<p>含义：通过项目总代码行数去度量项目的规模属性。（书本原话：用代码行数（LOC）表示软件项目的规模是自然和直观的。可以用人工或工具直接测量。几乎所有软件开发组织都保存软件项目的代码行数记录，开发初期可以度量软 件规模，度量生产 率、每行代码的平均人力成本、文档和代码的比例关系、每千行代 码存在的软件缺陷个数等）</p>
-<p>优点：简单直观，容易操作。</p>
-<p>缺点：1.依赖于特定程序设计语言；2.可能对一些设计精巧的软件项目不利；3. 项目开发前期估算困难；4.适用于过程式程序设计语言，对非过程程序设计语言不太 适用；</p>
-<p> （<strong>二）基于功能点度量</strong>（间接度量，不依赖于语言）</p>
-<p>含义：根据事务信息处理程序的基本功能定义的，采用 5 个测量参数，涉及多种因 素的间接度量方式。（因而可以估算出软件项目的规模）</p>
-<p> 优点：1.与程序设计语言无关，适用于过程式和非过程式程序设计语言；2.度量可以用于软件开发的初期（因为初期即能确定系统的输入/输出）</p>
-<p>缺点：1.涉及主观因素较多，如加权值；2.信息领域数据有时不容易采集；3.FP(功能点)的值没有直观物理意义。 <strong>两者联系：抽象度越高的语言，同样的功能点对应的码会越少。</strong> </p>
-<p><strong>▲软件复杂性的度量</strong></p>
-<p><strong>(一)控制结构复杂性</strong>: 圈复杂度/巡回秩数  V(G) = e-n+2 </p>
-<p>V(G)的值不要大于10,否则模块内部结构就会变得复杂,给编码和测试带来困难</p>
-<p>(二)<strong>体系结构的复杂性</strong> 1. 简单形态度量:弧与节点数之和 S=a+n; 弧与节点数之比 R=a/n;</p>
-<p>比值R体现了体系结构的连接密度,R越大,耦合度越高.</p>
-<p><strong>▲软件质量度量</strong> </p>
-<p><strong>软件质量的定义</strong>：软件制品满足规约和隐含需求特征及特征总和的程度。特征包括：功能性，可靠性，有效性，可使用性，可维护性，可移植性。·2011：增加了安全性 和兼容性的两个特征，扩展了子特征的概念。 软件特征的变化反映了软件与时俱进的特点，为软件质量度量和通过技术手段提高 软件制品质量指明了方向</p>
-<p><strong>McCall 三层次度量模型</strong>：质量要素指标（Factor）、评价准则（Criteria）、属 性度量(Metric)。Factor 包括：运行性、修正性、适应性。评价准则 21 个。</p>
-<p><strong>所有的质量度量模型（McCall、ISO）是层次性模型，不同在于分的哪些层次,每一 层有哪些方面。</strong> </p>
-<p><strong>【第十六章、软件项目管理与过程改进】</strong></p>
-<p>目的：软件项目管理的目的是使项目能够按照预定的成本、 进度、质量顺利完成。</p>
-<p> 一般经验估算模型：基于代码行的模型 E=a(KLOC)b+c；基于功能点的模型 E=a+b*FP，不同模型采用不同参数</p>
-<p><strong>▲软件项目度量与估算</strong> </p>
-<p><strong>（一）采用代码行/功能点度量的工作量估算</strong> </p>
-<p><strong>E=(a+4m+b)/6</strong>: 采用上述估算方法可估算出 LOC/FP 的乐观值 a，悲观值 b，一般值 m。（表格 16.5 的几列数据要会算）</p>
-<p>一般经验估算模型：基于代码行用 E=a(KLOC)^b+c,abc 查表；E 是人月工作量；基于功能点用 E=a+b<em>FP。ab 查表。</em></p>
-<p><strong>（二）COCOMO 模型（Constructive Cost Model,构造性成本模型）</strong></p>
-<p> COCOMO 模型分为基本、中间、详细三个层次。</p>
-<p>通信开销=u<em>n</em>(n-1)/2</p>
-<p>基本 COCOMO 模型：用于系统开发初期，估算系统开发工作量和所需要的时间。 <strong>E=a(L)^b; D=c(E)^d</strong>;abcd 查表；E 是人月工作量；D 是开发时间.<strong>N=E/D</strong> 是建议参加项目的<strong>人数</strong>。</p>
-<p>中间 COCOMO 模型：用于详细设计阶段，估算各个子系统的工作量和开发时间。 E=a(L)^b*EAF;L 是代码行估算值，单位 kloc；ab 查表。EAF 是工作量调节因子，EAF= （15 个 Fi 连乘）</p>
-<p>详细 COCOMO 模型：用于估算独立的软构件，如子系统内部的各个模块，软件的集成和测试。</p>
-<p><strong>（三）COCOMO Ⅱ</strong> </p>
-<p><strong>E=a(L)^b*EAF+ER</strong>。ER 表示复用构件、代码自动生成需要的工作量，单位人月。 </p>
-<p><strong>（四）Putnam 模型</strong> </p>
-<p>时间推前或延迟 k%对工作量的影响？</p>
-<p><strong>L=C<code>*</code>E^(1/3)<code>*</code>t^(4/3)</strong>.L是代码行数；E 是工作量，单位人年，包括维护；t 是开 发时间；C 表示软件开发环境的常数，查表。 </p>
-<p><strong>E=L^3/(C^3*t^4)。比如提前 10%的时间（t=0.9t）,算出工作量 E=1.524E。说明 要增加 52%的工作量。</strong></p>
-<p>Putnam 模型虽然揭示了软件项目的工作量、软件开发时间和程序代码长度三者之间的关系，但它没有反映软件制品、软件项目、软件开发人员和计算机软硬件资源等 属性。因此用该模型进行软件项目的成本估算是十分粗糙的。</p>
-<p><strong>▲软件项目计划—-工程进度安排</strong></p>
-<p><u><em><strong>两个重要的图：网络图（找关键路径，非关键路径的点可调控）；甘特图（网络图=&gt;甘特图）</strong></em></u></p>
-<p>Gantt 图优点：简单易用，容易修改，比 PERT 图更加直观方便。 </p>
-<p>Gantt 图缺点：不能显示各项活动之间的依赖关系</p>
-<p><strong>▲软件配置管理</strong> (版本,基线)</p>
-<p><strong>配置管理的目的</strong>：目的是为了减少混乱，提高软件生产率。是对软件修改进行标识、组织和控制的技术，用来协 调和控制整个系统的过程。 </p>
-<p><strong>基线技术</strong>：标志软件开发过程的各个里程碑，通过复审的软件配置项 (SCI,Software Configuration Item, SCI是配置管理的基本单位)是构成基线的重要内容,它标志开发过程中一 个阶段的结束。</p>
-<p><strong>基线的使用</strong>：1.某 SCI 成 为基线，就会被存入项目数 据库；2.要想改动 SCI，就要复制到私有工作区并在 项目数据库中锁住。3.在私有工作区完成修改并通过复审后，新SCI释放并送回项目 数据库,并解锁。</p>
-<p> ·常用基线：1.系统工程–系统规约；2.需求分析—软件需求规约；3.软件设计—设 计规约;4.编码—源代码；5.测试—测试计划、过程、数据；6.集成—可运行系统。</p>
-<p>常用工具：版本控制 git；DSEE</p>
-<p>DSEE：历史管理、配置管理、任务管理、监控管理。</p>
-<p>SCI:（1）系统规约；（2）软件项目规划；（3）需求分析结果；a.软件需求规约； b.可执行的或“纸样”原型；（ 4）初步用户手册；（5）设计规约；a.数据设计描 述；b.总体结构设计描述；c.模块设计描述；d.界面设计描述；e.对象描述；（6） 源代码清单；（7）测试规约；a.测试计划和过程；b.测试用例和实验结果；（8）操 作和安装手册；（9）可执行程序；a.每个模块的可执行代码；b.链接到一起的代码； （10）数据库描述；a.数据模型和文件结构；b.初始化映像；（11）联机用户手册； （12）维护文档； a.软件问题报告；b.维护申请；c.预计变更的顺序；（13）软件工程的标准和过程。</p>
-<p>配置管理的任务：标识配置项；版本管理。</p>
-<p>配置项的状态有三种：“草稿”（Draft）、“正式发布”（Released）和“正在修 改”(Changing)。变迁：配置项刚建立时其状态为“草稿”。配置项通过评审（或审 批)后，其状态变为“正式发布”。此后若更改配置项，必须依照“变更控制规程” 执行，其状态变为“正在修改”。当配置项修改完毕并重新通过评审（或审批）时， 其状态又变为“正式发布”，如此循环. </p>
-<p><strong>▲软件过程改进</strong></p>
-<p><strong>能力成熟度模型CMM</strong>:Capability Maturity Model for Software,软件成熟度模型。CMM 是一个概念模型,模型框架和表示是刚性的，不能随意改变。但模型的解释和实现有一定弹性。CMM 源于大型软件开发实践，反映了软件过程评估和软件过程改进的需要，是一个有效的大型软件开发、维护过程模型。 CMM 的应用进一步规范、指导软 件开发组织的自身建设，使软件开发组织从混乱的、低效的不成熟状态，向有纪律的、 高效的成熟状态转变。</p>
-<p><strong>常用词汇</strong>: 组织,项目,软件过程,组织的标准软件过程,定义项目的软件过程,组织的软件过程资产</p>
-<p><strong>关键过程域 KPA</strong>：描述软件的过程属性，通过完成一组相互关联的活动，实现建立 过程能力至关重要的一组目标。（软件开发组织的软件过程能力是组织能够承接软件 项目的重要依据）</p>
-<p>CMM 的能力成熟度共分 5 级：L1 初始级；L2 可重复级；L3 已定义级；L4 已管理级； L5 优化级。从 2 级开始，每级包括若干个 KPA。 ·CMM 评估阶梯：L1 初始级；L2（软件项目计划+软件项目跟踪与监督）；L3（综合 软件管理）；L4（定量的过程管理）；L5（过程变更管理）。</p>
-<p>什么是 CMMI？CMMI 是若干过程模型的综合和改进，是支持多个工程学科和领域的,系统的,一致的过程改进框架，能够适应现代工程的特点和需要，能够提高过程的质量和工作效率。</p>
-<p>CMMI 等级：L0 不完全级；L1 已执行级；L2 已管理级；L3 已定义级；L4 定量管理 级；L5 优化级。 </p>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>软件工程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ocaml语言学习笔记</title>
-    <url>/2019/11/07/Ocaml%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="Ocaml语言学习笔记"><a href="#Ocaml语言学习笔记" class="headerlink" title="Ocaml语言学习笔记"></a>Ocaml语言学习笔记</h1><h2 id="unit类型和简单的输入输出"><a href="#unit类型和简单的输入输出" class="headerlink" title="unit类型和简单的输入输出"></a>unit类型和简单的输入输出</h2><ol>
-<li><p>unit类型只有一个值();</p>
-</li>
-<li><p>从标准输入上读取整数: read_int    浮点数,字符串类似 (没有单独读取一个字符的),read_line</p>
-</li>
-<li><p>打印函数为 print_int ; 浮点数,字符,字符串类似.还有print_newline() 打印新行</p>
-<p>print_endline 也可以打印字符串,并换行</p>
-</li>
-<li><p>合并字符串 操作符 str1 ^ str2</p>
-</li>
-<li><p>字符串换    int_of_string   /float_of_string</p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>数据结构必背算法</title>
-    <url>/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="矩阵快速转置"><a href="#矩阵快速转置" class="headerlink" title="矩阵快速转置"></a>矩阵快速转置</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*稀疏矩阵用三元组表示。</span></span><br><span class="line"><span class="comment">需要设置num和cpot两个向量。</span></span><br><span class="line"><span class="comment">num[col]表示矩阵M中第col列中非零元的个数。</span></span><br><span class="line"><span class="comment">copt[col]指示M中第col列的第一个非零元在转置后的三元组的位置。</span></span><br><span class="line"><span class="comment">cpot[1] = 1; cpot[col] = cpot[col - 1] + num[col - 1],2&lt;=col&lt;=列数nu；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Status <span class="title">FastTransposeSMatrix</span><span class="params">( TSMatrix M, TSMatrix &amp;T)</span> </span>&#123;</span><br><span class="line">    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu; <span class="comment">//T的行数列数=M的列数行数，非零元个数相同</span></span><br><span class="line">    <span class="keyword">if</span>(T.tu) &#123;</span><br><span class="line">        <span class="keyword">for</span>(col = <span class="number">1</span>; col &lt; M.nu; ++col) num[col] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(t = <span class="number">1</span>; t &lt;= M.nu; ++t) ++num[M.data[t].j]; <span class="comment">//求M中每一列含非零元个数</span></span><br><span class="line">        cpot[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(col =  <span class="number">2</span>; col &lt;= M.nu; ++col)</span><br><span class="line">            cpot[col] = cpot[col - <span class="number">1</span>] + num[col - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(p = <span class="number">1</span>; p &lt;= M.tu; ++p) &#123;</span><br><span class="line">            col = M.data[p].j; q = cpot[col];</span><br><span class="line">            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;</span><br><span class="line">            T.data[q].e = M.data[p].e; ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><ol>
-<li><p>先序遍历：根左右<br />递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">       <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>非递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line"> <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">     <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">         <span class="built_in">visit</span>(p); <span class="built_in">Push</span>(S, p);<span class="comment">//访问当前节点并入栈</span></span><br><span class="line">         p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">         <span class="built_in">Pop</span>(S, p);            <span class="comment">//栈顶元素出栈</span></span><br><span class="line">         p=p-&gt;rchild;        <span class="comment">//访问右子树</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>中序遍历：左根右</p>
-</li>
-</ol>
-<p>递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>非递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MidOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">            <span class="built_in">Push</span>(S, p);            <span class="comment">//当前节点入栈</span></span><br><span class="line">            p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">            <span class="built_in">Pop</span>(S, p); <span class="built_in">visit</span>(p); <span class="comment">//栈顶元素出栈,并访问</span></span><br><span class="line">            p=p-&gt;rchild;        <span class="comment">//下一次循环，访问右子树</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>后序遍历：左右根</li>
-</ol>
-<p>递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">          <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>非递归算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S);</span><br><span class="line">    p = T;                        <span class="comment">//p是遍历指针</span></span><br><span class="line">    r = <span class="literal">NULL</span>;                    <span class="comment">//r指向最近访问过的结点，以分清从左子树返回还是右子树返回</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//走到最左边</span></span><br><span class="line">            <span class="built_in">push</span>(S, p);</span><br><span class="line">            p = p-&gt;lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//向右</span></span><br><span class="line">            <span class="built_in">GetTop</span>(S, p);        <span class="comment">//读栈顶结点</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rchild &amp;&amp; p-&gt;rchild!=r) &#123; <span class="comment">//若左子树存在且未被访问过</span></span><br><span class="line">                p = p-&gt;rchild;    <span class="comment">//转向右</span></span><br><span class="line">                <span class="built_in">push</span>(S, p);        <span class="comment">//压入栈</span></span><br><span class="line">                p = p-&gt;lchild;    <span class="comment">//再走到左</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;            <span class="comment">//否则</span></span><br><span class="line">                <span class="built_in">pop</span>(S, p);        <span class="comment">//将结点弹出</span></span><br><span class="line">                <span class="built_in">visit</span>(p-&gt;data);    <span class="comment">//访问该结点</span></span><br><span class="line">                r = p;             <span class="comment">//记录最近访问过的结点</span></span><br><span class="line">                p = <span class="literal">NULL</span>;        <span class="comment">//结点访问完毕后，重置p指针</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>层次遍历</li>
-</ol>
-<p>层次遍历常用来求每个元素所在层数、某层结点个数、树的最大宽度、树的高度等<br />求树的高度的算法，借助队列</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">BtDepth</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;    <span class="comment">//树空，高度为0</span></span><br><span class="line">    <span class="type">int</span> front = <span class="number">-1</span>, rear = <span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> last = <span class="number">0</span>, level = <span class="number">0</span>;    <span class="comment">//last指向当前层的最右结点</span></span><br><span class="line">    BiTree Q[MaxSize];            <span class="comment">//设置队列Q</span></span><br><span class="line">    Q[++rear] = T;                <span class="comment">//根结点入队</span></span><br><span class="line">    BiTree p;</span><br><span class="line">    <span class="keyword">while</span>(front &lt; rear) &#123;        <span class="comment">//队不空，则循环</span></span><br><span class="line">        p=Q[++front];            <span class="comment">//队列元素出队，访问当前结点</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;lchild) </span><br><span class="line">            Q[++rear] = p-&gt;lchild;    <span class="comment">//左孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;rchild)</span><br><span class="line">            Q[++rear] = p-&gt;rchild;    <span class="comment">//右孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(front == last) &#123;</span><br><span class="line">            level++;                <span class="comment">//层数加一</span></span><br><span class="line">            last = rear;            <span class="comment">//last指向下层最后一个结点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><p>记忆非递归算法更为合适，因为仅仅是把队列和栈替换。<br />全局变量：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Boolean visited[MAX];            <span class="comment">//访问标志数组</span></span><br><span class="line"><span class="built_in">Status</span> (*VisitFunc)(<span class="type">int</span> V);        <span class="comment">//函数变量</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>广度优先搜索：</li>
-</ol>
-<p>类似于树的按层次遍历。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited</span></span><br><span class="line"><span class="comment">//辅助队列Q保存正在访问顶点的下一层顶点</span></span><br><span class="line"><span class="comment">//visited标志顶点是否被访问过，防止被多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE;</span></span></span><br><span class="line"><span class="params"><span class="function">    InitQueue(Q);                    <span class="comment">//置空的辅助队列Q</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">if</span>(!visited[v]) &#123;            <span class="comment">//v未被访问</span></span></span></span><br><span class="line"><span class="params"><span class="function">            visited[v] = TRUE; </span></span></span><br><span class="line"><span class="params"><span class="function">            EnQueue(Q, v);            <span class="comment">//v入队列</span></span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">while</span>(!QueueEmpty(Q)) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                DeQueue(Q, u);        <span class="comment">//队头元素出队并置为u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                Visit(u);            <span class="comment">//访问u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="keyword">for</span>(w = FirstNeighbor(G, u); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, u, w))</span></span></span><br><span class="line"><span class="params"><span class="function">                    <span class="keyword">if</span>(!visited[w]) &#123;        <span class="comment">//w为u的尚未访问的临接顶点</span></span></span></span><br><span class="line"><span class="params"><span class="function">                        visited[w] = TRUE;</span></span></span><br><span class="line"><span class="params"><span class="function">                        EnQueue(Q, w);</span></span></span><br><span class="line"><span class="params"><span class="function">                    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">            &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">        &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span></span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>深度优先搜索：<br> 递归算法</p>
-   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v))</span> </span>&#123;</span><br><span class="line">VisitFunc = Visit;        <span class="comment">//使用全局变量VisitFunc，使DFS不必设函数指针参数。</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE; <span class="comment">//访问标志数组初始化</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">  <span class="keyword">if</span>(!visited[v]) <span class="built_in">DFS</span>(G, v);    <span class="comment">//对未访问的顶点调用DFS</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从第v个顶点出发递归地深度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    visited[v] = TRUE; <span class="built_in">VisitFunc</span>(v);    <span class="comment">//访问第v个顶点</span></span><br><span class="line">    <span class="keyword">for</span> (w = <span class="built_in">FirstNeighbor</span>(G, v); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, v, w))</span><br><span class="line">        <span class="keyword">if</span>(!visited[w]) <span class="built_in">DFS</span>(G, w);    <span class="comment">//对v的尚未访问的邻接顶点w递归调用DFS</span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
-
-<p> 非递归算法</p>
-   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按深度优先非递归遍历图G，使用辅助栈S和访问标记数组visited</span></span><br><span class="line"><span class="comment">//栈S来记忆下一步可能访问的顶点</span></span><br><span class="line"><span class="comment">//visited标记顶点是否被访问过，防止多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> w;            <span class="comment">//顶点序号</span></span><br><span class="line">    <span class="built_in">InitStack</span>(S);    <span class="comment">//初始化栈S</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; G.vexnum; i++) visited[i] = FALSE;</span><br><span class="line">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span><br><span class="line">        <span class="keyword">if</span>(!visited[v]) &#123;</span><br><span class="line">            <span class="built_in">Push</span>(S, v); visited[v] = TRUE;    <span class="comment">//v入栈</span></span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">                k = <span class="built_in">Pop</span>(S); <span class="built_in">visit</span>(k);    <span class="comment">//访问栈顶结点</span></span><br><span class="line">                <span class="keyword">for</span>(w = <span class="built_in">FirstNeighbor</span>(G, k); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, k, w))</span><br><span class="line">                <span class="keyword">if</span>(!visited[w]) &#123;</span><br><span class="line">                    <span class="built_in">Push</span>(S, w);</span><br><span class="line">                    visited[w] = TRUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="最小生成树算法"><a href="#最小生成树算法" class="headerlink" title="最小生成树算法"></a>最小生成树算法</h2><ol>
-<li>Prim算法：适合边稠密的图<ol>
-<li><p>算法思想：初始时从图中任取一顶点加入树T，此时树中只含有一个顶点，之后选择一个与当前T中顶点集合距离最近的顶点，并将该顶点和相应的边加入T，每次操作后T中顶点数和边数都增1.以此类推，直至图中所有的顶点都并入T，得到的T就是最小生成树。</p>
-</li>
-<li><p>所需添加的数据结构closedge[]，记录从U到V-U具有最小代价的边</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> &#123;</span><br><span class="line">VertexType adjvex;    <span class="comment">//最小代价的边在U中依附的顶点</span></span><br><span class="line">VRType lowcost;        <span class="comment">//最小代价的边的权值；</span></span><br><span class="line">&#125; closedge[ MAX_VERTEX_NUM ]</span><br></pre></td></tr></table></figure></li>
-<li><p>算法实现（一般不考）</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PRIM</span><span class="params">(MGraph G, VertexType u)</span> </span>&#123;</span><br><span class="line">k = <span class="built_in">LocateVex</span>(G, u);</span><br><span class="line"><span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j)     <span class="comment">//初始化辅助数组</span></span><br><span class="line">  <span class="keyword">if</span>(j != k) closedge[j] = &#123;u, G.arcs[k][j].adj&#125;;</span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>;        <span class="comment">//初始，U=&#123;u&#125;</span></span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; G.vexnum; ++i) &#123;</span><br><span class="line">  k = <span class="built_in">minimum</span>(closedge);        <span class="comment">//离当前生成树距离最短的点作为下一顶点</span></span><br><span class="line">  <span class="built_in">printf</span>(closedge[k].adjvex, G.vexs[k]);    <span class="comment">//输出生成树的边</span></span><br><span class="line">  closedge[k].lowcost = <span class="number">0</span>;    <span class="comment">//将该点并入生成树U集</span></span><br><span class="line">  <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j) <span class="comment">//更新未并入U的点离生成树的距离。</span></span><br><span class="line">      <span class="keyword">if</span>(G.arcs[k][j].adj &lt; closedge[j].lowcost)    </span><br><span class="line">          closedge[j] = &#123;G.vexs[k], G.arcs[k][j].adj&#125;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>每一步的状态表（重要）</p>
-</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/1379805/1632216066656-3768a3d0-a6bb-4826-aca9-2077804df767.jpeg" alt="1A18DDB3-14CA-433F-8F92-A97B744CB996.jpeg"></p>
-<ol start="2">
-<li>Kruskal算法：适合边稀疏而顶点较多的图<ol>
-<li>算法思想：初始时为只有n个顶点而无边的非连通图T={V, {} }，每个顶点自成一个连通分量，然后按照边的权值由小到大的顺序，不断选取当前未被选取过且权值最小的边，若该边依附的顶点落在T中不同的连通分量上，则将此边加入T，否则舍弃此边而选取下一条权值最小的边。以此类推，直至T中所有顶点都在一个连通分量上。</li>
-</ol>
-</li>
-</ol>
-<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><ol>
-<li><p>Dijkstra算法，求单个点到其他点的最短路径。</p>
-<ol>
-<li><p>所需辅助数组</p>
-<ol>
-<li>dist[]：记录从源点到其他各顶点当前的最短路径长度，如两个点未直接相连置为∞</li>
-<li>path[]：表示从源点到顶点i之间最短路径上i之前的一个结点。用于最后追溯最短路径。</li>
-</ol>
-</li>
-<li><p>算法过程：贪心策略，按长度递增的次序产生各最短路径。</p>
-<ol>
-<li><p>初始化dist，和集合S={0}</p>
-</li>
-<li><p>从顶点集合V-S中选出dist最小的点 j ，并入S</p>
-</li>
-<li><p>更新dist[k] = dist[j] + arcs[j][k] &lt; dsit[k] ? dist[j]+arcs[j][k] : dsit[k]</p>
-</li>
-<li><p>重复2-3步，直到所有点都并入S</p>
-</li>
-</ol>
-</li>
-<li><p>求解过程表（重要）</p>
-</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111632152.jpeg" alt="850BE2D4-C874-45CF-B587-1C2E74312442.jpeg"></p>
-<ol start="2">
-<li>Floyd算法，求所有点间的最短距离。<ol>
-<li><p>算法思想：用每个顶点作为中间结点计算路径长度并与原路径长度进行比较，更新矩阵为较小的值。重复n次就得到所有的最短路径长度。</p>
-</li>
-<li><p>算法伪代码（不重要）要会算每次迭代的矩阵，初始的矩阵为邻接矩阵。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FLOYD</span><span class="params">(Mgraph G, DistancMatrix D)</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span>(u = <span class="number">0</span>; u &lt; G.vexnum; ++u)</span><br><span class="line">  <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">      <span class="keyword">for</span>(w = <span class="number">0</span>; w &lt; G.vexnum; ++w)</span><br><span class="line">          <span class="keyword">if</span>(D[v][u] + D[u][w] &lt; D[v][w]) &#123; <span class="comment">//从v经过u到w的一条路径更短。</span></span><br><span class="line">              D[v][w] = D[v][u] + D[u][w];</span><br><span class="line">          &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ol start="3">
-<li>直接插入排序</li>
-</ol>
-<p>思想：假设前部分序列已经有序，从后部分无序序列中选择元素插入到前面有序序列的合适位置，最终整体有序。是稳定的排序方法。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//A[0] 用作哨兵, n为数组长度</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; i++)        <span class="comment">// 依次将A[2]-A[n]插入到前面已排序序列</span></span><br><span class="line">        <span class="keyword">if</span>(A[i] &lt; A[i<span class="number">-1</span>]) &#123;        <span class="comment">//若A[i]&lt;A[i-1]</span></span><br><span class="line">            A[<span class="number">0</span>] = A[i];        <span class="comment">//把A[i]复制为哨兵</span></span><br><span class="line">            <span class="keyword">for</span>(j = i<span class="number">-1</span>; A[<span class="number">0</span>] &lt; A[j]; --j)    <span class="comment">//在前端有序队列中查找插入位置</span></span><br><span class="line">                A[j+<span class="number">1</span>] = A[j];    <span class="comment">//将前面有序序列的元素后移，空出位置。</span></span><br><span class="line">            A[j+<span class="number">1</span>] = A[<span class="number">0</span>];        <span class="comment">//插入到空出来的位置。</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>折半插入排序</li>
-</ol>
-<p>思想：将直接插入排序中移位操作中的比较单独提出来。变成，折半查找出元素的待插入位置，然后再移动元素</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        A[<span class="number">0</span>] = A[i];</span><br><span class="line">        low = <span class="number">1</span>; high = i - <span class="number">1</span>;    <span class="comment">//设置折半查找范围</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt;= high) &#123;    <span class="comment">//折半查找</span></span><br><span class="line">            mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(A[mid] &gt; A[<span class="number">0</span>]) high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> low = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(j = i<span class="number">-1</span>; j &gt;= high+<span class="number">1</span>; --j)</span><br><span class="line">            A[j+<span class="number">1</span>] = A[j];</span><br><span class="line">        A[high+<span class="number">1</span>] = A[<span class="number">0</span>];    <span class="comment">//插入</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>希尔排序</li>
-</ol>
-<p>思想（重要）：先将待排序表分割成若干由相隔某个增量的记录组成的一个子表，对各个子表分别进行直接插入排序，当整个表中元素已经基本有序时，再对全体记录进行一次直接插入排序。<br />不稳定的排序方法。</p>
-<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ol start="4">
-<li>冒泡排序</li>
-</ol>
-<p>思想：从后往前两两比较相邻元素的值，若为逆序，则交换他们，直到序列比较完。若第n趟结束时没有交换，则冒泡排序结束。是一种稳定的排序方法。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(j = n<span class="number">-1</span>; j &gt; i; j--)     <span class="comment">//一趟冒泡过程</span></span><br><span class="line">            <span class="keyword">if</span>(A[j<span class="number">-1</span>] &gt; A[j]) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(A[j<span class="number">-1</span>], A[j]);</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="literal">false</span>) <span class="keyword">return</span>;    <span class="comment">//本趟遍历后没有发生交换，已经有序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>快速排序（重要）</li>
-</ol>
-<p>思想：基于分治思想。通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行快速排序。 不稳定的排序方法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//一趟快速排序的过程，划分算法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(ElemTYpe A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    pivot = A[low];            <span class="comment">//用子表的第一个记录作枢轴记录，用pivot记录枢轴关键字</span></span><br><span class="line">    <span class="keyword">while</span>(low &lt; high) &#123;        <span class="comment">//从表两边交替地向中间扫描</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[high] &gt;= pivot) --high;</span><br><span class="line">        A[low] = A[high];    <span class="comment">//将比枢轴小的记录移到低端</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[low] &lt;= pivot) ++low;</span><br><span class="line">        A[high] = A[low];    <span class="comment">//比枢轴大的记录移到高端</span></span><br><span class="line">    &#125;</span><br><span class="line">    A[low] = pivot;            <span class="comment">//枢轴记录到位</span></span><br><span class="line">    <span class="keyword">return</span> low;                <span class="comment">//返回枢轴位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归主程序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low &lt; high) &#123;</span><br><span class="line">        <span class="type">int</span> pivotpos = <span class="built_in">Partition</span>(A, low, high);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, low, pivotpos<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, pivotpos+<span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ol start="6">
-<li>简单选择排序</li>
-</ol>
-<p>思想：第i趟排序从L[i···n]中选择关键字最小的元素与L(i)交换。经过n-1次就得到有序。不稳定的排序算法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; ++i) &#123;</span><br><span class="line">        min = i;</span><br><span class="line">        <span class="keyword">for</span>(j = i+<span class="number">1</span>; j &lt; n; ++j) </span><br><span class="line">            <span class="keyword">if</span>(A[j] &lt; A[min]) min = j;</span><br><span class="line">        <span class="keyword">if</span>(min != i) <span class="built_in">swap</span>(A[i], A[min]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li>堆排序</li>
-</ol>
-<p>堆：是一颗完全二叉树，所有根结点小于等于或大于等于其孩子节点值。为方便运算，A[0]为空。<br />思想：若在输出堆顶的最小值后，使得剩余n-1个元素的序列重又建成一个堆，则输出n个元素的次小值。如此反复执行，便得到一个有序序列，这个过程称为堆排序。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//建立大根堆的算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = len/<span class="number">2</span>; i &gt; <span class="number">0</span>; i--)    <span class="comment">//从非叶子结点开始调整</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, i, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调整以元素k为根的子树为堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[], <span class="type">int</span> k, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    A[<span class="number">0</span>] = A[k];                        <span class="comment">//A[0]暂存子树的根结点。</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>*k; i &lt;= len; i *= <span class="number">2</span>) &#123;    <span class="comment">//沿key较大的子节点向下筛选</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; len &amp;&amp; A[i] &lt; A[i+<span class="number">1</span>])</span><br><span class="line">            i++;                        <span class="comment">//取key较大的子节点的下标</span></span><br><span class="line">        <span class="keyword">if</span>(A[<span class="number">0</span>] &gt;= A[i]) <span class="keyword">break</span>;            <span class="comment">//筛选结束</span></span><br><span class="line">        <span class="keyword">else</span> &#123;                            </span><br><span class="line">            A[k] = A[i];                <span class="comment">//将A[i]调整到双亲结点上</span></span><br><span class="line">            k = i;                        <span class="comment">//修改k，继续向下筛选。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    A[k] = A[<span class="number">0</span>];                        <span class="comment">//被筛选节点的值放入最终位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeapSort</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">BuildMaxHeap</span>(A, len);</span><br><span class="line">    <span class="keyword">for</span>(i = len; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">        <span class="built_in">Swap</span>(A[i], A[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, <span class="number">1</span>, i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol start="8">
-<li>归并排序</li>
-</ol>
-<p>思想：将两个或两个以上的有序表组合成一个新的有序表。稳定的排序方法</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ElemType *B = (ElemTYpe *)<span class="built_in">malloc</span>((n+<span class="number">1</span>) * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k = low; k &lt;= high; k++) </span><br><span class="line">        B[k] = A[k];</span><br><span class="line">    <span class="keyword">for</span>(i = low, j = mid+<span class="number">1</span>; k = i; i &lt;= mid &amp;&amp; j &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(B[i] &lt;= B[j])</span><br><span class="line">            A[k] = B[i++];</span><br><span class="line">        <span class="keyword">else</span> A[k] = B[j++];</span><br><span class="line">    &#125;</span><br><span class="line">       <span class="keyword">while</span>(i &lt;= mid) A[k++] = B[i++];    <span class="comment">//如果表1未检测完，直接复制</span></span><br><span class="line">    <span class="keyword">while</span>(j &lt;= high) A[k++] = B[j++];    <span class="comment">//如果表2未检测完，直接复制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="9">
-<li>基数排序</li>
-</ol>
-<p>思想：一种借助多关键字排序的思想对单逻辑关键字进行排序的方法。<br />链式基数排序：收集时是从下往上收集的。<br /><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111633646.jpeg" alt="AFA561CF-09F2-4A79-823D-B99981F78B38.jpeg"></p>
-<h2 id="真题中的多次考到的算法"><a href="#真题中的多次考到的算法" class="headerlink" title="真题中的多次考到的算法"></a>真题中的多次考到的算法</h2><h3 id="树的孩子兄弟表示法的遍历"><a href="#树的孩子兄弟表示法的遍历" class="headerlink" title="树的孩子兄弟表示法的遍历"></a>树的孩子兄弟表示法的遍历</h3><p>以求家族中共有多少代并输出最后一代的所有成员为例。<br />思想：根据孩子兄弟表示法，创建结构体，包括名字，第一个孩子节点和兄弟节点。再将此结构体与其结点高度组成一个新结构体（在不同类型的题目中，该结构体内容根据需要进行修改）。通过求层次遍历最后一个结点的高度得到共有多少代，再通过遍历所有结点找到高度最大的结点，即最后一代。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">char</span> name;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *firstchild;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *brother;</span><br><span class="line">&#125;BTNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> lno; <span class="comment">//表示结点高度;</span></span><br><span class="line">    BTNode *p;</span><br><span class="line">&#125;NodeInfo;         <span class="comment">//这个结构体及后续队列的变形应用是精髓。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FamilyTree</span><span class="params">(BTNode &amp;b)</span> </span>&#123;</span><br><span class="line">    NodeInfo Q[maxsize];</span><br><span class="line">    <span class="type">int</span> front = <span class="number">0</span>, rear = <span class="number">0</span>; <span class="comment">//初始化自定义队列</span></span><br><span class="line">    <span class="type">int</span> Lno;        <span class="comment">//暂存结点高度；</span></span><br><span class="line">    <span class="type">int</span> i, j = <span class="number">0</span>;    <span class="comment">//j记录最后一代人数</span></span><br><span class="line">    BTNode *q;</span><br><span class="line">    ++rear;</span><br><span class="line">    Q[rear].p = b; Q[rear].lno=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (rear != front) &#123;</span><br><span class="line">        ++front;</span><br><span class="line">        q = Q[front].p; Lno = Q[front].lno;    <span class="comment">//出队</span></span><br><span class="line">        <span class="keyword">if</span>(q-&gt;brother != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;brother;</span><br><span class="line">            Q[rear].lno = Lno;        <span class="comment">//兄弟结点与该结点高度一致；</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(q-&gt;firstchild != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;firstchild;</span><br><span class="line">            Q[rear].lno = Lno + <span class="number">1</span>;    <span class="comment">//孩子结点比当前结点高1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(Lno); <span class="comment">//输出共有多少代</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= rear; i++) &#123;    <span class="comment">//输出最后一代成员并计算人数</span></span><br><span class="line">        <span class="keyword">if</span>(Q[i].lno == Lno) &#123;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="built_in">print</span>(Q[i].p-&gt;name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>数据结构</tag>
-        <tag>算法</tag>
-        <tag>829专业课</tag>
       </tags>
   </entry>
   <entry>
@@ -2114,9 +1792,331 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
         <category>学习笔记</category>
       </categories>
       <tags>
-        <tag>829专业课</tag>
         <tag>操作系统</tag>
         <tag>计算机组成原理</tag>
+        <tag>829专业课</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构必背算法</title>
+    <url>/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="矩阵快速转置"><a href="#矩阵快速转置" class="headerlink" title="矩阵快速转置"></a>矩阵快速转置</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*稀疏矩阵用三元组表示。</span></span><br><span class="line"><span class="comment">需要设置num和cpot两个向量。</span></span><br><span class="line"><span class="comment">num[col]表示矩阵M中第col列中非零元的个数。</span></span><br><span class="line"><span class="comment">copt[col]指示M中第col列的第一个非零元在转置后的三元组的位置。</span></span><br><span class="line"><span class="comment">cpot[1] = 1; cpot[col] = cpot[col - 1] + num[col - 1],2&lt;=col&lt;=列数nu；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Status <span class="title">FastTransposeSMatrix</span><span class="params">( TSMatrix M, TSMatrix &amp;T)</span> </span>&#123;</span><br><span class="line">    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu; <span class="comment">//T的行数列数=M的列数行数，非零元个数相同</span></span><br><span class="line">    <span class="keyword">if</span>(T.tu) &#123;</span><br><span class="line">        <span class="keyword">for</span>(col = <span class="number">1</span>; col &lt; M.nu; ++col) num[col] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(t = <span class="number">1</span>; t &lt;= M.nu; ++t) ++num[M.data[t].j]; <span class="comment">//求M中每一列含非零元个数</span></span><br><span class="line">        cpot[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(col =  <span class="number">2</span>; col &lt;= M.nu; ++col)</span><br><span class="line">            cpot[col] = cpot[col - <span class="number">1</span>] + num[col - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(p = <span class="number">1</span>; p &lt;= M.tu; ++p) &#123;</span><br><span class="line">            col = M.data[p].j; q = cpot[col];</span><br><span class="line">            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;</span><br><span class="line">            T.data[q].e = M.data[p].e; ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><ol>
+<li><p>先序遍历：根左右<br />递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">       <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line"> <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">     <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">         <span class="built_in">visit</span>(p); <span class="built_in">Push</span>(S, p);<span class="comment">//访问当前节点并入栈</span></span><br><span class="line">         p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">         <span class="built_in">Pop</span>(S, p);            <span class="comment">//栈顶元素出栈</span></span><br><span class="line">         p=p-&gt;rchild;        <span class="comment">//访问右子树</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>中序遍历：左根右</p>
+</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MidOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">            <span class="built_in">Push</span>(S, p);            <span class="comment">//当前节点入栈</span></span><br><span class="line">            p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">            <span class="built_in">Pop</span>(S, p); <span class="built_in">visit</span>(p); <span class="comment">//栈顶元素出栈,并访问</span></span><br><span class="line">            p=p-&gt;rchild;        <span class="comment">//下一次循环，访问右子树</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>后序遍历：左右根</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">          <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S);</span><br><span class="line">    p = T;                        <span class="comment">//p是遍历指针</span></span><br><span class="line">    r = <span class="literal">NULL</span>;                    <span class="comment">//r指向最近访问过的结点，以分清从左子树返回还是右子树返回</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//走到最左边</span></span><br><span class="line">            <span class="built_in">push</span>(S, p);</span><br><span class="line">            p = p-&gt;lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//向右</span></span><br><span class="line">            <span class="built_in">GetTop</span>(S, p);        <span class="comment">//读栈顶结点</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rchild &amp;&amp; p-&gt;rchild!=r) &#123; <span class="comment">//若左子树存在且未被访问过</span></span><br><span class="line">                p = p-&gt;rchild;    <span class="comment">//转向右</span></span><br><span class="line">                <span class="built_in">push</span>(S, p);        <span class="comment">//压入栈</span></span><br><span class="line">                p = p-&gt;lchild;    <span class="comment">//再走到左</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;            <span class="comment">//否则</span></span><br><span class="line">                <span class="built_in">pop</span>(S, p);        <span class="comment">//将结点弹出</span></span><br><span class="line">                <span class="built_in">visit</span>(p-&gt;data);    <span class="comment">//访问该结点</span></span><br><span class="line">                r = p;             <span class="comment">//记录最近访问过的结点</span></span><br><span class="line">                p = <span class="literal">NULL</span>;        <span class="comment">//结点访问完毕后，重置p指针</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>层次遍历</li>
+</ol>
+<p>层次遍历常用来求每个元素所在层数、某层结点个数、树的最大宽度、树的高度等<br />求树的高度的算法，借助队列</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">BtDepth</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;    <span class="comment">//树空，高度为0</span></span><br><span class="line">    <span class="type">int</span> front = <span class="number">-1</span>, rear = <span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> last = <span class="number">0</span>, level = <span class="number">0</span>;    <span class="comment">//last指向当前层的最右结点</span></span><br><span class="line">    BiTree Q[MaxSize];            <span class="comment">//设置队列Q</span></span><br><span class="line">    Q[++rear] = T;                <span class="comment">//根结点入队</span></span><br><span class="line">    BiTree p;</span><br><span class="line">    <span class="keyword">while</span>(front &lt; rear) &#123;        <span class="comment">//队不空，则循环</span></span><br><span class="line">        p=Q[++front];            <span class="comment">//队列元素出队，访问当前结点</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;lchild) </span><br><span class="line">            Q[++rear] = p-&gt;lchild;    <span class="comment">//左孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;rchild)</span><br><span class="line">            Q[++rear] = p-&gt;rchild;    <span class="comment">//右孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(front == last) &#123;</span><br><span class="line">            level++;                <span class="comment">//层数加一</span></span><br><span class="line">            last = rear;            <span class="comment">//last指向下层最后一个结点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><p>记忆非递归算法更为合适，因为仅仅是把队列和栈替换。<br />全局变量：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Boolean visited[MAX];            <span class="comment">//访问标志数组</span></span><br><span class="line"><span class="built_in">Status</span> (*VisitFunc)(<span class="type">int</span> V);        <span class="comment">//函数变量</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>广度优先搜索：</li>
+</ol>
+<p>类似于树的按层次遍历。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited</span></span><br><span class="line"><span class="comment">//辅助队列Q保存正在访问顶点的下一层顶点</span></span><br><span class="line"><span class="comment">//visited标志顶点是否被访问过，防止被多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE;</span></span></span><br><span class="line"><span class="params"><span class="function">    InitQueue(Q);                    <span class="comment">//置空的辅助队列Q</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">if</span>(!visited[v]) &#123;            <span class="comment">//v未被访问</span></span></span></span><br><span class="line"><span class="params"><span class="function">            visited[v] = TRUE; </span></span></span><br><span class="line"><span class="params"><span class="function">            EnQueue(Q, v);            <span class="comment">//v入队列</span></span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">while</span>(!QueueEmpty(Q)) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                DeQueue(Q, u);        <span class="comment">//队头元素出队并置为u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                Visit(u);            <span class="comment">//访问u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="keyword">for</span>(w = FirstNeighbor(G, u); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, u, w))</span></span></span><br><span class="line"><span class="params"><span class="function">                    <span class="keyword">if</span>(!visited[w]) &#123;        <span class="comment">//w为u的尚未访问的临接顶点</span></span></span></span><br><span class="line"><span class="params"><span class="function">                        visited[w] = TRUE;</span></span></span><br><span class="line"><span class="params"><span class="function">                        EnQueue(Q, w);</span></span></span><br><span class="line"><span class="params"><span class="function">                    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">            &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">        &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>深度优先搜索：<br> 递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v))</span> </span>&#123;</span><br><span class="line">VisitFunc = Visit;        <span class="comment">//使用全局变量VisitFunc，使DFS不必设函数指针参数。</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE; <span class="comment">//访问标志数组初始化</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">  <span class="keyword">if</span>(!visited[v]) <span class="built_in">DFS</span>(G, v);    <span class="comment">//对未访问的顶点调用DFS</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从第v个顶点出发递归地深度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    visited[v] = TRUE; <span class="built_in">VisitFunc</span>(v);    <span class="comment">//访问第v个顶点</span></span><br><span class="line">    <span class="keyword">for</span> (w = <span class="built_in">FirstNeighbor</span>(G, v); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, v, w))</span><br><span class="line">        <span class="keyword">if</span>(!visited[w]) <span class="built_in">DFS</span>(G, w);    <span class="comment">//对v的尚未访问的邻接顶点w递归调用DFS</span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p> 非递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按深度优先非递归遍历图G，使用辅助栈S和访问标记数组visited</span></span><br><span class="line"><span class="comment">//栈S来记忆下一步可能访问的顶点</span></span><br><span class="line"><span class="comment">//visited标记顶点是否被访问过，防止多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> w;            <span class="comment">//顶点序号</span></span><br><span class="line">    <span class="built_in">InitStack</span>(S);    <span class="comment">//初始化栈S</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; G.vexnum; i++) visited[i] = FALSE;</span><br><span class="line">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span><br><span class="line">        <span class="keyword">if</span>(!visited[v]) &#123;</span><br><span class="line">            <span class="built_in">Push</span>(S, v); visited[v] = TRUE;    <span class="comment">//v入栈</span></span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">                k = <span class="built_in">Pop</span>(S); <span class="built_in">visit</span>(k);    <span class="comment">//访问栈顶结点</span></span><br><span class="line">                <span class="keyword">for</span>(w = <span class="built_in">FirstNeighbor</span>(G, k); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, k, w))</span><br><span class="line">                <span class="keyword">if</span>(!visited[w]) &#123;</span><br><span class="line">                    <span class="built_in">Push</span>(S, w);</span><br><span class="line">                    visited[w] = TRUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="最小生成树算法"><a href="#最小生成树算法" class="headerlink" title="最小生成树算法"></a>最小生成树算法</h2><ol>
+<li>Prim算法：适合边稠密的图<ol>
+<li><p>算法思想：初始时从图中任取一顶点加入树T，此时树中只含有一个顶点，之后选择一个与当前T中顶点集合距离最近的顶点，并将该顶点和相应的边加入T，每次操作后T中顶点数和边数都增1.以此类推，直至图中所有的顶点都并入T，得到的T就是最小生成树。</p>
+</li>
+<li><p>所需添加的数据结构closedge[]，记录从U到V-U具有最小代价的边</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> &#123;</span><br><span class="line">VertexType adjvex;    <span class="comment">//最小代价的边在U中依附的顶点</span></span><br><span class="line">VRType lowcost;        <span class="comment">//最小代价的边的权值；</span></span><br><span class="line">&#125; closedge[ MAX_VERTEX_NUM ]</span><br></pre></td></tr></table></figure></li>
+<li><p>算法实现（一般不考）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PRIM</span><span class="params">(MGraph G, VertexType u)</span> </span>&#123;</span><br><span class="line">k = <span class="built_in">LocateVex</span>(G, u);</span><br><span class="line"><span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j)     <span class="comment">//初始化辅助数组</span></span><br><span class="line">  <span class="keyword">if</span>(j != k) closedge[j] = &#123;u, G.arcs[k][j].adj&#125;;</span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>;        <span class="comment">//初始，U=&#123;u&#125;</span></span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; G.vexnum; ++i) &#123;</span><br><span class="line">  k = <span class="built_in">minimum</span>(closedge);        <span class="comment">//离当前生成树距离最短的点作为下一顶点</span></span><br><span class="line">  <span class="built_in">printf</span>(closedge[k].adjvex, G.vexs[k]);    <span class="comment">//输出生成树的边</span></span><br><span class="line">  closedge[k].lowcost = <span class="number">0</span>;    <span class="comment">//将该点并入生成树U集</span></span><br><span class="line">  <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j) <span class="comment">//更新未并入U的点离生成树的距离。</span></span><br><span class="line">      <span class="keyword">if</span>(G.arcs[k][j].adj &lt; closedge[j].lowcost)    </span><br><span class="line">          closedge[j] = &#123;G.vexs[k], G.arcs[k][j].adj&#125;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>每一步的状态表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/1379805/1632216066656-3768a3d0-a6bb-4826-aca9-2077804df767.jpeg" alt="1A18DDB3-14CA-433F-8F92-A97B744CB996.jpeg"></p>
+<ol start="2">
+<li>Kruskal算法：适合边稀疏而顶点较多的图<ol>
+<li>算法思想：初始时为只有n个顶点而无边的非连通图T={V, {} }，每个顶点自成一个连通分量，然后按照边的权值由小到大的顺序，不断选取当前未被选取过且权值最小的边，若该边依附的顶点落在T中不同的连通分量上，则将此边加入T，否则舍弃此边而选取下一条权值最小的边。以此类推，直至T中所有顶点都在一个连通分量上。</li>
+</ol>
+</li>
+</ol>
+<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><ol>
+<li><p>Dijkstra算法，求单个点到其他点的最短路径。</p>
+<ol>
+<li><p>所需辅助数组</p>
+<ol>
+<li>dist[]：记录从源点到其他各顶点当前的最短路径长度，如两个点未直接相连置为∞</li>
+<li>path[]：表示从源点到顶点i之间最短路径上i之前的一个结点。用于最后追溯最短路径。</li>
+</ol>
+</li>
+<li><p>算法过程：贪心策略，按长度递增的次序产生各最短路径。</p>
+<ol>
+<li><p>初始化dist，和集合S={0}</p>
+</li>
+<li><p>从顶点集合V-S中选出dist最小的点 j ，并入S</p>
+</li>
+<li><p>更新dist[k] = dist[j] + arcs[j][k] &lt; dsit[k] ? dist[j]+arcs[j][k] : dsit[k]</p>
+</li>
+<li><p>重复2-3步，直到所有点都并入S</p>
+</li>
+</ol>
+</li>
+<li><p>求解过程表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111632152.jpeg" alt="850BE2D4-C874-45CF-B587-1C2E74312442.jpeg"></p>
+<ol start="2">
+<li>Floyd算法，求所有点间的最短距离。<ol>
+<li><p>算法思想：用每个顶点作为中间结点计算路径长度并与原路径长度进行比较，更新矩阵为较小的值。重复n次就得到所有的最短路径长度。</p>
+</li>
+<li><p>算法伪代码（不重要）要会算每次迭代的矩阵，初始的矩阵为邻接矩阵。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FLOYD</span><span class="params">(Mgraph G, DistancMatrix D)</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span>(u = <span class="number">0</span>; u &lt; G.vexnum; ++u)</span><br><span class="line">  <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">      <span class="keyword">for</span>(w = <span class="number">0</span>; w &lt; G.vexnum; ++w)</span><br><span class="line">          <span class="keyword">if</span>(D[v][u] + D[u][w] &lt; D[v][w]) &#123; <span class="comment">//从v经过u到w的一条路径更短。</span></span><br><span class="line">              D[v][w] = D[v][u] + D[u][w];</span><br><span class="line">          &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ol start="3">
+<li>直接插入排序</li>
+</ol>
+<p>思想：假设前部分序列已经有序，从后部分无序序列中选择元素插入到前面有序序列的合适位置，最终整体有序。是稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//A[0] 用作哨兵, n为数组长度</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; i++)        <span class="comment">// 依次将A[2]-A[n]插入到前面已排序序列</span></span><br><span class="line">        <span class="keyword">if</span>(A[i] &lt; A[i<span class="number">-1</span>]) &#123;        <span class="comment">//若A[i]&lt;A[i-1]</span></span><br><span class="line">            A[<span class="number">0</span>] = A[i];        <span class="comment">//把A[i]复制为哨兵</span></span><br><span class="line">            <span class="keyword">for</span>(j = i<span class="number">-1</span>; A[<span class="number">0</span>] &lt; A[j]; --j)    <span class="comment">//在前端有序队列中查找插入位置</span></span><br><span class="line">                A[j+<span class="number">1</span>] = A[j];    <span class="comment">//将前面有序序列的元素后移，空出位置。</span></span><br><span class="line">            A[j+<span class="number">1</span>] = A[<span class="number">0</span>];        <span class="comment">//插入到空出来的位置。</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>折半插入排序</li>
+</ol>
+<p>思想：将直接插入排序中移位操作中的比较单独提出来。变成，折半查找出元素的待插入位置，然后再移动元素</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        A[<span class="number">0</span>] = A[i];</span><br><span class="line">        low = <span class="number">1</span>; high = i - <span class="number">1</span>;    <span class="comment">//设置折半查找范围</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt;= high) &#123;    <span class="comment">//折半查找</span></span><br><span class="line">            mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(A[mid] &gt; A[<span class="number">0</span>]) high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> low = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(j = i<span class="number">-1</span>; j &gt;= high+<span class="number">1</span>; --j)</span><br><span class="line">            A[j+<span class="number">1</span>] = A[j];</span><br><span class="line">        A[high+<span class="number">1</span>] = A[<span class="number">0</span>];    <span class="comment">//插入</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>希尔排序</li>
+</ol>
+<p>思想（重要）：先将待排序表分割成若干由相隔某个增量的记录组成的一个子表，对各个子表分别进行直接插入排序，当整个表中元素已经基本有序时，再对全体记录进行一次直接插入排序。<br />不稳定的排序方法。</p>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ol start="4">
+<li>冒泡排序</li>
+</ol>
+<p>思想：从后往前两两比较相邻元素的值，若为逆序，则交换他们，直到序列比较完。若第n趟结束时没有交换，则冒泡排序结束。是一种稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(j = n<span class="number">-1</span>; j &gt; i; j--)     <span class="comment">//一趟冒泡过程</span></span><br><span class="line">            <span class="keyword">if</span>(A[j<span class="number">-1</span>] &gt; A[j]) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(A[j<span class="number">-1</span>], A[j]);</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="literal">false</span>) <span class="keyword">return</span>;    <span class="comment">//本趟遍历后没有发生交换，已经有序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>快速排序（重要）</li>
+</ol>
+<p>思想：基于分治思想。通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行快速排序。 不稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//一趟快速排序的过程，划分算法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(ElemTYpe A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    pivot = A[low];            <span class="comment">//用子表的第一个记录作枢轴记录，用pivot记录枢轴关键字</span></span><br><span class="line">    <span class="keyword">while</span>(low &lt; high) &#123;        <span class="comment">//从表两边交替地向中间扫描</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[high] &gt;= pivot) --high;</span><br><span class="line">        A[low] = A[high];    <span class="comment">//将比枢轴小的记录移到低端</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[low] &lt;= pivot) ++low;</span><br><span class="line">        A[high] = A[low];    <span class="comment">//比枢轴大的记录移到高端</span></span><br><span class="line">    &#125;</span><br><span class="line">    A[low] = pivot;            <span class="comment">//枢轴记录到位</span></span><br><span class="line">    <span class="keyword">return</span> low;                <span class="comment">//返回枢轴位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归主程序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low &lt; high) &#123;</span><br><span class="line">        <span class="type">int</span> pivotpos = <span class="built_in">Partition</span>(A, low, high);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, low, pivotpos<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, pivotpos+<span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ol start="6">
+<li>简单选择排序</li>
+</ol>
+<p>思想：第i趟排序从L[i···n]中选择关键字最小的元素与L(i)交换。经过n-1次就得到有序。不稳定的排序算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; ++i) &#123;</span><br><span class="line">        min = i;</span><br><span class="line">        <span class="keyword">for</span>(j = i+<span class="number">1</span>; j &lt; n; ++j) </span><br><span class="line">            <span class="keyword">if</span>(A[j] &lt; A[min]) min = j;</span><br><span class="line">        <span class="keyword">if</span>(min != i) <span class="built_in">swap</span>(A[i], A[min]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>堆排序</li>
+</ol>
+<p>堆：是一颗完全二叉树，所有根结点小于等于或大于等于其孩子节点值。为方便运算，A[0]为空。<br />思想：若在输出堆顶的最小值后，使得剩余n-1个元素的序列重又建成一个堆，则输出n个元素的次小值。如此反复执行，便得到一个有序序列，这个过程称为堆排序。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//建立大根堆的算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = len/<span class="number">2</span>; i &gt; <span class="number">0</span>; i--)    <span class="comment">//从非叶子结点开始调整</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, i, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调整以元素k为根的子树为堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[], <span class="type">int</span> k, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    A[<span class="number">0</span>] = A[k];                        <span class="comment">//A[0]暂存子树的根结点。</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>*k; i &lt;= len; i *= <span class="number">2</span>) &#123;    <span class="comment">//沿key较大的子节点向下筛选</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; len &amp;&amp; A[i] &lt; A[i+<span class="number">1</span>])</span><br><span class="line">            i++;                        <span class="comment">//取key较大的子节点的下标</span></span><br><span class="line">        <span class="keyword">if</span>(A[<span class="number">0</span>] &gt;= A[i]) <span class="keyword">break</span>;            <span class="comment">//筛选结束</span></span><br><span class="line">        <span class="keyword">else</span> &#123;                            </span><br><span class="line">            A[k] = A[i];                <span class="comment">//将A[i]调整到双亲结点上</span></span><br><span class="line">            k = i;                        <span class="comment">//修改k，继续向下筛选。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    A[k] = A[<span class="number">0</span>];                        <span class="comment">//被筛选节点的值放入最终位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeapSort</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">BuildMaxHeap</span>(A, len);</span><br><span class="line">    <span class="keyword">for</span>(i = len; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">        <span class="built_in">Swap</span>(A[i], A[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, <span class="number">1</span>, i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol start="8">
+<li>归并排序</li>
+</ol>
+<p>思想：将两个或两个以上的有序表组合成一个新的有序表。稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ElemType *B = (ElemTYpe *)<span class="built_in">malloc</span>((n+<span class="number">1</span>) * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k = low; k &lt;= high; k++) </span><br><span class="line">        B[k] = A[k];</span><br><span class="line">    <span class="keyword">for</span>(i = low, j = mid+<span class="number">1</span>; k = i; i &lt;= mid &amp;&amp; j &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(B[i] &lt;= B[j])</span><br><span class="line">            A[k] = B[i++];</span><br><span class="line">        <span class="keyword">else</span> A[k] = B[j++];</span><br><span class="line">    &#125;</span><br><span class="line">       <span class="keyword">while</span>(i &lt;= mid) A[k++] = B[i++];    <span class="comment">//如果表1未检测完，直接复制</span></span><br><span class="line">    <span class="keyword">while</span>(j &lt;= high) A[k++] = B[j++];    <span class="comment">//如果表2未检测完，直接复制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>基数排序</li>
+</ol>
+<p>思想：一种借助多关键字排序的思想对单逻辑关键字进行排序的方法。<br />链式基数排序：收集时是从下往上收集的。<br /><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111633646.jpeg" alt="AFA561CF-09F2-4A79-823D-B99981F78B38.jpeg"></p>
+<h2 id="真题中的多次考到的算法"><a href="#真题中的多次考到的算法" class="headerlink" title="真题中的多次考到的算法"></a>真题中的多次考到的算法</h2><h3 id="树的孩子兄弟表示法的遍历"><a href="#树的孩子兄弟表示法的遍历" class="headerlink" title="树的孩子兄弟表示法的遍历"></a>树的孩子兄弟表示法的遍历</h3><p>以求家族中共有多少代并输出最后一代的所有成员为例。<br />思想：根据孩子兄弟表示法，创建结构体，包括名字，第一个孩子节点和兄弟节点。再将此结构体与其结点高度组成一个新结构体（在不同类型的题目中，该结构体内容根据需要进行修改）。通过求层次遍历最后一个结点的高度得到共有多少代，再通过遍历所有结点找到高度最大的结点，即最后一代。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">char</span> name;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *firstchild;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *brother;</span><br><span class="line">&#125;BTNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> lno; <span class="comment">//表示结点高度;</span></span><br><span class="line">    BTNode *p;</span><br><span class="line">&#125;NodeInfo;         <span class="comment">//这个结构体及后续队列的变形应用是精髓。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FamilyTree</span><span class="params">(BTNode &amp;b)</span> </span>&#123;</span><br><span class="line">    NodeInfo Q[maxsize];</span><br><span class="line">    <span class="type">int</span> front = <span class="number">0</span>, rear = <span class="number">0</span>; <span class="comment">//初始化自定义队列</span></span><br><span class="line">    <span class="type">int</span> Lno;        <span class="comment">//暂存结点高度；</span></span><br><span class="line">    <span class="type">int</span> i, j = <span class="number">0</span>;    <span class="comment">//j记录最后一代人数</span></span><br><span class="line">    BTNode *q;</span><br><span class="line">    ++rear;</span><br><span class="line">    Q[rear].p = b; Q[rear].lno=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (rear != front) &#123;</span><br><span class="line">        ++front;</span><br><span class="line">        q = Q[front].p; Lno = Q[front].lno;    <span class="comment">//出队</span></span><br><span class="line">        <span class="keyword">if</span>(q-&gt;brother != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;brother;</span><br><span class="line">            Q[rear].lno = Lno;        <span class="comment">//兄弟结点与该结点高度一致；</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(q-&gt;firstchild != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;firstchild;</span><br><span class="line">            Q[rear].lno = Lno + <span class="number">1</span>;    <span class="comment">//孩子结点比当前结点高1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(Lno); <span class="comment">//输出共有多少代</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= rear; i++) &#123;    <span class="comment">//输出最后一代成员并计算人数</span></span><br><span class="line">        <span class="keyword">if</span>(Q[i].lno == Lno) &#123;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="built_in">print</span>(Q[i].p-&gt;name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>829专业课</tag>
+        <tag>数据结构</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软件工程导论复习</title>
+    <url>/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<p><strong>【软件工程导论】</strong></p>
+<p>软件 = 知识+程序+数据+文档</p>
+<p><strong>文档的概念和作用</strong>文档记录软件开发的活动和中间制品，记录软件的配置及变更，用于软件专业人员和用户的交流，用于软件开发、过程管理和运行阶段的维护。<strong>如</strong>:需求报告对所开发软 件的功能、性能、用户界面及运行环境等作出详细的说明，它是用户与开发人员双方 对软件需求取得共同理解基础上达成的协议，也是实施开发工作的基础。设计说明书 是概要设计阶段的工作成果，它应说明功能分配、模块划分、程序的总体结构、输入 输出以及接口设计、运行设计、数据结构设计和出错处理设计等，为详细设计奠定基 础。详细设计说明书着重描述每一模块是怎样实现的，包括实现算法、逻辑流程等</p>
+<p><strong>软件特点：</strong>逻辑实体、智力产品;制造即拷贝;无磨损和老化,不遵循“浴盆曲线”,但 存在退化问题。尚未摆脱手工方式;软件移植的需要;复杂（问题复杂性 / 程序结构复 杂性）软件开发的性质如成本、进度、质量等难以估计控制,维护困难，有可复用性</p>
+<p><strong>定义</strong>:将系统的、规范的、可量化的方法应用于软件的开发、运行和维护的过程及上述方法的研究</p>
+<p><strong>三要素：过程</strong>:管理部分;<strong>方法</strong>:完成软件工程项目的技术手段;<strong>工具</strong>自动或 半自动地支持软件的开发、维护和管理。 </p>
+<p><strong>目标：</strong>在给定成本、进度的前提下，开发出满足用户或市场需要的高质量的软件产品</p>
+<p><strong>原则：</strong>抽象(自顶向下逐步求精)、信息隐藏（封装的接口）、模块化（相对独立/类）、局部化（相互关联/局部变量）、一致性（接口和规范）、完全性和可验证性(应易于检查、测试和评审)</p>
+<p>**传统软件生命周期:**需求,设计,编码、测试,软件测试,运行、维护,退役</p>
+<p><strong>瀑布模型生命周期</strong>:1 可行性研究,2 需求分析,3 概要设计,4 详细设计,5 实现,6 集成测试,7 确认 测试,8 使用与维护,9 退役(软件定义:1-2 软件开发 3-7 维护 8-9)</p>
+<p><strong>各种模型的含义、优缺点、场景:</strong> </p>
+<p>**瀑布模型:**假设软件需求在初期几乎可完全确定;<strong>主要思想</strong>:1.软件开发过程与软件生 命周期是一致的;2.相邻二阶段之间存在因果关系 3.每一阶段的结束点作为里程碑;4. 需对阶段性产品进行评审，如果评审不合格,需返工;<strong>优点</strong>:**1.**使用时间最长,应用面比较广泛;<strong>2.<strong>是其他一些开发模型的基础;3.思路简洁,明确,阶段间因果明确,紧密联系;4. 其可行性研究、需求、设计、编码、测试分离,有利于软件的体系结构设计,规范了软 件开发活动,有利于开发人员的组织管理;5.缓解软件危机</strong>缺点</strong>:1.必须确定软件需求后 才能进行后续开发工作,但多数场合给出全部需求是困难的;**2.<strong>到最后阶段才能得到可运行的软件版本不能适应用户需求的变 化 ;3.上游阶段的“过失”会为软件制品带 来“缺陷”并潜伏在制品中,会误导下游的开发活动,若未被发现运行时会造成“故障” , 寻找修复故障会比较困难</strong>场景:**对于规模较小、软件需求比较稳定的项目或子系统,能够显著提高软件开发的质量和效率;<strong>原型模型</strong>:**概念:**软件开发人员根据客户提出的软件(部分或全部)定义,快速地开发一个原型。原型向客户展示了待开发软件系统的全部 或部分功能和性能,在征求客户对原型意见的过程中,进一步修改、完善、确认软件系 统的需求并达到一致的理解;**优点1.**支持需求的动态变化;**2.**有助于获取用户需求,便于用户对需求的理解;**3.**尽早发现软件中的错误;**缺点:<strong>不支持风险分析.<strong>适用场景：</strong>开发 团队对所开发领域比较熟悉而且有快速的原型开发工具</strong>螺旋模型: 基本思想:<strong>1.将瀑布模型与原型模型进行有机结合;2.增加风险分析步骤。</strong>优点:**1.支持需求的动态变化;2. 有助于获取用户需求,便于用户对需求的理解;3.尽早发现软件中的错误;4.支持风险分 析,可降低或者尽早消除软件开发风险;5.适合于需求动态变化、开发风险较大的系统; **缺点:**由于确定的不确定性,软件开发初期无法进行软件体系结构设计,多次迭代会导 致软件体系结构变坏,为软件理解和维护带来困难;<strong>场景:<strong>在需求不明确的情况下,适合用螺旋模型进行开发,便于风险控制和需求变更;特别适合于大型复杂的系统.<strong>原型模型和螺旋模型既是迭代模型,又是进化模型。</strong> <strong>喷泉模型:基本思想</strong>:1.软件复用与生命周期中多项开发活动集成2.主要支持面向对象的开发方法;<strong>优点</strong> 1软件系统可维护性较好 2各阶段相互重叠,表明了面向对象开发方法各阶段间的交叉和无缝过渡 3整个模型是一个迭代的过程,包括一个阶段内部的迭代和跨阶段的迭代 4模型具有增量开发特性,即能做到“</strong>分析一点,设计一点,实现一点,测试一点</strong>”,使相关功能随之加入到演化的系统中 5模型由对象驱动,对象是各阶段活动的主体,也是项目管理的基本内容 6该模型很自然地支持软部件的重用。</p>
+<p><strong>工具： 项目管理工具</strong> AMSRealtime,MicrosoftProject,Viewpoint, Project ControlPanel ,Ittoolkit <strong>软件开发工具：业务系统建模工具：</strong>RationalRose,ArgoUML,Visio,Real-TimeStudo(以 上也可以是对应的<strong>分析和设计工具</strong>）<strong>测试工具：</strong>CodeMedic(为标准 UNIX 调试器 gdb 提供图形界面，支持 C/C++、Java、汇编、FORTRAN、Modua-2 测试) BugCollectorPro （实现多用户数据库，支持软件团队追踪已报告的 bug、管理调试工作 流） JprobeThreadAnalyzer（支持线程测试问题：死锁、延迟） C++Test（C／C++ 单元测试）**原型建造工具（专用性）用户界面工具:**Macromedia Authorware,PowerDesigner/PowerBuilder,MotifCommonDesktopEnvironment </p>
+<p><strong>【第 2 章 UML 与 RUP 统一过程】</strong>(用例图(UC图),类图)</p>
+<p><strong>面向对象的软件开发方法</strong> 面向对象的软件开发方法通过提供对象,对象间消息传递等语言机制让分析人员在解空间中直接模拟问题空间中的对象及其行为,从而削减了<strong>语义断层</strong>,拉近了问题空间与解空间的距离,从而简化了软件工程师在二者之间架设“桥梁”的工作,并为软件 开发活动提供了直观,自然的语言支持和方法学指导。</p>
+<p><strong>面向对象 = {对象+类+继承+聚合+多态+消息}</strong> 基本要素</p>
+<p><strong>面向对象方法的优势</strong>:1.简化软件开发过程。面向对象方法不仅可以用来进行需求分析，还可以支持软件 的设计、实现和测试，构成了覆盖软件开发主要阶段的广谱软件开发方法学。 2.支持软件复用。在源代码级复用方面，面向对象方法通过继承机制和代理方法使得复用者不需要直接修改被复用的类；在设计级复用方面，近年来迅速发展的设计技术在软件界大显身手，贡献良多。 3.改善软件结构。面向对象方法通过对属性和操作的封装实现了软件工程倡导的信<strong>息隐藏原则</strong>。</p>
+<p><strong>用例图</strong>:用例图，从外部用户的角度描述系统功能，并指出参与者. 1.<strong>关联</strong>：参与者—执行用例。2.**包含(**include):一个用例 A 使用了另外一个用例 B。 A- -&gt;B。边上 include。3.<strong>扩展</strong>(extend):A 扩展自 B。A- -&gt;B。边上 extend</p>
+<p>**结构视图:**（不同层面,系统的静态结构): 包图(描述系统的分解结构,表示包与包之间的关系);对象图(类图的一个实例,描述在某个状态下,或者某个时间段系统中活跃的对象及关系);<strong>类图</strong>(描述系统静态结构),<strong>①泛化与特化</strong>：表示类的继承关系。子类 父类。 <strong>②关联</strong>：类之间有关联（对象组合）A 类用到了 B 类的信息 A-&gt;B。一对多的时候，边 上：<code>1—*</code>。双向关联没有箭头，单向关联有箭头，我们一般用单向。 <strong>③聚合</strong>：强关联，整体与部分的关系。Engine Car。一对多：1-*。 <strong>④组合</strong>：强聚合，整体的对象负责代表部分的对象的生命周期。Limb MonkeyKing <strong>⑤依赖</strong>： ClassA的定义依赖于 ClassB的定义。例子： A 的构造函数的参数中有 ClassB。 A 中有个函数以 B 作为参数。A - -&gt;B。</p>
+<p><strong>行为视图</strong>: (不同侧面系统的动态行为):交互图［描述对象之间通过消息传递进行的交互和协作,分为**顺序图(**对象之间消息发送的时间序), 通信图(对象间的动态协作关系,也可通过消息序号表示消息传递的时间序,不如顺序图直观)］, 状态图(描述类的对象的动态行为), <strong>活动图</strong>［控制流（一个操作完成后对其后续操 作的触发）、信息流（刻画操作间的信息交换）］</p>
+<p><strong>构件视图</strong>：构件图(描述软件系统中各组成构件,构件的内部结构以及构件间依赖关系) </p>
+<p><strong>部署视图</strong>：部署图（描述软件系统中各类工件在物理运行环境中的分布情况） </p>
+<p><strong>【第六章 软件设计基本原则】</strong>(PDL伪代码格式)</p>
+<p><strong>内聚度：偶然性内聚</strong>、逻辑性内聚、<strong>时间性内聚</strong>（经典内聚）/程度低/-&gt;过程性内聚,<strong>通信性内聚</strong>/程度中/-&gt;信息内聚,<strong>功能性内聚</strong>/程度高/</p>
+<p><strong>耦合度</strong>:：1 非直接耦合-&gt;2 <strong>数据耦合</strong>与控制耦合-&gt;3 外部耦合-&gt;4 公共耦合-&gt;5 <strong>内容耦合</strong>。尽量使用 1/2，限制 3/4，杜绝 5。 </p>
+<p><strong>选三种内聚度、三种耦合度各举一个例子说明。</strong></p>
+<p><strong>功能内聚</strong>：一个模块中各个部分都是完成某一具体功能必不可少的组成部分，或该模块中所有部分都是为了完成一项具体功能而协同工作，紧密联系，不可分割.(不建议举此例)<strong>信息内聚</strong>：完成多个功能各个功能都在同一数据结构上操作，每一项功能 有一个唯一的入口点。如课程管理系统上的查找课程、删除课程、修改课程都会使用 “课程”这个数据结构。<strong>通信内聚</strong>：一个模块各个功能部分都使用了相同的输入数据， 或产生了相同的输出数据。个人信息管理系统中：从文件中读取信息，打印功能和统计功能都会使用文件中的信息。<strong>逻辑内聚</strong>：这种模块把几种相关的功能组合在一起， 每次被调用时，由传送给模块的判定参数来确定该模块应执行哪一种功能。 <strong>非直接耦合</strong>：两个模块之间没有直接关系，它们之间的练习完全时通过主模块的控制 和调用来实现的。main()函数调用 A B C 函数，其中 A 用到 B 的返回值。<strong>控制耦合</strong>： 通过传送开关、标志、名字等控制信息，明显的控制选择另一模块的功能。如 A 的返 回值为 0 时调用 C，A 的返回值为 1 时调用 B。<strong>公共耦合</strong>：一组模块都访问同一个公 共数据环境。如 A\B 都调用以局部变量 time,并且会对其修改。 </p>
+<p><strong>如何降低耦合度</strong>：根据问题的特点，选择适当的耦合类型；降低模块接口的复杂性(传送信息的数量,耦合方式,传送信息的结构)；把模块的通信信息放在缓冲区中; </p>
+<p><strong>软件设计的原则</strong>：提高模块独立性；调整模块的大小；适当的模块深度、宽度、扇出 和扇入模块的作用范围应在控制范围之内简化模块的接口的复杂程度。 </p>
+<p><strong>启发式设计策略</strong>：改造软件结构，降低耦合度，提高内聚度；减少扇出，追求高扇入； 使任一模块的作用域在其控制域内(<strong>作用域</strong>是指受模块内部判定影响的所有模块,控制域是指其所有的下属模块);降低模块接口复杂度和冗余度,提高协调性。 <strong>变换流</strong>：信息通常以“外部世界”所具有的形式进入系统，经过处理后，又以这种形式离开系统，呈现在结果界面上。<strong>事务流</strong>数据沿输入通道到达一个转换，该转换根据输入流的类型和特征在若干动作路径中选择一条来执行。</p>
+<p>变换分析：复审基本系统模型；理解和精化数据流图；确定数据流图的类型；划分输入流、输出流的边界；执行二级分解；精化、改良软件结构。 </p>
+<p><strong>【第八章、人机交互设计】</strong></p>
+<p> 老人：图片字体大且清晰，描述简单，目录层级少，打开步骤少，操作简单，实用性 好，功能不复杂、只需要基本功能 小孩：色彩丰富。避免繁杂，大量图片和文字作为提示，风格轻松愉快，宽松简洁的 布局，高明度色彩，带拼音，可爱的卡通形象和字体设计，趣味和有故事性的背景</p>
+<p><strong>用户界面设计的基本原则</strong>①易理解性；②易操作性；③灵敏性；④一致性；⑤容错 性；⑥人性化。</p>
+<p><strong>用户界面设计模型的表示</strong>：①静态元素（无变化的文本、图标、图形、图像等）； ②动态元素（因运行状态而异自动呈现的不允许修改的文本、表格、图标、图形、图 像等）；③用户输入元素（可编辑文本、单选按钮、多选框、选择列表、可编辑的表 格）；④用户命令元素（按钮、菜单、超链接等）。 </p>
+<p><strong>用户界面设计过程的主要活动:</strong> 1.<strong>用户分析、任务分析及建模</strong>。首先必须分析用户的特征，分析用户需要通过目标软件系统完成哪些工作任务，为完成这些任务人机之间需要进行哪些信息交互。2.<strong>概念设计</strong>。主要目标是确定屏幕中应该包含的主要内容，以及用户基于该屏幕可施行的主要操作。3.<strong>界面流设计</strong>。主要目标是确定屏幕之间的跳转关系，即一幅屏幕在何种情况下,或者在响应何种用户操作命令后将跳转至另一屏幕.两种原因：①单屏幕空间容量有限，不足以表现所有必要界面元素；②用户的界面操作可能导出新的屏幕，以便在新的屏幕上进行面向特定业务功能的界面交互。表示方式主要是 UML 交互图（顺序图）和类图。4.<strong>界面精化</strong>。主要任务是基于概念设计和界面流设计，给出目标软件产品界面的完整的、详细的设计。 </p>
+<p><strong>【第九章、软件详细设计】</strong>主要活动①用例设计；②子系统设计；③构件设计；④类设计；⑤ 数据模型设计；⑥设计整合与验证。</p>
+<p><strong>【第十章、软件实现】</strong></p>
+<p><strong>程序设计语言的演化</strong>：第一代：汇编；第二代：Fortran/Cobol/Basic，有成熟的 函数库；第三代：结构化语言 C/Pascal/Ada；面向对象语言 C++/Java；专用领域语 言 Lisp/Prolog；第四代：数据库查询语言 Sql。</p>
+<ol>
+<li><p>第三代语言的特点：支持结构化程序设计，具有较强的过程能力和数据结构能力。</p>
+</li>
+<li><p>第四代特点：更高的抽象层次；只需要告诉计算机“做什么”，而不必告知“怎么做” 。 </p>
+</li>
+</ol>
+<p><strong>编程的规则</strong>：1.节俭化（代码尽量简洁）；2.模块化；3.简单化（命名一致性，数 据结构尽量简单） 4.结构化（缩进统一/函数代替重复出现的代码/代码单入口单出口） 5.文档化（文档自说明）6.格式化</p>
+<p><strong>编程风格:<strong>1.节俭化 2.模块化 3.简单化 4.结构化 5.文档化 6.格式化. 编程风格在很大程度上</strong>影响着程序</strong>的可读性、可测试性、可维护性。 <strong>结构化</strong>要做到按标准化的次序说明数据，按字母顺序说明对象名，使用容易理解的结 构化程序部件，根据背景排列程序各部分</p>
+<p><strong>调试策略</strong>：1.原始法（单步执行，printf）2.回溯法（沿着代码控制流往回找）3. 排除法</p>
+<p><strong>【第十一章】</strong>（设计题）</p>
+<p><strong>数据流图DFD与数据字典、实体—关系图、面向数据流设计方法（事务流/变换流）</strong></p>
+<p><strong>【第十三章、软件维护】</strong></p>
+<p><strong>·维护的分类</strong>(按原因划分):1.纠错性维护。为诊断和改正软件系统中潜藏的缺陷而进行的活动.2.适应性维护.为适应软件运行环境变化(如操作系统变更等)而修改软件的活动.3.完善性维护.是根据用户在软件使用过程中提出的一些新需求而实施的维护活动.4.预防性维护。是优化软件系统结构和可理解性，改善可维护性和可靠性。</p>
+<p><strong>·可维护性</strong>：软件的可维护性是指理解.改正.调整和改进软件的<strong>难易程度</strong>。是软件质量的重要属性，是指导软件工程活动的一条基本原则，也是软件工程追求的一个目标。 </p>
+<p><strong>·影响可维护性的因素</strong>：开发方法有关：设计、编码和测试不规范，软件配置不全开发环境有关：①训练有素的软件团队；②维护团队是否熟悉经过多次维护的系统；③ 软件的可理解性，包括软件结构、描述软件制品的语言、文档及标准化程度等；④操作系统的标准化程度；⑤维护工具和环境；⑥生成测试用例的能力；⑦对于嵌入式系 统维护应有专门的调试工具。</p>
+<p><strong>·维护的技术手段</strong>：软件重构。包括：文档重构、重组（简化与结构化源代码）、逆 向工程、再工程。</p>
+<p><strong>【第十五章、软件度量与估算】</strong></p>
+<p> <strong>·</strong>测量（Measure）是按照统一的规则为现实世界的实体属性定值。软件工程的测量 是按照测量标准直接、客观地采集软件制品、过程或资源的特征、属性，并获得数据。 例如：测量程序的代码行数、操作符的种类、个数，程序中缺陷的个数等等。测量涉 及测量对象、选用的量纲、方法、工具、过程和数据结果。</p>
+<p> <strong>·</strong>软件估算（Estimation）是根据经验、历史资料或模型，结合项目实际对软件 制 品、过程、资源进行预测。估算一般用于签订合同、制定工作计划、进行项目预算等。 这里涉及软件过程工作量的估算。</p>
+<p> <strong>·</strong>软件度量（Metrics）软件产品、软件开发过程或资源简单属性的定量描述，（如 程序规模、操作数个数、占用内存）能用以解释软件所具有的一个给定属性对软件质 量影响的程度。 </p>
+<p><strong>软件度量：规模度量、复杂性度量（McCabe基于图论；Halstead基于操作符与操作数）、质量度量、可靠性度量</strong></p>
+<p><strong>·内部属性与外部属性：软件工程的软件制品、过程、资源都具有外部属性和内部属性。外部属性体现了软件制品、过程、资源与环境的关系。内部属性指软件制品\过程和资源本身的技术属性。 二者关系:外部属性在软件开发过程中很难测量和控制，但它是由软件的内部属性决定的。</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>软件制品</th>
+<th>过程</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内 部</td>
+<td>程序语言；代码风格；模块化;复用性;耦合度与内聚度</td>
+<td>项目管理过程；业务建模过程；需求过程；设计过程；构造过程；测试过程；部署过程；配置管理过程；工具与环境支持过程</td>
+<td>人;软硬件环境; 经验</td>
+</tr>
+<tr>
+<td>外 部</td>
+<td>软件系统的可靠性;健壮性；效率;可用性;可维护性;可移植性</td>
+<td>资源保障；可控制性；可观察性；稳定性</td>
+<td>成本；时 间；合作 机制</td>
+</tr>
+</tbody></table>
+<p><strong>▲软件规模的度量</strong> (计算题)</p>
+<p><strong>（一）代码行度量</strong>（直接度量，依赖于程序设计语言）</p>
+<p>含义：通过项目总代码行数去度量项目的规模属性。（书本原话：用代码行数（LOC）表示软件项目的规模是自然和直观的。可以用人工或工具直接测量。几乎所有软件开发组织都保存软件项目的代码行数记录，开发初期可以度量软 件规模，度量生产 率、每行代码的平均人力成本、文档和代码的比例关系、每千行代 码存在的软件缺陷个数等）</p>
+<p>优点：简单直观，容易操作。</p>
+<p>缺点：1.依赖于特定程序设计语言；2.可能对一些设计精巧的软件项目不利；3. 项目开发前期估算困难；4.适用于过程式程序设计语言，对非过程程序设计语言不太 适用；</p>
+<p> （<strong>二）基于功能点度量</strong>（间接度量，不依赖于语言）</p>
+<p>含义：根据事务信息处理程序的基本功能定义的，采用 5 个测量参数，涉及多种因 素的间接度量方式。（因而可以估算出软件项目的规模）</p>
+<p> 优点：1.与程序设计语言无关，适用于过程式和非过程式程序设计语言；2.度量可以用于软件开发的初期（因为初期即能确定系统的输入/输出）</p>
+<p>缺点：1.涉及主观因素较多，如加权值；2.信息领域数据有时不容易采集；3.FP(功能点)的值没有直观物理意义。 <strong>两者联系：抽象度越高的语言，同样的功能点对应的码会越少。</strong> </p>
+<p><strong>▲软件复杂性的度量</strong></p>
+<p><strong>(一)控制结构复杂性</strong>: 圈复杂度/巡回秩数  V(G) = e-n+2 </p>
+<p>V(G)的值不要大于10,否则模块内部结构就会变得复杂,给编码和测试带来困难</p>
+<p>(二)<strong>体系结构的复杂性</strong> 1. 简单形态度量:弧与节点数之和 S=a+n; 弧与节点数之比 R=a/n;</p>
+<p>比值R体现了体系结构的连接密度,R越大,耦合度越高.</p>
+<p><strong>▲软件质量度量</strong> </p>
+<p><strong>软件质量的定义</strong>：软件制品满足规约和隐含需求特征及特征总和的程度。特征包括：功能性，可靠性，有效性，可使用性，可维护性，可移植性。·2011：增加了安全性 和兼容性的两个特征，扩展了子特征的概念。 软件特征的变化反映了软件与时俱进的特点，为软件质量度量和通过技术手段提高 软件制品质量指明了方向</p>
+<p><strong>McCall 三层次度量模型</strong>：质量要素指标（Factor）、评价准则（Criteria）、属 性度量(Metric)。Factor 包括：运行性、修正性、适应性。评价准则 21 个。</p>
+<p><strong>所有的质量度量模型（McCall、ISO）是层次性模型，不同在于分的哪些层次,每一 层有哪些方面。</strong> </p>
+<p><strong>【第十六章、软件项目管理与过程改进】</strong></p>
+<p>目的：软件项目管理的目的是使项目能够按照预定的成本、 进度、质量顺利完成。</p>
+<p> 一般经验估算模型：基于代码行的模型 E=a(KLOC)b+c；基于功能点的模型 E=a+b*FP，不同模型采用不同参数</p>
+<p><strong>▲软件项目度量与估算</strong> </p>
+<p><strong>（一）采用代码行/功能点度量的工作量估算</strong> </p>
+<p><strong>E=(a+4m+b)/6</strong>: 采用上述估算方法可估算出 LOC/FP 的乐观值 a，悲观值 b，一般值 m。（表格 16.5 的几列数据要会算）</p>
+<p>一般经验估算模型：基于代码行用 E=a(KLOC)^b+c,abc 查表；E 是人月工作量；基于功能点用 E=a+b<em>FP。ab 查表。</em></p>
+<p><strong>（二）COCOMO 模型（Constructive Cost Model,构造性成本模型）</strong></p>
+<p> COCOMO 模型分为基本、中间、详细三个层次。</p>
+<p>通信开销=u<em>n</em>(n-1)/2</p>
+<p>基本 COCOMO 模型：用于系统开发初期，估算系统开发工作量和所需要的时间。 <strong>E=a(L)^b; D=c(E)^d</strong>;abcd 查表；E 是人月工作量；D 是开发时间.<strong>N=E/D</strong> 是建议参加项目的<strong>人数</strong>。</p>
+<p>中间 COCOMO 模型：用于详细设计阶段，估算各个子系统的工作量和开发时间。 E=a(L)^b*EAF;L 是代码行估算值，单位 kloc；ab 查表。EAF 是工作量调节因子，EAF= （15 个 Fi 连乘）</p>
+<p>详细 COCOMO 模型：用于估算独立的软构件，如子系统内部的各个模块，软件的集成和测试。</p>
+<p><strong>（三）COCOMO Ⅱ</strong> </p>
+<p><strong>E=a(L)^b*EAF+ER</strong>。ER 表示复用构件、代码自动生成需要的工作量，单位人月。 </p>
+<p><strong>（四）Putnam 模型</strong> </p>
+<p>时间推前或延迟 k%对工作量的影响？</p>
+<p><strong>L=C<code>*</code>E^(1/3)<code>*</code>t^(4/3)</strong>.L是代码行数；E 是工作量，单位人年，包括维护；t 是开 发时间；C 表示软件开发环境的常数，查表。 </p>
+<p><strong>E=L^3/(C^3*t^4)。比如提前 10%的时间（t=0.9t）,算出工作量 E=1.524E。说明 要增加 52%的工作量。</strong></p>
+<p>Putnam 模型虽然揭示了软件项目的工作量、软件开发时间和程序代码长度三者之间的关系，但它没有反映软件制品、软件项目、软件开发人员和计算机软硬件资源等 属性。因此用该模型进行软件项目的成本估算是十分粗糙的。</p>
+<p><strong>▲软件项目计划—-工程进度安排</strong></p>
+<p><u><em><strong>两个重要的图：网络图（找关键路径，非关键路径的点可调控）；甘特图（网络图=&gt;甘特图）</strong></em></u></p>
+<p>Gantt 图优点：简单易用，容易修改，比 PERT 图更加直观方便。 </p>
+<p>Gantt 图缺点：不能显示各项活动之间的依赖关系</p>
+<p><strong>▲软件配置管理</strong> (版本,基线)</p>
+<p><strong>配置管理的目的</strong>：目的是为了减少混乱，提高软件生产率。是对软件修改进行标识、组织和控制的技术，用来协 调和控制整个系统的过程。 </p>
+<p><strong>基线技术</strong>：标志软件开发过程的各个里程碑，通过复审的软件配置项 (SCI,Software Configuration Item, SCI是配置管理的基本单位)是构成基线的重要内容,它标志开发过程中一 个阶段的结束。</p>
+<p><strong>基线的使用</strong>：1.某 SCI 成 为基线，就会被存入项目数 据库；2.要想改动 SCI，就要复制到私有工作区并在 项目数据库中锁住。3.在私有工作区完成修改并通过复审后，新SCI释放并送回项目 数据库,并解锁。</p>
+<p> ·常用基线：1.系统工程–系统规约；2.需求分析—软件需求规约；3.软件设计—设 计规约;4.编码—源代码；5.测试—测试计划、过程、数据；6.集成—可运行系统。</p>
+<p>常用工具：版本控制 git；DSEE</p>
+<p>DSEE：历史管理、配置管理、任务管理、监控管理。</p>
+<p>SCI:（1）系统规约；（2）软件项目规划；（3）需求分析结果；a.软件需求规约； b.可执行的或“纸样”原型；（ 4）初步用户手册；（5）设计规约；a.数据设计描 述；b.总体结构设计描述；c.模块设计描述；d.界面设计描述；e.对象描述；（6） 源代码清单；（7）测试规约；a.测试计划和过程；b.测试用例和实验结果；（8）操 作和安装手册；（9）可执行程序；a.每个模块的可执行代码；b.链接到一起的代码； （10）数据库描述；a.数据模型和文件结构；b.初始化映像；（11）联机用户手册； （12）维护文档； a.软件问题报告；b.维护申请；c.预计变更的顺序；（13）软件工程的标准和过程。</p>
+<p>配置管理的任务：标识配置项；版本管理。</p>
+<p>配置项的状态有三种：“草稿”（Draft）、“正式发布”（Released）和“正在修 改”(Changing)。变迁：配置项刚建立时其状态为“草稿”。配置项通过评审（或审 批)后，其状态变为“正式发布”。此后若更改配置项，必须依照“变更控制规程” 执行，其状态变为“正在修改”。当配置项修改完毕并重新通过评审（或审批）时， 其状态又变为“正式发布”，如此循环. </p>
+<p><strong>▲软件过程改进</strong></p>
+<p><strong>能力成熟度模型CMM</strong>:Capability Maturity Model for Software,软件成熟度模型。CMM 是一个概念模型,模型框架和表示是刚性的，不能随意改变。但模型的解释和实现有一定弹性。CMM 源于大型软件开发实践，反映了软件过程评估和软件过程改进的需要，是一个有效的大型软件开发、维护过程模型。 CMM 的应用进一步规范、指导软 件开发组织的自身建设，使软件开发组织从混乱的、低效的不成熟状态，向有纪律的、 高效的成熟状态转变。</p>
+<p><strong>常用词汇</strong>: 组织,项目,软件过程,组织的标准软件过程,定义项目的软件过程,组织的软件过程资产</p>
+<p><strong>关键过程域 KPA</strong>：描述软件的过程属性，通过完成一组相互关联的活动，实现建立 过程能力至关重要的一组目标。（软件开发组织的软件过程能力是组织能够承接软件 项目的重要依据）</p>
+<p>CMM 的能力成熟度共分 5 级：L1 初始级；L2 可重复级；L3 已定义级；L4 已管理级； L5 优化级。从 2 级开始，每级包括若干个 KPA。 ·CMM 评估阶梯：L1 初始级；L2（软件项目计划+软件项目跟踪与监督）；L3（综合 软件管理）；L4（定量的过程管理）；L5（过程变更管理）。</p>
+<p>什么是 CMMI？CMMI 是若干过程模型的综合和改进，是支持多个工程学科和领域的,系统的,一致的过程改进框架，能够适应现代工程的特点和需要，能够提高过程的质量和工作效率。</p>
+<p>CMMI 等级：L0 不完全级；L1 已执行级；L2 已管理级；L3 已定义级；L4 定量管理 级；L5 优化级。 </p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>软件工程</tag>
       </tags>
   </entry>
 </search>
