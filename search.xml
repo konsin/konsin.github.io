@@ -2130,6 +2130,10 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
 <p>创建好本地仓库并关联远程仓库后执行如下指令.其中master替换为本地分支名，source替换为远程分支名。<code> -f</code>表示清空远程分支。如果不加<code> -f</code> 则会提示<code>error: failed to push some refs to</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin master:source -f</span><br></pre></td></tr></table></figure>
 
+<p>这样处理以后再拉取仓库，并设置追踪</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull origin source:master</span><br><span class="line">git branch --set-upstream-to origin/source</span><br></pre></td></tr></table></figure>
+
+<p>后续更新文件后<code>git push</code>就不会提示 <code>To push the current branch and set the remote as upstream, use git push --set-upstream origin master</code>及<code>error: failed to push some refs to</code>了。</p>
 ]]></content>
       <categories>
         <category>配置教程</category>
