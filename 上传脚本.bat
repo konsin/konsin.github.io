@@ -1,8 +1,8 @@
 git add .
-git commit -m "淇敼鏂囦欢"
+git commit -m "修改文件"
 git push
 
 hexo g -d
 
-echo 涓婁紶缁撴潫
+echo 上传结束
 pause > nul
