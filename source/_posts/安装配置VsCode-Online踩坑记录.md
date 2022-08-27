@@ -4,7 +4,7 @@ date: 2022-08-26 21:12:37
 tags: 
 - Ubuntu
 - Linux
-- WebIDE
+- code-server
 categories:
 - 配置教程
 ---
