@@ -1,0 +1,2595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>ARM64系统安装softether</title>
+    <url>/2019/06/30/ARM64%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85softether/</url>
+    <content><![CDATA[<h1 id="ARM64系统安装softether"><a href="#ARM64系统安装softether" class="headerlink" title="ARM64系统安装softether"></a>ARM64系统安装softether</h1><p>官方文档 <a href="https://github.com/SoftEtherVPN/SoftEtherVPN/blob/master/src/BUILD_UNIX.md">https://github.com/SoftEtherVPN/SoftEtherVPN/blob/master/src/BUILD_UNIX.md</a> </p>
+<p>安装依赖包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt -y install cmake gcc g ++ libncurses5-dev libreadline-dev libssl-dev make zlib1g-dev</span><br></pre></td></tr></table></figure>
+
+<p>git下载源码包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure>
+
+<p>编辑makefile文件去掉 所有的<code>-m64</code></p>
+<p>然后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装完成</p>
+<p>启动&#x2F;停止服务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vpnserver start</span><br><span class="line">vpnserver stop</span><br></pre></td></tr></table></figure>
+
+<p>配置服务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vpncmd</span><br><span class="line">1 </span><br></pre></td></tr></table></figure>
+
+<p>输入<code>ServerPasswordSet</code>配置管理员密码.</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Android实现Spinner重复监听</title>
+    <url>/2021/03/26/Android_%E5%AE%9E%E7%8E%B0Spinner%E9%87%8D%E5%A4%8D%E7%9B%91%E5%90%AC/</url>
+    <content><![CDATA[<p>首先重构Spinner类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.widget.Spinner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">重构spinner以实现点击重复的选项仍然监听</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReSpinner</span> <span class="keyword">extends</span> <span class="title class_">Spinner</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> isDropDownMenuShown=<span class="literal">false</span>;<span class="comment">//标志下拉列表是否正在显示</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ReSpinner</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position, <span class="type">boolean</span> animate)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position, animate);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            <span class="comment">// 如果选择项是Spinner当前已选择的项,则 OnItemSelectedListener并不会触发,因此这里手动触发回调</span></span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">performClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.performClick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isDropDownMenuShown</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDropDownMenuShown</span><span class="params">(<span class="type">boolean</span> isDropDownMenuShown)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.isDropDownMenuShown=isDropDownMenuShown;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span></span><br><span class="line">    <span class="title function_">setSelection</span><span class="params">(<span class="type">int</span> position)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">sameSelected</span> <span class="operator">=</span> position == getSelectedItemPosition();</span><br><span class="line">        <span class="built_in">super</span>.setSelection(position);</span><br><span class="line">        <span class="keyword">if</span> (sameSelected) &#123;</span><br><span class="line">            getOnItemSelectedListener().onItemSelected(<span class="built_in">this</span>, getSelectedView(), position, getSelectedItemId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onDetachedFromWindow</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDetachedFromWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后将布局文件的标签修改为重构的View类</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这里使用了自定义控件的全路径名称 --&gt;</span><span class="tag">&lt;<span class="name">com.example.common.util.ReSpinner</span></span></span><br><span class="line"><span class="tag">      <span class="attr">...</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Debian-Pi-arch64 安装nextcloud</title>
+    <url>/2019/11/25/Debian-Pi-arch64%20%E5%AE%89%E8%A3%85nextcloud/</url>
+    <content><![CDATA[<h1 id="Debian-Pi-arch64-安装nextcloud"><a href="#Debian-Pi-arch64-安装nextcloud" class="headerlink" title="Debian-Pi-arch64 安装nextcloud"></a>Debian-Pi-arch64 安装nextcloud</h1><p>安装nextcloud过程中出现了,工具安装问题,u盘不能读取问题,NTFS格式U盘会提示0770权限问题的错误,下面详细说明下怎么解决的这些问题</p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p>这里我们使用apache2作为服务器，通过以下命令安装apache2.80端口被封的话自己改端口</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>NextCloud可用的数据库有MySQL&#x2F;MariaDB，PostgreSQL，Oracle。官方推荐MySQL&#x2F;MariaDB，这里以mysql为例，执行以下指令安装mysql：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<p>期间会让你设置root密码和密码强度，请自行判断。</p>
+<p>进入mysql命令界面：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<p>创建数据库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> database nextcloud;</span><br></pre></td></tr></table></figure>
+
+<p>再为NextCloud创建一个数据库用户:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>your_username</code>是用户名,<code>localhost</code>指明只能通过本地访问。要想通过远程访问可改为<code>remote</code>同时配置你的mysql访问策略。<code>your_passwd</code>即所对应的密码。<br> 如果遇到<code>Your password does not satisfy the current policy requirements</code> 问题，这是因为你的密码强度级别设置太高，通过<code>set global validate_password_policy=0</code>可以设置为最低级别，关于密码强度的说明请参考百度。</p>
+<p>为所创建的用户授予权限:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> nextcloud.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;your_username&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;your_passwd&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<p>到此数据库的部分已经完成了。</p>
+<h3 id="运行环境要求"><a href="#运行环境要求" class="headerlink" title="运行环境要求"></a>运行环境要求</h3><p>执行下面的命令安装php</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+
+<p>官方要求php5.0+，通过以下指令查看php版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
+
+<p>然后安装NextCloud所需的其它php依赖</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install php-zip</span><br><span class="line">apt-get install php-dompdf</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mysql</span><br></pre></td></tr></table></figure>
+
+<p>到此环境配置已经完成,</p>
+<h2 id="配置nextcloud"><a href="#配置nextcloud" class="headerlink" title="配置nextcloud"></a>配置nextcloud</h2><p>已经将从官网下载的安装包上传到服务器</p>
+<p>下面进行解压缩</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -xjf nextcloud-XX.XX.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<p>更改文件权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo chown -R root:root nextcloud</span><br></pre></td></tr></table></figure>
+
+<p>移动文件到<code>/var/www/html/</code>中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mv nextcloud /var/www/html</span><br></pre></td></tr></table></figure>
+
+<p>这时已经可以在浏览器输入<code>http://localhost/nextcloud</code>访问了</p>
+<p>但是还存在一堆问题.现在切换到root用户开始更改配置文件.</p>
+<p>打开config.php文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /var/www/html/nextcloud/config</span><br></pre></td></tr></table></figure>
+
+<p>配置储存盘&#x2F;数据目录.我是将NTFS格式的U盘挂载到了<code>/home/pi/mydisk/</code>并创建了nextcloud文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;datadirectory&#x27; =&gt; &#x27;/home/pi/mydisk/nextcloud&#x27;,</span><br></pre></td></tr></table></figure>
+
+<p>当提示数据目录要0770权限时:</p>
+<p>在nextcloud目录下config&#x2F;config.php文件中加入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;check_data_directory_permissions&#x27; =&gt; false</span><br></pre></td></tr></table></figure>
+
+<p>这一条语句是取消文件权限检测.</p>
+<h2 id="添加离线下载功能"><a href="#添加离线下载功能" class="headerlink" title="添加离线下载功能"></a>添加离线下载功能</h2><p>安装ocDownload插件.</p>
+<p>安装aria2</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install aria2 curl php-curl</span><br></pre></td></tr></table></figure>
+
+<p>配置aria2</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir /var/log/aria2c /var/local/aria2c</span><br><span class="line">touch /var/log/aria2c/aria2c.log</span><br><span class="line">touch /var/local/aria2c/aria2c.sess</span><br><span class="line">chown www-data.www-data -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">chmod 770 -R /var/log/aria2c /var/local/aria2c</span><br><span class="line">sudo -u www-data aria2c --enable-rpc --rpc-allow-origin-all -c -D --log=/var/log/aria2c/aria2c.log --check-certificate=false --save-session=/var/local/aria2c/aria2c.sess --save-session-interval=2 --continue=true --input-file=/var/local/aria2c/aria2c.sess --rpc-save-upload-metadata=true --force-save=true --log-level=warn --rpc-listen-all=false</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Debian</tag>
+        <tag>Linux</tag>
+        <tag>Nextcloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FLASK入门</title>
+    <url>/2020/06/10/FLASK%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h1 id="FLASK入门"><a href="#FLASK入门" class="headerlink" title="FLASK入门"></a>FLASK入门</h1><ol>
+<li><p>装饰器: 函数前使用<code>@app.*</code></p>
+<p><code>route(&#39;/&#39;)</code>设置url 路径,’&#x2F;‘为根目录</p>
+</li>
+<li><p>变量规则</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@app.route(&#x27;/user/&lt;username&gt;&#x27;)</span><br><span class="line">def show_user_profile(username):</span><br><span class="line">    # 显示用户名</span><br><span class="line">    return &#x27;User &#123;&#125;&#x27;.format(username)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/post/&lt;int:post_id&gt;&#x27;)</span><br><span class="line">def show_post(post_id):</span><br><span class="line">    # 显示提交整型的用户&quot;id&quot;的结果，注意&quot;int&quot;是将输入的字符串形式转换为整型数据</span><br><span class="line">    return &#x27;Post &#123;&#125;&#x27;.format(post_id)</span><br></pre></td></tr></table></figure>
+
+<p>转换器类型:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>默认的数据类型，接受没有任何斜杠“&#x2F;”的字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>接受整型</td>
+</tr>
+<tr>
+<td>float</td>
+<td>接受浮点类型</td>
+</tr>
+<tr>
+<td>path</td>
+<td>和 string 类似，但是接受斜杠“&#x2F;”</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>只接受 uuid 字符串</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Urls</p>
+<p><strong>重定向</strong></p>
+<p>在代码的 URL 设置时斜线只可多写不可少写；</p>
+<p><code>@app.route(&#39;/about&#39;)</code></p>
+<p>当访问 <code>http://127.0.0.1:5000/about</code> 时，页面会显示 <code>The about page</code> ；但是当访问 <code>http://127.0.0.1:5000/about/</code> 时，页面就会报错 <code>Not Found</code> 。</p>
+<p><code>@app.route(&#39;/about/&#39;)</code>都可以访问</p>
+<p>用 <code>redirect()</code> 函数重定向用户到其它地方。能够用 <code>abort()</code> 函数提前中断一个请求并带有一个错误代码。</p>
+<p><strong>URL构建</strong></p>
+<p>去构建一个 URL 来匹配一个特定的函数可以使用 <code>url_for()</code> 方法。</p>
+<p><code>url_for(&#39;static&#39;, filename=&#39;style.css&#39;)</code>这个文件应该存储在文件系统上的 static&#x2F;style.css 。</p>
+</li>
+<li><p>渲染模板</p>
+<p> <code>render_template()</code> 来渲染模板,<code>render_template(&#39;hello.html&#39;, name=name)</code></p>
+</li>
+<li><p>请求对象</p>
+<p><code>from flask import request</code></p>
+<p><code>@app.route(&#39;/login&#39;, methods=[&#39;POST&#39;, &#39;GET&#39;])</code>装饰器声明方法</p>
+<p><code>  if request.method == &#39;POST&#39;:</code>判断方法</p>
+<p> <code>log_the_user_in(request.form[&#39;username&#39;]) </code> request请求表单属性</p>
+</li>
+<li><p>文件上传</p>
+<p>HTML表单中需要设置属性<code>enctype=&quot;multipart/form-data&quot;</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/&#x27;</span> + secure_filename(f.filename))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Flask</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flask-scoketio_API</title>
+    <url>/2020/06/10/Flask-scoketio_API/</url>
+    <content><![CDATA[<h2 id="API-Reference"><a href="#API-Reference" class="headerlink" title="API Reference"></a>API Reference</h2><ol>
+<li><p><em><strong>class</strong></em> flask_socketio.<code>SocketIO(*app=None*, ***kwargs*)</code></p>
+<p>创建一个Flask-ScoketIO服务</p>
+<p>参数:</p>
+<p>​        <strong>app</strong> &#x3D; flask应用程序实例。如果在实例化此类时不知道应用程序实例，则在应用程序实例可用后调用。<code>socketio.init_app(app)</code></p>
+<p>​        <strong>manage_session</strong> &#x3D; 如果设置为 True，则此扩展将管理Socket.IO事件的用户会话。如果设置为False ，则使用 Flask 自己的会话管理。使用基于 Flask 的 Cookie 会话时，建议您将此集保留为 默认值True 。使用服务器端会话时，设置False 允许在 HTTP 路由和Socket.IO事件之间共享用户会话。</p>
+<p>​        <strong>message_queue</strong> &#x3D; 服务器可用于多进程通信的消息队列服务的连接 URL。使用单个服务器进程时不需要消息队列。</p>
+<p>​        <strong>channel</strong>&#x3D; 使用消息队列时通道名称。如果未指定通道，将使用默认通道。如果多个 SocketIO 进程群集需要使用相同的消息队列而不相互干扰，则每个群集应使用不同的通道。</p>
+<p>​        <strong>path</strong>&#x3D; Socket.IO服务器公开的路径。默认值为<code>&#39;socket.io&#39;</code> 。除非你知道你在做什么，否则请保持默认。</p>
+<p>​        <strong>resource</strong> &#x3D; 同 <code>path</code>.</p>
+<p>​        <strong>kwargs</strong> &#x3D; Socket.IO和Engine.IO服务器选项。</p>
+</li>
+<li><p>下面详细介绍了Socket.IO服务器选项：</p>
+<p>参数:</p>
+<p>​        <strong>client_manager</strong> &#x3D; 将管理客户端列表的客户端管理器实例。省略此选项后，客户端列表存储在内存结构中，因此无法使用多连接的服务器。在大多数情况下，不需要显式设置此参数。</p>
+<p>​        <strong>logger</strong> &#x3D; True启用日志记录集或传递记录器对象才能使用。Fasle禁用日志记录集 。默认值为False 。请注意，即使设置为False，也会记录致命错误。</p>
+<p>​        <strong>binary</strong>&#x3D; 支持二进制有效负载，将所有有效负载视为文本。在 Python 2 上，如果设置为True，则值将被视为文本，并且值将字符串<code>str</code>和字节<code>bytes</code>视为二进制值。此选项对 Python 3 没有影响.</p>
+<p>​        <strong>json</strong> &#x3D; 用于编码和解码数据包的替代 json 模块。自定义 json 模块必须具有与标准库版本兼容的 <code>dumps</code>和<code>loads</code>功能。要使用与 Flask 应用程序相同的 json 编码器和解码器，请使用flask.json 。</p>
+<p>​        <strong>async_handlers</strong> &#x3D; 如果设置为True ，则客户端的事件处理程序在单独的线程中执行。要同步运行客户端的处理程序，应设置为False 。默认值为 True。</p>
+<p>​        <strong>always_connect</strong> &#x3D; 设置为False时，新连接是证明的，直到连接处理程序返回其他连接False，此时它们被接受。当设置为True时，将立即接受连接，然后如果连接处理程序返回False断开连接。如果需要从连接处理程序发出事件，并且客户端在连接接受之前接收事件时，设置为True。在任何其他情况下使用默认值Fasle 。</p>
+</li>
+<li><p>Engine.IO服务器配置支持以下设置：</p>
+<p>参数: </p>
+<p>​        <strong>async_mode</strong> &#x3D; 使用异步模型。有关可用选项的说明，请参阅文档中的”部署”部分。有效的异步模式为<code>threading</code>, <code>eventlet</code>, <code>gevent</code>和<code>gevent_uwsgi</code>。如果未给出此参数，则首先尝试<code>eventlet</code>，然后<code>gevent_uwsgi</code>，<code>gevent</code>,最后<code>threading</code>。安装了其所有依赖项的第一个异步模式是所选的。</p>
+<p>​        <strong>ping_timeout</strong> &#x3D; 客户端等待服务器在断开连接前响应的时间（以秒为单位）。默认值为 60 秒。</p>
+<p>​        <strong>ping_interval</strong> &#x3D; 客户端 ping 服务器的时间间隔（以秒为单位）。默认值为 25 秒。</p>
+<p>​        <strong>max_http_buffer_size</strong> &#x3D; 使用轮询传输时消息的最大大小。默认值为 100，000，000 字节。</p>
+<p>​        <strong>allow_upgrades</strong> – 是否允许上传。默认值为 <code>True</code></p>
+<p>​        <strong>http_compression</strong> &#x3D; 使用轮询传输时是否压缩packages。默认值为 <code>True</code></p>
+<p>​        <strong>compression_threshold</strong> &#x3D; 仅当消息的字节大小大于此值时，才压缩消息。默认值为 1024 字节。</p>
+<p>​        <strong>cookie</strong> &#x3D; 包含客户端会话 ID 的 HTTP Cookie 的名称。如果设置为 None，则 Cookie 不会发送到客户端。默认值为 <code>&#39;io&#39;</code></p>
+<p>​        <strong>cors_allowed_origins</strong> &#x3D; 允许连接到此服务器的原点或源列表。默认情况下只允许相同的原点。将此参数设置为<code>&#39;*&#39;</code>允许所有源，或<code>[]</code>禁用 CORS 处理。</p>
+<p>​        <strong>cors_credentials</strong> &#x3D; 是否允许凭据（cookie、身份验证）用于此服务器的请求。默认值为 True</p>
+<p>​        <strong>monitor_clients</strong> &#x3D; 如果设置为True ，后台任务将确保关闭非活动客户端。设置为False禁用监视任务（不推荐）。默认值为 True</p>
+<p>​        <strong>engineio_logger</strong> &#x3D; 若要启用Engine.IO日志记录，请将其设置为True或传递要使用的记录器对象。要禁用日志记录，请设置为False。默认值为False。请注意，即使engineio_logger为False，也会记录致命错误。</p>
+</li>
+<li><p><strong><code>on</code>(<em>message</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>用于注册 SocketIO 事件处理程序的修饰器。</p>
+<p>此修饰器必须应用于 SocketIO 事件处理程序。例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@socketio.on(<span class="params"><span class="string">&#x27;my event&#x27;</span>, namespace=<span class="string">&#x27;/chat&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">handle_my_custom_event</span>(<span class="params">json</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;received json: &#x27;</span> + <span class="built_in">str</span>(json))</span><br></pre></td></tr></table></figure>
+
+<p>参数: </p>
+<p>​        <strong>message</strong>–事件的名称。这通常是用户定义的字符串，但已经定义了一些事件名。使用<code>&#39;message&#39;</code>定义接受字符串负载的处理程序，<code>&#39;json&#39;</code>定义接受json blob负载的处理程序，<code>&#39;connect&#39;</code>或<code>&#39;disconnect&#39;</code>为连接和断开连接事件创建处理程序。</p>
+<p>​        <strong>namespace</strong>&#x3D; 要注册处理程序的命名空间。默认值为全局命名空间</p>
+</li>
+<li><p><strong><code>on_error</code>(<em>namespace&#x3D;None</em>)</strong></p>
+<p>用于为 SocketIO 事件定义自定义错误处理程序。</p>
+<p>此修饰器可以应用于充当命名空间的错误处理程序的函数。当 SocketIO 事件处理程序引发异常时，将调用此处理程序。处理程序函数必须接受一个参数，这是引发的异常。例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@socketio.on_error(<span class="params">namespace=<span class="string">&#x27;/chat&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chat_error_handler</span>(<span class="params">e</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;An error has occurred: &#x27;</span> + <span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+
+<p>参数: </p>
+<p>​        <strong>namespace</strong>&#x3D; 要为其注册错误处理程序的命名空间。默认值为全局命名空间。</p>
+</li>
+<li><p><strong><code>on_error_default</code>(<em>exception_handler</em>)</strong></p>
+<p>用于定义 SocketIO 事件的默认错误处理程序。</p>
+<p>此修饰器可以应用于充当没有特定处理程序的任何命名空间的默认错误处理程序的函数。例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@socketio.on_error_default</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">error_handler</span>(<span class="params">e</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;An error has occurred: &#x27;</span> + <span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>on_event</code>(<em>message</em>, <em>handler</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>注册 SocketIO 事件处理程序。</p>
+<p><code>on_event</code>不需要修饰器,例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">on_foo_event</span>(<span class="params">json</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;received json: &#x27;</span> + <span class="built_in">str</span>(json))</span><br><span class="line"></span><br><span class="line">socketio.on_event(<span class="string">&#x27;my event&#x27;</span>, on_foo_event, namespace=<span class="string">&#x27;/chat&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<p>​        <strong>message</strong>&#x3D; 事件的名称。这通常是用户定义的字符串，但几个事件名称已定义。<code>&#39;message&#39;</code>用于定义采用字符串有效负载的处理程序、<code>&#39;json&#39;</code>定义获取 JSON Blob 负载的处理程序， <code>&#39;connect&#39;</code>  或<code>&#39;disconnect&#39;</code>为连接和断开连接事件创建处理程序。</p>
+<p>​        <strong>handler</strong>&#x3D; 处理事件的函数。</p>
+<p>​        <strong>namespace</strong>&#x3D; 要注册处理程序的命名空间。默认值为全局命名空间</p>
+</li>
+<li><p><em><em><code>emit</code>(<em>event</em>, args</em>, <em>kwargs</em>)</em>*</p>
+<p>发出服务器生成的 SocketIO 事件。</p>
+<p>此函数向一个或多个连接的客户端发出 SocketIO 事件。JSON blob 可以作为有效负载附加到事件。此功能可以在 SocketIO 事件上下文之外使用，因此，当服务器是事件的发起者时，在任何客户端上下文之外（如常规 HTTP 请求处理程序或后台任务中）都可以使用。例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/ping&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping</span>():</span><br><span class="line">    socketio.emit(<span class="string">&#x27;ping event&#x27;</span>, &#123;<span class="string">&#x27;data&#x27;</span>: <span class="number">42</span>&#125;, namespace=<span class="string">&#x27;/chat&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<p>​        <strong>event</strong> &#x3D; 要发出的用户事件的名称。<br>​        <strong>args</strong>&#x3D; 包含 JSON 数据作为有效负载发送的字典。<br>​        <strong>namespace</strong>&#x3D; 要发送消息的命名空间。默认值为全局命名空间。<br>​        <strong>room</strong>&#x3D; 将消息发送给给定房间中的所有用户。如果未包含此参数，则事件将发送给所有已连接的用户。<br>​        <strong>include_self</strong> - 设置为True在广播或寻址房间时包括发件人，设置为False发送给（除发件人）所有人<br>​        <strong>skip_sid</strong> &#x3D; 在广播或寻址房间时要忽略的客户端的会话 ID。这通常设置为消息的发起者，以便除客户端外的每个人都收到消息。要跳过多个 sids 传递列表。<br>​        <strong>callback</strong> - 如果给定，将调用此函数以确认客户端已收到消息。将传递给函数的参数是客户端提供的参数。回调函数只能在寻址单个客户端时使用。</p>
+</li>
+<li><p><strong><code>send</code>(<em>data</em>, <em>json&#x3D;False</em>, <em>namespace&#x3D;None</em>, <em>room&#x3D;None</em>, <em>callback&#x3D;None</em>, <em>include_self&#x3D;True</em>, <em>skip_sid&#x3D;None</em>, <em>**kwargs</em>)</strong></p>
+<p>发送服务器生成的 SocketIO 消息。</p>
+<p>此函数向一个或多个连接的客户端发送一个简单的 SocketIO 消息。消息可以是字符串或 JSON blob。这是比<code>emit()</code>更简单的版本，应该首选。此功能可以在 SocketIO 事件上下文之外使用，因此当服务器是事件的发起者时，它才适合使用。</p>
+<p>参数:</p>
+<p>​        <strong>data</strong>&#x3D; 要发送的消息，字符串或 JSON blob。</p>
+<p>​        <strong>json</strong> &#x3D; 如果<code>massage</code>是 JSON blob为True，否则 False</p>
+<p>​        <strong>namespace</strong>&#x3D; 要发送消息的命名空间。默认值为全局命名空间。</p>
+<p>​        <strong>room</strong>&#x3D; 仅向给定房间中的用户发送消息。如果未包含此参数，则会将消息发送给所有已连接的用户。</p>
+<p>​        <strong>include_self</strong> - 设置为<code>True</code>在广播或寻址房间时包括发件人，设置为<code>False</code>发送给（除发件人）所有人</p>
+<p>​        <strong>skip_sid</strong> &#x3D; 在广播或寻址房间时要忽略的客户端的会话 ID。这通常设置为消息的发起者，以便除客户端外的每个人都收到消息。要跳过多个 sids 传递列表。</p>
+<p>​        <strong>callback</strong> - 如果给定，将调用此函数以确认客户端已收到消息。将传递给函数的参数是客户端提供的参数。回调函数只能在寻址单个客户端时使用。</p>
+</li>
+<li><p><strong><code>close_room</code>(<em>room</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>关闭房间。</p>
+<p>此功能删除给定聊天室中的任何用户，然后从服务器中删除该文件室。此功能可以在 SocketIO 事件上下文之外使用。</p>
+<p>参数：    </p>
+<pre><code>    **room**= 要关闭的房间的名称。
+    **namespace**= 存在房间的命名空间。默认值为全局命名空间。
+</code></pre>
+</li>
+<li><p>**<code>run</code>(<em>app</em>, <em>host&#x3D;None</em>, <em>port&#x3D;None</em>, *<em>kwargs)</em>*</p>
+<p>运行 SocketIO Web 服务器。</p>
+<p>参数:</p>
+<p>​        <strong>app</strong>&#x3D; Flask应用程序实例。<br>​        <strong>host</strong>&#x3D; 要侦听的主机名或 IP 地址。默认值为 127.0.0.1。<br>​        <strong>port</strong>&#x3D; 服务器要侦听的端口号。默认值为 5000。<br>​        <strong>debug</strong>&#x3D; <code>True</code>在调试模式下启动服务器，<code>False</code>在正常模式下启动。<br>​        <strong>use_reloader</strong> – <code>True</code>启用 Flask 重装程序，<code>False</code>以禁用它。<br>​        <strong>extra_files</strong> &#x3D; Flask 重新加载程序应监视的其他文件的列表。默认值为None<br>​        <strong>log_output</strong> &#x3D; 如果<code>True</code>，服务器将记录所有连接。如果<code>False</code>禁用日志记录。默认为<code>True</code>在调试模式下，在正常模式下<code>False</code>。使用线程异步模式时不使用。<br>​        <strong>kwargs</strong> &#x3D; 其他 Web 服务器选项。Web 服务器选项特定于每个受支持异步模式中使用的服务器。请注意，在使用外部 Web 服务器（如 gunicorn）时，不会看到此处提供的选项，因为在这种情况下不会调用此方法。</p>
+</li>
+<li><p><strong>stop()</strong></p>
+<p>停止正在运行的 SocketIO Web 服务器。</p>
+<p>必须从 HTTP 或 SocketIO 处理程序函数调用此方法。</p>
+</li>
+<li><p><strong><code>sleep</code>(<em>seconds&#x3D;0</em>)</strong></p>
+<p>使用适当的异步模型休眠请求的时间量。</p>
+<p>这是一个实用程序函数，应用程序可以使用该函数将任务置于睡眠状态，而不必担心对所选异步模式使用正确的调用。</p>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Flask</tag>
+        <tag>Python</tag>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git强制上传本地分支</title>
+    <url>/2022/07/11/Git%E5%BC%BA%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF/</url>
+    <content><![CDATA[<p>采用这个方法可以让一个仓库存储不同的软件代码。如主分支存Hexo的网页代码，一个存Hexo的源代码。</p>
+<p>现在git上建立分支新source。</p>
+<p>如果还未建立本地git仓库。先执行如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/XXXX/XXXXX.git </span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;XXXX&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>创建好本地仓库并关联远程仓库后执行如下指令.其中master替换为本地分支名，source替换为远程分支名。<code> -f</code>表示清空远程分支。如果不加<code> -f</code> 则会提示<code>error: failed to push some refs to</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin master:source -f</span><br></pre></td></tr></table></figure>
+
+<p>这样处理以后再拉取仓库，并设置追踪</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull origin source:master</span><br><span class="line">git branch --set-upstream-to origin/source</span><br></pre></td></tr></table></figure>
+
+<p>后续更新文件后<code>git push</code>就不会提示 <code>To push the current branch and set the remote as upstream, use git push --set-upstream origin master</code>及<code>error: failed to push some refs to</code>了。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTML基础知识</title>
+    <url>/2020/06/30/HTML%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="HTML学习"><a href="#HTML学习" class="headerlink" title="HTML学习"></a>HTML学习</h1><p>[TOC]</p>
+<h2 id="HTML基础知识"><a href="#HTML基础知识" class="headerlink" title="HTML基础知识"></a>HTML基础知识</h2><h3 id="HTML标签"><a href="#HTML标签" class="headerlink" title="HTML标签"></a>HTML标签</h3><p>标签不区分大小写,推荐小写</p>
+<h4 id="标签种类"><a href="#标签种类" class="headerlink" title="标签种类"></a>标签种类</h4><ol>
+<li><p><strong>双标签</strong>(体标记)  :格式如<code>&lt;标记名&gt;&lt;/标记名&gt;  </code>.由开始和结束两个标记符组成的标记.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">例子:<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.shiyanlou.com&quot;</span>&gt;</span>实验楼<span class="tag">&lt;/<span class="name">a</span>&gt;</span> (第一个尖括号内科对属性进行设置)</span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span>        //html是根标记</span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span>        //头部标记;定义文档头部信息,一个 HTML 文档只能含有一对 <span class="tag">&lt;<span class="name">head</span>&gt;</span>标记</span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span>        //<span class="tag">&lt;<span class="name">title</span>&gt;</span>标记用于定义 HTML 页面的标题，必须位于<span class="tag">&lt;<span class="name">head</span>&gt;</span>标记之内。只能有一对</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span>        //<span class="tag">&lt;<span class="name">body</span>&gt;</span>标记用于定义 HTML 文档所要显示的内容.在<span class="tag">&lt;<span class="name">head</span>&gt;</span>之后.是用户所看到的.</span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span>            //用于对齐文字</span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span>                //<span class="tag">&lt;<span class="name">p</span>&gt;</span> 标签定义段落。</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>                //<span class="tag">&lt;<span class="name">a</span>&gt;</span> 标签定义超链接，用于从一张页面链接到另一张页面。</span><br><span class="line">                    //<span class="tag">&lt;<span class="name">a</span>&gt;</span> 元素最重要的属性是 href 属性，它指示链接的目标(指向标签)。</span><br><span class="line">                        例子:<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.shiyanlou.com&quot;</span>&gt;</span>实验楼<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                    //另一个属性是name属性,创建文档内的书签</span><br><span class="line">                        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#winter&quot;</span>&gt;</span>查看冬天。<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">h2</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span>=<span class="string">&quot;winter&quot;</span>&gt;</span>冬<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">                        点击查看冬天则跳转到冬所在行</span><br><span class="line">                    //target 属性：用于指定链接页面的打开方式，其取值有 _self(默认)                         和_blank(新开一个页面)</span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ol</span>&gt;</span><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dt</span>&gt;</span><span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dd</span>&gt;</span><span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mark</span>&gt;</span><span class="tag">&lt;/<span class="name">mark</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>单标签</strong>(空标记) :格式如:<code>&lt;标记名/&gt;  </code> ;</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span>     <span class="comment">&lt;!--换行--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span> /&gt;</span>    <span class="comment">&lt;!--水平分隔线--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="标签关系"><a href="#标签关系" class="headerlink" title="标签关系"></a>标签关系</h4><ol>
+<li><p>嵌套关系</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;head&gt;  </span><br><span class="line">    &lt;title&gt;  </span><br><span class="line">    &lt;/title&gt;  </span><br><span class="line">&lt;/head&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并列关系</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;head&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;&lt;/body&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="HTML-列表"><a href="#HTML-列表" class="headerlink" title="HTML 列表"></a>HTML 列表</h3><p>有序列表（ol），无序列表（ul）以及自定义列表（dl）。</p>
+<ol>
+<li><p>有序列表(ol)</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">语法格式:</span><br><span class="line"><span class="tag">&lt;<span class="name">ol</span> <span class="attr">type</span>=<span class="string">value1</span> <span class="attr">start</span>=<span class="string">value2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>        </span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>属性有 type start两种.type默认为数字列表(可设为”1”,”a”,”A”,”i”,”I”);</li>
+</ol>
+</li>
+<li><p>无序列表(ul)</p>
+<p>ul 的 type 属性：默认值(实心圆): disc，方块: square，空心圆: circle。</p>
+</li>
+<li><p>自定义列表（dl）</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dl</span>&gt;</span>                        自定义列表以<span class="tag">&lt;<span class="name">dl</span>&gt;</span> 标签开始。</span><br><span class="line">    <span class="tag">&lt;<span class="name">dt</span>&gt;</span>名词1<span class="tag">&lt;/<span class="name">dt</span>&gt;</span>            每个自定义列表项以 <span class="tag">&lt;<span class="name">dt</span>&gt;</span> 开始。</span><br><span class="line">    <span class="tag">&lt;<span class="name">dd</span>&gt;</span>名词1解释1<span class="tag">&lt;/<span class="name">dd</span>&gt;</span>            每个自定义列表项的定义以 <span class="tag">&lt;<span class="name">dd</span>&gt;</span> 开始。</span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="HTML-元数据"><a href="#HTML-元数据" class="headerlink" title="HTML 元数据"></a>HTML 元数据</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;meta&gt;标签提供关于 HTML 文档的元数据：描述（description）、关键词（keywords）、文档的作者（author）等其他元数据。在&lt;head&gt;标签中</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML-块"><a href="#HTML-块" class="headerlink" title="HTML 块"></a>HTML 块</h3><ol>
+<li>块级元素<ol>
+<li>总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示。宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制。</li>
+<li>常见块级元素： <h1>,<p>, <ul>, <table>。</li>
+</ol>
+</li>
+<li>内联元素<ol>
+<li>常见内联元素：<b>, <td>, <a>, <img>。</li>
+<li>内联元素在显示时通常不会以新行开始。</li>
+</ol>
+</li>
+</ol>
+<h3 id="HTML-布局（div，span）"><a href="#HTML-布局（div，span）" class="headerlink" title="HTML 布局（div，span）"></a>HTML 布局（div，span）</h3><p>table 元素布局：</p>
+<ul>
+<li>优点：</li>
+</ul>
+<ol>
+<li>理解比较简单。</li>
+<li>不同的浏览器看到的效果一般相同。</li>
+<li>table 在显示数据时更加方便</li>
+</ol>
+<ul>
+<li>缺点：</li>
+</ul>
+<ol>
+<li>显示样式和数据绑定在一起。</li>
+<li>布局的时候灵活度不高。</li>
+<li>一个页面可能会有大量的 table 元素，代码冗余度高。</li>
+<li>增加带宽。</li>
+<li>搜索引擎不喜欢这样的布局。</li>
+</ol>
+<p>div 元素布局：</p>
+<ul>
+<li>优点：</li>
+</ul>
+<ol>
+<li>符合 W3C 标准。</li>
+<li>搜索引擎更加友好。</li>
+<li>样式的调整更加方便，内容和样式的分离，使页面和样式的调整变得更加方便。</li>
+<li>节省代宽，代码冗余度低。</li>
+<li>表现和结构分离，在团队开发中更容易分工合作而减少相互关联性。</li>
+</ol>
+<h3 id="一些其他的属性"><a href="#一些其他的属性" class="headerlink" title="一些其他的属性"></a>一些其他的属性</h3><ol>
+<li>lang 属性:规定元素内容的语言。在以下标签中无效：<code>&lt;base&gt;, &lt;br&gt;, &lt;frame&gt;, &lt;frameset&gt;, &lt;hr&gt;, &lt;iframe&gt;, &lt;param&gt; 以及 &lt;script&gt;。</code></li>
+<li>style属性也比较常见</li>
+</ol>
+<h3 id="文本格式"><a href="#文本格式" class="headerlink" title="文本格式"></a>文本格式</h3><table>
+<thead>
+<tr>
+<th>标签</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><b></td>
+<td>定义粗体文本   <code>&lt;b&gt;新华网&lt;/b&gt;</code>         <b>新华网</b></td>
+</tr>
+<tr>
+<td><big></td>
+<td>定义大号字      <code>&lt;big&gt;新华网&lt;/big&gt;  </code>    <big>新华网</big></td>
+</tr>
+<tr>
+<td><em></td>
+<td>定义着重文字   <code>&lt;em&gt;新华网&lt;/em&gt;</code>     <em>新华网</em></td>
+</tr>
+<tr>
+<td><i></td>
+<td>定义斜体字       <code>&lt;i&gt;新华网&lt;/i&gt;</code>         <i>新华网</i></td>
+</tr>
+<tr>
+<td><small></td>
+<td>定义小号字       <code>&lt;small&gt;新华网&lt;/small&gt;</code>       <small>新华网</small></td>
+</tr>
+<tr>
+<td><strong></td>
+<td>定义加重语气   <code>&lt;strong&gt;新华网&lt;/strong&gt;</code>   <strong>新华网</strong></td>
+</tr>
+<tr>
+<td><sub></td>
+<td>定义下标字        <code>&lt;sub&gt;新华网&lt;/sub&gt;</code>     <sub>新华网</sub></td>
+</tr>
+<tr>
+<td><sup></td>
+<td>定义上标字        <code>&lt;sup&gt;新华网&lt;/sup&gt;</code>      <sup>新华网</sup></td>
+</tr>
+<tr>
+<td><ins></td>
+<td>定义插入字     <code>&lt;ins&gt;新华网&lt;/ins&gt;</code>     <ins>新华网</ins></td>
+</tr>
+<tr>
+<td><del></td>
+<td>定义删除字     <code>&lt;del&gt;新华网&lt;/del&gt;</code>     <del>新华网</del></td>
+</tr>
+<tr>
+<td><font></td>
+<td>定义字体属性   <code>&lt;font color=&quot;red&quot; size=&quot;4&quot;&gt;新华网&lt;/font&gt;</code>   <font color="red" size="4">新华网</font></td>
+</tr>
+</tbody></table>
+<h3 id="文档和网站架构"><a href="#文档和网站架构" class="headerlink" title="文档和网站架构"></a>文档和网站架构</h3><p>专用标签:</p>
+<ul>
+<li>标题：<header></li>
+<li>导航栏：<nav></li>
+<li>主要内容：<main>具有代表性的内容段落主题可以使用 <article>, <section>，<div>元素。</li>
+<li>侧栏：<aside>经常嵌套在<main>中</li>
+<li>页脚：<footer></li>
+</ul>
+<h2 id="HTML表格"><a href="#HTML表格" class="headerlink" title="HTML表格"></a>HTML表格</h2><h3 id="表格基本标签"><a href="#表格基本标签" class="headerlink" title="表格基本标签"></a>表格基本标签</h3><ol>
+<li><code>&lt;table&gt;标签</code> :用于在 HTML 文档中创建表格。它包含表名和表格本身内容的代码。<ol>
+<li>语法：<code>&lt;table&gt;... &lt;/table&gt;</code>；</li>
+<li>属性: <ol>
+<li>border 边框厚度</li>
+<li>cellspacing:单元格与单元格间距离</li>
+<li>cellpadding:文字与单元格之间距离</li>
+<li>width;height 宽度,高度</li>
+<li>bgcolor:颜色</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><code>&lt;tr&gt;标签</code>          用于定义每一行。</li>
+<li><code>&lt;td&gt;标签</code>    用于定义每一列。</li>
+<li><code>&lt;th&gt;标签</code>    用于定义标题;<ol>
+<li>colspan（合并行）和 rowspan（合并列）属性</li>
+</ol>
+</li>
+</ol>
+<h2 id="多媒体与嵌入概述"><a href="#多媒体与嵌入概述" class="headerlink" title="多媒体与嵌入概述"></a>多媒体与嵌入概述</h2><h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><ol>
+<li>图像标签    <code>&lt;img&gt; </code>标签(单标签)    语法为：&#96;<img src="url" alt="" />，<ol>
+<li>src 的值是图像文件路径。</li>
+<li>alt 规定图像的替代文本即当图片未成功显示的时候显示的文本信息。</li>
+<li>title 设置鼠标悬停时显示的内容（一般不用设置）</li>
+<li>设置 width 和 height 的值来设置图片的宽和高</li>
+</ol>
+</li>
+<li>相对路径:位于上一级目录就用”..&#x2F;“</li>
+<li>绝对路径:</li>
+<li><strong>自适应图片</strong>:width和height设置值为auto</li>
+</ol>
+<h3 id="视频和音频"><a href="#视频和音频" class="headerlink" title="视频和音频"></a>视频和音频</h3><ol>
+<li><p><code>&lt;video&gt;标签</code>和<code>&lt;audio&gt;标签</code></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_autoplay.asp">autoplay</a></td>
+<td>autoplay</td>
+<td>如果出现该属性，则视频在就绪后马上播放。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_controls.asp">controls</a></td>
+<td>controls</td>
+<td>如果出现该属性，则向用户显示控件，比如播放按钮。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_height.asp">height</a></td>
+<td><em>pixels</em></td>
+<td>设置视频播放器的高度。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_loop.asp">loop</a></td>
+<td>loop</td>
+<td>如果出现该属性，则当媒介文件完成播放后再次开始播放。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_preload.asp">preload</a></td>
+<td>preload</td>
+<td>如果出现该属性，则视频在页面加载时进行加载，并预备播放。如果使用 “autoplay”，则忽略该属性。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_src.asp">src</a></td>
+<td><em>url</em></td>
+<td>要播放的视频的 URL。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/html5/att_video_width.asp">width</a></td>
+<td><em>pixels</em></td>
+<td>设置视频播放器的宽度。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>&lt;source&gt; 标签</code>:</p>
+<ol>
+<li><code>&lt;source&gt;</code> 标签为媒介元素（比如<code>&lt;video&gt;</code>和<code> &lt;audio&gt;</code>）定义媒介资源。</li>
+</ol>
+</li>
+</ol>
+<h3 id="矢量图"><a href="#矢量图" class="headerlink" title="矢量图"></a>矢量图</h3><p>1.图库</p>
+<ul>
+<li>阿里巴巴矢量图标库 <a href="http://iconfont.cn/">http://iconfont.cn/</a></li>
+<li>谷歌浏览器里的矢量图库 <a href="https://icomoon.io/">https://icomoon.io/</a></li>
+</ul>
+<h3 id="iframe嵌入技术"><a href="#iframe嵌入技术" class="headerlink" title="iframe嵌入技术"></a>iframe嵌入技术</h3><p>iframe 元素会创建包含另外一个文档的内联框架（即行内框架）。</p>
+<p>属性:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_align.asp">align</a></td>
+<td>leftrighttopmiddlebottom</td>
+<td>不赞成使用。请使用样式代替。规定如何根据周围的元素来对齐此框架。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_frameborder.asp">frameborder</a></td>
+<td>10</td>
+<td>规定是否显示框架周围的边框。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_height.asp">height</a></td>
+<td><em>pixels</em><em>%</em></td>
+<td>规定 iframe 的高度。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_longdesc.asp">longdesc</a></td>
+<td><em>URL</em></td>
+<td>规定一个页面，该页面包含了有关 iframe 的较长描述。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_marginheight.asp">marginheight</a></td>
+<td><em>pixels</em></td>
+<td>定义 iframe 的顶部和底部的边距。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_marginwidth.asp">marginwidth</a></td>
+<td><em>pixels</em></td>
+<td>定义 iframe 的左侧和右侧的边距。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_name.asp">name</a></td>
+<td><em>frame_name</em></td>
+<td>规定 iframe 的名称。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_sandbox.asp">sandbox</a></td>
+<td>“”allow-formsallow-same-originallow-scriptsallow-top-navigation</td>
+<td>启用一系列对 <iframe> 中内容的额外限制。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_scrolling.asp">scrolling</a></td>
+<td>yesnoauto</td>
+<td>规定是否在 iframe 中显示滚动条。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_seamless.asp">seamless</a></td>
+<td>seamless</td>
+<td>规定 <iframe> 看上去像是包含文档的一部分。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_src.asp">src</a></td>
+<td><em>URL</em></td>
+<td>规定在 iframe 中显示的文档的 URL。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_srcdoc.asp">srcdoc</a></td>
+<td><em>HTML_code</em></td>
+<td>规定在 <iframe> 中显示的页面的 HTML 内容。</td>
+</tr>
+<tr>
+<td><a href="https://www.w3school.com.cn/tags/att_iframe_width.asp">width</a></td>
+<td><em>pixels</em><em>%</em></td>
+<td>定义 iframe 的宽度。</td>
+</tr>
+</tbody></table>
+<h2 id="HTML-表单"><a href="#HTML-表单" class="headerlink" title="HTML 表单"></a>HTML 表单</h2><h4 id="lt-form-gt-标签"><a href="#lt-form-gt-标签" class="headerlink" title="&lt;form&gt; 标签"></a><code>&lt;form&gt;</code> 标签</h4><p>​    定义html表单</p>
+<ol>
+<li><p>组成部分:</p>
+<ol>
+<li>表单标签：这里面包含了处理表单数据所用 CGI 程序的 URL 以及数据提交到服务器的方法。</li>
+<li>表单域：包含了文本框、密码框、隐藏域、多行文本框、复选框、单选框、下拉选择框和文件上传框等。</li>
+<li>表单按钮：包括提交按钮、复位按钮和一般按钮；用于将数据传送到服务器上的 CGI 脚本或者取消输入，还可以用表单按钮来控制其他定义了处理脚本的处理工作。</li>
+</ol>
+</li>
+<li><p>语法:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;form name=&quot;form_name&quot; method=&quot;get/post&quot; action=&quot;url&quot;&gt; &lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>name：定义表单的名字。</p>
+</li>
+<li><p>method：定义表单结果从浏览器传送到服务器的方式，默认参数为：get 。post 安全性更高，因此常用作传输密码等，而 get 安全性较低，一般用于查询数据。<strong>使用 get 请求用户将在他们的 URL 栏中看到数据，但是使用 post 请求用户将不会看到。</strong></p>
+</li>
+<li><p>action：用来指定表单处理程序的位置(服务器端脚本处理程序）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;form action=&quot;https:.com/&quot;&gt;</span><br><span class="line">&lt;!--数据发送到一个绝对URL：https:.com/--&gt;</span><br><span class="line">&lt;form action=&quot;/somewhere_else&quot;&gt;</span><br><span class="line">&lt;!-- 数据发送到一个相对URL --&gt;</span><br><span class="line">&lt;form action=&quot;#&quot;&gt;</span><br><span class="line">&lt;!-- 数据被发送到表单出现的相同页面上 --&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h4 id="表单元素"><a href="#表单元素" class="headerlink" title="表单元素"></a>表单元素</h4><h5 id="lt-input-gt-元素"><a href="#lt-input-gt-元素" class="headerlink" title="&lt;input /&gt;元素"></a><code>&lt;input /&gt;</code>元素</h5><ol>
+<li><p><code>&lt;input&gt; </code>标签规定了用户可以在其中输入数据的输入字段。单标签用法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;fname&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>type属性</p>
+<p>type的值有</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">text</td>
+<td align="left">定义常规文本输入。</td>
+</tr>
+<tr>
+<td align="left">radio</td>
+<td align="left">定义单选按钮输入（选择多个选择之一）</td>
+</tr>
+<tr>
+<td align="left">submit</td>
+<td align="left">定义提交按钮（提交表单）</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>required:输入值不能为空,如果输入值为空，将会提示错误信息。</p>
+</li>
+</ol>
+<h5 id="lt-select-gt-元素和-lt-option-gt-元素"><a href="#lt-select-gt-元素和-lt-option-gt-元素" class="headerlink" title="&lt;select&gt; 元素和&lt;option&gt;元素"></a><code>&lt;select&gt; </code>元素和<code>&lt;option&gt;</code>元素</h5><p> <code>&lt;select&gt;</code>元素定义下拉列表;<code>option</code>元素定义待选择选项</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;cars&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;volvo&quot;</span> <span class="attr">selected</span> &gt;</span>Volvo<span class="tag">&lt;/<span class="name">option</span>&gt;</span> //selected属性定义默认项</span><br><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;saab&quot;</span>&gt;</span>Saab<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="lt-textarea-gt-元素"><a href="#lt-textarea-gt-元素" class="headerlink" title="&lt;textarea&gt; 元素"></a><code>&lt;textarea&gt; </code>元素</h5><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">元素定义多行输入字段（文本域）：</span><br><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">&quot;message&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;10&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;30&quot;</span>&gt;</span></span><br><span class="line">The cat was playing.</span><br><span class="line">in the garden.</span><br><span class="line"><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Html</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL ERROR 1698 (28000) 解决方案</title>
+    <url>/2022/06/30/MySQL%20ERROR%201698%20(28000)%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h1 id="MySQL-ERROR-1698-28000-解决方案"><a href="#MySQL-ERROR-1698-28000-解决方案" class="headerlink" title="MySQL ERROR 1698 (28000) 解决方案"></a>MySQL ERROR 1698 (28000) 解决方案</h1><p>解决步骤：<br>1、停止MySQL服务</p>
+<p>~$ sudo service mysql stop</p>
+<p>2、以安全模式启动MySQL</p>
+<p>~$ sudo mysqld_safe –skip-grant-tables &amp;</p>
+<p>3、然后无需密码直接进入MySQL</p>
+<p>~$ mysql -u root</p>
+<p>4、查看user表，发现错误原因user表被修改了</p>
+<p>命令：mysql&gt; select user ,plugin from mysql.user</p>
+<p>错误：</p>
+<p>5、root的plugin应该和剩下的三种一样为 mysql_native_password</p>
+<p>即正确为：</p>
+<p>6、所以我们只需要修改过来就可以了</p>
+<p>mysql&gt; update mysql.user set authentication_string&#x3D;PASSWORD(‘newPwd’), plugin&#x3D;’mysql_native_password’ where user&#x3D;’root’;</p>
+<p>mysql&gt; flush privileges;</p>
+<p>mysql&gt; quit；</p>
+]]></content>
+      <categories>
+        <category>异常处理</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ocaml语言学习笔记</title>
+    <url>/2019/11/07/Ocaml%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Ocaml语言学习笔记"><a href="#Ocaml语言学习笔记" class="headerlink" title="Ocaml语言学习笔记"></a>Ocaml语言学习笔记</h1><h2 id="unit类型和简单的输入输出"><a href="#unit类型和简单的输入输出" class="headerlink" title="unit类型和简单的输入输出"></a>unit类型和简单的输入输出</h2><ol>
+<li><p>unit类型只有一个值();</p>
+</li>
+<li><p>从标准输入上读取整数: read_int    浮点数,字符串类似 (没有单独读取一个字符的),read_line</p>
+</li>
+<li><p>打印函数为 print_int ; 浮点数,字符,字符串类似.还有print_newline() 打印新行</p>
+<p>print_endline 也可以打印字符串,并换行</p>
+</li>
+<li><p>合并字符串 操作符 str1 ^ str2</p>
+</li>
+<li><p>字符串换    int_of_string   &#x2F;float_of_string</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Python批处理文档为Hexo格式</title>
+    <url>/2022/07/11/Python%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E6%A1%A3%E4%B8%BAHexo%E6%A0%BC%E5%BC%8F/</url>
+    <content><![CDATA[<p>需要将要处理的文件放到同一个文件夹，并在该文件夹下创建python文件。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, time</span><br><span class="line"></span><br><span class="line">path = <span class="string">r&quot;./&quot;</span>	<span class="comment">#采用相对路径读取当前目录md文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(path, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">&quot;.md&quot;</span> <span class="keyword">in</span> name: <span class="keyword">continue</span></span><br><span class="line">        <span class="built_in">print</span>(name)</span><br><span class="line">        _path = os.path.join(root, name)</span><br><span class="line">        <span class="comment">#editTime = time.strptime(os.path.getmtime(_path), &quot;%Y-%m-%d %H:%M:%S&quot;)</span></span><br><span class="line">        editTime = time.localtime(os.path.getmtime(_path)) <span class="comment">#获取文档最后修改时间</span></span><br><span class="line">        editTime = time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, editTime) <span class="comment">#格式化时间戳</span></span><br><span class="line">        _name = name[:<span class="built_in">len</span>(name)-<span class="number">3</span>]</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(_path, <span class="string">&quot;r+&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            old = f.read()</span><br><span class="line">            f.seek(<span class="number">0</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;title: %s\n&quot;</span> %_name)</span><br><span class="line">            f.write(<span class="string">&quot;date: %s\n&quot;</span> %editTime)</span><br><span class="line">            f.write(<span class="string">&quot;categories:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;tags:\n&quot;</span>)</span><br><span class="line">            f.write(<span class="string">&quot;---\n&quot;</span>)</span><br><span class="line">            f.write(old) <span class="comment">#将文件原内容追加到前缀后面</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安卓RecyclerView封装库</title>
+    <url>/2021/04/20/RecyclerView/</url>
+    <content><![CDATA[<p>代码仓库: <a href="https://github.com/yanzhenjie/SwipeRecyclerView">https://github.com/yanzhenjie/SwipeRecyclerView</a></p>
+<p>基于RecyclerView的封装，特性如下：</p>
+<ol>
+<li>Item侧滑菜单，支持水平分布、垂直分布</li>
+<li>Item长按拖拽、侧滑删除</li>
+<li>添加&#x2F;移除HeaderView&#x2F;FooterView</li>
+<li><strong>自动&#x2F;点击</strong>加载更多的功能</li>
+<li>支持二级列表，List形式、Grid形式、Staggered形式</li>
+<li>Sticky普通布局黏贴和ReyclerView分组黏贴</li>
+<li>支持AndroidX</li>
+</ol>
+]]></content>
+      <categories>
+        <category>工具资源</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu使用deb包安装JDK</title>
+    <url>/2019/09/14/Ubuntu%E4%BD%BF%E7%94%A8deb%E5%8C%85%E5%AE%89%E8%A3%85JDK/</url>
+    <content><![CDATA[<h1 id="Ubuntu使用deb包安装JDK"><a href="#Ubuntu使用deb包安装JDK" class="headerlink" title="Ubuntu使用deb包安装JDK"></a>Ubuntu使用deb包安装JDK</h1><h2 id="1-在oracle下载所需版本的jdk的deb包"><a href="#1-在oracle下载所需版本的jdk的deb包" class="headerlink" title="1.在oracle下载所需版本的jdk的deb包"></a>1.在oracle下载所需版本的jdk的deb包</h2><h3 id="2-安装jdk包"><a href="#2-安装jdk包" class="headerlink" title="2. 安装jdk包"></a>2. 安装jdk包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dpkg -i jdk-12.0.2_linux-x64_bin.deb (替换成自己的包的名称)</span><br></pre></td></tr></table></figure>
+
+<p>出现依赖问题,使用 <code>sudo apt install -f</code>修复</p>
+<h3 id="3-环境配置"><a href="#3-环境配置" class="headerlink" title="3. 环境配置"></a>3. 环境配置</h3><ol>
+<li><p>首先导入安装路径,<code>/jdk12.0.2/</code>这里替换成自己的版本的.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk12.0.2/bin/java 1</span><br><span class="line">sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk12.0.2/bin/javac 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>环境配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config java</span><br><span class="line">sudo update-alternatives --config javac</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="4-验证安装"><a href="#4-验证安装" class="headerlink" title="4.验证安装"></a>4.验证安装</h3><p>​        <code>java -version</code></p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apache2添加验证</title>
+    <url>/2019/11/24/apache2%E6%B7%BB%E5%8A%A0%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<p>如果希望将某些或所有网站限制仅允许特定用户或组访问，使用HTTP Auth（基于apache2）方式很容易实现。<br> 一、在CentOS上，httpd的配置文件默认在&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf文件，</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">&lt;Directory <span class="string">&quot;/var/www/html&quot;</span>&gt;</span><br><span class="line">    Options Indexes FollowSymLinks</span><br><span class="line"><span class="meta"># 下面这3行是默认的，可以直接改，或者注释掉</span></span><br><span class="line"><span class="meta">#    AllowOverride ALL</span></span><br><span class="line"><span class="meta">#    Order allow,deny</span></span><br><span class="line"><span class="meta">#    Allow from all</span></span><br><span class="line"><span class="meta"># 改成下面这样</span></span><br><span class="line">    AllowOverride authconfig</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow <span class="keyword">from</span> all</span><br><span class="line">    AuthName <span class="string">&quot;Web Access&quot;</span></span><br><span class="line"><span class="meta">#名字随意</span></span><br><span class="line">    AuthType Basic</span><br><span class="line">    AuthUserFile /<span class="keyword">var</span>/www/html/.htpasswd</span><br><span class="line"><span class="meta">#认证文件名字和位置和下面生成的要一致</span></span><br><span class="line">    Require valid-user</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里存放用户密码的文件就是.htpasswd， 位置和名称可以改。<br> 生成用户密码文件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">htpasswd <span class="operator">-</span>c <span class="operator">/</span><span class="keyword">var</span><span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>.htpasswd <span class="operator">&lt;</span>username<span class="operator">&gt;</span></span><br><span class="line">#创建第一个认证用户的时候用<span class="operator">-</span>c，其他用户要把<span class="operator">-</span>c去掉，否则会被覆盖掉</span><br><span class="line">重启httpd服务即可</span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
+
+<p>也可使用用户组来控制，也是编辑httpd配置文件，这里不写了。<br> 二、Ubuntu的apache配置文件编辑&#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;目录下的文件，根据虚拟站点有不同的名称，比如我的nagios配置文件就叫nagios.conf，看起来是这样子的：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Alias /nagios <span class="string">&quot;/usr/local/nagios/share&quot;</span></span><br><span class="line">&lt;<span class="built_in">Directory</span> <span class="string">&quot;/usr/local/nagios/share&quot;</span>&gt;</span><br><span class="line"><span class="comment">#  SSLRequireSSL</span></span><br><span class="line">   Options None</span><br><span class="line">   AllowOverride None</span><br><span class="line">   &lt;IfVersion &gt;= <span class="number">2.3</span>&gt;</span><br><span class="line">      &lt;RequireAll&gt;</span><br><span class="line">         Require all granted</span><br><span class="line"><span class="comment">#        Require host 127.0.0.1</span></span><br><span class="line">         AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">         AuthType Basic</span><br><span class="line">         AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">         Require valid-user</span><br><span class="line">      &lt;/RequireAll&gt;</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line"> &lt;IfVersion &lt; <span class="number">2.3</span>&gt;</span><br><span class="line">      Order allow,deny</span><br><span class="line">      Allow <span class="keyword">from</span> all</span><br><span class="line">     Order deny,allow</span><br><span class="line">     Deny <span class="keyword">from</span> all</span><br><span class="line">      AuthName <span class="string">&quot;Nagios Access&quot;</span></span><br><span class="line">      AuthType Basic</span><br><span class="line">      AuthUserFile /usr/local/nagios/etc/htpasswd.users</span><br><span class="line">      Require valid-user</span><br><span class="line">   &lt;/IfVersion&gt;</span><br><span class="line">&lt;/<span class="built_in">Directory</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu如果默认没有安装htpasswd工具的话，要先安装apache2-utils包：<br> sudo apt install apache2-utils<br> 生成用户密码的用法和CentOS是一样的。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Apache</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kodexplorer不修改版权改标签</title>
+    <url>/2019/07/10/kodexplorer%E4%B8%8D%E4%BF%AE%E6%94%B9%E7%89%88%E6%9D%83%E6%94%B9%E6%A0%87%E7%AD%BE/</url>
+    <content><![CDATA[<h1 id="kodexplorer不修改版权改标签"><a href="#kodexplorer不修改版权改标签" class="headerlink" title="kodexplorer不修改版权改标签"></a>kodexplorer不修改版权改标签</h1><ol>
+<li><p>自定义可道云名称和描述:</p>
+<p>这个很简单,在admin账号下,右上角下拉菜单选择系统设置就可以修改了</p>
+</li>
+<li><p>隐藏 页面底部版权信息 </p>
+<p>admin账号-&gt;系统设置-&gt;其他-&gt;自定义css</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.copyright-content</span>&#123;<span class="attribute">display</span>:none&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后可以自定义在页面底部显示自己的信息,方法是&#96; admin账号-&gt;系统设置-&gt;其他-&gt;自定义html</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var html = document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML;</span><br><span class="line">document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML = html + &quot;Copyright@ 1611253728@qq.com&quot;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐藏设置界面和下拉菜单中的<code>免费版</code>字样</p>
+<p>这里我通过添加自定义css没有效果所以是直接修改的css文件.请做好备份</p>
+<ol>
+<li><p>右键选择<code>免费版</code>,在右键菜单中选择<code>检查</code>;</p>
+</li>
+<li><p>复制标签名(我的是<code> version-vip</code> ),鼠标移到下图位置会显示改页面的css位置.</p>
+</li>
+<li><p>找到这个文件进行编辑.</p>
+</li>
+<li><p>ctrl+f 输入刚才复制的标签名进行搜索.</p>
+</li>
+<li><p>在属性中添加<code>visibility: hidden;</code>,并将<code>height</code>值改为0.</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.version-vip</span>&#123;<span class="attribute">visibility</span>: hidden;<span class="attribute">height</span>:<span class="number">0px</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存后就可以看到效果了</p>
+</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>KodExplorer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python学习笔记</title>
+    <url>/2020/03/27/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<ol>
+<li><p>每调用一次 <code>print()</code> 就会换一次行，你可以通过 <code>print()</code> 的另一个参数 <code>end</code> 来替换这个换行符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">print(&quot;my name is %s.I am %d years old&quot; % (&#x27;Shixiaolou&#x27;,4))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>print(&quot;&#123;:5d&#125;&quot;.format(a)) </code> 格式化输出语句.{:5d} 输出长度5的整型,str.format()传递参数</p>
+</li>
+<li><pre><code>print(&quot;-&quot; * 50)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">   </span><br><span class="line">   字符串若是乘上整数 n，将返回由 n 个此字符串拼接起来的新字符串。</span><br><span class="line"></span><br><span class="line">4. **while** </span><br><span class="line">   </span><br><span class="line">   ```python</span><br><span class="line">   while n &lt;= 100:</span><br><span class="line">       term *= x / n</span><br><span class="line">       result += term</span><br><span class="line">       n += 1</span><br><span class="line">       if term &lt; 0.0001: </span><br><span class="line">           break            </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>for语句</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for x in a:</span><br><span class="line">for x in a[:]:</span><br><span class="line">for i in range(5):  range(i,j,k) 以间隔K访问第i到第j个的数据.i和 k可省略</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>可以在循环后面使用可选的 <code>else</code> 语句。它将会在循环完毕后执行，除非有 <code>break</code> 语句终止了循环。</li>
+</ol>
+</li>
+<li><p><strong>列表&#x2F;序列(有点像数组?)  竟然还可以当作栈和队列使用</strong></p>
+<ol>
+<li><pre><code>a[0],访问第一个.
+a[-1],访问末尾第一个
+切片: 切片并不会改变正在操作的列表，切片操作返回其子列表
+    省略的第一个索引默认为零，省略的第二个索引默认为切片的字符串的大小：a[:]
+    a[i:j],访问第i到第j个的.
+    a[i:j:k]:以间隔K访问第i到第j个的数据.
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   列表也支持连接这样的操作，它返回一个新的列表：</span><br><span class="line">    a + [36, 49, 64, 81, 100]</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>切片赋值，此操作可以改变列表的尺寸，或清空它</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 替换某些值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[<span class="number">2</span>:<span class="number">5</span>] = [<span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters</span><br><span class="line">[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 现在移除他们</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[<span class="number">2</span>:<span class="number">5</span>] = []</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters</span><br><span class="line">[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 通过替换所有元素为空列表来清空这个列表</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[:] = []</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>len()</code> 可查看长度 ; <code>type()</code> 可查看类型</p>
+</li>
+<li><p>检查某值是否在列表中.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; a = [&#x27;ShiYanLou&#x27;, &#x27;is&#x27;, &#x27;cool&#x27;]</span><br><span class="line">&gt;&gt;&gt; &#x27;cool&#x27; in a</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查列表是否为空 <code>if list_name:</code></p>
+</li>
+<li><p>列表允许嵌套</p>
+</li>
+<li><pre><code>a.append(45) 在列表末尾添加数字45
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">9. ```</span><br><span class="line">   a.insert(1, 2) 在索引1处插入数字2</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>a.count(45)  统计 45 这个元素在列表中出现了多少次。
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">11. ```</span><br><span class="line">    a.remove(234) 移除列表中 值为234的数据</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>a.reverse()  反转列表
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">13. ```</span><br><span class="line">    a.extend(b) # 添加 b 的元素而不是 b 本身  类似于a + b</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>del a[-1]   删除a[-1]位置的元素
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">15. ```</span><br><span class="line">    遍历两个序列类型，你可以使用 zip() 函数。</span><br><span class="line">    for x, y in zip(a, b):</span><br><span class="line">    ...     print(&quot;&#123;&#125; uses &#123;&#125;&quot;.format(x, y))</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>&#96;&#96;&#96;<br>遍历列表（或任何序列类型）的同时获得元素索引值，你可以使用 enumerate()。<br>for i, j in enumerate([‘a’, ‘b’, ‘c’]):<br>…     print(i, j)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">17. ```</span><br><span class="line">    当作栈或队列时</span><br><span class="line">    a.append() 类似于push</span><br><span class="line">    a.pop()   栈的pop</span><br><span class="line">    a.pop(0)   队列的pop</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>列表推导式</strong></p>
+<ol>
+<li><pre><code>for x in range(10):
+     squares.append(x**2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   squares = list(map(lambda x: x**2, range(10)))</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>squares = list(map(lambda x: x**2, range(10)))
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">8. **元组**</span><br><span class="line">   </span><br><span class="line">   1. 元组是由数个逗号分割的值组成。</span><br><span class="line">   2. 元组是不可变类型</span><br><span class="line">   3. divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。</span><br><span class="line"></span><br><span class="line">9. **集合**  集合是一个**无序不重复元素**的集。</span><br><span class="line">   </span><br><span class="line">   1. 集合对象还支持 union（联合），intersection（交），difference（差）和 symmetric difference（对称差集）等数学运算</span><br><span class="line">   </span><br><span class="line">   2. 大括号或 set() 函数可以用来创建集合。</span><br><span class="line">      </span><br><span class="line">      **注意**：想要创建空集合，你必须使用 set() 而不是 &#123;&#125;。后者用于创建空字典，</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+&gt;&gt;&gt; a.pop()  # pop 方法随机删除一个元素并打印
+&#39;h&#39;
+&gt;&gt;&gt; a.add(&#39;c&#39;)    #插入一个元素 字符c
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">10. **字典**(dict)  是无序的键值对（`key:value`）集合</span><br><span class="line">    </span><br><span class="line">    1. ```</span><br><span class="line">       创建字典: data = &#123;&#x27;kushal&#x27;:&#x27;Fedora&#x27;, &#x27;kart_&#x27;:&#x27;Debian&#x27;, &#x27;Jace&#x27;:&#x27;Mac&#x27;&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>创建新的键值对：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">data[&#x27;parthan&#x27;] = &#x27;Ubuntu&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>del</code> 关键字删除任意指定的键值对</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">del 关键字删除任意指定的键值对</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>in</code> 关键字查询指定的键是否存在于字典中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;ShiYanLou&#x27; in data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>dict()</code> 可以从包含键值对的元组中创建字典。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dict(((&#x27;Indian&#x27;,&#x27;Delhi&#x27;),(&#x27;Bangladesh&#x27;,&#x27;Dhaka&#x27;)))</span><br><span class="line">&#123;&#x27;Indian&#x27;: &#x27;Delhi&#x27;, &#x27;Bangladesh&#x27;: &#x27;Dhaka&#x27;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>遍历字典用<code>items()</code>方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for x, y in data.items():</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>往字典中的元素添加数据</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">data.setdefault(&#x27;names&#x27;, []).append(&#x27;Ruby&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>dict.get(key, default)</code> 来索引键，如果键不存在，那么返回指定的 default 值。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>字符串</strong></p>
+<ol>
+<li><p>字符串标识 “…”和’…’都能表示,<strong>区别?</strong></p>
+</li>
+<li><p>如果你想要分几行输入字符串，并且希望行尾的换行符自动包含到字符串当中，可以使用三对引号：<code>&quot;&quot;&quot;...&quot;&quot;&quot;</code> 或 <code>&#39;&#39;&#39;...&#39;&#39;&#39;</code> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">print(&quot;&quot;&quot;\</span><br><span class="line"> Usage: thingy [OPTIONS]</span><br><span class="line">      -h                        Display this usage message</span><br><span class="line">      -H hostname               Hostname to connect to</span><br><span class="line"> &quot;&quot;&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法 <code>title()</code> 返回字符串的标题版本，即单词首字母大写其余字母小写。</p>
+</li>
+<li><p>方法 <code>upper()</code> 返回字符串全部大写的版本，反之 <code>lower()</code> 返回字符串的全部小写</p>
+</li>
+<li><p>方法 <code>swapcase()</code> 返回字符串大小写交换后的版本 :</p>
+</li>
+<li><p>方法 <code>isalnum()</code> 检查所有字符是否只有字母和数字</p>
+</li>
+<li><p>方法 <code>isalpha()</code> 检查字符串之中是否只有字母。</p>
+</li>
+<li><p>使用 <code>split()</code> 分割任意字符串，<code>split()</code> 允许有一个参数，用来指定字符串以什么字符分隔（默认为 <code>&quot; &quot;</code>）</p>
+</li>
+<li><p>方法 <code>join()</code> 使用指定字符连接多个字符串，它需要一个包含字符串元素的列表作为输入然后连接列表内的字符串元素。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; &quot;-&quot;.join(&quot;GNU/Linux is great&quot;.split())</span><br><span class="line">&#x27;GNU/Linux-is-great&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>strip(chars)</code>，用来剥离字符串首尾中指定的字符,不指定参数则默认剥离掉首尾的空格和换行符</p>
+</li>
+<li><p>使用 <code>lstrip(chars)</code> 或 <code>rstrip(chars)</code> 只对字符串左或右剥离。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">s.lstrip(&quot;cwsd.&quot;) #删除在字符串左边出现的&#x27;c&#x27;,&#x27;w&#x27;,&#x27;s&#x27;,&#x27;d&#x27;,&#x27;.&#x27;字符</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文本搜索</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">s.find(&quot;fora&quot;)   #find() 找到第一个匹配的子字符串，没有找到则返回 -1。</span><br><span class="line">-1</span><br><span class="line">&gt;&gt;&gt; s.startswith(&quot;fa&quot;) # 检查字符串是否以 fa 开头</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; s.endswith(&quot;reason&quot;) # 检查字符串是否以 reason 结尾</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>z &#x3D; s[::-1]  #把输入的字符串s 进行倒序处理形成新的字符串z</p>
+</li>
+</ol>
+</li>
+<li><p><strong>函数</strong></p>
+<ol>
+<li><p>定义</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def 函数名(参数):</span><br><span class="line">    语句1</span><br><span class="line">    语句2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数可以通过关键字参数的形式来调用，形如 keyword &#x3D; value。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; def func(a, b=5, c=10):</span><br><span class="line">...     print(&#x27;a is&#x27;, a, &#x27;and b is&#x27;, b, &#x27;and c is&#x27;, c)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; func(12, 24)</span><br><span class="line">a is 12 and b is 24 and c is 10</span><br><span class="line">&gt;&gt;&gt; func(12, c = 24)</span><br><span class="line">a is 12 and b is 5 and c is 24</span><br><span class="line">&gt;&gt;&gt; func(b=12, c = 24, a = -1)</span><br><span class="line">a is -1 and b is 12 and c is 24</span><br><span class="line">在上面的例子中你能看见调用函数时使用了变量名，比如 func(12,c = 24)，这样我们将 24 赋给 c 且 b 具有默认值。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>强制关键字参数</p>
+<p>函数的参数标记为只允许使用关键字参数.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def hello(*, name=&#x27;User&#x27;)</span><br><span class="line">输入hello(&#x27;shiyanlou&#x27;)报错</span><br><span class="line">hello(&#x27;shiyanlou&#x27;) 正确</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>文档字符串</strong>????不太懂,继续看</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">__doc__ 属性表示函数中中的注释部分</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>高阶函数（<em>Higher-order function</em>）或仿函数（<em>functor</em>）是可以接受函数作为参数的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建一个函数，将参数列表中每个元素都变成全大写</span><br><span class="line">&gt;&gt;&gt; def high(l):</span><br><span class="line">...     return [i.upper() for i in l]</span><br><span class="line">...</span><br><span class="line"># 创建高阶函数，接受一个函数和一个列表作为参数</span><br><span class="line">&gt;&gt;&gt; def test(h, l):</span><br><span class="line">...     return h(l)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; l = [&#x27;python&#x27;, &#x27;Linux&#x27;, &#x27;Git&#x27;]</span><br><span class="line"># 运行高阶函数，返回预期的结果</span><br><span class="line">&gt;&gt;&gt; test(high, l)</span><br><span class="line">[&#x27;PYTHON&#x27;, &#x27;LINUX&#x27;, &#x27;GIT&#x27;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>map</code>函数</strong></p>
+<p>接受一个函数和一个序列（迭代器）作为输入，然后对序列（迭代器）的每一个值应用这个函数，返回一个序列（迭代器）</p>
+</li>
+</ol>
+<p> <code>if __name__ == &#39;__main__&#39;:</code> 这条语句，它的作用是，只有在当前模块名为 <code>__main__</code> 的时候（即作为脚本执行的时候）才会执行此 <code>if</code> 块内的语句。</p>
+</li>
+<li><p><strong>文件</strong></p>
+<ol>
+<li><p>打开文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fobj = open(&quot;sample.txt&quot;)</span><br><span class="line">或者</span><br><span class="line">with open(&#x27;sample.txt&#x27;) as fobj:使用 with 语句处理文件对象，它会在文件用完后会自动关闭</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭文件 <code>fobj.close()</code></p>
+</li>
+<li><p>读取文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">使用 read() 方法一次性读取整个文件。 可是传入参数size</span><br><span class="line">readline() 能帮助你每次读取文件的一行。</span><br><span class="line">使用 readlines() 方法读取所有行到一个列表中。</span><br><span class="line">循环遍历文件对象来读取文件中的每一行。    for x in fobj:</span><br><span class="line">                                ...     print(x, end = &#x27;&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件写入 <code>write()</code>添加到文末</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fobj.write(&#x27;powerpork\n&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拷贝文件</p>
+<ol>
+<li><p>sys模块</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sys.argv包含所有命令行参数.</span><br><span class="line">sys.argv[0]是命令自身的名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#96;&#96;&#96;<br>enumerate(iterableobject)索引位置和对应值可以使用它同时得到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">6. 文本统计</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>count()函数 str.count(“char”, start,end),统计在start-end中字符char的次数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    </span><br><span class="line">    7. with语句</span><br><span class="line">       </span><br><span class="line">       它会在文件用完后会自动关闭，就算发生异常也没关系。它是 try-finally 块的简写</span><br><span class="line"></span><br><span class="line">14. **异常处理**</span><br><span class="line">    </span><br><span class="line">    1. `try...except`块处理异常</span><br><span class="line">       </span><br><span class="line">       `except  SyntaxError`语法异常</span><br><span class="line">       </span><br><span class="line">       `except NameError`未定义变量异常</span><br><span class="line">       </span><br><span class="line">       `except TypeError` 类型异常</span><br><span class="line">       </span><br><span class="line">       一个空的 except 语句能捕获任何异常</span><br><span class="line">    </span><br><span class="line">    2. raise抛出异常</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>try:<br>…     raise ValueError(“A value error happened.”)<br>… except ValueError:<br>…     print(“ValueError in our code.”)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">3. finally清理行为</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>不管有没有发生异常，finally 子句 在程序离开 try 后都一定会被执行。<br>在真实场景的应用程序中，finally 子句用于释放外部资源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">15. **类**</span><br><span class="line">    </span><br><span class="line">    1. 定义简单的类</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>class nameoftheclass(parent_class):<br> statement1<br> statement2<br> statement3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">2. `__init__ `方法</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>def <strong>init</strong>(self):<br> self.data &#x3D; []<br>类定义了 <strong>init</strong>() 方法的话，类的实例化操作会自动为新创建的类实例调用 <strong>init</strong>() 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">3. Python 中的继承</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>class Student(Person): Student类继承Person</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">4. 多继承</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>class MyClass(Parentclass1, Parentclass2,…):</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">5. 删除对象</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>关键字 del </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">6. 属性读取方法</span><br><span class="line"></span><br><span class="line">7. `@property` 装饰器</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>@property 装饰器就是负责把一个方法变成属性调用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">16. **模块**</span><br><span class="line">    </span><br><span class="line">    1. 模块的导入</span><br><span class="line">       </span><br><span class="line">       1. 可以由全局变量 `__name__` 得到模块的模块名</span><br><span class="line">       2. 从模块中导入指定的函数。`from bars import simplebar, starbar`</span><br><span class="line">    </span><br><span class="line">    2. 包</span><br><span class="line">       </span><br><span class="line">       1. 含有 `__init__.py` 文件的目录可以用来作为一个包</span><br><span class="line">    </span><br><span class="line">    3. 默认/第三方模块介绍</span><br><span class="line">       </span><br><span class="line">       1. os 模块    </span><br><span class="line">          </span><br></pre></td></tr></table></figure>
+<p>getuid() 函数返回当前进程的有效用户 id。<br>getpid() 函数返回当前进程的 id。getppid() 返回父进程的 id。<br>uname() 函数返回识别操作系统的不同信息<br>getcwd() 函数返回当前工作目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">2. Requests 模块  http库</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>可以使用 get() 方法获取任意一个网页</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">       </span><br><span class="line">       3. argparse 命令行参数处理模块</span><br><span class="line">    </span><br><span class="line">    4. 命令行参数</span><br><span class="line"></span><br><span class="line">17. **Collections 模块**</span><br><span class="line">    </span><br><span class="line">    1. `Counter` 是一个有助于 *hashable* 对象计数的 dict 子类</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>elements() 的方法，其返回的序列中，依照计数重复元素相同次数<br>most_common() 方法返回最常见的元素及其计数，顺序为最常见到最少。</p>
+</li>
+</ol>
+<pre><code>
+</code></pre>
+</li>
+<li><p><code>defaultdict</code> 是内建 <code>dict</code> 类的子类，它覆写了一个方法并添加了一个可写的实例变量。</p>
+<p>defaultdict() 第一个参数提供了 default_factory 属性的初始值，默认值为 None，default_factory</p>
+</li>
+<li><p><code>namedtuple</code>    命名元组有助于对元组每个位置赋予意义，并且让我们的代码有更好的可读性和自文档性。</p>
+</li>
+</ol>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Hexo及Gitee搭建博客</title>
+    <url>/2022/07/09/%E4%BD%BF%E7%94%A8Hexo%E5%8F%8AGitee%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p> Hexo官方文档地址：<a href="https://hexo.io/zh-cn/docs/">文档 | Hexo</a></p>
+<h1 id="Step1：安装Node-Js"><a href="#Step1：安装Node-Js" class="headerlink" title="Step1：安装Node.Js"></a>Step1：安装Node.Js</h1><p>前往<a href="%5Bnodejs.org%5D(https://nodejs.org/)">NPM官网</a>下载适合自己系统的Node.Js。</p>
+<p>更换为国内镜像源：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>查看当前镜像是否修改成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
+<p>Gitee生成&#x2F;添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成&#x2F;添加SSH公钥 - Gitee.com</a></p>
+<h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>同时为了推送到Gitee需要安装如下插件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step4：Hexo生成blog目录"><a href="#Step4：Hexo生成blog目录" class="headerlink" title="Step4：Hexo生成blog目录"></a>Step4：Hexo生成blog目录</h1><p>使用如下指令在指定文件夹中新建所需要的文件，<code>&lt;folder&gt;</code>为指定的空文件夹名</p>
+<p>如果是Window操作系统，需要设置PoweShell允许脚本运行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Step5：修改网站配置信息"><a href="#Step5：修改网站配置信息" class="headerlink" title="Step5：修改网站配置信息"></a>Step5：修改网站配置信息</h1><p>进入网站文件目录下，目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+
+<p>对<code> _config.yml</code>进行修改。</p>
+<p>在配置文件最后进行如下修改以推送到gitee仓库,github同理。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:XXXXXX.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>如果需要同时添加多个仓库则如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@gitee.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br><span class="line"></span><br><span class="line">- type: &#x27;git&#x27;</span><br><span class="line">  repo: git@github.com:xxxx.git</span><br><span class="line">  branch: xxx</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置结束"><a href="#配置结束" class="headerlink" title="配置结束"></a>配置结束</h1><p>之后要对网站进行修改都需要进入博客所在目录进行终端操作。</p>
+<h1 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h1><p>使用如下指令创建文档，而后在<code>source/_posts</code>文件下生成md文件。<code>[layout]</code>可省略使用默认布局.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="生成并部署"><a href="#生成并部署" class="headerlink" title="生成并部署"></a>生成并部署</h1><p>使用如下命令使，Hexo 在生成完毕后自动部署网站</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<p>该命令也可简写为<code>hexo g -d</code></p>
+<p>如未安装<code>hexo-deployer-git</code>插件则会出现<code># ERROR Deployer not found</code>错误。</p>
+<h1 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/tags</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;tags&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>tags</code>属性即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置多个标签。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">tags: </span><br><span class="line">    - Hexo</span><br><span class="line">    - Git</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分类"><a href="#创建分类" class="headerlink" title="创建分类"></a>创建分类</h1><p>在博客目录下打开终端输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>创建成功打开<code>source/categories</code>目录下的<code>index.md</code>文件添加type属性。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: XXXX</span><br><span class="line"><span class="built_in">date</span>: XXX-XXXX</span><br><span class="line"><span class="built_in">type</span>: <span class="string">&quot;categories&quot;</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
+<p>一篇文章只能设置一个分类。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何开启代理上传Git</title>
+    <url>/2022/07/11/%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF%E4%BB%A3%E7%90%86%E4%B8%8A%E4%BC%A0Git/</url>
+    <content><![CDATA[<p>如果Git上传时出现<code>Failed to connect to github.com port 443: Timed out</code>，则说明当前网络环境连不上Github，需要开启代理。</p>
+<p>以代理工具Clash为例。</p>
+<p>先开启Clash的系统代理<code>System Proxy</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111803521.png" alt="image-20220711180300486"></p>
+<p>然后再终端执行如下代码开启代理</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy https://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+
+<p>等上传结束后再执行指令关闭代理</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Clash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vim简单使用</title>
+    <url>/2020/05/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<h1 id="模式转换"><a href="#模式转换" class="headerlink" title="模式转换"></a>模式转换</h1><ul>
+<li><p><code>vi</code>启动后，进入普通模式</p>
+<p>控制屏幕光标的移动; 删除字符或行; 复制、粘贴; 查找文本</p>
+<ul>
+<li>输入键<code>i</code>，进入插入模式</li>
+<li>输入键<code>:</code>，进入命令模式</li>
+</ul>
+</li>
+<li><p>在插入模式下</p>
+<p>输入字符; 在命令模式下的命令，作为普通字符被插入到光标当前位置</p>
+<ul>
+<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
+</ul>
+</li>
+<li><p>在命令模式下</p>
+<p>替换文本; 保存文件; 退出程序</p>
+<ul>
+<li>输入键<code>Esc</code>(不是<code>E</code> <code>s</code> <code>c</code>3个键)，返回普通模式</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Vim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重学C++</title>
+    <url>/2022/08/18/%E9%87%8D%E5%AD%A6C/</url>
+    <content><![CDATA[<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><ul>
+<li><p>C++语言的优点，缺点，和主要用途？</p>
+<ul>
+<li>优点：<ul>
+<li>强大的封装抽象能力，强大的开发工程的能力</li>
+<li>高性能，运行快，占用资源少</li>
+<li>低功耗，特别适合微型嵌入式</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>语法相对复杂、细节较多</li>
+<li>需要一些好的规范和范式，否则代码难以维护</li>
+</ul>
+</li>
+<li>主要用途<ul>
+<li>大型桌面应用程序</li>
+<li>大型网站后台</li>
+<li>游戏和游戏引擎</li>
+<li>视觉库和AI引擎</li>
+<li>数据库</li>
+<li>自动驾驶系统、嵌入式设备等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>面向对象和面向过程的优缺点</p>
+<p>面向过程</p>
+<ul>
+<li>优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源;比如单片机、嵌入式开发、Linux&#x2F;Unix等一般采用面向过程开发，性能是最重要的因素。 </li>
+<li>缺点：没有面向对象易维护、易复用、易扩展</li>
+</ul>
+<p>面向对象</p>
+<ul>
+<li>优点：易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统更加灵活、更加易于维护 </li>
+<li>缺点：性能比面向过程低</li>
+</ul>
+</li>
+</ul>
+<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><ol>
+<li><p>数据类型</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">位</th>
+<th align="left">范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">char</td>
+<td align="left">1 个字节</td>
+<td align="left">-128 到 127 或者 0 到 255</td>
+</tr>
+<tr>
+<td align="left">unsigned char</td>
+<td align="left">1 个字节</td>
+<td align="left">0 到 255</td>
+</tr>
+<tr>
+<td align="left">signed char</td>
+<td align="left">1 个字节</td>
+<td align="left">-128 到 127</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">4 个字节</td>
+<td align="left">-2147483648 到 2147483647</td>
+</tr>
+<tr>
+<td align="left">unsigned int</td>
+<td align="left">4 个字节</td>
+<td align="left">0 到 4294967295</td>
+</tr>
+<tr>
+<td align="left">signed int</td>
+<td align="left">4 个字节</td>
+<td align="left">-2147483648 到 2147483647</td>
+</tr>
+<tr>
+<td align="left">short int</td>
+<td align="left">2 个字节</td>
+<td align="left">-32768 到 32767</td>
+</tr>
+<tr>
+<td align="left">unsigned short int</td>
+<td align="left">2 个字节</td>
+<td align="left">0 到 65,535</td>
+</tr>
+<tr>
+<td align="left">signed short int</td>
+<td align="left">2 个字节</td>
+<td align="left">-32768 到 32767</td>
+</tr>
+<tr>
+<td align="left">long int</td>
+<td align="left">8 个字节</td>
+<td align="left">-9,223,372,036,854,775,808 到 9,223,372,036,854,775,807</td>
+</tr>
+<tr>
+<td align="left">signed long int</td>
+<td align="left">8 个字节</td>
+<td align="left">-9,223,372,036,854,775,808 到 9,223,372,036,854,775,807</td>
+</tr>
+<tr>
+<td align="left">unsigned long int</td>
+<td align="left">8 个字节</td>
+<td align="left">0 到 18,446,744,073,709,551,615</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td align="left">4 个字节</td>
+<td align="left">精度型占4个字节（32位）内存空间，+&#x2F;- 3.4e +&#x2F;- 38 (~7 个数字)</td>
+</tr>
+<tr>
+<td align="left">double</td>
+<td align="left">8 个字节</td>
+<td align="left">双精度型占8 个字节（64位）内存空间，+&#x2F;- 1.7e +&#x2F;- 308 (~15 个数字)</td>
+</tr>
+<tr>
+<td align="left">long double</td>
+<td align="left">16 个字节</td>
+<td align="left">长双精度型 16 个字节（128位）内存空间，可提供18-19位有效数字。</td>
+</tr>
+<tr>
+<td align="left">wchar_t</td>
+<td align="left">2 或 4 个字节</td>
+<td align="left">1 个宽字符</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>关键字</p>
+<table>
+<thead>
+<tr>
+<th>asm</th>
+<th>else</th>
+<th>new</th>
+<th>this</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto</td>
+<td>enum</td>
+<td>operator</td>
+<td>throw</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>explicit</td>
+<td>private</td>
+<td>true</td>
+</tr>
+<tr>
+<td>break</td>
+<td>export</td>
+<td>protected</td>
+<td>try</td>
+</tr>
+<tr>
+<td>case</td>
+<td>extern</td>
+<td>public</td>
+<td>typedef</td>
+</tr>
+<tr>
+<td>catch</td>
+<td>false</td>
+<td>register</td>
+<td>typeid</td>
+</tr>
+<tr>
+<td>char</td>
+<td>float</td>
+<td>reinterpret_cast</td>
+<td>typename</td>
+</tr>
+<tr>
+<td>class</td>
+<td>for</td>
+<td>return</td>
+<td>union</td>
+</tr>
+<tr>
+<td>const</td>
+<td>friend</td>
+<td>short</td>
+<td>unsigned</td>
+</tr>
+<tr>
+<td>const_cast</td>
+<td>goto</td>
+<td>signed</td>
+<td>using</td>
+</tr>
+<tr>
+<td>continue</td>
+<td>if</td>
+<td>sizeof</td>
+<td>virtual</td>
+</tr>
+<tr>
+<td>default</td>
+<td>inline</td>
+<td>static</td>
+<td>void</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>int</td>
+<td>static_cast</td>
+<td>volatile</td>
+</tr>
+<tr>
+<td>do</td>
+<td>long</td>
+<td>struct</td>
+<td>wchar_t</td>
+</tr>
+<tr>
+<td>double</td>
+<td>mutable</td>
+<td>switch</td>
+<td>while</td>
+</tr>
+<tr>
+<td>dynamic_cast</td>
+<td>namespace</td>
+<td>template</td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>命名建议：变量名尽量使用“名词”或“形容词+名词”；函数名用“动词+名词”。原则上长度不超过32位</p>
+</li>
+<li><p>常用命名规则</p>
+<ol>
+<li>匈牙利命名法：开头字母用变量类型缩写后面用变量的英文或缩写</li>
+<li>Camel命名法：首单词小写，后面单词首字母大写</li>
+<li>Pascal命名法：每个单词第一个字母都大写</li>
+</ol>
+</li>
+<li><p>常量与变量</p>
+<ol>
+<li><p>常量：在程序运行过程中，值一直保持不变的量</p>
+<ul>
+<li><p>定义方法</p>
+<ul>
+<li>使用<code>#define </code>方式 <code>#define PI 3.1415</code></li>
+<li>使用<code> const</code>方式 <code>const double PI = 3.1415</code></li>
+</ul>
+<p>使用const定义常量可以在编译时检查出错误。而define只是宏定义，难以排错</p>
+</li>
+<li><p>常量类型</p>
+<ul>
+<li>整数常量：可以是十进制、八进制或十六进制的常量。</li>
+</ul>
+<p><strong>前缀</strong>指定基数：0x 或 0X 表示十六进制，0 表示八进制，不带前缀则默认表示十进制。</p>
+<p><strong>后缀</strong>是 U 和 L 的组合，U 表示无符号整数（unsigned），L 表示长整数（long）。</p>
+<ul>
+<li>浮点常量</li>
+</ul>
+<p>小数形式表示时，必须包含整数部分、小数部分，或同时包含两者。</p>
+<p>指数形式表示时， 必须包含小数点、指数，或同时包含两者。e后面指定指数</p>
+<ul>
+<li>布尔常量</li>
+<li>字符常量</li>
+</ul>
+<p>如果常量以 L（仅当大写时）开头，则表示它是一个宽字符常量（例如 L’x’），此时它必须存储在 <strong>wchar_t</strong> 类型的变量中。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2>]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构必背算法</title>
+    <url>/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="矩阵快速转置"><a href="#矩阵快速转置" class="headerlink" title="矩阵快速转置"></a>矩阵快速转置</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*稀疏矩阵用三元组表示。</span></span><br><span class="line"><span class="comment">需要设置num和cpot两个向量。</span></span><br><span class="line"><span class="comment">num[col]表示矩阵M中第col列中非零元的个数。</span></span><br><span class="line"><span class="comment">copt[col]指示M中第col列的第一个非零元在转置后的三元组的位置。</span></span><br><span class="line"><span class="comment">cpot[1] = 1; cpot[col] = cpot[col - 1] + num[col - 1],2&lt;=col&lt;=列数nu；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Status <span class="title">FastTransposeSMatrix</span><span class="params">( TSMatrix M, TSMatrix &amp;T)</span> </span>&#123;</span><br><span class="line">    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu; <span class="comment">//T的行数列数=M的列数行数，非零元个数相同</span></span><br><span class="line">    <span class="keyword">if</span>(T.tu) &#123;</span><br><span class="line">        <span class="keyword">for</span>(col = <span class="number">1</span>; col &lt; M.nu; ++col) num[col] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(t = <span class="number">1</span>; t &lt;= M.nu; ++t) ++num[M.data[t].j]; <span class="comment">//求M中每一列含非零元个数</span></span><br><span class="line">        cpot[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(col =  <span class="number">2</span>; col &lt;= M.nu; ++col)</span><br><span class="line">            cpot[col] = cpot[col - <span class="number">1</span>] + num[col - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(p = <span class="number">1</span>; p &lt;= M.tu; ++p) &#123;</span><br><span class="line">            col = M.data[p].j; q = cpot[col];</span><br><span class="line">            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;</span><br><span class="line">            T.data[q].e = M.data[p].e; ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><ol>
+<li><p>先序遍历：根左右<br />递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">       <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line"> <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">     <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">         <span class="built_in">visit</span>(p); <span class="built_in">Push</span>(S, p);<span class="comment">//访问当前节点并入栈</span></span><br><span class="line">         p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">         <span class="built_in">Pop</span>(S, p);            <span class="comment">//栈顶元素出栈</span></span><br><span class="line">         p=p-&gt;rchild;        <span class="comment">//访问右子树</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历：左根右</p>
+</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MidOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">            <span class="built_in">Push</span>(S, p);            <span class="comment">//当前节点入栈</span></span><br><span class="line">            p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">            <span class="built_in">Pop</span>(S, p); <span class="built_in">visit</span>(p); <span class="comment">//栈顶元素出栈,并访问</span></span><br><span class="line">            p=p-&gt;rchild;        <span class="comment">//下一次循环，访问右子树</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>后序遍历：左右根</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">          <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S);</span><br><span class="line">    p = T;                        <span class="comment">//p是遍历指针</span></span><br><span class="line">    r = <span class="literal">NULL</span>;                    <span class="comment">//r指向最近访问过的结点，以分清从左子树返回还是右子树返回</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//走到最左边</span></span><br><span class="line">            <span class="built_in">push</span>(S, p);</span><br><span class="line">            p = p-&gt;lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//向右</span></span><br><span class="line">            <span class="built_in">GetTop</span>(S, p);        <span class="comment">//读栈顶结点</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rchild &amp;&amp; p-&gt;rchild!=r) &#123; <span class="comment">//若左子树存在且未被访问过</span></span><br><span class="line">                p = p-&gt;rchild;    <span class="comment">//转向右</span></span><br><span class="line">                <span class="built_in">push</span>(S, p);        <span class="comment">//压入栈</span></span><br><span class="line">                p = p-&gt;lchild;    <span class="comment">//再走到左</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;            <span class="comment">//否则</span></span><br><span class="line">                <span class="built_in">pop</span>(S, p);        <span class="comment">//将结点弹出</span></span><br><span class="line">                <span class="built_in">visit</span>(p-&gt;data);    <span class="comment">//访问该结点</span></span><br><span class="line">                r = p;             <span class="comment">//记录最近访问过的结点</span></span><br><span class="line">                p = <span class="literal">NULL</span>;        <span class="comment">//结点访问完毕后，重置p指针</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>层次遍历</li>
+</ol>
+<p>层次遍历常用来求每个元素所在层数、某层结点个数、树的最大宽度、树的高度等<br />求树的高度的算法，借助队列</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">BtDepth</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;    <span class="comment">//树空，高度为0</span></span><br><span class="line">    <span class="type">int</span> front = <span class="number">-1</span>, rear = <span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> last = <span class="number">0</span>, level = <span class="number">0</span>;    <span class="comment">//last指向当前层的最右结点</span></span><br><span class="line">    BiTree Q[MaxSize];            <span class="comment">//设置队列Q</span></span><br><span class="line">    Q[++rear] = T;                <span class="comment">//根结点入队</span></span><br><span class="line">    BiTree p;</span><br><span class="line">    <span class="keyword">while</span>(front &lt; rear) &#123;        <span class="comment">//队不空，则循环</span></span><br><span class="line">        p=Q[++front];            <span class="comment">//队列元素出队，访问当前结点</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;lchild) </span><br><span class="line">            Q[++rear] = p-&gt;lchild;    <span class="comment">//左孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;rchild)</span><br><span class="line">            Q[++rear] = p-&gt;rchild;    <span class="comment">//右孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(front == last) &#123;</span><br><span class="line">            level++;                <span class="comment">//层数加一</span></span><br><span class="line">            last = rear;            <span class="comment">//last指向下层最后一个结点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><p>记忆非递归算法更为合适，因为仅仅是把队列和栈替换。<br />全局变量：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Boolean visited[MAX];            <span class="comment">//访问标志数组</span></span><br><span class="line"><span class="built_in">Status</span> (*VisitFunc)(<span class="type">int</span> V);        <span class="comment">//函数变量</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>广度优先搜索：</li>
+</ol>
+<p>类似于树的按层次遍历。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited</span></span><br><span class="line"><span class="comment">//辅助队列Q保存正在访问顶点的下一层顶点</span></span><br><span class="line"><span class="comment">//visited标志顶点是否被访问过，防止被多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE;</span></span></span><br><span class="line"><span class="params"><span class="function">    InitQueue(Q);                    <span class="comment">//置空的辅助队列Q</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">if</span>(!visited[v]) &#123;            <span class="comment">//v未被访问</span></span></span></span><br><span class="line"><span class="params"><span class="function">            visited[v] = TRUE; </span></span></span><br><span class="line"><span class="params"><span class="function">            EnQueue(Q, v);            <span class="comment">//v入队列</span></span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">while</span>(!QueueEmpty(Q)) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                DeQueue(Q, u);        <span class="comment">//队头元素出队并置为u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                Visit(u);            <span class="comment">//访问u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="keyword">for</span>(w = FirstNeighbor(G, u); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, u, w))</span></span></span><br><span class="line"><span class="params"><span class="function">                    <span class="keyword">if</span>(!visited[w]) &#123;        <span class="comment">//w为u的尚未访问的临接顶点</span></span></span></span><br><span class="line"><span class="params"><span class="function">                        visited[w] = TRUE;</span></span></span><br><span class="line"><span class="params"><span class="function">                        EnQueue(Q, w);</span></span></span><br><span class="line"><span class="params"><span class="function">                    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">            &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">        &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>深度优先搜索：<br> 递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v))</span> </span>&#123;</span><br><span class="line">VisitFunc = Visit;        <span class="comment">//使用全局变量VisitFunc，使DFS不必设函数指针参数。</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE; <span class="comment">//访问标志数组初始化</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">  <span class="keyword">if</span>(!visited[v]) <span class="built_in">DFS</span>(G, v);    <span class="comment">//对未访问的顶点调用DFS</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从第v个顶点出发递归地深度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    visited[v] = TRUE; <span class="built_in">VisitFunc</span>(v);    <span class="comment">//访问第v个顶点</span></span><br><span class="line">    <span class="keyword">for</span> (w = <span class="built_in">FirstNeighbor</span>(G, v); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, v, w))</span><br><span class="line">        <span class="keyword">if</span>(!visited[w]) <span class="built_in">DFS</span>(G, w);    <span class="comment">//对v的尚未访问的邻接顶点w递归调用DFS</span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p> 非递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//按深度优先非递归遍历图G，使用辅助栈S和访问标记数组visited</span></span><br><span class="line"><span class="comment">//栈S来记忆下一步可能访问的顶点</span></span><br><span class="line"><span class="comment">//visited标记顶点是否被访问过，防止多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> w;            <span class="comment">//顶点序号</span></span><br><span class="line">    <span class="built_in">InitStack</span>(S);    <span class="comment">//初始化栈S</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; G.vexnum; i++) visited[i] = FALSE;</span><br><span class="line">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span><br><span class="line">        <span class="keyword">if</span>(!visited[v]) &#123;</span><br><span class="line">            <span class="built_in">Push</span>(S, v); visited[v] = TRUE;    <span class="comment">//v入栈</span></span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">                k = <span class="built_in">Pop</span>(S); <span class="built_in">visit</span>(k);    <span class="comment">//访问栈顶结点</span></span><br><span class="line">                <span class="keyword">for</span>(w = <span class="built_in">FirstNeighbor</span>(G, k); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, k, w))</span><br><span class="line">                <span class="keyword">if</span>(!visited[w]) &#123;</span><br><span class="line">                    <span class="built_in">Push</span>(S, w);</span><br><span class="line">                    visited[w] = TRUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="最小生成树算法"><a href="#最小生成树算法" class="headerlink" title="最小生成树算法"></a>最小生成树算法</h2><ol>
+<li><p>Prim算法：适合边稠密的图</p>
+<ol>
+<li><p>算法思想：初始时从图中任取一顶点加入树T，此时树中只含有一个顶点，之后选择一个与当前T中顶点集合距离最近的顶点，并将该顶点和相应的边加入T，每次操作后T中顶点数和边数都增1.以此类推，直至图中所有的顶点都并入T，得到的T就是最小生成树。</p>
+</li>
+<li><p>所需添加的数据结构closedge[]，记录从U到V-U具有最小代价的边</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> &#123;</span><br><span class="line">VertexType adjvex;    <span class="comment">//最小代价的边在U中依附的顶点</span></span><br><span class="line">VRType lowcost;        <span class="comment">//最小代价的边的权值；</span></span><br><span class="line">&#125; closedge[ MAX_VERTEX_NUM ]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>算法实现（一般不考）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PRIM</span><span class="params">(MGraph G, VertexType u)</span> </span>&#123;</span><br><span class="line">k = <span class="built_in">LocateVex</span>(G, u);</span><br><span class="line"><span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j)     <span class="comment">//初始化辅助数组</span></span><br><span class="line">  <span class="keyword">if</span>(j != k) closedge[j] = &#123;u, G.arcs[k][j].adj&#125;;</span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>;        <span class="comment">//初始，U=&#123;u&#125;</span></span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; G.vexnum; ++i) &#123;</span><br><span class="line">  k = <span class="built_in">minimum</span>(closedge);        <span class="comment">//离当前生成树距离最短的点作为下一顶点</span></span><br><span class="line">  <span class="built_in">printf</span>(closedge[k].adjvex, G.vexs[k]);    <span class="comment">//输出生成树的边</span></span><br><span class="line">  closedge[k].lowcost = <span class="number">0</span>;    <span class="comment">//将该点并入生成树U集</span></span><br><span class="line">  <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j) <span class="comment">//更新未并入U的点离生成树的距离。</span></span><br><span class="line">      <span class="keyword">if</span>(G.arcs[k][j].adj &lt; closedge[j].lowcost)    </span><br><span class="line">          closedge[j] = &#123;G.vexs[k], G.arcs[k][j].adj&#125;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每一步的状态表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/1379805/1632216066656-3768a3d0-a6bb-4826-aca9-2077804df767.jpeg" alt="1A18DDB3-14CA-433F-8F92-A97B744CB996.jpeg"></p>
+<ol start="2">
+<li><p>Kruskal算法：适合边稀疏而顶点较多的图</p>
+<ol>
+<li>算法思想：初始时为只有n个顶点而无边的非连通图T&#x3D;{V, {} }，每个顶点自成一个连通分量，然后按照边的权值由小到大的顺序，不断选取当前未被选取过且权值最小的边，若该边依附的顶点落在T中不同的连通分量上，则将此边加入T，否则舍弃此边而选取下一条权值最小的边。以此类推，直至T中所有顶点都在一个连通分量上。</li>
+</ol>
+</li>
+</ol>
+<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><ol>
+<li><p>Dijkstra算法，求单个点到其他点的最短路径。</p>
+<ol>
+<li><p>所需辅助数组</p>
+<ol>
+<li>dist[]：记录从源点到其他各顶点当前的最短路径长度，如两个点未直接相连置为∞</li>
+<li>path[]：表示从源点到顶点i之间最短路径上i之前的一个结点。用于最后追溯最短路径。</li>
+</ol>
+</li>
+<li><p>算法过程：贪心策略，按长度递增的次序产生各最短路径。</p>
+<ol>
+<li><p>初始化dist，和集合S&#x3D;{0}</p>
+</li>
+<li><p>从顶点集合V-S中选出dist最小的点 j ，并入S</p>
+</li>
+<li><p>更新dist[k] &#x3D; dist[j] + arcs[j][k] &lt; dsit[k] ? dist[j]+arcs[j][k] : dsit[k]</p>
+</li>
+<li><p>重复2-3步，直到所有点都并入S</p>
+</li>
+</ol>
+</li>
+<li><p>求解过程表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111632152.jpeg" alt="850BE2D4-C874-45CF-B587-1C2E74312442.jpeg"></p>
+<ol start="2">
+<li><p>Floyd算法，求所有点间的最短距离。</p>
+<ol>
+<li><p>算法思想：用每个顶点作为中间结点计算路径长度并与原路径长度进行比较，更新矩阵为较小的值。重复n次就得到所有的最短路径长度。</p>
+</li>
+<li><p>算法伪代码（不重要）要会算每次迭代的矩阵，初始的矩阵为邻接矩阵。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FLOYD</span><span class="params">(Mgraph G, DistancMatrix D)</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span>(u = <span class="number">0</span>; u &lt; G.vexnum; ++u)</span><br><span class="line">  <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">      <span class="keyword">for</span>(w = <span class="number">0</span>; w &lt; G.vexnum; ++w)</span><br><span class="line">          <span class="keyword">if</span>(D[v][u] + D[u][w] &lt; D[v][w]) &#123; <span class="comment">//从v经过u到w的一条路径更短。</span></span><br><span class="line">              D[v][w] = D[v][u] + D[u][w];</span><br><span class="line">          &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ol start="3">
+<li>直接插入排序</li>
+</ol>
+<p>思想：假设前部分序列已经有序，从后部分无序序列中选择元素插入到前面有序序列的合适位置，最终整体有序。是稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//A[0] 用作哨兵, n为数组长度</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; i++)        <span class="comment">// 依次将A[2]-A[n]插入到前面已排序序列</span></span><br><span class="line">        <span class="keyword">if</span>(A[i] &lt; A[i<span class="number">-1</span>]) &#123;        <span class="comment">//若A[i]&lt;A[i-1]</span></span><br><span class="line">            A[<span class="number">0</span>] = A[i];        <span class="comment">//把A[i]复制为哨兵</span></span><br><span class="line">            <span class="keyword">for</span>(j = i<span class="number">-1</span>; A[<span class="number">0</span>] &lt; A[j]; --j)    <span class="comment">//在前端有序队列中查找插入位置</span></span><br><span class="line">                A[j+<span class="number">1</span>] = A[j];    <span class="comment">//将前面有序序列的元素后移，空出位置。</span></span><br><span class="line">            A[j+<span class="number">1</span>] = A[<span class="number">0</span>];        <span class="comment">//插入到空出来的位置。</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>折半插入排序</li>
+</ol>
+<p>思想：将直接插入排序中移位操作中的比较单独提出来。变成，折半查找出元素的待插入位置，然后再移动元素</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        A[<span class="number">0</span>] = A[i];</span><br><span class="line">        low = <span class="number">1</span>; high = i - <span class="number">1</span>;    <span class="comment">//设置折半查找范围</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt;= high) &#123;    <span class="comment">//折半查找</span></span><br><span class="line">            mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(A[mid] &gt; A[<span class="number">0</span>]) high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> low = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(j = i<span class="number">-1</span>; j &gt;= high+<span class="number">1</span>; --j)</span><br><span class="line">            A[j+<span class="number">1</span>] = A[j];</span><br><span class="line">        A[high+<span class="number">1</span>] = A[<span class="number">0</span>];    <span class="comment">//插入</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>希尔排序</li>
+</ol>
+<p>思想（重要）：先将待排序表分割成若干由相隔某个增量的记录组成的一个子表，对各个子表分别进行直接插入排序，当整个表中元素已经基本有序时，再对全体记录进行一次直接插入排序。<br />不稳定的排序方法。</p>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ol start="4">
+<li>冒泡排序</li>
+</ol>
+<p>思想：从后往前两两比较相邻元素的值，若为逆序，则交换他们，直到序列比较完。若第n趟结束时没有交换，则冒泡排序结束。是一种稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(j = n<span class="number">-1</span>; j &gt; i; j--)     <span class="comment">//一趟冒泡过程</span></span><br><span class="line">            <span class="keyword">if</span>(A[j<span class="number">-1</span>] &gt; A[j]) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(A[j<span class="number">-1</span>], A[j]);</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="literal">false</span>) <span class="keyword">return</span>;    <span class="comment">//本趟遍历后没有发生交换，已经有序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>快速排序（重要）</li>
+</ol>
+<p>思想：基于分治思想。通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行快速排序。 不稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//一趟快速排序的过程，划分算法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(ElemTYpe A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    pivot = A[low];            <span class="comment">//用子表的第一个记录作枢轴记录，用pivot记录枢轴关键字</span></span><br><span class="line">    <span class="keyword">while</span>(low &lt; high) &#123;        <span class="comment">//从表两边交替地向中间扫描</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[high] &gt;= pivot) --high;</span><br><span class="line">        A[low] = A[high];    <span class="comment">//将比枢轴小的记录移到低端</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[low] &lt;= pivot) ++low;</span><br><span class="line">        A[high] = A[low];    <span class="comment">//比枢轴大的记录移到高端</span></span><br><span class="line">    &#125;</span><br><span class="line">    A[low] = pivot;            <span class="comment">//枢轴记录到位</span></span><br><span class="line">    <span class="keyword">return</span> low;                <span class="comment">//返回枢轴位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归主程序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low &lt; high) &#123;</span><br><span class="line">        <span class="type">int</span> pivotpos = <span class="built_in">Partition</span>(A, low, high);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, low, pivotpos<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, pivotpos+<span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ol start="6">
+<li>简单选择排序</li>
+</ol>
+<p>思想：第i趟排序从L[i···n]中选择关键字最小的元素与L(i)交换。经过n-1次就得到有序。不稳定的排序算法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; ++i) &#123;</span><br><span class="line">        min = i;</span><br><span class="line">        <span class="keyword">for</span>(j = i+<span class="number">1</span>; j &lt; n; ++j) </span><br><span class="line">            <span class="keyword">if</span>(A[j] &lt; A[min]) min = j;</span><br><span class="line">        <span class="keyword">if</span>(min != i) <span class="built_in">swap</span>(A[i], A[min]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>堆排序</li>
+</ol>
+<p>堆：是一颗完全二叉树，所有根结点小于等于或大于等于其孩子节点值。为方便运算，A[0]为空。<br />思想：若在输出堆顶的最小值后，使得剩余n-1个元素的序列重又建成一个堆，则输出n个元素的次小值。如此反复执行，便得到一个有序序列，这个过程称为堆排序。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//建立大根堆的算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = len/<span class="number">2</span>; i &gt; <span class="number">0</span>; i--)    <span class="comment">//从非叶子结点开始调整</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, i, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调整以元素k为根的子树为堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[], <span class="type">int</span> k, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    A[<span class="number">0</span>] = A[k];                        <span class="comment">//A[0]暂存子树的根结点。</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>*k; i &lt;= len; i *= <span class="number">2</span>) &#123;    <span class="comment">//沿key较大的子节点向下筛选</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; len &amp;&amp; A[i] &lt; A[i+<span class="number">1</span>])</span><br><span class="line">            i++;                        <span class="comment">//取key较大的子节点的下标</span></span><br><span class="line">        <span class="keyword">if</span>(A[<span class="number">0</span>] &gt;= A[i]) <span class="keyword">break</span>;            <span class="comment">//筛选结束</span></span><br><span class="line">        <span class="keyword">else</span> &#123;                            </span><br><span class="line">            A[k] = A[i];                <span class="comment">//将A[i]调整到双亲结点上</span></span><br><span class="line">            k = i;                        <span class="comment">//修改k，继续向下筛选。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    A[k] = A[<span class="number">0</span>];                        <span class="comment">//被筛选节点的值放入最终位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeapSort</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">BuildMaxHeap</span>(A, len);</span><br><span class="line">    <span class="keyword">for</span>(i = len; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">        <span class="built_in">Swap</span>(A[i], A[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, <span class="number">1</span>, i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol start="8">
+<li>归并排序</li>
+</ol>
+<p>思想：将两个或两个以上的有序表组合成一个新的有序表。稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ElemType *B = (ElemTYpe *)<span class="built_in">malloc</span>((n+<span class="number">1</span>) * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k = low; k &lt;= high; k++) </span><br><span class="line">        B[k] = A[k];</span><br><span class="line">    <span class="keyword">for</span>(i = low, j = mid+<span class="number">1</span>; k = i; i &lt;= mid &amp;&amp; j &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(B[i] &lt;= B[j])</span><br><span class="line">            A[k] = B[i++];</span><br><span class="line">        <span class="keyword">else</span> A[k] = B[j++];</span><br><span class="line">    &#125;</span><br><span class="line">       <span class="keyword">while</span>(i &lt;= mid) A[k++] = B[i++];    <span class="comment">//如果表1未检测完，直接复制</span></span><br><span class="line">    <span class="keyword">while</span>(j &lt;= high) A[k++] = B[j++];    <span class="comment">//如果表2未检测完，直接复制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>基数排序</li>
+</ol>
+<p>思想：一种借助多关键字排序的思想对单逻辑关键字进行排序的方法。<br />链式基数排序：收集时是从下往上收集的。<br /><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111633646.jpeg" alt="AFA561CF-09F2-4A79-823D-B99981F78B38.jpeg"></p>
+<h2 id="真题中的多次考到的算法"><a href="#真题中的多次考到的算法" class="headerlink" title="真题中的多次考到的算法"></a>真题中的多次考到的算法</h2><h3 id="树的孩子兄弟表示法的遍历"><a href="#树的孩子兄弟表示法的遍历" class="headerlink" title="树的孩子兄弟表示法的遍历"></a>树的孩子兄弟表示法的遍历</h3><p>以求家族中共有多少代并输出最后一代的所有成员为例。<br />思想：根据孩子兄弟表示法，创建结构体，包括名字，第一个孩子节点和兄弟节点。再将此结构体与其结点高度组成一个新结构体（在不同类型的题目中，该结构体内容根据需要进行修改）。通过求层次遍历最后一个结点的高度得到共有多少代，再通过遍历所有结点找到高度最大的结点，即最后一代。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">char</span> name;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *firstchild;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *brother;</span><br><span class="line">&#125;BTNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> lno; <span class="comment">//表示结点高度;</span></span><br><span class="line">    BTNode *p;</span><br><span class="line">&#125;NodeInfo;         <span class="comment">//这个结构体及后续队列的变形应用是精髓。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FamilyTree</span><span class="params">(BTNode &amp;b)</span> </span>&#123;</span><br><span class="line">    NodeInfo Q[maxsize];</span><br><span class="line">    <span class="type">int</span> front = <span class="number">0</span>, rear = <span class="number">0</span>; <span class="comment">//初始化自定义队列</span></span><br><span class="line">    <span class="type">int</span> Lno;        <span class="comment">//暂存结点高度；</span></span><br><span class="line">    <span class="type">int</span> i, j = <span class="number">0</span>;    <span class="comment">//j记录最后一代人数</span></span><br><span class="line">    BTNode *q;</span><br><span class="line">    ++rear;</span><br><span class="line">    Q[rear].p = b; Q[rear].lno=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (rear != front) &#123;</span><br><span class="line">        ++front;</span><br><span class="line">        q = Q[front].p; Lno = Q[front].lno;    <span class="comment">//出队</span></span><br><span class="line">        <span class="keyword">if</span>(q-&gt;brother != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;brother;</span><br><span class="line">            Q[rear].lno = Lno;        <span class="comment">//兄弟结点与该结点高度一致；</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(q-&gt;firstchild != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;firstchild;</span><br><span class="line">            Q[rear].lno = Lno + <span class="number">1</span>;    <span class="comment">//孩子结点比当前结点高1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(Lno); <span class="comment">//输出共有多少代</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= rear; i++) &#123;    <span class="comment">//输出最后一代成员并计算人数</span></span><br><span class="line">        <span class="keyword">if</span>(Q[i].lno == Lno) &#123;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="built_in">print</span>(Q[i].p-&gt;name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+        <tag>算法</tag>
+        <tag>829专业课</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软件工程导论复习</title>
+    <url>/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<p><strong>【软件工程导论】</strong></p>
+<p>软件 &#x3D; 知识+程序+数据+文档</p>
+<p><strong>文档的概念和作用</strong>文档记录软件开发的活动和中间制品，记录软件的配置及变更，用于软件专业人员和用户的交流，用于软件开发、过程管理和运行阶段的维护。<strong>如</strong>:需求报告对所开发软 件的功能、性能、用户界面及运行环境等作出详细的说明，它是用户与开发人员双方 对软件需求取得共同理解基础上达成的协议，也是实施开发工作的基础。设计说明书 是概要设计阶段的工作成果，它应说明功能分配、模块划分、程序的总体结构、输入 输出以及接口设计、运行设计、数据结构设计和出错处理设计等，为详细设计奠定基 础。详细设计说明书着重描述每一模块是怎样实现的，包括实现算法、逻辑流程等</p>
+<p><strong>软件特点：</strong>逻辑实体、智力产品;制造即拷贝;无磨损和老化,不遵循“浴盆曲线”,但 存在退化问题。尚未摆脱手工方式;软件移植的需要;复杂（问题复杂性 &#x2F; 程序结构复 杂性）软件开发的性质如成本、进度、质量等难以估计控制,维护困难，有可复用性</p>
+<p><strong>定义</strong>:将系统的、规范的、可量化的方法应用于软件的开发、运行和维护的过程及上述方法的研究</p>
+<p><strong>三要素：过程</strong>:管理部分;<strong>方法</strong>:完成软件工程项目的技术手段;<strong>工具</strong>自动或 半自动地支持软件的开发、维护和管理。 </p>
+<p><strong>目标：</strong>在给定成本、进度的前提下，开发出满足用户或市场需要的高质量的软件产品</p>
+<p><strong>原则：</strong>抽象(自顶向下逐步求精)、信息隐藏（封装的接口）、模块化（相对独立&#x2F;类）、局部化（相互关联&#x2F;局部变量）、一致性（接口和规范）、完全性和可验证性(应易于检查、测试和评审)</p>
+<p>**传统软件生命周期:**需求,设计,编码、测试,软件测试,运行、维护,退役</p>
+<p><strong>瀑布模型生命周期</strong>:1 可行性研究,2 需求分析,3 概要设计,4 详细设计,5 实现,6 集成测试,7 确认 测试,8 使用与维护,9 退役(软件定义:1-2 软件开发 3-7 维护 8-9)</p>
+<p><strong>各种模型的含义、优缺点、场景:</strong> </p>
+<p>**瀑布模型:**假设软件需求在初期几乎可完全确定;<strong>主要思想</strong>:1.软件开发过程与软件生 命周期是一致的;2.相邻二阶段之间存在因果关系 3.每一阶段的结束点作为里程碑;4. 需对阶段性产品进行评审，如果评审不合格,需返工;<strong>优点</strong>:**1.**使用时间最长,应用面比较广泛;<strong>2.<strong>是其他一些开发模型的基础;3.思路简洁,明确,阶段间因果明确,紧密联系;4. 其可行性研究、需求、设计、编码、测试分离,有利于软件的体系结构设计,规范了软 件开发活动,有利于开发人员的组织管理;5.缓解软件危机</strong>缺点</strong>:1.必须确定软件需求后 才能进行后续开发工作,但多数场合给出全部需求是困难的;**2.<strong>到最后阶段才能得到可运行的软件版本不能适应用户需求的变 化 ;3.上游阶段的“过失”会为软件制品带 来“缺陷”并潜伏在制品中,会误导下游的开发活动,若未被发现运行时会造成“故障” , 寻找修复故障会比较困难</strong>场景:**对于规模较小、软件需求比较稳定的项目或子系统,能够显著提高软件开发的质量和效率;<strong>原型模型</strong>:**概念:**软件开发人员根据客户提出的软件(部分或全部)定义,快速地开发一个原型。原型向客户展示了待开发软件系统的全部 或部分功能和性能,在征求客户对原型意见的过程中,进一步修改、完善、确认软件系 统的需求并达到一致的理解;**优点1.**支持需求的动态变化;**2.**有助于获取用户需求,便于用户对需求的理解;**3.**尽早发现软件中的错误;**缺点:<strong>不支持风险分析.<strong>适用场景：</strong>开发 团队对所开发领域比较熟悉而且有快速的原型开发工具</strong>螺旋模型: 基本思想:<strong>1.将瀑布模型与原型模型进行有机结合;2.增加风险分析步骤。</strong>优点:**1.支持需求的动态变化;2. 有助于获取用户需求,便于用户对需求的理解;3.尽早发现软件中的错误;4.支持风险分 析,可降低或者尽早消除软件开发风险;5.适合于需求动态变化、开发风险较大的系统; **缺点:**由于确定的不确定性,软件开发初期无法进行软件体系结构设计,多次迭代会导 致软件体系结构变坏,为软件理解和维护带来困难;<strong>场景:<strong>在需求不明确的情况下,适合用螺旋模型进行开发,便于风险控制和需求变更;特别适合于大型复杂的系统.<strong>原型模型和螺旋模型既是迭代模型,又是进化模型。</strong> <strong>喷泉模型:基本思想</strong>:1.软件复用与生命周期中多项开发活动集成2.主要支持面向对象的开发方法;<strong>优点</strong> 1软件系统可维护性较好 2各阶段相互重叠,表明了面向对象开发方法各阶段间的交叉和无缝过渡 3整个模型是一个迭代的过程,包括一个阶段内部的迭代和跨阶段的迭代 4模型具有增量开发特性,即能做到“</strong>分析一点,设计一点,实现一点,测试一点</strong>”,使相关功能随之加入到演化的系统中 5模型由对象驱动,对象是各阶段活动的主体,也是项目管理的基本内容 6该模型很自然地支持软部件的重用。</p>
+<p><strong>工具： 项目管理工具</strong> AMSRealtime,MicrosoftProject,Viewpoint, Project ControlPanel ,Ittoolkit <strong>软件开发工具：业务系统建模工具：</strong>RationalRose,ArgoUML,Visio,Real-TimeStudo(以 上也可以是对应的<strong>分析和设计工具</strong>）<strong>测试工具：</strong>CodeMedic(为标准 UNIX 调试器 gdb 提供图形界面，支持 C&#x2F;C++、Java、汇编、FORTRAN、Modua-2 测试) BugCollectorPro （实现多用户数据库，支持软件团队追踪已报告的 bug、管理调试工作 流） JprobeThreadAnalyzer（支持线程测试问题：死锁、延迟） C++Test（C／C++ 单元测试）**原型建造工具（专用性）用户界面工具:**Macromedia Authorware,PowerDesigner&#x2F;PowerBuilder,MotifCommonDesktopEnvironment </p>
+<p><strong>【第 2 章 UML 与 RUP 统一过程】</strong>(用例图(UC图),类图)</p>
+<p><strong>面向对象的软件开发方法</strong> 面向对象的软件开发方法通过提供对象,对象间消息传递等语言机制让分析人员在解空间中直接模拟问题空间中的对象及其行为,从而削减了<strong>语义断层</strong>,拉近了问题空间与解空间的距离,从而简化了软件工程师在二者之间架设“桥梁”的工作,并为软件 开发活动提供了直观,自然的语言支持和方法学指导。</p>
+<p><strong>面向对象 &#x3D; {对象+类+继承+聚合+多态+消息}</strong> 基本要素</p>
+<p><strong>面向对象方法的优势</strong>:1.简化软件开发过程。面向对象方法不仅可以用来进行需求分析，还可以支持软件 的设计、实现和测试，构成了覆盖软件开发主要阶段的广谱软件开发方法学。 2.支持软件复用。在源代码级复用方面，面向对象方法通过继承机制和代理方法使得复用者不需要直接修改被复用的类；在设计级复用方面，近年来迅速发展的设计技术在软件界大显身手，贡献良多。 3.改善软件结构。面向对象方法通过对属性和操作的封装实现了软件工程倡导的信<strong>息隐藏原则</strong>。</p>
+<p><strong>用例图</strong>:用例图，从外部用户的角度描述系统功能，并指出参与者. 1.<strong>关联</strong>：参与者—执行用例。2.**包含(**include):一个用例 A 使用了另外一个用例 B。 A- -&gt;B。边上 include。3.<strong>扩展</strong>(extend):A 扩展自 B。A- -&gt;B。边上 extend</p>
+<p>**结构视图:**（不同层面,系统的静态结构): 包图(描述系统的分解结构,表示包与包之间的关系);对象图(类图的一个实例,描述在某个状态下,或者某个时间段系统中活跃的对象及关系);<strong>类图</strong>(描述系统静态结构),<strong>①泛化与特化</strong>：表示类的继承关系。子类 父类。 <strong>②关联</strong>：类之间有关联（对象组合）A 类用到了 B 类的信息 A-&gt;B。一对多的时候，边 上：<code>1—*</code>。双向关联没有箭头，单向关联有箭头，我们一般用单向。 <strong>③聚合</strong>：强关联，整体与部分的关系。Engine Car。一对多：1-*。 <strong>④组合</strong>：强聚合，整体的对象负责代表部分的对象的生命周期。Limb MonkeyKing <strong>⑤依赖</strong>： ClassA的定义依赖于 ClassB的定义。例子： A 的构造函数的参数中有 ClassB。 A 中有个函数以 B 作为参数。A - -&gt;B。</p>
+<p><strong>行为视图</strong>: (不同侧面系统的动态行为):交互图［描述对象之间通过消息传递进行的交互和协作,分为**顺序图(**对象之间消息发送的时间序), 通信图(对象间的动态协作关系,也可通过消息序号表示消息传递的时间序,不如顺序图直观)］, 状态图(描述类的对象的动态行为), <strong>活动图</strong>［控制流（一个操作完成后对其后续操 作的触发）、信息流（刻画操作间的信息交换）］</p>
+<p><strong>构件视图</strong>：构件图(描述软件系统中各组成构件,构件的内部结构以及构件间依赖关系) </p>
+<p><strong>部署视图</strong>：部署图（描述软件系统中各类工件在物理运行环境中的分布情况） </p>
+<p><strong>【第六章 软件设计基本原则】</strong>(PDL伪代码格式)</p>
+<p><strong>内聚度：偶然性内聚</strong>、逻辑性内聚、<strong>时间性内聚</strong>（经典内聚）&#x2F;程度低&#x2F;-&gt;过程性内聚,<strong>通信性内聚</strong>&#x2F;程度中&#x2F;-&gt;信息内聚,<strong>功能性内聚</strong>&#x2F;程度高&#x2F;</p>
+<p><strong>耦合度</strong>:：1 非直接耦合-&gt;2 <strong>数据耦合</strong>与控制耦合-&gt;3 外部耦合-&gt;4 公共耦合-&gt;5 <strong>内容耦合</strong>。尽量使用 1&#x2F;2，限制 3&#x2F;4，杜绝 5。 </p>
+<p><strong>选三种内聚度、三种耦合度各举一个例子说明。</strong></p>
+<p><strong>功能内聚</strong>：一个模块中各个部分都是完成某一具体功能必不可少的组成部分，或该模块中所有部分都是为了完成一项具体功能而协同工作，紧密联系，不可分割.(不建议举此例)<strong>信息内聚</strong>：完成多个功能各个功能都在同一数据结构上操作，每一项功能 有一个唯一的入口点。如课程管理系统上的查找课程、删除课程、修改课程都会使用 “课程”这个数据结构。<strong>通信内聚</strong>：一个模块各个功能部分都使用了相同的输入数据， 或产生了相同的输出数据。个人信息管理系统中：从文件中读取信息，打印功能和统计功能都会使用文件中的信息。<strong>逻辑内聚</strong>：这种模块把几种相关的功能组合在一起， 每次被调用时，由传送给模块的判定参数来确定该模块应执行哪一种功能。 <strong>非直接耦合</strong>：两个模块之间没有直接关系，它们之间的练习完全时通过主模块的控制 和调用来实现的。main()函数调用 A B C 函数，其中 A 用到 B 的返回值。<strong>控制耦合</strong>： 通过传送开关、标志、名字等控制信息，明显的控制选择另一模块的功能。如 A 的返 回值为 0 时调用 C，A 的返回值为 1 时调用 B。<strong>公共耦合</strong>：一组模块都访问同一个公 共数据环境。如 A\B 都调用以局部变量 time,并且会对其修改。 </p>
+<p><strong>如何降低耦合度</strong>：根据问题的特点，选择适当的耦合类型；降低模块接口的复杂性(传送信息的数量,耦合方式,传送信息的结构)；把模块的通信信息放在缓冲区中; </p>
+<p><strong>软件设计的原则</strong>：提高模块独立性；调整模块的大小；适当的模块深度、宽度、扇出 和扇入模块的作用范围应在控制范围之内简化模块的接口的复杂程度。 </p>
+<p><strong>启发式设计策略</strong>：改造软件结构，降低耦合度，提高内聚度；减少扇出，追求高扇入； 使任一模块的作用域在其控制域内(<strong>作用域</strong>是指受模块内部判定影响的所有模块,控制域是指其所有的下属模块);降低模块接口复杂度和冗余度,提高协调性。 <strong>变换流</strong>：信息通常以“外部世界”所具有的形式进入系统，经过处理后，又以这种形式离开系统，呈现在结果界面上。<strong>事务流</strong>数据沿输入通道到达一个转换，该转换根据输入流的类型和特征在若干动作路径中选择一条来执行。</p>
+<p>变换分析：复审基本系统模型；理解和精化数据流图；确定数据流图的类型；划分输入流、输出流的边界；执行二级分解；精化、改良软件结构。 </p>
+<p><strong>【第八章、人机交互设计】</strong></p>
+<p> 老人：图片字体大且清晰，描述简单，目录层级少，打开步骤少，操作简单，实用性 好，功能不复杂、只需要基本功能 小孩：色彩丰富。避免繁杂，大量图片和文字作为提示，风格轻松愉快，宽松简洁的 布局，高明度色彩，带拼音，可爱的卡通形象和字体设计，趣味和有故事性的背景</p>
+<p><strong>用户界面设计的基本原则</strong>①易理解性；②易操作性；③灵敏性；④一致性；⑤容错 性；⑥人性化。</p>
+<p><strong>用户界面设计模型的表示</strong>：①静态元素（无变化的文本、图标、图形、图像等）； ②动态元素（因运行状态而异自动呈现的不允许修改的文本、表格、图标、图形、图 像等）；③用户输入元素（可编辑文本、单选按钮、多选框、选择列表、可编辑的表 格）；④用户命令元素（按钮、菜单、超链接等）。 </p>
+<p><strong>用户界面设计过程的主要活动:</strong> 1.<strong>用户分析、任务分析及建模</strong>。首先必须分析用户的特征，分析用户需要通过目标软件系统完成哪些工作任务，为完成这些任务人机之间需要进行哪些信息交互。2.<strong>概念设计</strong>。主要目标是确定屏幕中应该包含的主要内容，以及用户基于该屏幕可施行的主要操作。3.<strong>界面流设计</strong>。主要目标是确定屏幕之间的跳转关系，即一幅屏幕在何种情况下,或者在响应何种用户操作命令后将跳转至另一屏幕.两种原因：①单屏幕空间容量有限，不足以表现所有必要界面元素；②用户的界面操作可能导出新的屏幕，以便在新的屏幕上进行面向特定业务功能的界面交互。表示方式主要是 UML 交互图（顺序图）和类图。4.<strong>界面精化</strong>。主要任务是基于概念设计和界面流设计，给出目标软件产品界面的完整的、详细的设计。 </p>
+<p><strong>【第九章、软件详细设计】</strong>主要活动①用例设计；②子系统设计；③构件设计；④类设计；⑤ 数据模型设计；⑥设计整合与验证。</p>
+<p><strong>【第十章、软件实现】</strong></p>
+<p><strong>程序设计语言的演化</strong>：第一代：汇编；第二代：Fortran&#x2F;Cobol&#x2F;Basic，有成熟的 函数库；第三代：结构化语言 C&#x2F;Pascal&#x2F;Ada；面向对象语言 C++&#x2F;Java；专用领域语 言 Lisp&#x2F;Prolog；第四代：数据库查询语言 Sql。</p>
+<ol>
+<li><p>第三代语言的特点：支持结构化程序设计，具有较强的过程能力和数据结构能力。</p>
+</li>
+<li><p>第四代特点：更高的抽象层次；只需要告诉计算机“做什么”，而不必告知“怎么做” 。</p>
+</li>
+</ol>
+<p><strong>编程的规则</strong>：1.节俭化（代码尽量简洁）；2.模块化；3.简单化（命名一致性，数 据结构尽量简单） 4.结构化（缩进统一&#x2F;函数代替重复出现的代码&#x2F;代码单入口单出口） 5.文档化（文档自说明）6.格式化</p>
+<p><strong>编程风格:<strong>1.节俭化 2.模块化 3.简单化 4.结构化 5.文档化 6.格式化. 编程风格在很大程度上</strong>影响着程序</strong>的可读性、可测试性、可维护性。 <strong>结构化</strong>要做到按标准化的次序说明数据，按字母顺序说明对象名，使用容易理解的结 构化程序部件，根据背景排列程序各部分</p>
+<p><strong>调试策略</strong>：1.原始法（单步执行，printf）2.回溯法（沿着代码控制流往回找）3. 排除法</p>
+<p><strong>【第十一章】</strong>（设计题）</p>
+<p><strong>数据流图DFD与数据字典、实体—关系图、面向数据流设计方法（事务流&#x2F;变换流）</strong></p>
+<p><strong>【第十三章、软件维护】</strong></p>
+<p><strong>·维护的分类</strong>(按原因划分):1.纠错性维护。为诊断和改正软件系统中潜藏的缺陷而进行的活动.2.适应性维护.为适应软件运行环境变化(如操作系统变更等)而修改软件的活动.3.完善性维护.是根据用户在软件使用过程中提出的一些新需求而实施的维护活动.4.预防性维护。是优化软件系统结构和可理解性，改善可维护性和可靠性。</p>
+<p><strong>·可维护性</strong>：软件的可维护性是指理解.改正.调整和改进软件的<strong>难易程度</strong>。是软件质量的重要属性，是指导软件工程活动的一条基本原则，也是软件工程追求的一个目标。 </p>
+<p><strong>·影响可维护性的因素</strong>：开发方法有关：设计、编码和测试不规范，软件配置不全开发环境有关：①训练有素的软件团队；②维护团队是否熟悉经过多次维护的系统；③ 软件的可理解性，包括软件结构、描述软件制品的语言、文档及标准化程度等；④操作系统的标准化程度；⑤维护工具和环境；⑥生成测试用例的能力；⑦对于嵌入式系 统维护应有专门的调试工具。</p>
+<p><strong>·维护的技术手段</strong>：软件重构。包括：文档重构、重组（简化与结构化源代码）、逆 向工程、再工程。</p>
+<p><strong>【第十五章、软件度量与估算】</strong></p>
+<p> <strong>·</strong>测量（Measure）是按照统一的规则为现实世界的实体属性定值。软件工程的测量 是按照测量标准直接、客观地采集软件制品、过程或资源的特征、属性，并获得数据。 例如：测量程序的代码行数、操作符的种类、个数，程序中缺陷的个数等等。测量涉 及测量对象、选用的量纲、方法、工具、过程和数据结果。</p>
+<p> <strong>·</strong>软件估算（Estimation）是根据经验、历史资料或模型，结合项目实际对软件 制 品、过程、资源进行预测。估算一般用于签订合同、制定工作计划、进行项目预算等。 这里涉及软件过程工作量的估算。</p>
+<p> <strong>·</strong>软件度量（Metrics）软件产品、软件开发过程或资源简单属性的定量描述，（如 程序规模、操作数个数、占用内存）能用以解释软件所具有的一个给定属性对软件质 量影响的程度。 </p>
+<p><strong>软件度量：规模度量、复杂性度量（McCabe基于图论；Halstead基于操作符与操作数）、质量度量、可靠性度量</strong></p>
+<p><strong>·内部属性与外部属性：软件工程的软件制品、过程、资源都具有外部属性和内部属性。外部属性体现了软件制品、过程、资源与环境的关系。内部属性指软件制品\过程和资源本身的技术属性。 二者关系:外部属性在软件开发过程中很难测量和控制，但它是由软件的内部属性决定的。</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>软件制品</th>
+<th>过程</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内 部</td>
+<td>程序语言；代码风格；模块化;复用性;耦合度与内聚度</td>
+<td>项目管理过程；业务建模过程；需求过程；设计过程；构造过程；测试过程；部署过程；配置管理过程；工具与环境支持过程</td>
+<td>人;软硬件环境; 经验</td>
+</tr>
+<tr>
+<td>外 部</td>
+<td>软件系统的可靠性;健壮性；效率;可用性;可维护性;可移植性</td>
+<td>资源保障；可控制性；可观察性；稳定性</td>
+<td>成本；时 间；合作 机制</td>
+</tr>
+</tbody></table>
+<p><strong>▲软件规模的度量</strong> (计算题)</p>
+<p><strong>（一）代码行度量</strong>（直接度量，依赖于程序设计语言）</p>
+<p>含义：通过项目总代码行数去度量项目的规模属性。（书本原话：用代码行数（LOC）表示软件项目的规模是自然和直观的。可以用人工或工具直接测量。几乎所有软件开发组织都保存软件项目的代码行数记录，开发初期可以度量软 件规模，度量生产 率、每行代码的平均人力成本、文档和代码的比例关系、每千行代 码存在的软件缺陷个数等）</p>
+<p>优点：简单直观，容易操作。</p>
+<p>缺点：1.依赖于特定程序设计语言；2.可能对一些设计精巧的软件项目不利；3. 项目开发前期估算困难；4.适用于过程式程序设计语言，对非过程程序设计语言不太 适用；</p>
+<p> （<strong>二）基于功能点度量</strong>（间接度量，不依赖于语言）</p>
+<p>含义：根据事务信息处理程序的基本功能定义的，采用 5 个测量参数，涉及多种因 素的间接度量方式。（因而可以估算出软件项目的规模）</p>
+<p> 优点：1.与程序设计语言无关，适用于过程式和非过程式程序设计语言；2.度量可以用于软件开发的初期（因为初期即能确定系统的输入&#x2F;输出）</p>
+<p>缺点：1.涉及主观因素较多，如加权值；2.信息领域数据有时不容易采集；3.FP(功能点)的值没有直观物理意义。 <strong>两者联系：抽象度越高的语言，同样的功能点对应的码会越少。</strong> </p>
+<p><strong>▲软件复杂性的度量</strong></p>
+<p><strong>(一)控制结构复杂性</strong>: 圈复杂度&#x2F;巡回秩数  V(G) &#x3D; e-n+2 </p>
+<p>V(G)的值不要大于10,否则模块内部结构就会变得复杂,给编码和测试带来困难</p>
+<p>(二)<strong>体系结构的复杂性</strong> 1. 简单形态度量:弧与节点数之和 S&#x3D;a+n; 弧与节点数之比 R&#x3D;a&#x2F;n;</p>
+<p>比值R体现了体系结构的连接密度,R越大,耦合度越高.</p>
+<p><strong>▲软件质量度量</strong> </p>
+<p><strong>软件质量的定义</strong>：软件制品满足规约和隐含需求特征及特征总和的程度。特征包括：功能性，可靠性，有效性，可使用性，可维护性，可移植性。·2011：增加了安全性 和兼容性的两个特征，扩展了子特征的概念。 软件特征的变化反映了软件与时俱进的特点，为软件质量度量和通过技术手段提高 软件制品质量指明了方向</p>
+<p><strong>McCall 三层次度量模型</strong>：质量要素指标（Factor）、评价准则（Criteria）、属 性度量(Metric)。Factor 包括：运行性、修正性、适应性。评价准则 21 个。</p>
+<p><strong>所有的质量度量模型（McCall、ISO）是层次性模型，不同在于分的哪些层次,每一 层有哪些方面。</strong> </p>
+<p><strong>【第十六章、软件项目管理与过程改进】</strong></p>
+<p>目的：软件项目管理的目的是使项目能够按照预定的成本、 进度、质量顺利完成。</p>
+<p> 一般经验估算模型：基于代码行的模型 E&#x3D;a(KLOC)b+c；基于功能点的模型 E&#x3D;a+b*FP，不同模型采用不同参数</p>
+<p><strong>▲软件项目度量与估算</strong> </p>
+<p><strong>（一）采用代码行&#x2F;功能点度量的工作量估算</strong> </p>
+<p><strong>E&#x3D;(a+4m+b)&#x2F;6</strong>: 采用上述估算方法可估算出 LOC&#x2F;FP 的乐观值 a，悲观值 b，一般值 m。（表格 16.5 的几列数据要会算）</p>
+<p>一般经验估算模型：基于代码行用 E&#x3D;a(KLOC)^b+c,abc 查表；E 是人月工作量；基于功能点用 E&#x3D;a+b<em>FP。ab 查表。</em></p>
+<p><strong>（二）COCOMO 模型（Constructive Cost Model,构造性成本模型）</strong></p>
+<p> COCOMO 模型分为基本、中间、详细三个层次。</p>
+<p>通信开销&#x3D;u<em>n</em>(n-1)&#x2F;2</p>
+<p>基本 COCOMO 模型：用于系统开发初期，估算系统开发工作量和所需要的时间。 <strong>E&#x3D;a(L)^b; D&#x3D;c(E)^d</strong>;abcd 查表；E 是人月工作量；D 是开发时间.<strong>N&#x3D;E&#x2F;D</strong> 是建议参加项目的<strong>人数</strong>。</p>
+<p>中间 COCOMO 模型：用于详细设计阶段，估算各个子系统的工作量和开发时间。 E&#x3D;a(L)^b*EAF;L 是代码行估算值，单位 kloc；ab 查表。EAF 是工作量调节因子，EAF&#x3D; （15 个 Fi 连乘）</p>
+<p>详细 COCOMO 模型：用于估算独立的软构件，如子系统内部的各个模块，软件的集成和测试。</p>
+<p><strong>（三）COCOMO Ⅱ</strong> </p>
+<p><strong>E&#x3D;a(L)^b*EAF+ER</strong>。ER 表示复用构件、代码自动生成需要的工作量，单位人月。 </p>
+<p><strong>（四）Putnam 模型</strong> </p>
+<p>时间推前或延迟 k%对工作量的影响？</p>
+<p><strong>L&#x3D;C<code>*</code>E^(1&#x2F;3)<code>*</code>t^(4&#x2F;3)</strong>.L是代码行数；E 是工作量，单位人年，包括维护；t 是开 发时间；C 表示软件开发环境的常数，查表。 </p>
+<p><strong>E&#x3D;L^3&#x2F;(C^3*t^4)。比如提前 10%的时间（t&#x3D;0.9t）,算出工作量 E&#x3D;1.524E。说明 要增加 52%的工作量。</strong></p>
+<p>Putnam 模型虽然揭示了软件项目的工作量、软件开发时间和程序代码长度三者之间的关系，但它没有反映软件制品、软件项目、软件开发人员和计算机软硬件资源等 属性。因此用该模型进行软件项目的成本估算是十分粗糙的。</p>
+<p><strong>▲软件项目计划—-工程进度安排</strong></p>
+<p><u><em><strong>两个重要的图：网络图（找关键路径，非关键路径的点可调控）；甘特图（网络图&#x3D;&gt;甘特图）</strong></em></u></p>
+<p>Gantt 图优点：简单易用，容易修改，比 PERT 图更加直观方便。 </p>
+<p>Gantt 图缺点：不能显示各项活动之间的依赖关系</p>
+<p><strong>▲软件配置管理</strong> (版本,基线)</p>
+<p><strong>配置管理的目的</strong>：目的是为了减少混乱，提高软件生产率。是对软件修改进行标识、组织和控制的技术，用来协 调和控制整个系统的过程。 </p>
+<p><strong>基线技术</strong>：标志软件开发过程的各个里程碑，通过复审的软件配置项 (SCI,Software Configuration Item, SCI是配置管理的基本单位)是构成基线的重要内容,它标志开发过程中一 个阶段的结束。</p>
+<p><strong>基线的使用</strong>：1.某 SCI 成 为基线，就会被存入项目数 据库；2.要想改动 SCI，就要复制到私有工作区并在 项目数据库中锁住。3.在私有工作区完成修改并通过复审后，新SCI释放并送回项目 数据库,并解锁。</p>
+<p> ·常用基线：1.系统工程–系统规约；2.需求分析—软件需求规约；3.软件设计—设 计规约;4.编码—源代码；5.测试—测试计划、过程、数据；6.集成—可运行系统。</p>
+<p>常用工具：版本控制 git；DSEE</p>
+<p>DSEE：历史管理、配置管理、任务管理、监控管理。</p>
+<p>SCI:（1）系统规约；（2）软件项目规划；（3）需求分析结果；a.软件需求规约； b.可执行的或“纸样”原型；（ 4）初步用户手册；（5）设计规约；a.数据设计描 述；b.总体结构设计描述；c.模块设计描述；d.界面设计描述；e.对象描述；（6） 源代码清单；（7）测试规约；a.测试计划和过程；b.测试用例和实验结果；（8）操 作和安装手册；（9）可执行程序；a.每个模块的可执行代码；b.链接到一起的代码； （10）数据库描述；a.数据模型和文件结构；b.初始化映像；（11）联机用户手册； （12）维护文档； a.软件问题报告；b.维护申请；c.预计变更的顺序；（13）软件工程的标准和过程。</p>
+<p>配置管理的任务：标识配置项；版本管理。</p>
+<p>配置项的状态有三种：“草稿”（Draft）、“正式发布”（Released）和“正在修 改”(Changing)。变迁：配置项刚建立时其状态为“草稿”。配置项通过评审（或审 批)后，其状态变为“正式发布”。此后若更改配置项，必须依照“变更控制规程” 执行，其状态变为“正在修改”。当配置项修改完毕并重新通过评审（或审批）时， 其状态又变为“正式发布”，如此循环. </p>
+<p><strong>▲软件过程改进</strong></p>
+<p><strong>能力成熟度模型CMM</strong>:Capability Maturity Model for Software,软件成熟度模型。CMM 是一个概念模型,模型框架和表示是刚性的，不能随意改变。但模型的解释和实现有一定弹性。CMM 源于大型软件开发实践，反映了软件过程评估和软件过程改进的需要，是一个有效的大型软件开发、维护过程模型。 CMM 的应用进一步规范、指导软 件开发组织的自身建设，使软件开发组织从混乱的、低效的不成熟状态，向有纪律的、 高效的成熟状态转变。</p>
+<p><strong>常用词汇</strong>: 组织,项目,软件过程,组织的标准软件过程,定义项目的软件过程,组织的软件过程资产</p>
+<p><strong>关键过程域 KPA</strong>：描述软件的过程属性，通过完成一组相互关联的活动，实现建立 过程能力至关重要的一组目标。（软件开发组织的软件过程能力是组织能够承接软件 项目的重要依据）</p>
+<p>CMM 的能力成熟度共分 5 级：L1 初始级；L2 可重复级；L3 已定义级；L4 已管理级； L5 优化级。从 2 级开始，每级包括若干个 KPA。 ·CMM 评估阶梯：L1 初始级；L2（软件项目计划+软件项目跟踪与监督）；L3（综合 软件管理）；L4（定量的过程管理）；L5（过程变更管理）。</p>
+<p>什么是 CMMI？CMMI 是若干过程模型的综合和改进，是支持多个工程学科和领域的,系统的,一致的过程改进框架，能够适应现代工程的特点和需要，能够提高过程的质量和工作效率。</p>
+<p>CMMI 等级：L0 不完全级；L1 已执行级；L2 已管理级；L3 已定义级；L4 定量管理 级；L5 优化级。 </p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>软件工程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>专业课简答题</title>
+    <url>/2021/09/08/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%AE%80%E7%AD%94%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="第一章-操作系统引论"><a href="#第一章-操作系统引论" class="headerlink" title="第一章 操作系统引论"></a>第一章 操作系统引论</h2><ol>
+<li>操作系统的作用? <ol>
+<li>操作系统是用户与计算机硬件系统之间的接口. </li>
+<li>操作系统是计算机资源的管理者 </li>
+<li>操作系统是计算机工作流程的组织者 </li>
+<li>操作系统实现了对计算机资源的抽象<br />{1. 覆盖了一层I&#x2F;O设备管理软件,隐藏I&#x2F;O细节;<br />2.在隐藏I&#x2F;O细节的基础上覆盖了一层用于文件管理的软件}</li>
+</ol>
+</li>
+<li><strong>操作系统具有那几大特征,他们之间的关系?</strong><br />操作系统有:并发、共享、虚拟、异步 四大特征 <ol>
+<li>并发和共享是操作系统最基本的特征，为了提高计算机资源利用率，OS必然要采用多道技术，使多个程序共享系统的资源，并发的执行</li>
+<li>并发和共享互为存在的条件。1. 资源的共享是以程序的并发执行为条件的。2.若系统不能对资源共享实施有效的管理，也必将影响到程序的并发</li>
+<li>虚拟性以并发和共享为前提</li>
+<li>异步性是并发和共享的必然结果，多个并发进行共享资源会使得每个进程的运行过程受到其他进程制约</li>
+</ol>
+</li>
+<li>什么是多道技术，OS引入多道的目的<br />多道程序技术是指在内存中同时存放若干个作业，并使它们共享系统资源且并发运行的技术。<br />OS引入多道技术：1.提高CPU利用率；2.提高内存和I&#x2F;O设备利用率；3.增加系统吞吐量 </li>
+<li>推动批处理系统和分时系统形成和发展的主要动力是什么？<br />批处理系统：不断提高系统资源利用率和提高系统吞吐量<br />分时系统：为了更好地满足用户地需要 </li>
+<li>实现分时系统地关键问题是使用户能与自己的作业进行交互，为此需要引入：1. 缓冲区暂存用户键入的命令和输出的结果；2. 规定每个程序每次只能运行一个时间片 </li>
+<li>比较分时系统与实时系统<br />分时系统：多路性、独立性、及时性、<strong>交互性</strong><br />实时系统：多路性、独立性、<strong>及时性</strong>、交互性、可靠性 <ol>
+<li>从交互性方面：交互性是分时系统的关键问题，用户可以进行广泛的人机交互；实时系统的交互性具有很大的局限性。</li>
+<li>从及时性方面：分时系统的及时性是指用户能在很短时间内获得系统的响应，2-3秒；及时性是实时系统的关键问题，由被控制对象所要求的开始截止时间和完成截止始键决定，毫秒级</li>
+<li>从可靠性方面：可靠性是实时系统另一个关键问题。分时系统的可靠性要求较低</li>
+</ol>
+</li>
+<li>批处理系统、分时系统、实时系统各有什么特点？ <ol>
+<li>批处理系统：用户脱机使用计算机，作业是成批处理的，系统内多道程序并发执行</li>
+<li>分时系统：可让多个用户同时使用计算机，人机交互性强，具有每个用户独立使用计算机的独占性，系统响应及时</li>
+<li>实时操作系统能对控制对象做出及时反应，可靠性高，响应及时，但资源利用率低</li>
+</ol>
+</li>
+</ol>
+<h2 id="第二章-进程控制与描述"><a href="#第二章-进程控制与描述" class="headerlink" title="第二章 进程控制与描述"></a>第二章 进程控制与描述</h2><ol>
+<li><p>进程控制块PCB（进程存在的唯一标志）：<br />作用：1. 进程控制块时操作系统用来描述和管理进程的数据结构；2.使一个在多道环境下不能独立运行的程序成为一个能独立运行的基本单位； 3.记录系统所需的用于描述进程当前情况机控制进程运行的全部信息。<br />在进程整个生命周期中，系统总是通过PCB来对进程进行控制和管理，系统依靠PCB感知进程的存在。  </p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">进程标识符</span><br><span class="line">处理机状态：主要是寄存器的内容组成，用于CPU切换时保存线程信息和恢复现场信息。</span><br><span class="line">进程调度信息：进程状态、优先级、等待和使用CPU的时间等，用于进程调度和对换。</span><br><span class="line">进程控制信息：地址，进程同步和通信信息，资源清单，队列指针等</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进程创建的过程： </p>
+<ol>
+<li>申请空PCB：先从PCB集合中申请一个空闲的PCB</li>
+<li>分配资源：在为新进程分配内存等资源</li>
+<li>初始化PCB：根据父进程提供的参数和分配到的资源的情况来对PCB进行初始化</li>
+<li>插入就绪队列</li>
+</ol>
+</li>
+<li><p>进程同步机制原则：</p>
+<ol>
+<li>空闲让进，临界区空闲，允许一个请求进程立即进入临界区</li>
+<li>忙则等待，已有进程进入临界区，其他请求进入的进程必须等待</li>
+<li>有限等待，应保证请求进程在有限时间内进入临界区</li>
+<li>让权等待 ，当进程不能进入临界区，应立即释放处理机，防止忙等</li>
+</ol>
+</li>
+<li><p>进程通信的类型：<br />共享存储器系统，管道通信，消息传递系统，客户机-服务器系统 </p>
+</li>
+<li><p>消息缓冲队列机制发送原语和接收原语：</p>
+</li>
+</ol>
+<p>原理：消息缓冲队列通信机制通过内存中公用的消息缓冲区进行进程通信，属于直接通信方式。发送进程发送消息时，需申请一个消息缓冲区，并把自己的进程标示符和有关消息的内容填入消息缓冲区，然后将其插入到接收进程的消息缓冲队列中，接收进程接收消息时需从自己的消息缓冲队列中摘下一个消息缓冲区，取出其中的消息，然后消息缓冲区归还给系统。</p>
+<p>PCB需要添加：mq（消息缓冲队列队首指针）；mutex（消息缓冲队列互斥信号量）；sm（消息缓冲队列资源信号量）。    </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">message_buffer</span>&#123;</span> <span class="comment">//消息缓冲区数据结构</span></span><br><span class="line">    <span class="type">int</span> sender; <span class="comment">//发送者进程标识符</span></span><br><span class="line">    <span class="type">int</span> size; <span class="comment">//消息长度</span></span><br><span class="line">    <span class="type">char</span> *text；<span class="comment">//消息正文</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">message_buffer</span> *<span class="title">next</span>;</span> <span class="comment">//指向下一个消息缓冲区</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">send</span><span class="params">(receiver a)</span>&#123; <span class="comment">//发送原语</span></span><br><span class="line">     getbuf(a.size, i); <span class="comment">//根据a.size申请缓冲区</span></span><br><span class="line">     i.sender = a.sender; <span class="comment">//将发送区a中的信息复制到缓冲区i</span></span><br><span class="line">     i.size = a.size;</span><br><span class="line">     copy(i.text, a.text);</span><br><span class="line">     i,next = <span class="number">0</span>;</span><br><span class="line">     getid(PCBset, receiver, j)<span class="comment">//获得接收程序j的PCB</span></span><br><span class="line">     wait(j.mutex)</span><br><span class="line">     insert(&amp;j.mq, i) <span class="comment">//将消息缓冲区i插入消息队列</span></span><br><span class="line">     signal(j.mutex)</span><br><span class="line">     signal(j.sm)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">receive</span><span class="params">(b)</span> &#123; <span class="comment">//接收原语</span></span><br><span class="line">    j = internal_name; <span class="comment">//获取当前进行的PCB</span></span><br><span class="line">    wait(j.sm);</span><br><span class="line">    wait(j.mutex);</span><br><span class="line">    remove(j.mq, i); <span class="comment">//移出消息队列第一个消息</span></span><br><span class="line">    signal(j.mutex); </span><br><span class="line">    b.sender = i.sender; <span class="comment">//将缓冲区i中信息复制到接收区b</span></span><br><span class="line">    b.size = i.size;</span><br><span class="line">    copy(b.text, i.text);</span><br><span class="line">    releasebuf(i); <span class="comment">//释放消息缓冲区i</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><p>为什么要引入进程？<br />为了实现多个程序的并发执行，提高资源利用率和系统吞吐量。<br />传统的程序在并发执行时结果不可再现。<br />不利影响：管理进程需要付出一定的代价，包括进程控制块，进程间切换，同步，通信等。 </p>
+</li>
+<li><p>进程和程序的异同：<br />进程与程序紧密相关又完全不同。 </p>
+<ol>
+<li>进程实体中除了程序段和数据段之外还包含一个数据结构PCB </li>
+<li>进程是动态的，是程序的一次执行过程。<br />程序是静态的，是一组指令的有序集合 </li>
+<li>多个进程实体可同时放在内存中并发执行，这是引入进程的目的<br />程序的并发具有不可再现性，不能正确的并发。 </li>
+<li>进程是一个能够独立运行、独立分配资源和独立接收调度的基本单位。程序在多道程序环境下不能独立运行（没有PCB） </li>
+<li>进程与程序不一一对应；同一程序多次运行产生多个进程；同一程序一次执行也可产生多个进程（fork调用产生子进程）；一个进程在生命周期不同时候可以执行不同的程序。</li>
+</ol>
+</li>
+<li><p>进程和线程的异同 </p>
+<ol>
+<li>调度性：引入线程后，线程成为调度和分派的基本单位，进程只是拥有资源的基本单位</li>
+<li>并发性：都可并发</li>
+<li>拥有资源：拥有资源的基本单位是进程。线程只有一点必不可少的资源，但可共享其隶属进程的资源。</li>
+<li>独立性：进程可独立的申请资源和运行，而同一进程下的线程共享进程的地址空间和其他资源，独立性较低。</li>
+<li>开销：创建撤销进程时，OS都要为之分配和回收资源。开销远大于线程。</li>
+<li>传统的进程只能运行在一个处理机上，多线程的进程则可以运行在多个处理机上，并发效果更好。</li>
+</ol>
+</li>
+<li><p>进程状态转换  </p>
+<table>
+<thead>
+<tr>
+<th>状态转换</th>
+<th>引起转换的事件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>就绪-执行</td>
+<td>CPU调度</td>
+</tr>
+<tr>
+<td>执行-就绪</td>
+<td>时间片完，更高优先级进程抢占</td>
+</tr>
+<tr>
+<td>执行-阻塞</td>
+<td>等待I&#x2F;O或临界资源</td>
+</tr>
+<tr>
+<td>阻塞-就绪</td>
+<td>等待的事件完成</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>内核支持线程和用户级线程：<br />内核支持线程是在内核支持下实现的，即每个线程的线程控制块设置在内核中。用户级线程仅存在于用户空间中，每个线程控制块设置在用户空间中，所有对线程的操作也在用户空间中完成，无需内核帮助。</p>
+</li>
+</ol>
+<h2 id="第三章-处理机调度与死锁"><a href="#第三章-处理机调度与死锁" class="headerlink" title="第三章 处理机调度与死锁"></a>第三章 处理机调度与死锁</h2><ol>
+<li><p>处理机调度算法的目标</p>
+<ol>
+<li>资源利用率：为提高资源利用率，应使系统中的处理机和其他所有资源都尽可能保持忙碌</li>
+<li>公平性：应使进程获得合理的CPU时间，不会发生饥饿现象。</li>
+<li>平衡性：尽可能保持系统资源使用的平衡性</li>
+<li>策略强制执行</li>
+</ol>
+</li>
+<li><p>处理机调度的层次</p>
+<ol>
+<li>高级调度：作业调度，把作业从后备队列拿出，分派资源后建立进程中，使之可以获得处理机</li>
+<li>中级调度：内存调度，把外存中的就绪进程调入内存，插入就绪队列</li>
+<li>低级调度：进程调度，最基本的调度。决定就绪队列的进程获得处理机</li>
+</ol>
+</li>
+<li><p>调度的方式</p>
+<ol>
+<li>非剥夺（非抢占）方式：一旦分配就占有资源直到阻塞或结束。优点是简单，系统开销小</li>
+<li>剥夺（抢占）方式：当前进程所占有的资源可被其他进程夺走。<ol>
+<li>优点：更高的系统吞吐率和响应效率</li>
+<li>原则：优先权、短进程、时间片原则</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>引起进程调度的因素：</p>
+<ol>
+<li>正在执行的进程正常终止或异常终止</li>
+<li>正在执行的进程因某种原因而阻塞</li>
+<li>引入时间片的系统中，时间片完</li>
+<li>抢占调度方式中，有更高优先权的进程</li>
+</ol>
+</li>
+<li><p>调度的算法的类型及比较：</p>
+<p> 有先来先服务、短作业优先、优先级调度、高响应比优先、时间片轮转、多级反馈队列等</p>
+<ol>
+<li>先来先服务、短作业优先无法保证及时接收和处理问题，无法保证在规定时间间隔内响应每个用户需求，也不能达到实时系统的及时性需求。</li>
+<li>优先级调度算法，按优先级进行调度，对于更紧急的任务予以更高优先级，适合实时操作系统</li>
+<li>高响应比优先，时间片轮转，多级反馈队列能保证每个任务在一定时间内分配到时间片，适合分时系统</li>
+</ol>
+</li>
+<li><p>低级调度主要功能</p>
+<p> 低级调度用于决定就绪队列中哪个进程获得处理机，并由分派程序把处理机分配给该进程</p>
+<ol>
+<li>保存当前进程的处理机现场信息到PCB</li>
+<li>按调度算法选择投入执行新进程</li>
+<li>恢复新进程的现场，将处理机分配给新进程</li>
+</ol>
+</li>
+<li><p>高响应比优先调度算法优点是什么？</p>
+<p> 响应比 &#x3D; 响应时间&#x2F;要求服务时间 &#x3D; （等待时间+要求服务时间）&#x2F;要求服务时间 ； 优点是：</p>
+<ol>
+<li>如果进程等待时间相同，则要求服务时间最短的进程优先权最高，有利于短作业。【SJF短作业优先只考虑了作业运行时间而忽略了作业等待时间】</li>
+<li>如果作业要求服务时间相同，则优先权将取决于进程到达先后次序，体现了公平原则。【FCFS先来先服务只考虑作业等待时间而忽视了作业运行时间】</li>
+<li>如果进程较长，它的优先权将随着等待时间的曾长而提高，不会长时间得不到服务。<ol start="8">
+<li>为什么说多级反馈队列调度算法能较好地满足各方面用户的需要？</li>
+</ol>
+</li>
+<li>对于终端型作业用户而言，其提交的作业大多为交互型作业，作业通常较小，系统只要能使这些作业在第一个队列所规定的时间片内完成，便可使其满意</li>
+<li>对于短批处理作业用户而言，较短的作业可在第一个队列完成，稍长的也可以在第二三队列执行一个时间片完成，周转时间仍然很短。</li>
+<li>对于长批处理作业用户而言，用户不必担心作业长期得不到处理，且每下降一个队列，长作业等待时间都进一步缩短。</li>
+</ol>
+</li>
+<li><p>死锁定理</p>
+<p> 在资源分配图中找到一个既不阻塞又非独立的进程，分配给该进程资源后，该进程执行完毕释放所占资源，即消去请求边与分配边，使其成为孤立点，重复该过程，若能使所有进程都能成为孤立点，则该图是可完全简化的。<br />当前状态为死锁的充分条件是，当且仅当该状态的资源分配图是不可完全简化的。</p>
+</li>
+<li><p>产生死锁的原因和必要条件</p>
+<p>原因：系统资源的竞争和进程推进顺序非法。<br />必要条件：互斥条件、请求与保持条件、不剥夺条件、循环等待条件<br />预防死锁：破坏四个条件<br />避免死锁：银行家算法，防止进入不安全状态<br />检测死锁：死锁定理，资源分配图<br />解除死锁：资源剥夺，撤销进程，解除死锁</p>
+</li>
+</ol>
+<h2 id="第四章-存储器管理"><a href="#第四章-存储器管理" class="headerlink" title="第四章 存储器管理"></a>第四章 存储器管理</h2><ol>
+<li><p>程序的装入</p>
+<ol>
+<li>绝对装入方式：产生使用绝对地址的目标模块。只适用于单道程序环境</li>
+<li>可重定位装入方式：程序中的其他地址都是相对于始址的<ol>
+<li>静态重定位：在装入时，由重定位程序一次性完成的。不允许程序在运行时在内存中移动位置。</li>
+</ol>
+</li>
+<li>动态运行时装入方式：需要重定位寄存器的支持。可以将程序分配在不连续的存储区中，程序运行之前可以只装入部分代码即刻运行，运行期间动态申请分配内存，便于程序段共享。</li>
+</ol>
+</li>
+<li><p>程序的链接</p>
+<ol>
+<li>静态链接方式：在程序运行之前将各目标模块及所需的库函数链接为一个完整的装入模块。</li>
+<li>装入时动态链接：链接在装入时进行，便于对程序模块进行修改和更新，可对外存中的目标模块实现共享。</li>
+<li>运行时动态链接：链接在运行时进行。便于实现目标模块的修改、更新和共享，加快程序的装入过程，提高内存利用率。</li>
+</ol>
+</li>
+<li><p>为什么引入对换？</p>
+<ol>
+<li>在多道程序环境下，一方面内存中某些进程由于某事件尚未发生而阻塞，却占用大量内存空间，可能出现内存中所有进程被阻塞。另一方面：又有很多作业意志驻留外存，不能进入内存运行</li>
+<li>提高内存利用率，系统吞吐量</li>
+</ol>
+</li>
+<li><p>什么情况下需要进行重定位？为什么要引入重定位？</p>
+<p> 重定位概念：将作业空间中的逻辑地址转换为主存空间中的物理地址，从而保证作业能够正常进行。</p>
+<ol>
+<li>程序在装入时，指令和数据的实际物理地址与装入模块中的相对地址是不一致的，此时需要重定位。</li>
+<li>引入动态重定位是因为进程在运行过程中进场要在内存中移动位置。重定位的过程是由硬件地址变换机构在程序执行每条指令时自动完成。</li>
+</ol>
+</li>
+<li><p>连续分配方式中动态分区分配方式：</p>
+<ol>
+<li>首次适应算法：按地址从小到大为序，分配第一个符合条件的分区。</li>
+<li>最佳适应算法：按空间从小到大为序，分配第一个符合条件的分区。</li>
+<li>最坏适应算法：按空间从大到小为序，分配第一个符合条件分区。</li>
+<li>循环首次适应：与首次适应算法相似，从上次分配的下一个位置继续。</li>
+</ol>
+</li>
+<li><p>分页系统地址变换机构</p>
+<p> 硬件支持：页表寄存器，地址变换机构</p>
+<ol>
+<li>页号与页表长度比较，页号大于页表长度，则产生越界中断</li>
+<li>以页号为索引去检索页表。页表始址+页号x页表项长度</li>
+<li>从页表中获取物理块号。</li>
+<li>物理地址&#x3D;物理块号+页内地址。</li>
+</ol>
+<p> 一次数据操作，访问两次内存：访问页表获取块号，访问数据。<br />引入快表的地址变换机构</p>
+<ol>
+<li>页表在与页表寄存器中的页表长度比较时并行地与快表中的所有页号比较。</li>
+<li>若在快表中则直接读出物理块号。</li>
+<li>否则从页表中读，并将得到的页表项和页号装入到快表中。</li>
+</ol>
+<p> 多级页表机制下页内地址长度等于页面大小。</p>
+</li>
+<li><p>分段系统地址变换机构</p>
+<p> 硬件支持：段表寄存器，地址变换机构</p>
+<ol>
+<li>段号S与段表度长比较，若大于则产生越界中断。</li>
+<li>使用段号进行索引段表得到该段的基址和长度。段表始址+段号x段表项长度。</li>
+<li>检查段内地址是否超过段长，超过则产生越界中断。</li>
+<li>物理地址&#x3D;起始地址（基址）+段内地址。</li>
+</ol>
+<p> 一次数据操作访问两次内存。</p>
+</li>
+<li><p>分页与分段比较：</p>
+<ol>
+<li><p>页是信息的物理单位，分页是为了提高内存利用率。段是信息的逻辑单位，含有一组其意义相对完整的信息。分段是为了能更好的满足用户的需要。</p>
+</li>
+<li><p>页的大小固定且由系统决定。段的长度不固定且由用户所编写的程序决定。</p>
+</li>
+<li><p>分页的地址空间是一维的，分段的地址空间是二维的。</p>
+</li>
+<li><p>分页有内部碎片，无外部碎片。分段无内部碎片，有外部碎片。</p>
+</li>
+<li><p>分段更容易实现共享和动态链接。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="第五章-虚拟存储器"><a href="#第五章-虚拟存储器" class="headerlink" title="第五章 虚拟存储器"></a>第五章 虚拟存储器</h2><ol>
+<li><p>什么是虚拟存储器？</p>
+<p> 虚拟存储器是指具有请求调入功能和置换功能，能从逻辑上对内存容量进行扩充的一种存储系统。<br />虚拟存储器具有如下特征：</p>
+<ol>
+<li>多次性，最本质最重要的特征。虚拟存储器将一个作业分成多次调入内存。部分装入。</li>
+<li>对换性，虚拟存储器允许将将暂时用不到的程序从内存调到对换区，提高内存利用率。</li>
+<li>虚拟性，虚拟存储器对内存的扩充是逻辑上的。</li>
+<li>离散性，虚拟存储器必须建立在离散分配的基础上。</li>
+</ol>
+</li>
+<li><p>如何实现页式虚拟存储器？</p>
+<p> 首先请求分页的页表机制。扩充页表，增加状态位确认是否在内存；增加外存始址便于调入；增加引用位供置换算法。增加修改位减少换出时写磁盘次数。<br />请求调页技术，需要硬件上缺页中断机制和软件配合实现。<br />置换页技术，关键是采取什么置换算法。<br />还有地址变换机构。</p>
+</li>
+<li><p>局部性原理</p>
+<ol>
+<li>时间局部性，某条指令（数据）一旦执行（访问），不久后可能被再次执行（访问）。原因是程序中的大量循环操作。</li>
+<li>空间局部性，程序在一段时间内所访问的地址可能集中在一定范围内。原因是程序的顺序执行。</li>
+</ol>
+</li>
+<li><p>缺页中断中断机构与一般中断之间的区别</p>
+<ol>
+<li>在指令执行期间产生和处理中断信号。</li>
+<li>一条指令在执行期间可能产生多次中断。</li>
+</ol>
+</li>
+<li><p>请求分页系统中地址变换过程（考试中不需要写这个详细的，要写按地址字段进行转换的）</p>
+</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111635877.jpeg" alt="7B745057-CD3E-4C10-99F6-05F104B1AE8F.jpeg" style="zoom:20%;" />
+
+<ol start="6">
+<li><p>页面置换算法</p>
+<ol>
+<li><p>最佳算法（OPT）：选择往后最长时间内不再被访问的页面置换。</p>
+</li>
+<li><p>先进先出页面置换算法（FIFO）</p>
+</li>
+<li><p>最近最久未使用算法（LRU）：为每个页面设置一个访问字段，记录自上次被访问以来所经历的时间。选择最大的置换。需要寄存器和栈的硬件支持。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="第六章-输入输出系统（I-x2F-O）"><a href="#第六章-输入输出系统（I-x2F-O）" class="headerlink" title="第六章 输入输出系统（I&#x2F;O）"></a>第六章 输入输出系统（I&#x2F;O）</h2><ol>
+<li><p>I&#x2F;O系统基本功能</p>
+<p>方便用户使用I&#x2F;O设备。</p>
+<ol>
+<li>隐藏物理设备的细节</li>
+<li>与设备的无关性</li>
+</ol>
+<p>提高设备的资源利用率。</p>
+<ol>
+<li><p>提高处理机和I&#x2F;O设备的利用率。</p>
+</li>
+<li><p>对I&#x2F;O设备进行控制。</p>
+</li>
+</ol>
+<p>方便用户共享。</p>
+<ol>
+<li><p>确保对设备的正确共享</p>
+</li>
+<li><p>错误处理</p>
+</li>
+</ol>
+</li>
+<li><p>I&#x2F;O系统的层次结构</p>
+<ol>
+<li>用户层I&#x2F;O软件</li>
+<li>设备独立性软件</li>
+<li>设备驱动程序</li>
+<li>中断处理程序</li>
+</ol>
+</li>
+<li><p>I&#x2F;O控制方式</p>
+<ol>
+<li><p>轮询方式：程序直接对设备循环测试</p>
+<p>优点：简单，易于实现<br />缺点：CPU和I&#x2F;O只能串行工作，CPU利用率很低</p>
+</li>
+<li><p>中断方式：引入中断机制，当设备准备完成时发生中断</p>
+<p>优点：CPU和I&#x2F;O可以并行工作，相较于轮询方式大大提高了CPU利用率<br />缺点：仍以字节为单位，降低了效率。</p>
+</li>
+<li><p>DMA（直接存储器存取）方式：在I&#x2F;O设备与内存之间直接开辟数据通路</p>
+<p>特点：</p>
+<ol>
+<li>基本单位是数据块</li>
+<li>数据是直接从设备送入送出内存的</li>
+<li>仅在传送一个或多个数据块的开始和结束时才需要CPU干预，整块数据的传送是在DMA控制器的控制下完成的。</li>
+</ol>
+</li>
+<li><p>通道控制方式：引入专门的I&#x2F;O处理机进行管理</p>
+<p>进一步减少CPU干预，基本单位变为一组数据块</p>
+</li>
+</ol>
+</li>
+<li><p>试说明I&#x2F;O控制发展的主要推动因素是什么？</p>
+<ol>
+<li>力图减少CPU对I&#x2F;O设备的干预，充分发挥CPU的数据处理能力</li>
+<li>缓和CPU的高速性和I&#x2F;O设备的低速性之间速度不匹配的矛盾。提高CPU利用率和系统的吞吐量。</li>
+<li>提高CPU和I&#x2F;O设备操作的并行程度。提高整个系统的资源利用率和吞吐量。</li>
+</ol>
+</li>
+<li><p>中断的重要性：</p>
+<ol>
+<li>中断是多道程序实现的基础，进程的切换通过中断完成。</li>
+<li>中断是设备管理的基础，为提高CPU利用率和实现CPU与I&#x2F;O设备并行执行。</li>
+</ol>
+</li>
+<li><p>中断驱动I&#x2F;O方式和DMA方式有什么不同？</p>
+<ol>
+<li>中断方式是程序的切换，要保护和恢复现场； DMA方式除了预处理和后处理其余时间不占用CPU</li>
+<li>对中断请求的响应只能发生在每条指令结束时（指令执行周期后）；对DMA的请求响应可以发生在每个机器周期结束时（取指、间址、执行），只要CPU不占用总线就可以响应。</li>
+<li>中断传送过程需要CPU的干预；DMA传送过程不需要CPU的干预，故DMA传输效率高，适合高速外设成组数据传输。</li>
+<li>DMA请求优先于中断请求</li>
+<li>中断方式具有对异常事件的处理能力。 DMA方式仅局限传送数据块的I&#x2F;O操作。</li>
+<li>从数据传送来看，中断靠程序传送，DMA靠硬件传送。</li>
+</ol>
+</li>
+<li><p>DMA方式和I&#x2F;O通道方式的区别。</p>
+<ol>
+<li>DMA需要CPU控制数据传送位置，数据块大小等参数，而通道中这些参数的设置是由通道控制的。</li>
+<li>一个DMA控制器对应一台设备。 一个I&#x2F;O通道可以控制多台设备。</li>
+</ol>
+</li>
+<li><p>为什么I&#x2F;O通道常采用交叉连接的方式</p>
+<p>I&#x2F;O通道是一种特殊的处理机，它具有执行I&#x2F;O指令的功能，能控制I&#x2F;O操作。由于通道价格昂贵，所以通道数量少，这往往成为I&#x2F;O的瓶颈，造成整个系统吞吐量的下降。为解决此问题，增加设备到主机之间的通路而不增加通道，提高了系统可靠性。</p>
+</li>
+<li><p>为什么要引入缓冲区？（重要）</p>
+<ol>
+<li>缓和CPU和I&#x2F;O设备速度不匹配的矛盾。</li>
+<li>减少对CPU的中断频率，放宽CPU响应中断时间。</li>
+<li>提高CPU和I&#x2F;O设备之间的并行性</li>
+<li>解决数据粒度不匹配的问题。</li>
+</ol>
+</li>
+<li><p>为什么要引入设备独立性？如何实现设备独立性？（重要）</p>
+<p>引入设备独立性，可使应用程序独立于具体的物理设备。用逻辑设备名来申请使用某类物理设备，可显著地改善资源的利用率及可适应性。独立性还可以使用户程序独立于设备的类型，可以很方便地进行输入输出重定向。<br />为了实现设备独立性，必须在设备驱动程序之上设置一层设备独立性软件，用来执行所有I&#x2F;O设备的公用操作，并向用户层软件提供统一接口。关键是系统中必须设置一张逻辑设备表LUT来进行逻辑设备到物理设备的映射。（逻辑设备名、物理设备名、设备驱动程序入口地址）</p>
+</li>
+<li><p>什么是虚拟设备？实现虚拟设备的关键技术是什么？</p>
+<p>虚拟设备是指通过某种虚拟技术，将一台物理设备变为若干台逻辑设备，从而实现多个用户对该物理设备的同时共享。<br />虚拟设备技术常通过在可共享的、高速的磁盘上开辟两个大的存储空间（输入井、输出井）以及预输入、缓输出技术来实现。预输入和缓输出可通过脱机和假脱机技术实现。</p>
+</li>
+<li><p>SPOOLing系统（假脱机技术）由哪几部分组成？以打印机为例说明如何利用SPOOLing技术实现多个进程对打印机共享。</p>
+<p>SPOOLing系统由磁盘上的输入井和输出井、内存中的输入缓冲区和输出缓冲区，输入进程和输出进程以及井管理程序构成。<br />使用SPOOLing技术共享打印机：</p>
+<ol>
+<li><p>在输出井中为进程申请一空闲缓冲区，放入要打印的数据。</p>
+</li>
+<li><p>为用户进程申请一张空白的打印申请表，在把该表挂到假脱机文件队列上。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="第七章-文件管理"><a href="#第七章-文件管理" class="headerlink" title="第七章 文件管理"></a>第七章 文件管理</h2><ol>
+<li><p>文件系统为什么通常是显式进行文件”打开””关闭”操作？</p>
+<ol>
+<li>打开文件操作的基本功能是将指定文件的属性信息FCB复制到内存中，并返回指向内存中该文件属性信息的地址（文件描述符）。关闭文件操作是从内存中删除文件的属性信息，并写回外存。</li>
+<li>显式进行打开操作，当用户需要对一个文件实施多次读写操作时，只需要使用文件描述符而非路径名。系统则无需对目录进行检索便可通过文件描述符直接找到内存中的文件FCB。避免了重复检索目录，提高了文件的访问速度。</li>
+</ol>
+</li>
+<li><p>文件的逻辑结构和物理结构的概念</p>
+<ol>
+<li><p>文件的物理结构是文件的存储结构，指系统过将文件存储在外存上的存储形式</p>
+</li>
+<li><p>文件的逻辑结构指从用户角度出发所观察到的文件组织形式，文件的内部数据在逻辑上是怎么组织的。</p>
+<ol>
+<li><p>有结构文件</p>
+<ol>
+<li>顺序文件：与关键字有关的串结构，无关的顺序结构</li>
+<li>索引文件：为变长文件建立索引表</li>
+<li>索引顺序文件：顺序文件和索引文件的结合</li>
+<li>直接文件：通过哈希函数直接决定记录地址</li>
+</ol>
+</li>
+<li><p>无结构文件：将数据按顺序组织成记录并积累保存。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>对文件目录管理的要求？</p>
+<ol>
+<li>能够实现”按名存取”。</li>
+<li>能够提供快速的目录查询手段以提高对文件的检索速度。</li>
+<li>为文件的共享和重名提供方便</li>
+<li>允许文件同名</li>
+</ol>
+</li>
+<li><p>文件系统：文件控制块和索引节点的内容</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111635837.jpeg" alt="7775FC29-3F7C-47E8-83FB-299E9BD9F51A.jpeg" style="zoom: 10%;" />
+
+<ol>
+<li><p>文件控制块：</p>
+<ol>
+<li>基本信息：包括文件名，文件物理地址，文件逻辑结构，文件物理结构</li>
+<li>存取控制信息：文件的存取权限</li>
+<li>使用信息：文件的建立时间，修改时间，当前使用信息。</li>
+</ol>
+</li>
+<li><p>索引结点：至少要有索引结点编号、存取权限、文件物理地址、文件大小的信息。</p>
+<ol>
+<li>优点是：可以减少文件查找时平均启动磁盘的次数，有效提升文件检索速度。</li>
+</ol>
+</li>
+<li><p><del>磁盘索引结点</del></p>
+<ol>
+<li><del>文件主标识符</del></li>
+<li><del>文件类型</del></li>
+<li><del>文件存取权限</del></li>
+<li><del>文件物理地址</del></li>
+<li><del>文件长度</del></li>
+<li><del>文件连接计数</del></li>
+<li><del>文件存取时间</del></li>
+</ol>
+</li>
+<li><p><del>内存索引结点</del></p>
+<ol>
+<li><del>索引结点编号</del></li>
+<li><del>状态：是否修改</del></li>
+<li><del>访问计数</del></li>
+<li><del>文件所属文件系统的逻辑设备号</del></li>
+<li><del>链接指针，指向空闲链表和散列队列。</del></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>文件系统必要的系统调用</p>
+<p>创建文件、删除文件、读文件、写文件。<br />以读文件为例：</p>
+<ol>
+<li>系统调用给出文件名和读入的内存目标地址<ol>
+<li>系统通过查找目录表，找到该文件所对应的索引结点编号，或直接通过指向索引节点的指针找到索引结点。</li>
+<li>根据索引结点中的物理地址，找到文件在外存中存放的位置。</li>
+<li>将该文件读入内存。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>树形目录结构中线性检索法的检索过程</p>
+<ol>
+<li>系统在检索一个文件时，先读入给定文件路径名中的第一个分量名，用它与根目录文件（当前目录文件）中的各目录项中的文件名顺序地进行比较。<ol>
+<li>若找到相匹配的目录项，则可获得它的FCB或索引节点编号，从而找到该分量名对应的文件。</li>
+<li>然后系统再读入第二个文件分量名，与刚检索到的目录文件中的各目录项的文件名顺序比较，若找到，则重复该过程，逐级检索指定文件分量名，最后会得到指定文件的FCB或索引结点。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>文件共享方式</p>
+<p>目的是提高文件存储空间利用率，方便用户对文件的使用。</p>
+<ol>
+<li><p>基于索引结点的共享方式（硬链接）：将多个目录项指向同一个磁盘索引结点</p>
+</li>
+<li><p>利用符号链实现文件共享（软链接）：建立一个类型为LINK，内容为被共享文件路径名的新文件来实现共享。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="第八章-磁盘存储器的管理"><a href="#第八章-磁盘存储器的管理" class="headerlink" title="第八章 磁盘存储器的管理"></a>第八章 磁盘存储器的管理</h2><ol>
+<li><p>文件外存分配中，即文件的物理结构，连续分配、链接分配、和索引分配各自的优缺点。</p>
+<ol>
+<li><p>连续分配方式：为每个文件分配一组相邻的物理块，将文件信息按逻辑顺序存放。</p>
+<ol>
+<li>适合不经常更新，经常随机访问</li>
+<li>优点：管理简单；顺序访问存取速度很快；支持对文件随机存取</li>
+<li>缺点：要求连续的存储空间，容易产生碎片，降低存储空间利用率；要求事先知道文件长度；不利于文件的增长扩充。</li>
+</ol>
+</li>
+<li><p>链接分配方式：隐式链接方式类似于单链表；显式链接方式是将链接各物理块的指针显式地登记在系统的一张文件分配表FAT中。</p>
+<ol>
+<li><p>适合经常更新，经常顺序访问</p>
+</li>
+<li><p>隐式链接：</p>
+<ol>
+<li>优点：解决了外部碎片；不需事先知道文件长度；插入删除修改容易；</li>
+<li>缺点：只支持顺序访问；可靠性较差</li>
+</ol>
+</li>
+<li><p>显式链接：</p>
+<ol>
+<li>优点：可显著提高检索的速度；增加了文件系统的可靠性。</li>
+<li>缺点：不支持高效的随机存取；文件存储介质较大，则FAT也要占用较大存储空间。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>索引组织方式：为每个文件建立一个索引表，登记分配给该文件所有的物理块号，文件FCB的物理地址字段为该索引表的指针。</p>
+<ol>
+<li>适合经常更新，经常随机访问</li>
+<li>优点：既支持顺序访问又支持随机访问；查找效率高；便于文件删除</li>
+<li>缺点：索引表会占用一定存储空间，对单独的中小文件也需要分配完整的索引表，对外存空间造成严重浪费。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>UNIX系统的混合索引方式：索引地址分为13个地址项。假设每个物理块4KB</p>
+<p>优点：既能节省存储地址所占的存储空间，又有较高的查找速度。</p>
+<ol>
+<li><p>直接地址：0-9共10个地址项，分配相应文件的前十个物理块地址。可存储4KB X 10 &#x3D; 40KB的文件</p>
+</li>
+<li><p>一次间址：地址项10为一次间址。登记分配给文件的第10个物理块及后序物理块地址。如果地址长度为4B，则一次间址块可存储4KB &#x2F; 4B &#x3D; 1K个物理块号。最大存储文件为40KB+ 1K x 4KB</p>
+</li>
+<li><p>多次间址：地址项11为二次间址，存储的是1次间址的块号。故可存储40KB+4MB+4GB的文件；地址项12是三次间址，存储的是二次间址的块号。故可存储40KB + 4MB + 4GB + 4TB的文件。</p>
+</li>
+</ol>
+</li>
+<li><p>文件存储空间的管理</p>
+<ol>
+<li><p>位示图法：用1表示分配，0表示清除</p>
+</li>
+<li><p>成组链接法：适合大型文件。将一个文件卷的所有空闲盘块按固定大小分成若干组，并将每一组的盘块数和该组所有盘块号计入前一组的最后一个盘块中。（最后一组的0标记也算一个）</p>
+<ol>
+<li><p>分配过程（操作题）：</p>
+<ol>
+<li>将s_nfree（该组空闲盘块数）减1；</li>
+<li>若s_nfee仍大于0，即第一组不只一个空闲盘块，则将s_free[s_nfree]空闲盘块号栈栈顶的空闲盘块分配出去。</li>
+<li>若s_nfree为0，即当前空闲盘块号栈中只剩下最后一个空闲盘块，则用唯一所剩的盘块替换掉超级块，再将该盘块分配出去。</li>
+<li>若s_nfree为0，且栈底登记盘块号为0；则表示系统已无空闲盘块可分配。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>磁盘调度算法（计算）</p>
+<p>一次磁盘读写操作时间：<br /></p>
+<p>​	寻道时间（m x 磁道数 + 启动时间） + 延迟时间（1&#x2F;2r） + 传输时间（b&#x2F;(r x 一个磁道上字节数)）</p>
+<ol>
+<li>先来先服务（FCFS）：根据进程请求访问磁盘的先后顺序进行调度</li>
+<li>最短寻找时间优先（SSTF）：选择当前磁头所在磁道距离最近的磁道</li>
+<li>电梯算法（SCAN）：在当前移动方向上最近的磁道。</li>
+<li>循环扫描算法（CSCAN）：只能一个方向，到达当前方向上最后一个需要访问的磁道后，从头开始。</li>
+</ol>
+</li>
+<li><p>提高磁盘I&#x2F;O速度的途径。</p>
+<ol>
+<li><p>磁盘高速缓存</p>
+</li>
+<li><p>提前读</p>
+</li>
+<li><p>延迟写</p>
+</li>
+<li><p>优化物理块布局</p>
+</li>
+<li><p>虚拟盘</p>
+</li>
+</ol>
+</li>
+<li><p>提高文件访问速度的途径。</p>
+<ol>
+<li><p>改进文件的目录结构及检索目录的方法来减少对目录的查询时间</p>
+</li>
+<li><p>选取好的文件存储结构，以提高对文件访问速度</p>
+</li>
+<li><p>提高磁盘I&#x2F;O速度。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="组成原理"><a href="#组成原理" class="headerlink" title="组成原理"></a>组成原理</h1><ol>
+<li><p>冯·诺伊曼计算机结构的主要特点：</p>
+<ol>
+<li>计算机由运算器、控制器、存储器、输入设备和输出设备5大部分组成</li>
+<li>指令和数据用二进制表示，两者形式上没有差别。</li>
+<li>指令和数据存放在存储器中，按地址访问</li>
+<li>指令由操作码和地址码组成，操作码指定操作性质，地址码指定操作数地址</li>
+<li>采用”存储程序”方式进行工作</li>
+</ol>
+</li>
+<li><p>计算机系统层次结构</p>
+</li>
+<li><p>指令和数据均以二进制形式存放在存储器中，计算机如何区分？</p>
+<p> 时间上说，在取指周期取的是指令，在执行周期取的是数据；<br />空间上说，指令存放在指令寄存器，数据存放在通用寄存器；<br />并且，指令地址在PC中存放，数据地址在指令的地址字段。</p>
+</li>
+<li><p>控制器设计的两种方式及其各自特点 </p>
+<ol>
+<li>微程序控制器：微操作控制信号以微程序的形式存放在控制存储器中，执行指令时读出，执行速度慢，较规整，应用于CISC，易扩充和修改。指令添加容易，可维护性好。</li>
+<li>硬布线控制器：微操作控制信号由组合逻辑电路根据当前指令码、状态和时序即时产生，执行速度快，繁琐不规整，应用于RISC，难易扩充，可维护性差。</li>
+</ol>
+</li>
+<li><p>计算机调用中断服务程序与调用子程序有何区别</p>
+<ol>
+<li>中断程序：随机的，和主程序有关，从隐指令中取得中断服务地址</li>
+<li>子程序：预先设计好的，为主程序服务，由调用服务给出地址。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>829专业课</tag>
+        <tag>操作系统</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为code-server配置https解决Markdown无法预览的问题</title>
+    <url>/2022/08/27/%E4%B8%BAcode-server%E9%85%8D%E7%BD%AEhttps%E8%A7%A3%E5%86%B3Markdown%E6%97%A0%E6%B3%95%E9%A2%84%E8%A7%88%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ol>
+<li>首先为IDE安装<code>Markdown All in One</code>插件启用Markdown编辑预览支持。<br>但是此时右键选择预览时发现预览栏空白，没有渲染。查看浏览器控制台发现浏览器拒绝了预览显示的请求。<br>为网站配置SSL证书可以解决这个问题。</li>
+<li>申请SSL证书，如果没有为服务器绑定域名可以通过<a href="https://zerossl.com/">ZeroSSL</a>为服务器IP申请SSL证书，证书有效期3个月。当然该网站也支持为域名下发证书。申请证书流程不做赘述。</li>
+<li>为Nginx配置HTTPS。<ul>
+<li>首先需要将证书文件上传至服务器，包括两个<code>.crt</code>文件和一个<code>.key</code>文件。</li>
+<li>接着配置证书。进入nginx安装目录，执行<code>sudo vim conf/nginx.conf</code>编辑配置文件<br>https最基本配置内容如下,<code># #</code>内要修改为自己的实际环境<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> listen               443 ssl;</span><br><span class="line">    </span><br><span class="line"> ssl                  on;</span><br><span class="line"> ssl_certificate      # certificate.crt路径 #; </span><br><span class="line"> ssl_certificate_key  # private.key 路径 #;</span><br><span class="line"></span><br><span class="line"> server_name  # 你的ip地址或者域名 #;</span><br><span class="line"></span><br><span class="line"> location / &#123;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+配置完成后重启nginx，之后就可以在浏览器通过https访问了。</li>
+</ul>
+</li>
+<li>配置code-server通过https访问。<br>由于https默认不允许<code>ip:port</code>的方式访问网站，所以需要通过Nginx进行反代设置。<ul>
+<li>继续修改上文的nginx配置文件，主要是将<code>location /</code>中内容替换<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen               443 ssl;</span><br><span class="line">    </span><br><span class="line"> ssl                  on;</span><br><span class="line"> ssl_certificate      # certificate.crt路径 #; </span><br><span class="line"> ssl_certificate_key  # private.key 路径 #;</span><br><span class="line"></span><br><span class="line"> server_name  # 你的ip地址或者域名 #;</span><br><span class="line"></span><br><span class="line">	location / &#123;</span><br><span class="line">        proxy_pass http://localhost:8080;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection upgrade;</span><br><span class="line">        proxy_set_header Accept-Encoding gzip;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>修改code-server的配置文件<br><code>sudo vim /home/ubuntu/.config/code-server/config.yaml</code><br>将最后一行修改为如下内容，<code># #</code>中的内容要替换<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cert:</span> <span class="comment"># certificate.crt路径 #</span></span><br><span class="line"><span class="attr">cert-key:</span> <span class="comment"># private.key 路径 #</span></span><br></pre></td></tr></table></figure>
+此时重启服务就可以通过访问<code>https://ip:8080</code>在https下打开IDE了。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>code-server</tag>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装配置VsCode_Online踩坑记录</title>
+    <url>/2022/08/26/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEVsCode-Online%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>本来使用腾讯云的theia IDE轻量应用服务器当作云端IDE的，但是无奈太难用了，launch.json的语法支持貌似和VSC也不一样。然后偶然发现VSC已经有Web版本了，折腾了一下终于安装成功，这里记录一下踩坑经历。</p>
+<h2 id="安装方式选择"><a href="#安装方式选择" class="headerlink" title="安装方式选择"></a>安装方式选择</h2><p>配置VSCode Online有几种方法：</p>
+<ul>
+<li>微软官方提供一个收费版本（含azure的服务器费用，捆绑销售），不推荐</li>
+<li>下载 VSCode 源代码，编译以后通过yarn web启动。配置难度大，不推荐</li>
+<li>通过 Code-Server 安装: <a href="https://coder.com/">https://coder.com</a></li>
+<li>使用/修改现成的 docker 镜像：linuxserver/docker-code-server</li>
+</ul>
+<p>我选择的是通过Code-Server安装,这里要注意第一个坑。<strong>通过上边这个coder网站首页下载的并非是我们所需要的Code-Server</strong>。<br>我们需要点进去文档界面，再左上角产品选择位置选择Code-Server（默认为Coder-OSS）。<br>在文档中提供了多种安装方式说明。这里推荐两种：</p>
+<ol>
+<li>通过脚本一键安装<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://code-server.dev/install.sh | sh</span><br></pre></td></tr></table></figure>
+如果要查看安装过程中的输出可以采用如下指令<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://code-server.dev/install.sh | sh -s -- --dry-run</span><br></pre></td></tr></table></figure>
+需要注意的是通过脚本安装方式，由于国内服务器访问github较慢，耗费时间很长。</li>
+<li>下载安装包进行安装<br>进入Code-server的github发布页下载最新版本的deb安装包<br><code>https://github.com/coder/code-server/releases/</code><br>这里下载安装包也有两种方式;<ul>
+<li>直接下载到本地再上传到服务器</li>
+<li><code>curl -fOL </code> 后加下载链接直接下载到服务器。下载链接可以通过转换工具转换为CDN加速后的链接，下载速度更快。<br>然后就可以安装程序了(XXX替换为自己的安装包名)<br><code>sudo dpkg -i code-server_XXXX.deb</code><br>然后再执行指令添加到系统服务执行($USER换为自己的用户名)<br><code>sudo systemctl enable --now code-server@$USER</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="配置Code-server"><a href="#配置Code-server" class="headerlink" title="配置Code-server"></a>配置Code-server</h1><p>安装完成后Code-server默认是在 <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080</a> 访问的且只能本地访问.<br>登入的密码可以在 <code>~/.config/code-server/config.yaml</code>查看，同时该文件也包含了其他必要的配置内容。<br>该文件默认格式如下</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">bind-addr: 127.0.0.1:8080</span><br><span class="line">auth: password</span><br><span class="line">password: afiaoskjfiojaoa468546</span><br><span class="line">cert: false</span><br></pre></td></tr></table></figure>
+<p>只需要简单修改<code>bind-addr</code>和<code>password</code>即可外网通过<code>IP:8080</code>访问</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">bind-addr: 0.0.0.0:8080</span><br><span class="line">auth: password</span><br><span class="line">password: （你的密码）</span><br><span class="line">cert: false</span><br></pre></td></tr></table></figure>
+<p>接下来就可以安装插件使用你的WebIDE编程了</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>code-server</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为code-server配置c++环境</title>
+    <url>/2022/08/27/%E4%B8%BAcode-server%E9%85%8D%E7%BD%AEcpp%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<p>code-server默认是不支持运行和调试C++的，并且在插件库中也找不到C++的环境插件。但是我们可以通过手动安装的方式来让IDE支持C++的调试运行。</p>
+<h3 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h3><p>gcc是一定要安装的，没安装的话执行<code>sudo apt install build-essential</code>安装</p>
+<h3 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h3><p>由于插件库没有内置C/C++插件，所以我们需要去VSCode插件网站下载插件。</p>
+<ul>
+<li>浏览器打开<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">插件页面</a></li>
+<li>进入插件页面后点击右下角的<code>Download Extension</code>选择对应平台进行下载。</li>
+<li>将下载的插件上传到服务器。<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3>推荐使用IDE在线安装。具体流程如下</li>
+<li>IDE资源管理器打开插件上传目录</li>
+<li>在插件条目上右键选择<code>从VSIX安装</code>即可安装插件。如果提示<code>Corrupt ZIP: end of central directory record signature not found</code>则说明插件安装包有错误，重新下载即可。<h3 id="配置launch-json和task-json"><a href="#配置launch-json和task-json" class="headerlink" title="配置launch.json和task.json"></a>配置launch.json和task.json</h3>这里推荐使用C/C++ Config插件。安装完插件后按下<code>Ctrl + Shift + P</code>组合键，在弹出输入框输入<code>Generate C++ Config Files</code>即可一键生成配置文件。</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>如果安装C/C++插件后进行插件设置时提示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">IntelliSense-related commands cannot be executed when `C_Cpp.intelliSenseEngine` is set to `Disabled`.</span><br></pre></td></tr></table></figure>
+<p>可以通过修改<code>/home/ubuntu/.local/share/code-server/User/settings.json</code>文件将<code>&quot;C_Cpp.intelliSenseEngine&quot;: &quot;Disable&quot;,</code>修改为<code>&quot;C_Cpp.intelliSenseEngine&quot;: &quot;Default&quot;,</code>解决。</p>
+<p>同时如果打开cpp文件后右上角没有三角形的运行图标，此方法也是部分情况下的解决方式。</p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>C++</tag>
+        <tag>code-server</tag>
+      </tags>
+  </entry>
+</search>

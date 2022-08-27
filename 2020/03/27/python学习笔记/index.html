@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>python学习笔记 |  KONSIN个人小站</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-python学习笔记"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  python学习笔记
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/03/27/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-03-27T09:14:58.000Z" itemprop="datePublished">2020-03-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">12 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <ol>
+<li><p>每调用一次 <code>print()</code> 就会换一次行，你可以通过 <code>print()</code> 的另一个参数 <code>end</code> 来替换这个换行符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;my name is %s.I am %d years old&quot; % (&#x27;Shixiaolou&#x27;,4))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>print(&quot;&#123;:5d&#125;&quot;.format(a)) </code> 格式化输出语句.{:5d} 输出长度5的整型,str.format()传递参数</p>
+</li>
+<li><pre><code>print(&quot;-&quot; * 50)
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   字符串若是乘上整数 n，将返回由 n 个此字符串拼接起来的新字符串。</span><br><span class="line"></span><br><span class="line">4. **while** </span><br><span class="line">   </span><br><span class="line">   ```python</span><br><span class="line">   while n &lt;= 100:</span><br><span class="line">       term *= x / n</span><br><span class="line">       result += term</span><br><span class="line">       n += 1</span><br><span class="line">       if term &lt; 0.0001: </span><br><span class="line">           break            </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>for语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for x in a:</span><br><span class="line">for x in a[:]:</span><br><span class="line">for i in range(5):  range(i,j,k) 以间隔K访问第i到第j个的数据.i和 k可省略</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>可以在循环后面使用可选的 <code>else</code> 语句。它将会在循环完毕后执行，除非有 <code>break</code> 语句终止了循环。</li>
+</ol>
+</li>
+<li><p><strong>列表&#x2F;序列(有点像数组?)  竟然还可以当作栈和队列使用</strong></p>
+<ol>
+<li><pre><code>a[0],访问第一个.
+a[-1],访问末尾第一个
+切片: 切片并不会改变正在操作的列表，切片操作返回其子列表
+    省略的第一个索引默认为零，省略的第二个索引默认为切片的字符串的大小：a[:]
+    a[i:j],访问第i到第j个的.
+    a[i:j:k]:以间隔K访问第i到第j个的数据.
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   列表也支持连接这样的操作，它返回一个新的列表：</span><br><span class="line">    a + [36, 49, 64, 81, 100]</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>切片赋值，此操作可以改变列表的尺寸，或清空它</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 替换某些值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[<span class="number">2</span>:<span class="number">5</span>] = [<span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters</span><br><span class="line">[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 现在移除他们</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[<span class="number">2</span>:<span class="number">5</span>] = []</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters</span><br><span class="line">[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># 通过替换所有元素为空列表来清空这个列表</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters[:] = []</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>len()</code> 可查看长度 ; <code>type()</code> 可查看类型</p>
+</li>
+<li><p>检查某值是否在列表中.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = [&#x27;ShiYanLou&#x27;, &#x27;is&#x27;, &#x27;cool&#x27;]</span><br><span class="line">&gt;&gt;&gt; &#x27;cool&#x27; in a</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查列表是否为空 <code>if list_name:</code></p>
+</li>
+<li><p>列表允许嵌套</p>
+</li>
+<li><pre><code>a.append(45) 在列表末尾添加数字45
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">9. ```</span><br><span class="line">   a.insert(1, 2) 在索引1处插入数字2</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>a.count(45)  统计 45 这个元素在列表中出现了多少次。
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">11. ```</span><br><span class="line">    a.remove(234) 移除列表中 值为234的数据</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>a.reverse()  反转列表
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">13. ```</span><br><span class="line">    a.extend(b) # 添加 b 的元素而不是 b 本身  类似于a + b</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>del a[-1]   删除a[-1]位置的元素
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">15. ```</span><br><span class="line">    遍历两个序列类型，你可以使用 zip() 函数。</span><br><span class="line">    for x, y in zip(a, b):</span><br><span class="line">    ...     print(&quot;&#123;&#125; uses &#123;&#125;&quot;.format(x, y))</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>&#96;&#96;&#96;<br>遍历列表（或任何序列类型）的同时获得元素索引值，你可以使用 enumerate()。<br>for i, j in enumerate([‘a’, ‘b’, ‘c’]):<br>…     print(i, j)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">17. ```</span><br><span class="line">    当作栈或队列时</span><br><span class="line">    a.append() 类似于push</span><br><span class="line">    a.pop()   栈的pop</span><br><span class="line">    a.pop(0)   队列的pop</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>列表推导式</strong></p>
+<ol>
+<li><pre><code>for x in range(10):
+     squares.append(x**2)
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   squares = list(map(lambda x: x**2, range(10)))</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>squares = list(map(lambda x: x**2, range(10)))
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">8. **元组**</span><br><span class="line">   </span><br><span class="line">   1. 元组是由数个逗号分割的值组成。</span><br><span class="line">   2. 元组是不可变类型</span><br><span class="line">   3. divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。</span><br><span class="line"></span><br><span class="line">9. **集合**  集合是一个**无序不重复元素**的集。</span><br><span class="line">   </span><br><span class="line">   1. 集合对象还支持 union（联合），intersection（交），difference（差）和 symmetric difference（对称差集）等数学运算</span><br><span class="line">   </span><br><span class="line">   2. 大括号或 set() 函数可以用来创建集合。</span><br><span class="line">      </span><br><span class="line">      **注意**：想要创建空集合，你必须使用 set() 而不是 &#123;&#125;。后者用于创建空字典，</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+&gt;&gt;&gt; a.pop()  # pop 方法随机删除一个元素并打印
+&#39;h&#39;
+&gt;&gt;&gt; a.add(&#39;c&#39;)    #插入一个元素 字符c
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">10. **字典**(dict)  是无序的键值对（`key:value`）集合</span><br><span class="line">    </span><br><span class="line">    1. ```</span><br><span class="line">       创建字典: data = &#123;&#x27;kushal&#x27;:&#x27;Fedora&#x27;, &#x27;kart_&#x27;:&#x27;Debian&#x27;, &#x27;Jace&#x27;:&#x27;Mac&#x27;&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>创建新的键值对：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[&#x27;parthan&#x27;] = &#x27;Ubuntu&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>del</code> 关键字删除任意指定的键值对</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">del 关键字删除任意指定的键值对</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>in</code> 关键字查询指定的键是否存在于字典中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;ShiYanLou&#x27; in data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>dict()</code> 可以从包含键值对的元组中创建字典。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dict(((&#x27;Indian&#x27;,&#x27;Delhi&#x27;),(&#x27;Bangladesh&#x27;,&#x27;Dhaka&#x27;)))</span><br><span class="line">&#123;&#x27;Indian&#x27;: &#x27;Delhi&#x27;, &#x27;Bangladesh&#x27;: &#x27;Dhaka&#x27;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>遍历字典用<code>items()</code>方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for x, y in data.items():</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>往字典中的元素添加数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.setdefault(&#x27;names&#x27;, []).append(&#x27;Ruby&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>dict.get(key, default)</code> 来索引键，如果键不存在，那么返回指定的 default 值。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>字符串</strong></p>
+<ol>
+<li><p>字符串标识 “…”和’…’都能表示,<strong>区别?</strong></p>
+</li>
+<li><p>如果你想要分几行输入字符串，并且希望行尾的换行符自动包含到字符串当中，可以使用三对引号：<code>&quot;&quot;&quot;...&quot;&quot;&quot;</code> 或 <code>&#39;&#39;&#39;...&#39;&#39;&#39;</code> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;&quot;&quot;\</span><br><span class="line"> Usage: thingy [OPTIONS]</span><br><span class="line">      -h                        Display this usage message</span><br><span class="line">      -H hostname               Hostname to connect to</span><br><span class="line"> &quot;&quot;&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法 <code>title()</code> 返回字符串的标题版本，即单词首字母大写其余字母小写。</p>
+</li>
+<li><p>方法 <code>upper()</code> 返回字符串全部大写的版本，反之 <code>lower()</code> 返回字符串的全部小写</p>
+</li>
+<li><p>方法 <code>swapcase()</code> 返回字符串大小写交换后的版本 :</p>
+</li>
+<li><p>方法 <code>isalnum()</code> 检查所有字符是否只有字母和数字</p>
+</li>
+<li><p>方法 <code>isalpha()</code> 检查字符串之中是否只有字母。</p>
+</li>
+<li><p>使用 <code>split()</code> 分割任意字符串，<code>split()</code> 允许有一个参数，用来指定字符串以什么字符分隔（默认为 <code>&quot; &quot;</code>）</p>
+</li>
+<li><p>方法 <code>join()</code> 使用指定字符连接多个字符串，它需要一个包含字符串元素的列表作为输入然后连接列表内的字符串元素。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &quot;-&quot;.join(&quot;GNU/Linux is great&quot;.split())</span><br><span class="line">&#x27;GNU/Linux-is-great&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>strip(chars)</code>，用来剥离字符串首尾中指定的字符,不指定参数则默认剥离掉首尾的空格和换行符</p>
+</li>
+<li><p>使用 <code>lstrip(chars)</code> 或 <code>rstrip(chars)</code> 只对字符串左或右剥离。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.lstrip(&quot;cwsd.&quot;) #删除在字符串左边出现的&#x27;c&#x27;,&#x27;w&#x27;,&#x27;s&#x27;,&#x27;d&#x27;,&#x27;.&#x27;字符</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文本搜索</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s.find(&quot;fora&quot;)   #find() 找到第一个匹配的子字符串，没有找到则返回 -1。</span><br><span class="line">-1</span><br><span class="line">&gt;&gt;&gt; s.startswith(&quot;fa&quot;) # 检查字符串是否以 fa 开头</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; s.endswith(&quot;reason&quot;) # 检查字符串是否以 reason 结尾</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>z &#x3D; s[::-1]  #把输入的字符串s 进行倒序处理形成新的字符串z</p>
+</li>
+</ol>
+</li>
+<li><p><strong>函数</strong></p>
+<ol>
+<li><p>定义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def 函数名(参数):</span><br><span class="line">    语句1</span><br><span class="line">    语句2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数可以通过关键字参数的形式来调用，形如 keyword &#x3D; value。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def func(a, b=5, c=10):</span><br><span class="line">...     print(&#x27;a is&#x27;, a, &#x27;and b is&#x27;, b, &#x27;and c is&#x27;, c)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; func(12, 24)</span><br><span class="line">a is 12 and b is 24 and c is 10</span><br><span class="line">&gt;&gt;&gt; func(12, c = 24)</span><br><span class="line">a is 12 and b is 5 and c is 24</span><br><span class="line">&gt;&gt;&gt; func(b=12, c = 24, a = -1)</span><br><span class="line">a is -1 and b is 12 and c is 24</span><br><span class="line">在上面的例子中你能看见调用函数时使用了变量名，比如 func(12,c = 24)，这样我们将 24 赋给 c 且 b 具有默认值。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>强制关键字参数</p>
+<p>函数的参数标记为只允许使用关键字参数.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def hello(*, name=&#x27;User&#x27;)</span><br><span class="line">输入hello(&#x27;shiyanlou&#x27;)报错</span><br><span class="line">hello(&#x27;shiyanlou&#x27;) 正确</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>文档字符串</strong>????不太懂,继续看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__doc__ 属性表示函数中中的注释部分</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>高阶函数（<em>Higher-order function</em>）或仿函数（<em>functor</em>）是可以接受函数作为参数的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个函数，将参数列表中每个元素都变成全大写</span><br><span class="line">&gt;&gt;&gt; def high(l):</span><br><span class="line">...     return [i.upper() for i in l]</span><br><span class="line">...</span><br><span class="line"># 创建高阶函数，接受一个函数和一个列表作为参数</span><br><span class="line">&gt;&gt;&gt; def test(h, l):</span><br><span class="line">...     return h(l)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; l = [&#x27;python&#x27;, &#x27;Linux&#x27;, &#x27;Git&#x27;]</span><br><span class="line"># 运行高阶函数，返回预期的结果</span><br><span class="line">&gt;&gt;&gt; test(high, l)</span><br><span class="line">[&#x27;PYTHON&#x27;, &#x27;LINUX&#x27;, &#x27;GIT&#x27;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>map</code>函数</strong></p>
+<p>接受一个函数和一个序列（迭代器）作为输入，然后对序列（迭代器）的每一个值应用这个函数，返回一个序列（迭代器）</p>
+</li>
+</ol>
+<p> <code>if __name__ == &#39;__main__&#39;:</code> 这条语句，它的作用是，只有在当前模块名为 <code>__main__</code> 的时候（即作为脚本执行的时候）才会执行此 <code>if</code> 块内的语句。</p>
+</li>
+<li><p><strong>文件</strong></p>
+<ol>
+<li><p>打开文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fobj = open(&quot;sample.txt&quot;)</span><br><span class="line">或者</span><br><span class="line">with open(&#x27;sample.txt&#x27;) as fobj:使用 with 语句处理文件对象，它会在文件用完后会自动关闭</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭文件 <code>fobj.close()</code></p>
+</li>
+<li><p>读取文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">使用 read() 方法一次性读取整个文件。 可是传入参数size</span><br><span class="line">readline() 能帮助你每次读取文件的一行。</span><br><span class="line">使用 readlines() 方法读取所有行到一个列表中。</span><br><span class="line">循环遍历文件对象来读取文件中的每一行。    for x in fobj:</span><br><span class="line">                                ...     print(x, end = &#x27;&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件写入 <code>write()</code>添加到文末</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fobj.write(&#x27;powerpork\n&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拷贝文件</p>
+<ol>
+<li><p>sys模块</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sys.argv包含所有命令行参数.</span><br><span class="line">sys.argv[0]是命令自身的名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#96;&#96;&#96;<br>enumerate(iterableobject)索引位置和对应值可以使用它同时得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">6. 文本统计</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>count()函数 str.count(“char”, start,end),统计在start-end中字符char的次数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    7. with语句</span><br><span class="line">       </span><br><span class="line">       它会在文件用完后会自动关闭，就算发生异常也没关系。它是 try-finally 块的简写</span><br><span class="line"></span><br><span class="line">14. **异常处理**</span><br><span class="line">    </span><br><span class="line">    1. `try...except`块处理异常</span><br><span class="line">       </span><br><span class="line">       `except  SyntaxError`语法异常</span><br><span class="line">       </span><br><span class="line">       `except NameError`未定义变量异常</span><br><span class="line">       </span><br><span class="line">       `except TypeError` 类型异常</span><br><span class="line">       </span><br><span class="line">       一个空的 except 语句能捕获任何异常</span><br><span class="line">    </span><br><span class="line">    2. raise抛出异常</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>try:<br>…     raise ValueError(“A value error happened.”)<br>… except ValueError:<br>…     print(“ValueError in our code.”)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. finally清理行为</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>不管有没有发生异常，finally 子句 在程序离开 try 后都一定会被执行。<br>在真实场景的应用程序中，finally 子句用于释放外部资源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">15. **类**</span><br><span class="line">    </span><br><span class="line">    1. 定义简单的类</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>class nameoftheclass(parent_class):<br> statement1<br> statement2<br> statement3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. `__init__ `方法</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>def <strong>init</strong>(self):<br> self.data &#x3D; []<br>类定义了 <strong>init</strong>() 方法的话，类的实例化操作会自动为新创建的类实例调用 <strong>init</strong>() 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. Python 中的继承</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>class Student(Person): Student类继承Person</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. 多继承</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>class MyClass(Parentclass1, Parentclass2,…):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">5. 删除对象</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>关键字 del </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">6. 属性读取方法</span><br><span class="line"></span><br><span class="line">7. `@property` 装饰器</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>@property 装饰器就是负责把一个方法变成属性调用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">16. **模块**</span><br><span class="line">    </span><br><span class="line">    1. 模块的导入</span><br><span class="line">       </span><br><span class="line">       1. 可以由全局变量 `__name__` 得到模块的模块名</span><br><span class="line">       2. 从模块中导入指定的函数。`from bars import simplebar, starbar`</span><br><span class="line">    </span><br><span class="line">    2. 包</span><br><span class="line">       </span><br><span class="line">       1. 含有 `__init__.py` 文件的目录可以用来作为一个包</span><br><span class="line">    </span><br><span class="line">    3. 默认/第三方模块介绍</span><br><span class="line">       </span><br><span class="line">       1. os 模块    </span><br><span class="line">          </span><br></pre></td></tr></table></figure>
+<p>getuid() 函数返回当前进程的有效用户 id。<br>getpid() 函数返回当前进程的 id。getppid() 返回父进程的 id。<br>uname() 函数返回识别操作系统的不同信息<br>getcwd() 函数返回当前工作目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. Requests 模块  http库</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>可以使用 get() 方法获取任意一个网页</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">       </span><br><span class="line">       3. argparse 命令行参数处理模块</span><br><span class="line">    </span><br><span class="line">    4. 命令行参数</span><br><span class="line"></span><br><span class="line">17. **Collections 模块**</span><br><span class="line">    </span><br><span class="line">    1. `Counter` 是一个有助于 *hashable* 对象计数的 dict 子类</span><br><span class="line">       </span><br></pre></td></tr></table></figure>
+<p>elements() 的方法，其返回的序列中，依照计数重复元素相同次数<br>most_common() 方法返回最常见的元素及其计数，顺序为最常见到最少。</p>
+</li>
+</ol>
+<pre><code>
+</code></pre>
+</li>
+<li><p><code>defaultdict</code> 是内建 <code>dict</code> 类的子类，它覆写了一个方法并添加了一个可写的实例变量。</p>
+<p>defaultdict() 第一个参数提供了 default_factory 属性的初始值，默认值为 None，default_factory</p>
+</li>
+<li><p><code>namedtuple</code>    命名元组有助于对元组每个位置赋予意义，并且让我们的代码有更好的可读性和自文档性。</p>
+</li>
+</ol>
+</li>
+<li></li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2020/03/27/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/05/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Vim简单使用
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">软件工程导论复习</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="KONSIN个人小站"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

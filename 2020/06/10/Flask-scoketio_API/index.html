@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Flask-scoketio_API |  KONSIN个人小站</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Flask-scoketio_API"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Flask-scoketio_API
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/06/10/Flask-scoketio_API/" class="article-date">
+  <time datetime="2020-06-10T02:58:31.000Z" itemprop="datePublished">2020-06-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="API-Reference"><a href="#API-Reference" class="headerlink" title="API Reference"></a>API Reference</h2><ol>
+<li><p><em><strong>class</strong></em> flask_socketio.<code>SocketIO(*app=None*, ***kwargs*)</code></p>
+<p>创建一个Flask-ScoketIO服务</p>
+<p>参数:</p>
+<p>​        <strong>app</strong> &#x3D; flask应用程序实例。如果在实例化此类时不知道应用程序实例，则在应用程序实例可用后调用。<code>socketio.init_app(app)</code></p>
+<p>​        <strong>manage_session</strong> &#x3D; 如果设置为 True，则此扩展将管理Socket.IO事件的用户会话。如果设置为False ，则使用 Flask 自己的会话管理。使用基于 Flask 的 Cookie 会话时，建议您将此集保留为 默认值True 。使用服务器端会话时，设置False 允许在 HTTP 路由和Socket.IO事件之间共享用户会话。</p>
+<p>​        <strong>message_queue</strong> &#x3D; 服务器可用于多进程通信的消息队列服务的连接 URL。使用单个服务器进程时不需要消息队列。</p>
+<p>​        <strong>channel</strong>&#x3D; 使用消息队列时通道名称。如果未指定通道，将使用默认通道。如果多个 SocketIO 进程群集需要使用相同的消息队列而不相互干扰，则每个群集应使用不同的通道。</p>
+<p>​        <strong>path</strong>&#x3D; Socket.IO服务器公开的路径。默认值为<code>&#39;socket.io&#39;</code> 。除非你知道你在做什么，否则请保持默认。</p>
+<p>​        <strong>resource</strong> &#x3D; 同 <code>path</code>.</p>
+<p>​        <strong>kwargs</strong> &#x3D; Socket.IO和Engine.IO服务器选项。</p>
+</li>
+<li><p>下面详细介绍了Socket.IO服务器选项：</p>
+<p>参数:</p>
+<p>​        <strong>client_manager</strong> &#x3D; 将管理客户端列表的客户端管理器实例。省略此选项后，客户端列表存储在内存结构中，因此无法使用多连接的服务器。在大多数情况下，不需要显式设置此参数。</p>
+<p>​        <strong>logger</strong> &#x3D; True启用日志记录集或传递记录器对象才能使用。Fasle禁用日志记录集 。默认值为False 。请注意，即使设置为False，也会记录致命错误。</p>
+<p>​        <strong>binary</strong>&#x3D; 支持二进制有效负载，将所有有效负载视为文本。在 Python 2 上，如果设置为True，则值将被视为文本，并且值将字符串<code>str</code>和字节<code>bytes</code>视为二进制值。此选项对 Python 3 没有影响.</p>
+<p>​        <strong>json</strong> &#x3D; 用于编码和解码数据包的替代 json 模块。自定义 json 模块必须具有与标准库版本兼容的 <code>dumps</code>和<code>loads</code>功能。要使用与 Flask 应用程序相同的 json 编码器和解码器，请使用flask.json 。</p>
+<p>​        <strong>async_handlers</strong> &#x3D; 如果设置为True ，则客户端的事件处理程序在单独的线程中执行。要同步运行客户端的处理程序，应设置为False 。默认值为 True。</p>
+<p>​        <strong>always_connect</strong> &#x3D; 设置为False时，新连接是证明的，直到连接处理程序返回其他连接False，此时它们被接受。当设置为True时，将立即接受连接，然后如果连接处理程序返回False断开连接。如果需要从连接处理程序发出事件，并且客户端在连接接受之前接收事件时，设置为True。在任何其他情况下使用默认值Fasle 。</p>
+</li>
+<li><p>Engine.IO服务器配置支持以下设置：</p>
+<p>参数: </p>
+<p>​        <strong>async_mode</strong> &#x3D; 使用异步模型。有关可用选项的说明，请参阅文档中的”部署”部分。有效的异步模式为<code>threading</code>, <code>eventlet</code>, <code>gevent</code>和<code>gevent_uwsgi</code>。如果未给出此参数，则首先尝试<code>eventlet</code>，然后<code>gevent_uwsgi</code>，<code>gevent</code>,最后<code>threading</code>。安装了其所有依赖项的第一个异步模式是所选的。</p>
+<p>​        <strong>ping_timeout</strong> &#x3D; 客户端等待服务器在断开连接前响应的时间（以秒为单位）。默认值为 60 秒。</p>
+<p>​        <strong>ping_interval</strong> &#x3D; 客户端 ping 服务器的时间间隔（以秒为单位）。默认值为 25 秒。</p>
+<p>​        <strong>max_http_buffer_size</strong> &#x3D; 使用轮询传输时消息的最大大小。默认值为 100，000，000 字节。</p>
+<p>​        <strong>allow_upgrades</strong> – 是否允许上传。默认值为 <code>True</code></p>
+<p>​        <strong>http_compression</strong> &#x3D; 使用轮询传输时是否压缩packages。默认值为 <code>True</code></p>
+<p>​        <strong>compression_threshold</strong> &#x3D; 仅当消息的字节大小大于此值时，才压缩消息。默认值为 1024 字节。</p>
+<p>​        <strong>cookie</strong> &#x3D; 包含客户端会话 ID 的 HTTP Cookie 的名称。如果设置为 None，则 Cookie 不会发送到客户端。默认值为 <code>&#39;io&#39;</code></p>
+<p>​        <strong>cors_allowed_origins</strong> &#x3D; 允许连接到此服务器的原点或源列表。默认情况下只允许相同的原点。将此参数设置为<code>&#39;*&#39;</code>允许所有源，或<code>[]</code>禁用 CORS 处理。</p>
+<p>​        <strong>cors_credentials</strong> &#x3D; 是否允许凭据（cookie、身份验证）用于此服务器的请求。默认值为 True</p>
+<p>​        <strong>monitor_clients</strong> &#x3D; 如果设置为True ，后台任务将确保关闭非活动客户端。设置为False禁用监视任务（不推荐）。默认值为 True</p>
+<p>​        <strong>engineio_logger</strong> &#x3D; 若要启用Engine.IO日志记录，请将其设置为True或传递要使用的记录器对象。要禁用日志记录，请设置为False。默认值为False。请注意，即使engineio_logger为False，也会记录致命错误。</p>
+</li>
+<li><p><strong><code>on</code>(<em>message</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>用于注册 SocketIO 事件处理程序的修饰器。</p>
+<p>此修饰器必须应用于 SocketIO 事件处理程序。例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@socketio.on(<span class="params"><span class="string">&#x27;my event&#x27;</span>, namespace=<span class="string">&#x27;/chat&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">handle_my_custom_event</span>(<span class="params">json</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;received json: &#x27;</span> + <span class="built_in">str</span>(json))</span><br></pre></td></tr></table></figure>
+
+<p>参数: </p>
+<p>​        <strong>message</strong>–事件的名称。这通常是用户定义的字符串，但已经定义了一些事件名。使用<code>&#39;message&#39;</code>定义接受字符串负载的处理程序，<code>&#39;json&#39;</code>定义接受json blob负载的处理程序，<code>&#39;connect&#39;</code>或<code>&#39;disconnect&#39;</code>为连接和断开连接事件创建处理程序。</p>
+<p>​        <strong>namespace</strong>&#x3D; 要注册处理程序的命名空间。默认值为全局命名空间</p>
+</li>
+<li><p><strong><code>on_error</code>(<em>namespace&#x3D;None</em>)</strong></p>
+<p>用于为 SocketIO 事件定义自定义错误处理程序。</p>
+<p>此修饰器可以应用于充当命名空间的错误处理程序的函数。当 SocketIO 事件处理程序引发异常时，将调用此处理程序。处理程序函数必须接受一个参数，这是引发的异常。例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@socketio.on_error(<span class="params">namespace=<span class="string">&#x27;/chat&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chat_error_handler</span>(<span class="params">e</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;An error has occurred: &#x27;</span> + <span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+
+<p>参数: </p>
+<p>​        <strong>namespace</strong>&#x3D; 要为其注册错误处理程序的命名空间。默认值为全局命名空间。</p>
+</li>
+<li><p><strong><code>on_error_default</code>(<em>exception_handler</em>)</strong></p>
+<p>用于定义 SocketIO 事件的默认错误处理程序。</p>
+<p>此修饰器可以应用于充当没有特定处理程序的任何命名空间的默认错误处理程序的函数。例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@socketio.on_error_default</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">error_handler</span>(<span class="params">e</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;An error has occurred: &#x27;</span> + <span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>on_event</code>(<em>message</em>, <em>handler</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>注册 SocketIO 事件处理程序。</p>
+<p><code>on_event</code>不需要修饰器,例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">on_foo_event</span>(<span class="params">json</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;received json: &#x27;</span> + <span class="built_in">str</span>(json))</span><br><span class="line"></span><br><span class="line">socketio.on_event(<span class="string">&#x27;my event&#x27;</span>, on_foo_event, namespace=<span class="string">&#x27;/chat&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<p>​        <strong>message</strong>&#x3D; 事件的名称。这通常是用户定义的字符串，但几个事件名称已定义。<code>&#39;message&#39;</code>用于定义采用字符串有效负载的处理程序、<code>&#39;json&#39;</code>定义获取 JSON Blob 负载的处理程序， <code>&#39;connect&#39;</code>  或<code>&#39;disconnect&#39;</code>为连接和断开连接事件创建处理程序。</p>
+<p>​        <strong>handler</strong>&#x3D; 处理事件的函数。</p>
+<p>​        <strong>namespace</strong>&#x3D; 要注册处理程序的命名空间。默认值为全局命名空间</p>
+</li>
+<li><p><em><em><code>emit</code>(<em>event</em>, args</em>, <em>kwargs</em>)</em>*</p>
+<p>发出服务器生成的 SocketIO 事件。</p>
+<p>此函数向一个或多个连接的客户端发出 SocketIO 事件。JSON blob 可以作为有效负载附加到事件。此功能可以在 SocketIO 事件上下文之外使用，因此，当服务器是事件的发起者时，在任何客户端上下文之外（如常规 HTTP 请求处理程序或后台任务中）都可以使用。例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/ping&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ping</span>():</span><br><span class="line">    socketio.emit(<span class="string">&#x27;ping event&#x27;</span>, &#123;<span class="string">&#x27;data&#x27;</span>: <span class="number">42</span>&#125;, namespace=<span class="string">&#x27;/chat&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<p>​        <strong>event</strong> &#x3D; 要发出的用户事件的名称。<br>​        <strong>args</strong>&#x3D; 包含 JSON 数据作为有效负载发送的字典。<br>​        <strong>namespace</strong>&#x3D; 要发送消息的命名空间。默认值为全局命名空间。<br>​        <strong>room</strong>&#x3D; 将消息发送给给定房间中的所有用户。如果未包含此参数，则事件将发送给所有已连接的用户。<br>​        <strong>include_self</strong> - 设置为True在广播或寻址房间时包括发件人，设置为False发送给（除发件人）所有人<br>​        <strong>skip_sid</strong> &#x3D; 在广播或寻址房间时要忽略的客户端的会话 ID。这通常设置为消息的发起者，以便除客户端外的每个人都收到消息。要跳过多个 sids 传递列表。<br>​        <strong>callback</strong> - 如果给定，将调用此函数以确认客户端已收到消息。将传递给函数的参数是客户端提供的参数。回调函数只能在寻址单个客户端时使用。</p>
+</li>
+<li><p><strong><code>send</code>(<em>data</em>, <em>json&#x3D;False</em>, <em>namespace&#x3D;None</em>, <em>room&#x3D;None</em>, <em>callback&#x3D;None</em>, <em>include_self&#x3D;True</em>, <em>skip_sid&#x3D;None</em>, <em>**kwargs</em>)</strong></p>
+<p>发送服务器生成的 SocketIO 消息。</p>
+<p>此函数向一个或多个连接的客户端发送一个简单的 SocketIO 消息。消息可以是字符串或 JSON blob。这是比<code>emit()</code>更简单的版本，应该首选。此功能可以在 SocketIO 事件上下文之外使用，因此当服务器是事件的发起者时，它才适合使用。</p>
+<p>参数:</p>
+<p>​        <strong>data</strong>&#x3D; 要发送的消息，字符串或 JSON blob。</p>
+<p>​        <strong>json</strong> &#x3D; 如果<code>massage</code>是 JSON blob为True，否则 False</p>
+<p>​        <strong>namespace</strong>&#x3D; 要发送消息的命名空间。默认值为全局命名空间。</p>
+<p>​        <strong>room</strong>&#x3D; 仅向给定房间中的用户发送消息。如果未包含此参数，则会将消息发送给所有已连接的用户。</p>
+<p>​        <strong>include_self</strong> - 设置为<code>True</code>在广播或寻址房间时包括发件人，设置为<code>False</code>发送给（除发件人）所有人</p>
+<p>​        <strong>skip_sid</strong> &#x3D; 在广播或寻址房间时要忽略的客户端的会话 ID。这通常设置为消息的发起者，以便除客户端外的每个人都收到消息。要跳过多个 sids 传递列表。</p>
+<p>​        <strong>callback</strong> - 如果给定，将调用此函数以确认客户端已收到消息。将传递给函数的参数是客户端提供的参数。回调函数只能在寻址单个客户端时使用。</p>
+</li>
+<li><p><strong><code>close_room</code>(<em>room</em>, <em>namespace&#x3D;None</em>)</strong></p>
+<p>关闭房间。</p>
+<p>此功能删除给定聊天室中的任何用户，然后从服务器中删除该文件室。此功能可以在 SocketIO 事件上下文之外使用。</p>
+<p>参数：    </p>
+<pre><code>    **room**= 要关闭的房间的名称。
+    **namespace**= 存在房间的命名空间。默认值为全局命名空间。
+</code></pre>
+</li>
+<li><p>**<code>run</code>(<em>app</em>, <em>host&#x3D;None</em>, <em>port&#x3D;None</em>, *<em>kwargs)</em>*</p>
+<p>运行 SocketIO Web 服务器。</p>
+<p>参数:</p>
+<p>​        <strong>app</strong>&#x3D; Flask应用程序实例。<br>​        <strong>host</strong>&#x3D; 要侦听的主机名或 IP 地址。默认值为 127.0.0.1。<br>​        <strong>port</strong>&#x3D; 服务器要侦听的端口号。默认值为 5000。<br>​        <strong>debug</strong>&#x3D; <code>True</code>在调试模式下启动服务器，<code>False</code>在正常模式下启动。<br>​        <strong>use_reloader</strong> – <code>True</code>启用 Flask 重装程序，<code>False</code>以禁用它。<br>​        <strong>extra_files</strong> &#x3D; Flask 重新加载程序应监视的其他文件的列表。默认值为None<br>​        <strong>log_output</strong> &#x3D; 如果<code>True</code>，服务器将记录所有连接。如果<code>False</code>禁用日志记录。默认为<code>True</code>在调试模式下，在正常模式下<code>False</code>。使用线程异步模式时不使用。<br>​        <strong>kwargs</strong> &#x3D; 其他 Web 服务器选项。Web 服务器选项特定于每个受支持异步模式中使用的服务器。请注意，在使用外部 Web 服务器（如 gunicorn）时，不会看到此处提供的选项，因为在这种情况下不会调用此方法。</p>
+</li>
+<li><p><strong>stop()</strong></p>
+<p>停止正在运行的 SocketIO Web 服务器。</p>
+<p>必须从 HTTP 或 SocketIO 处理程序函数调用此方法。</p>
+</li>
+<li><p><strong><code>sleep</code>(<em>seconds&#x3D;0</em>)</strong></p>
+<p>使用适当的异步模型休眠请求的时间量。</p>
+<p>这是一个实用程序函数，应用程序可以使用该函数将任务置于睡眠状态，而不必担心对所选异步模式使用正确的调用。</p>
+</li>
+<li></li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2020/06/10/Flask-scoketio_API/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask/" rel="tag">Flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/06/10/FLASK%E5%85%A5%E9%97%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            FLASK入门
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/05/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Vim简单使用</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="KONSIN个人小站"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

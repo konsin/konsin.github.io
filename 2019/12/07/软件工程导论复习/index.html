@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>软件工程导论复习 |  KONSIN个人小站</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-软件工程导论复习"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  软件工程导论复习
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/" class="article-date">
+  <time datetime="2019-12-07T03:01:51.000Z" itemprop="datePublished">2019-12-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">8.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">28 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>【软件工程导论】</strong></p>
+<p>软件 &#x3D; 知识+程序+数据+文档</p>
+<p><strong>文档的概念和作用</strong>文档记录软件开发的活动和中间制品，记录软件的配置及变更，用于软件专业人员和用户的交流，用于软件开发、过程管理和运行阶段的维护。<strong>如</strong>:需求报告对所开发软 件的功能、性能、用户界面及运行环境等作出详细的说明，它是用户与开发人员双方 对软件需求取得共同理解基础上达成的协议，也是实施开发工作的基础。设计说明书 是概要设计阶段的工作成果，它应说明功能分配、模块划分、程序的总体结构、输入 输出以及接口设计、运行设计、数据结构设计和出错处理设计等，为详细设计奠定基 础。详细设计说明书着重描述每一模块是怎样实现的，包括实现算法、逻辑流程等</p>
+<p><strong>软件特点：</strong>逻辑实体、智力产品;制造即拷贝;无磨损和老化,不遵循“浴盆曲线”,但 存在退化问题。尚未摆脱手工方式;软件移植的需要;复杂（问题复杂性 &#x2F; 程序结构复 杂性）软件开发的性质如成本、进度、质量等难以估计控制,维护困难，有可复用性</p>
+<p><strong>定义</strong>:将系统的、规范的、可量化的方法应用于软件的开发、运行和维护的过程及上述方法的研究</p>
+<p><strong>三要素：过程</strong>:管理部分;<strong>方法</strong>:完成软件工程项目的技术手段;<strong>工具</strong>自动或 半自动地支持软件的开发、维护和管理。 </p>
+<p><strong>目标：</strong>在给定成本、进度的前提下，开发出满足用户或市场需要的高质量的软件产品</p>
+<p><strong>原则：</strong>抽象(自顶向下逐步求精)、信息隐藏（封装的接口）、模块化（相对独立&#x2F;类）、局部化（相互关联&#x2F;局部变量）、一致性（接口和规范）、完全性和可验证性(应易于检查、测试和评审)</p>
+<p>**传统软件生命周期:**需求,设计,编码、测试,软件测试,运行、维护,退役</p>
+<p><strong>瀑布模型生命周期</strong>:1 可行性研究,2 需求分析,3 概要设计,4 详细设计,5 实现,6 集成测试,7 确认 测试,8 使用与维护,9 退役(软件定义:1-2 软件开发 3-7 维护 8-9)</p>
+<p><strong>各种模型的含义、优缺点、场景:</strong> </p>
+<p>**瀑布模型:**假设软件需求在初期几乎可完全确定;<strong>主要思想</strong>:1.软件开发过程与软件生 命周期是一致的;2.相邻二阶段之间存在因果关系 3.每一阶段的结束点作为里程碑;4. 需对阶段性产品进行评审，如果评审不合格,需返工;<strong>优点</strong>:**1.**使用时间最长,应用面比较广泛;<strong>2.<strong>是其他一些开发模型的基础;3.思路简洁,明确,阶段间因果明确,紧密联系;4. 其可行性研究、需求、设计、编码、测试分离,有利于软件的体系结构设计,规范了软 件开发活动,有利于开发人员的组织管理;5.缓解软件危机</strong>缺点</strong>:1.必须确定软件需求后 才能进行后续开发工作,但多数场合给出全部需求是困难的;**2.<strong>到最后阶段才能得到可运行的软件版本不能适应用户需求的变 化 ;3.上游阶段的“过失”会为软件制品带 来“缺陷”并潜伏在制品中,会误导下游的开发活动,若未被发现运行时会造成“故障” , 寻找修复故障会比较困难</strong>场景:**对于规模较小、软件需求比较稳定的项目或子系统,能够显著提高软件开发的质量和效率;<strong>原型模型</strong>:**概念:**软件开发人员根据客户提出的软件(部分或全部)定义,快速地开发一个原型。原型向客户展示了待开发软件系统的全部 或部分功能和性能,在征求客户对原型意见的过程中,进一步修改、完善、确认软件系 统的需求并达到一致的理解;**优点1.**支持需求的动态变化;**2.**有助于获取用户需求,便于用户对需求的理解;**3.**尽早发现软件中的错误;**缺点:<strong>不支持风险分析.<strong>适用场景：</strong>开发 团队对所开发领域比较熟悉而且有快速的原型开发工具</strong>螺旋模型: 基本思想:<strong>1.将瀑布模型与原型模型进行有机结合;2.增加风险分析步骤。</strong>优点:**1.支持需求的动态变化;2. 有助于获取用户需求,便于用户对需求的理解;3.尽早发现软件中的错误;4.支持风险分 析,可降低或者尽早消除软件开发风险;5.适合于需求动态变化、开发风险较大的系统; **缺点:**由于确定的不确定性,软件开发初期无法进行软件体系结构设计,多次迭代会导 致软件体系结构变坏,为软件理解和维护带来困难;<strong>场景:<strong>在需求不明确的情况下,适合用螺旋模型进行开发,便于风险控制和需求变更;特别适合于大型复杂的系统.<strong>原型模型和螺旋模型既是迭代模型,又是进化模型。</strong> <strong>喷泉模型:基本思想</strong>:1.软件复用与生命周期中多项开发活动集成2.主要支持面向对象的开发方法;<strong>优点</strong> 1软件系统可维护性较好 2各阶段相互重叠,表明了面向对象开发方法各阶段间的交叉和无缝过渡 3整个模型是一个迭代的过程,包括一个阶段内部的迭代和跨阶段的迭代 4模型具有增量开发特性,即能做到“</strong>分析一点,设计一点,实现一点,测试一点</strong>”,使相关功能随之加入到演化的系统中 5模型由对象驱动,对象是各阶段活动的主体,也是项目管理的基本内容 6该模型很自然地支持软部件的重用。</p>
+<p><strong>工具： 项目管理工具</strong> AMSRealtime,MicrosoftProject,Viewpoint, Project ControlPanel ,Ittoolkit <strong>软件开发工具：业务系统建模工具：</strong>RationalRose,ArgoUML,Visio,Real-TimeStudo(以 上也可以是对应的<strong>分析和设计工具</strong>）<strong>测试工具：</strong>CodeMedic(为标准 UNIX 调试器 gdb 提供图形界面，支持 C&#x2F;C++、Java、汇编、FORTRAN、Modua-2 测试) BugCollectorPro （实现多用户数据库，支持软件团队追踪已报告的 bug、管理调试工作 流） JprobeThreadAnalyzer（支持线程测试问题：死锁、延迟） C++Test（C／C++ 单元测试）**原型建造工具（专用性）用户界面工具:**Macromedia Authorware,PowerDesigner&#x2F;PowerBuilder,MotifCommonDesktopEnvironment </p>
+<p><strong>【第 2 章 UML 与 RUP 统一过程】</strong>(用例图(UC图),类图)</p>
+<p><strong>面向对象的软件开发方法</strong> 面向对象的软件开发方法通过提供对象,对象间消息传递等语言机制让分析人员在解空间中直接模拟问题空间中的对象及其行为,从而削减了<strong>语义断层</strong>,拉近了问题空间与解空间的距离,从而简化了软件工程师在二者之间架设“桥梁”的工作,并为软件 开发活动提供了直观,自然的语言支持和方法学指导。</p>
+<p><strong>面向对象 &#x3D; {对象+类+继承+聚合+多态+消息}</strong> 基本要素</p>
+<p><strong>面向对象方法的优势</strong>:1.简化软件开发过程。面向对象方法不仅可以用来进行需求分析，还可以支持软件 的设计、实现和测试，构成了覆盖软件开发主要阶段的广谱软件开发方法学。 2.支持软件复用。在源代码级复用方面，面向对象方法通过继承机制和代理方法使得复用者不需要直接修改被复用的类；在设计级复用方面，近年来迅速发展的设计技术在软件界大显身手，贡献良多。 3.改善软件结构。面向对象方法通过对属性和操作的封装实现了软件工程倡导的信<strong>息隐藏原则</strong>。</p>
+<p><strong>用例图</strong>:用例图，从外部用户的角度描述系统功能，并指出参与者. 1.<strong>关联</strong>：参与者—执行用例。2.**包含(**include):一个用例 A 使用了另外一个用例 B。 A- -&gt;B。边上 include。3.<strong>扩展</strong>(extend):A 扩展自 B。A- -&gt;B。边上 extend</p>
+<p>**结构视图:**（不同层面,系统的静态结构): 包图(描述系统的分解结构,表示包与包之间的关系);对象图(类图的一个实例,描述在某个状态下,或者某个时间段系统中活跃的对象及关系);<strong>类图</strong>(描述系统静态结构),<strong>①泛化与特化</strong>：表示类的继承关系。子类 父类。 <strong>②关联</strong>：类之间有关联（对象组合）A 类用到了 B 类的信息 A-&gt;B。一对多的时候，边 上：<code>1—*</code>。双向关联没有箭头，单向关联有箭头，我们一般用单向。 <strong>③聚合</strong>：强关联，整体与部分的关系。Engine Car。一对多：1-*。 <strong>④组合</strong>：强聚合，整体的对象负责代表部分的对象的生命周期。Limb MonkeyKing <strong>⑤依赖</strong>： ClassA的定义依赖于 ClassB的定义。例子： A 的构造函数的参数中有 ClassB。 A 中有个函数以 B 作为参数。A - -&gt;B。</p>
+<p><strong>行为视图</strong>: (不同侧面系统的动态行为):交互图［描述对象之间通过消息传递进行的交互和协作,分为**顺序图(**对象之间消息发送的时间序), 通信图(对象间的动态协作关系,也可通过消息序号表示消息传递的时间序,不如顺序图直观)］, 状态图(描述类的对象的动态行为), <strong>活动图</strong>［控制流（一个操作完成后对其后续操 作的触发）、信息流（刻画操作间的信息交换）］</p>
+<p><strong>构件视图</strong>：构件图(描述软件系统中各组成构件,构件的内部结构以及构件间依赖关系) </p>
+<p><strong>部署视图</strong>：部署图（描述软件系统中各类工件在物理运行环境中的分布情况） </p>
+<p><strong>【第六章 软件设计基本原则】</strong>(PDL伪代码格式)</p>
+<p><strong>内聚度：偶然性内聚</strong>、逻辑性内聚、<strong>时间性内聚</strong>（经典内聚）&#x2F;程度低&#x2F;-&gt;过程性内聚,<strong>通信性内聚</strong>&#x2F;程度中&#x2F;-&gt;信息内聚,<strong>功能性内聚</strong>&#x2F;程度高&#x2F;</p>
+<p><strong>耦合度</strong>:：1 非直接耦合-&gt;2 <strong>数据耦合</strong>与控制耦合-&gt;3 外部耦合-&gt;4 公共耦合-&gt;5 <strong>内容耦合</strong>。尽量使用 1&#x2F;2，限制 3&#x2F;4，杜绝 5。 </p>
+<p><strong>选三种内聚度、三种耦合度各举一个例子说明。</strong></p>
+<p><strong>功能内聚</strong>：一个模块中各个部分都是完成某一具体功能必不可少的组成部分，或该模块中所有部分都是为了完成一项具体功能而协同工作，紧密联系，不可分割.(不建议举此例)<strong>信息内聚</strong>：完成多个功能各个功能都在同一数据结构上操作，每一项功能 有一个唯一的入口点。如课程管理系统上的查找课程、删除课程、修改课程都会使用 “课程”这个数据结构。<strong>通信内聚</strong>：一个模块各个功能部分都使用了相同的输入数据， 或产生了相同的输出数据。个人信息管理系统中：从文件中读取信息，打印功能和统计功能都会使用文件中的信息。<strong>逻辑内聚</strong>：这种模块把几种相关的功能组合在一起， 每次被调用时，由传送给模块的判定参数来确定该模块应执行哪一种功能。 <strong>非直接耦合</strong>：两个模块之间没有直接关系，它们之间的练习完全时通过主模块的控制 和调用来实现的。main()函数调用 A B C 函数，其中 A 用到 B 的返回值。<strong>控制耦合</strong>： 通过传送开关、标志、名字等控制信息，明显的控制选择另一模块的功能。如 A 的返 回值为 0 时调用 C，A 的返回值为 1 时调用 B。<strong>公共耦合</strong>：一组模块都访问同一个公 共数据环境。如 A\B 都调用以局部变量 time,并且会对其修改。 </p>
+<p><strong>如何降低耦合度</strong>：根据问题的特点，选择适当的耦合类型；降低模块接口的复杂性(传送信息的数量,耦合方式,传送信息的结构)；把模块的通信信息放在缓冲区中; </p>
+<p><strong>软件设计的原则</strong>：提高模块独立性；调整模块的大小；适当的模块深度、宽度、扇出 和扇入模块的作用范围应在控制范围之内简化模块的接口的复杂程度。 </p>
+<p><strong>启发式设计策略</strong>：改造软件结构，降低耦合度，提高内聚度；减少扇出，追求高扇入； 使任一模块的作用域在其控制域内(<strong>作用域</strong>是指受模块内部判定影响的所有模块,控制域是指其所有的下属模块);降低模块接口复杂度和冗余度,提高协调性。 <strong>变换流</strong>：信息通常以“外部世界”所具有的形式进入系统，经过处理后，又以这种形式离开系统，呈现在结果界面上。<strong>事务流</strong>数据沿输入通道到达一个转换，该转换根据输入流的类型和特征在若干动作路径中选择一条来执行。</p>
+<p>变换分析：复审基本系统模型；理解和精化数据流图；确定数据流图的类型；划分输入流、输出流的边界；执行二级分解；精化、改良软件结构。 </p>
+<p><strong>【第八章、人机交互设计】</strong></p>
+<p> 老人：图片字体大且清晰，描述简单，目录层级少，打开步骤少，操作简单，实用性 好，功能不复杂、只需要基本功能 小孩：色彩丰富。避免繁杂，大量图片和文字作为提示，风格轻松愉快，宽松简洁的 布局，高明度色彩，带拼音，可爱的卡通形象和字体设计，趣味和有故事性的背景</p>
+<p><strong>用户界面设计的基本原则</strong>①易理解性；②易操作性；③灵敏性；④一致性；⑤容错 性；⑥人性化。</p>
+<p><strong>用户界面设计模型的表示</strong>：①静态元素（无变化的文本、图标、图形、图像等）； ②动态元素（因运行状态而异自动呈现的不允许修改的文本、表格、图标、图形、图 像等）；③用户输入元素（可编辑文本、单选按钮、多选框、选择列表、可编辑的表 格）；④用户命令元素（按钮、菜单、超链接等）。 </p>
+<p><strong>用户界面设计过程的主要活动:</strong> 1.<strong>用户分析、任务分析及建模</strong>。首先必须分析用户的特征，分析用户需要通过目标软件系统完成哪些工作任务，为完成这些任务人机之间需要进行哪些信息交互。2.<strong>概念设计</strong>。主要目标是确定屏幕中应该包含的主要内容，以及用户基于该屏幕可施行的主要操作。3.<strong>界面流设计</strong>。主要目标是确定屏幕之间的跳转关系，即一幅屏幕在何种情况下,或者在响应何种用户操作命令后将跳转至另一屏幕.两种原因：①单屏幕空间容量有限，不足以表现所有必要界面元素；②用户的界面操作可能导出新的屏幕，以便在新的屏幕上进行面向特定业务功能的界面交互。表示方式主要是 UML 交互图（顺序图）和类图。4.<strong>界面精化</strong>。主要任务是基于概念设计和界面流设计，给出目标软件产品界面的完整的、详细的设计。 </p>
+<p><strong>【第九章、软件详细设计】</strong>主要活动①用例设计；②子系统设计；③构件设计；④类设计；⑤ 数据模型设计；⑥设计整合与验证。</p>
+<p><strong>【第十章、软件实现】</strong></p>
+<p><strong>程序设计语言的演化</strong>：第一代：汇编；第二代：Fortran&#x2F;Cobol&#x2F;Basic，有成熟的 函数库；第三代：结构化语言 C&#x2F;Pascal&#x2F;Ada；面向对象语言 C++&#x2F;Java；专用领域语 言 Lisp&#x2F;Prolog；第四代：数据库查询语言 Sql。</p>
+<ol>
+<li><p>第三代语言的特点：支持结构化程序设计，具有较强的过程能力和数据结构能力。</p>
+</li>
+<li><p>第四代特点：更高的抽象层次；只需要告诉计算机“做什么”，而不必告知“怎么做” 。</p>
+</li>
+</ol>
+<p><strong>编程的规则</strong>：1.节俭化（代码尽量简洁）；2.模块化；3.简单化（命名一致性，数 据结构尽量简单） 4.结构化（缩进统一&#x2F;函数代替重复出现的代码&#x2F;代码单入口单出口） 5.文档化（文档自说明）6.格式化</p>
+<p><strong>编程风格:<strong>1.节俭化 2.模块化 3.简单化 4.结构化 5.文档化 6.格式化. 编程风格在很大程度上</strong>影响着程序</strong>的可读性、可测试性、可维护性。 <strong>结构化</strong>要做到按标准化的次序说明数据，按字母顺序说明对象名，使用容易理解的结 构化程序部件，根据背景排列程序各部分</p>
+<p><strong>调试策略</strong>：1.原始法（单步执行，printf）2.回溯法（沿着代码控制流往回找）3. 排除法</p>
+<p><strong>【第十一章】</strong>（设计题）</p>
+<p><strong>数据流图DFD与数据字典、实体—关系图、面向数据流设计方法（事务流&#x2F;变换流）</strong></p>
+<p><strong>【第十三章、软件维护】</strong></p>
+<p><strong>·维护的分类</strong>(按原因划分):1.纠错性维护。为诊断和改正软件系统中潜藏的缺陷而进行的活动.2.适应性维护.为适应软件运行环境变化(如操作系统变更等)而修改软件的活动.3.完善性维护.是根据用户在软件使用过程中提出的一些新需求而实施的维护活动.4.预防性维护。是优化软件系统结构和可理解性，改善可维护性和可靠性。</p>
+<p><strong>·可维护性</strong>：软件的可维护性是指理解.改正.调整和改进软件的<strong>难易程度</strong>。是软件质量的重要属性，是指导软件工程活动的一条基本原则，也是软件工程追求的一个目标。 </p>
+<p><strong>·影响可维护性的因素</strong>：开发方法有关：设计、编码和测试不规范，软件配置不全开发环境有关：①训练有素的软件团队；②维护团队是否熟悉经过多次维护的系统；③ 软件的可理解性，包括软件结构、描述软件制品的语言、文档及标准化程度等；④操作系统的标准化程度；⑤维护工具和环境；⑥生成测试用例的能力；⑦对于嵌入式系 统维护应有专门的调试工具。</p>
+<p><strong>·维护的技术手段</strong>：软件重构。包括：文档重构、重组（简化与结构化源代码）、逆 向工程、再工程。</p>
+<p><strong>【第十五章、软件度量与估算】</strong></p>
+<p> <strong>·</strong>测量（Measure）是按照统一的规则为现实世界的实体属性定值。软件工程的测量 是按照测量标准直接、客观地采集软件制品、过程或资源的特征、属性，并获得数据。 例如：测量程序的代码行数、操作符的种类、个数，程序中缺陷的个数等等。测量涉 及测量对象、选用的量纲、方法、工具、过程和数据结果。</p>
+<p> <strong>·</strong>软件估算（Estimation）是根据经验、历史资料或模型，结合项目实际对软件 制 品、过程、资源进行预测。估算一般用于签订合同、制定工作计划、进行项目预算等。 这里涉及软件过程工作量的估算。</p>
+<p> <strong>·</strong>软件度量（Metrics）软件产品、软件开发过程或资源简单属性的定量描述，（如 程序规模、操作数个数、占用内存）能用以解释软件所具有的一个给定属性对软件质 量影响的程度。 </p>
+<p><strong>软件度量：规模度量、复杂性度量（McCabe基于图论；Halstead基于操作符与操作数）、质量度量、可靠性度量</strong></p>
+<p><strong>·内部属性与外部属性：软件工程的软件制品、过程、资源都具有外部属性和内部属性。外部属性体现了软件制品、过程、资源与环境的关系。内部属性指软件制品\过程和资源本身的技术属性。 二者关系:外部属性在软件开发过程中很难测量和控制，但它是由软件的内部属性决定的。</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>软件制品</th>
+<th>过程</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内 部</td>
+<td>程序语言；代码风格；模块化;复用性;耦合度与内聚度</td>
+<td>项目管理过程；业务建模过程；需求过程；设计过程；构造过程；测试过程；部署过程；配置管理过程；工具与环境支持过程</td>
+<td>人;软硬件环境; 经验</td>
+</tr>
+<tr>
+<td>外 部</td>
+<td>软件系统的可靠性;健壮性；效率;可用性;可维护性;可移植性</td>
+<td>资源保障；可控制性；可观察性；稳定性</td>
+<td>成本；时 间；合作 机制</td>
+</tr>
+</tbody></table>
+<p><strong>▲软件规模的度量</strong> (计算题)</p>
+<p><strong>（一）代码行度量</strong>（直接度量，依赖于程序设计语言）</p>
+<p>含义：通过项目总代码行数去度量项目的规模属性。（书本原话：用代码行数（LOC）表示软件项目的规模是自然和直观的。可以用人工或工具直接测量。几乎所有软件开发组织都保存软件项目的代码行数记录，开发初期可以度量软 件规模，度量生产 率、每行代码的平均人力成本、文档和代码的比例关系、每千行代 码存在的软件缺陷个数等）</p>
+<p>优点：简单直观，容易操作。</p>
+<p>缺点：1.依赖于特定程序设计语言；2.可能对一些设计精巧的软件项目不利；3. 项目开发前期估算困难；4.适用于过程式程序设计语言，对非过程程序设计语言不太 适用；</p>
+<p> （<strong>二）基于功能点度量</strong>（间接度量，不依赖于语言）</p>
+<p>含义：根据事务信息处理程序的基本功能定义的，采用 5 个测量参数，涉及多种因 素的间接度量方式。（因而可以估算出软件项目的规模）</p>
+<p> 优点：1.与程序设计语言无关，适用于过程式和非过程式程序设计语言；2.度量可以用于软件开发的初期（因为初期即能确定系统的输入&#x2F;输出）</p>
+<p>缺点：1.涉及主观因素较多，如加权值；2.信息领域数据有时不容易采集；3.FP(功能点)的值没有直观物理意义。 <strong>两者联系：抽象度越高的语言，同样的功能点对应的码会越少。</strong> </p>
+<p><strong>▲软件复杂性的度量</strong></p>
+<p><strong>(一)控制结构复杂性</strong>: 圈复杂度&#x2F;巡回秩数  V(G) &#x3D; e-n+2 </p>
+<p>V(G)的值不要大于10,否则模块内部结构就会变得复杂,给编码和测试带来困难</p>
+<p>(二)<strong>体系结构的复杂性</strong> 1. 简单形态度量:弧与节点数之和 S&#x3D;a+n; 弧与节点数之比 R&#x3D;a&#x2F;n;</p>
+<p>比值R体现了体系结构的连接密度,R越大,耦合度越高.</p>
+<p><strong>▲软件质量度量</strong> </p>
+<p><strong>软件质量的定义</strong>：软件制品满足规约和隐含需求特征及特征总和的程度。特征包括：功能性，可靠性，有效性，可使用性，可维护性，可移植性。·2011：增加了安全性 和兼容性的两个特征，扩展了子特征的概念。 软件特征的变化反映了软件与时俱进的特点，为软件质量度量和通过技术手段提高 软件制品质量指明了方向</p>
+<p><strong>McCall 三层次度量模型</strong>：质量要素指标（Factor）、评价准则（Criteria）、属 性度量(Metric)。Factor 包括：运行性、修正性、适应性。评价准则 21 个。</p>
+<p><strong>所有的质量度量模型（McCall、ISO）是层次性模型，不同在于分的哪些层次,每一 层有哪些方面。</strong> </p>
+<p><strong>【第十六章、软件项目管理与过程改进】</strong></p>
+<p>目的：软件项目管理的目的是使项目能够按照预定的成本、 进度、质量顺利完成。</p>
+<p> 一般经验估算模型：基于代码行的模型 E&#x3D;a(KLOC)b+c；基于功能点的模型 E&#x3D;a+b*FP，不同模型采用不同参数</p>
+<p><strong>▲软件项目度量与估算</strong> </p>
+<p><strong>（一）采用代码行&#x2F;功能点度量的工作量估算</strong> </p>
+<p><strong>E&#x3D;(a+4m+b)&#x2F;6</strong>: 采用上述估算方法可估算出 LOC&#x2F;FP 的乐观值 a，悲观值 b，一般值 m。（表格 16.5 的几列数据要会算）</p>
+<p>一般经验估算模型：基于代码行用 E&#x3D;a(KLOC)^b+c,abc 查表；E 是人月工作量；基于功能点用 E&#x3D;a+b<em>FP。ab 查表。</em></p>
+<p><strong>（二）COCOMO 模型（Constructive Cost Model,构造性成本模型）</strong></p>
+<p> COCOMO 模型分为基本、中间、详细三个层次。</p>
+<p>通信开销&#x3D;u<em>n</em>(n-1)&#x2F;2</p>
+<p>基本 COCOMO 模型：用于系统开发初期，估算系统开发工作量和所需要的时间。 <strong>E&#x3D;a(L)^b; D&#x3D;c(E)^d</strong>;abcd 查表；E 是人月工作量；D 是开发时间.<strong>N&#x3D;E&#x2F;D</strong> 是建议参加项目的<strong>人数</strong>。</p>
+<p>中间 COCOMO 模型：用于详细设计阶段，估算各个子系统的工作量和开发时间。 E&#x3D;a(L)^b*EAF;L 是代码行估算值，单位 kloc；ab 查表。EAF 是工作量调节因子，EAF&#x3D; （15 个 Fi 连乘）</p>
+<p>详细 COCOMO 模型：用于估算独立的软构件，如子系统内部的各个模块，软件的集成和测试。</p>
+<p><strong>（三）COCOMO Ⅱ</strong> </p>
+<p><strong>E&#x3D;a(L)^b*EAF+ER</strong>。ER 表示复用构件、代码自动生成需要的工作量，单位人月。 </p>
+<p><strong>（四）Putnam 模型</strong> </p>
+<p>时间推前或延迟 k%对工作量的影响？</p>
+<p><strong>L&#x3D;C<code>*</code>E^(1&#x2F;3)<code>*</code>t^(4&#x2F;3)</strong>.L是代码行数；E 是工作量，单位人年，包括维护；t 是开 发时间；C 表示软件开发环境的常数，查表。 </p>
+<p><strong>E&#x3D;L^3&#x2F;(C^3*t^4)。比如提前 10%的时间（t&#x3D;0.9t）,算出工作量 E&#x3D;1.524E。说明 要增加 52%的工作量。</strong></p>
+<p>Putnam 模型虽然揭示了软件项目的工作量、软件开发时间和程序代码长度三者之间的关系，但它没有反映软件制品、软件项目、软件开发人员和计算机软硬件资源等 属性。因此用该模型进行软件项目的成本估算是十分粗糙的。</p>
+<p><strong>▲软件项目计划—-工程进度安排</strong></p>
+<p><u><em><strong>两个重要的图：网络图（找关键路径，非关键路径的点可调控）；甘特图（网络图&#x3D;&gt;甘特图）</strong></em></u></p>
+<p>Gantt 图优点：简单易用，容易修改，比 PERT 图更加直观方便。 </p>
+<p>Gantt 图缺点：不能显示各项活动之间的依赖关系</p>
+<p><strong>▲软件配置管理</strong> (版本,基线)</p>
+<p><strong>配置管理的目的</strong>：目的是为了减少混乱，提高软件生产率。是对软件修改进行标识、组织和控制的技术，用来协 调和控制整个系统的过程。 </p>
+<p><strong>基线技术</strong>：标志软件开发过程的各个里程碑，通过复审的软件配置项 (SCI,Software Configuration Item, SCI是配置管理的基本单位)是构成基线的重要内容,它标志开发过程中一 个阶段的结束。</p>
+<p><strong>基线的使用</strong>：1.某 SCI 成 为基线，就会被存入项目数 据库；2.要想改动 SCI，就要复制到私有工作区并在 项目数据库中锁住。3.在私有工作区完成修改并通过复审后，新SCI释放并送回项目 数据库,并解锁。</p>
+<p> ·常用基线：1.系统工程–系统规约；2.需求分析—软件需求规约；3.软件设计—设 计规约;4.编码—源代码；5.测试—测试计划、过程、数据；6.集成—可运行系统。</p>
+<p>常用工具：版本控制 git；DSEE</p>
+<p>DSEE：历史管理、配置管理、任务管理、监控管理。</p>
+<p>SCI:（1）系统规约；（2）软件项目规划；（3）需求分析结果；a.软件需求规约； b.可执行的或“纸样”原型；（ 4）初步用户手册；（5）设计规约；a.数据设计描 述；b.总体结构设计描述；c.模块设计描述；d.界面设计描述；e.对象描述；（6） 源代码清单；（7）测试规约；a.测试计划和过程；b.测试用例和实验结果；（8）操 作和安装手册；（9）可执行程序；a.每个模块的可执行代码；b.链接到一起的代码； （10）数据库描述；a.数据模型和文件结构；b.初始化映像；（11）联机用户手册； （12）维护文档； a.软件问题报告；b.维护申请；c.预计变更的顺序；（13）软件工程的标准和过程。</p>
+<p>配置管理的任务：标识配置项；版本管理。</p>
+<p>配置项的状态有三种：“草稿”（Draft）、“正式发布”（Released）和“正在修 改”(Changing)。变迁：配置项刚建立时其状态为“草稿”。配置项通过评审（或审 批)后，其状态变为“正式发布”。此后若更改配置项，必须依照“变更控制规程” 执行，其状态变为“正在修改”。当配置项修改完毕并重新通过评审（或审批）时， 其状态又变为“正式发布”，如此循环. </p>
+<p><strong>▲软件过程改进</strong></p>
+<p><strong>能力成熟度模型CMM</strong>:Capability Maturity Model for Software,软件成熟度模型。CMM 是一个概念模型,模型框架和表示是刚性的，不能随意改变。但模型的解释和实现有一定弹性。CMM 源于大型软件开发实践，反映了软件过程评估和软件过程改进的需要，是一个有效的大型软件开发、维护过程模型。 CMM 的应用进一步规范、指导软 件开发组织的自身建设，使软件开发组织从混乱的、低效的不成熟状态，向有纪律的、 高效的成熟状态转变。</p>
+<p><strong>常用词汇</strong>: 组织,项目,软件过程,组织的标准软件过程,定义项目的软件过程,组织的软件过程资产</p>
+<p><strong>关键过程域 KPA</strong>：描述软件的过程属性，通过完成一组相互关联的活动，实现建立 过程能力至关重要的一组目标。（软件开发组织的软件过程能力是组织能够承接软件 项目的重要依据）</p>
+<p>CMM 的能力成熟度共分 5 级：L1 初始级；L2 可重复级；L3 已定义级；L4 已管理级； L5 优化级。从 2 级开始，每级包括若干个 KPA。 ·CMM 评估阶梯：L1 初始级；L2（软件项目计划+软件项目跟踪与监督）；L3（综合 软件管理）；L4（定量的过程管理）；L5（过程变更管理）。</p>
+<p>什么是 CMMI？CMMI 是若干过程模型的综合和改进，是支持多个工程学科和领域的,系统的,一致的过程改进框架，能够适应现代工程的特点和需要，能够提高过程的质量和工作效率。</p>
+<p>CMMI 等级：L0 不完全级；L1 已执行级；L2 已管理级；L3 已定义级；L4 定量管理 级；L5 优化级。 </p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2019/12/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/03/27/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            python学习笔记
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/25/Debian-Pi-arch64%20%E5%AE%89%E8%A3%85nextcloud/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Debian-Pi-arch64 安装nextcloud</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="KONSIN个人小站"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

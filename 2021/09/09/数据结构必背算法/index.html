@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>数据结构必背算法 |  KONSIN个人小站</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-数据结构必背算法"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  数据结构必背算法
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/" class="article-date">
+  <time datetime="2021-09-09T07:58:30.000Z" itemprop="datePublished">2021-09-09</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">18 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="矩阵快速转置"><a href="#矩阵快速转置" class="headerlink" title="矩阵快速转置"></a>矩阵快速转置</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*稀疏矩阵用三元组表示。</span></span><br><span class="line"><span class="comment">需要设置num和cpot两个向量。</span></span><br><span class="line"><span class="comment">num[col]表示矩阵M中第col列中非零元的个数。</span></span><br><span class="line"><span class="comment">copt[col]指示M中第col列的第一个非零元在转置后的三元组的位置。</span></span><br><span class="line"><span class="comment">cpot[1] = 1; cpot[col] = cpot[col - 1] + num[col - 1],2&lt;=col&lt;=列数nu；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Status <span class="title">FastTransposeSMatrix</span><span class="params">( TSMatrix M, TSMatrix &amp;T)</span> </span>&#123;</span><br><span class="line">    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu; <span class="comment">//T的行数列数=M的列数行数，非零元个数相同</span></span><br><span class="line">    <span class="keyword">if</span>(T.tu) &#123;</span><br><span class="line">        <span class="keyword">for</span>(col = <span class="number">1</span>; col &lt; M.nu; ++col) num[col] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(t = <span class="number">1</span>; t &lt;= M.nu; ++t) ++num[M.data[t].j]; <span class="comment">//求M中每一列含非零元个数</span></span><br><span class="line">        cpot[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(col =  <span class="number">2</span>; col &lt;= M.nu; ++col)</span><br><span class="line">            cpot[col] = cpot[col - <span class="number">1</span>] + num[col - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(p = <span class="number">1</span>; p &lt;= M.tu; ++p) &#123;</span><br><span class="line">            col = M.data[p].j; q = cpot[col];</span><br><span class="line">            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;</span><br><span class="line">            T.data[q].e = M.data[p].e; ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><ol>
+<li><p>先序遍历：根左右<br />递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">       <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">     <span class="built_in">PreOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line"> <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">     <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">         <span class="built_in">visit</span>(p); <span class="built_in">Push</span>(S, p);<span class="comment">//访问当前节点并入栈</span></span><br><span class="line">         p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">         <span class="built_in">Pop</span>(S, p);            <span class="comment">//栈顶元素出栈</span></span><br><span class="line">         p=p-&gt;rchild;        <span class="comment">//访问右子树</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历：左根右</p>
+</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">        <span class="built_in">InOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MidOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S); BiTree p=t;     <span class="comment">//初始化栈S，p是遍历指针</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;     <span class="comment">//栈不空或p不空时循环</span></span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//遍历左子树</span></span><br><span class="line">            <span class="built_in">Push</span>(S, p);            <span class="comment">//当前节点入栈</span></span><br><span class="line">            p = p-&gt;lchild;        <span class="comment">//左孩子非空下一次继续遍历左孩子</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//出栈，访问栈结点右子树</span></span><br><span class="line">            <span class="built_in">Pop</span>(S, p); <span class="built_in">visit</span>(p); <span class="comment">//栈顶元素出栈,并访问</span></span><br><span class="line">            p=p-&gt;rchild;        <span class="comment">//下一次循环，访问右子树</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>后序遍历：左右根</li>
+</ol>
+<p>递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;lchild) ; <span class="comment">//递归遍历左子树</span></span><br><span class="line">        <span class="built_in">PostOrder</span>(T-&gt;rchild) ; <span class="comment">//递归遍历右子树</span></span><br><span class="line">          <span class="built_in">visit</span>(T) ; <span class="comment">//访问根结点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非递归算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PostOrder</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">InitStack</span>(S);</span><br><span class="line">    p = T;                        <span class="comment">//p是遍历指针</span></span><br><span class="line">    r = <span class="literal">NULL</span>;                    <span class="comment">//r指向最近访问过的结点，以分清从左子树返回还是右子树返回</span></span><br><span class="line">    <span class="keyword">while</span>(p || !<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p) &#123;                    <span class="comment">//走到最左边</span></span><br><span class="line">            <span class="built_in">push</span>(S, p);</span><br><span class="line">            p = p-&gt;lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                <span class="comment">//向右</span></span><br><span class="line">            <span class="built_in">GetTop</span>(S, p);        <span class="comment">//读栈顶结点</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rchild &amp;&amp; p-&gt;rchild!=r) &#123; <span class="comment">//若左子树存在且未被访问过</span></span><br><span class="line">                p = p-&gt;rchild;    <span class="comment">//转向右</span></span><br><span class="line">                <span class="built_in">push</span>(S, p);        <span class="comment">//压入栈</span></span><br><span class="line">                p = p-&gt;lchild;    <span class="comment">//再走到左</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;            <span class="comment">//否则</span></span><br><span class="line">                <span class="built_in">pop</span>(S, p);        <span class="comment">//将结点弹出</span></span><br><span class="line">                <span class="built_in">visit</span>(p-&gt;data);    <span class="comment">//访问该结点</span></span><br><span class="line">                r = p;             <span class="comment">//记录最近访问过的结点</span></span><br><span class="line">                p = <span class="literal">NULL</span>;        <span class="comment">//结点访问完毕后，重置p指针</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>层次遍历</li>
+</ol>
+<p>层次遍历常用来求每个元素所在层数、某层结点个数、树的最大宽度、树的高度等<br />求树的高度的算法，借助队列</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">BtDepth</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T) <span class="keyword">return</span> <span class="number">0</span>;    <span class="comment">//树空，高度为0</span></span><br><span class="line">    <span class="type">int</span> front = <span class="number">-1</span>, rear = <span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> last = <span class="number">0</span>, level = <span class="number">0</span>;    <span class="comment">//last指向当前层的最右结点</span></span><br><span class="line">    BiTree Q[MaxSize];            <span class="comment">//设置队列Q</span></span><br><span class="line">    Q[++rear] = T;                <span class="comment">//根结点入队</span></span><br><span class="line">    BiTree p;</span><br><span class="line">    <span class="keyword">while</span>(front &lt; rear) &#123;        <span class="comment">//队不空，则循环</span></span><br><span class="line">        p=Q[++front];            <span class="comment">//队列元素出队，访问当前结点</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;lchild) </span><br><span class="line">            Q[++rear] = p-&gt;lchild;    <span class="comment">//左孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(p-&gt;rchild)</span><br><span class="line">            Q[++rear] = p-&gt;rchild;    <span class="comment">//右孩子入队</span></span><br><span class="line">        <span class="keyword">if</span>(front == last) &#123;</span><br><span class="line">            level++;                <span class="comment">//层数加一</span></span><br><span class="line">            last = rear;            <span class="comment">//last指向下层最后一个结点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><p>记忆非递归算法更为合适，因为仅仅是把队列和栈替换。<br />全局变量：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Boolean visited[MAX];            <span class="comment">//访问标志数组</span></span><br><span class="line"><span class="built_in">Status</span> (*VisitFunc)(<span class="type">int</span> V);        <span class="comment">//函数变量</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>广度优先搜索：</li>
+</ol>
+<p>类似于树的按层次遍历。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited</span></span><br><span class="line"><span class="comment">//辅助队列Q保存正在访问顶点的下一层顶点</span></span><br><span class="line"><span class="comment">//visited标志顶点是否被访问过，防止被多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE;</span></span></span><br><span class="line"><span class="params"><span class="function">    InitQueue(Q);                    <span class="comment">//置空的辅助队列Q</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">if</span>(!visited[v]) &#123;            <span class="comment">//v未被访问</span></span></span></span><br><span class="line"><span class="params"><span class="function">            visited[v] = TRUE; </span></span></span><br><span class="line"><span class="params"><span class="function">            EnQueue(Q, v);            <span class="comment">//v入队列</span></span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">while</span>(!QueueEmpty(Q)) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                DeQueue(Q, u);        <span class="comment">//队头元素出队并置为u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                Visit(u);            <span class="comment">//访问u</span></span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="keyword">for</span>(w = FirstNeighbor(G, u); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, u, w))</span></span></span><br><span class="line"><span class="params"><span class="function">                    <span class="keyword">if</span>(!visited[w]) &#123;        <span class="comment">//w为u的尚未访问的临接顶点</span></span></span></span><br><span class="line"><span class="params"><span class="function">                        visited[w] = TRUE;</span></span></span><br><span class="line"><span class="params"><span class="function">                        EnQueue(Q, w);</span></span></span><br><span class="line"><span class="params"><span class="function">                    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">            &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">        &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>深度优先搜索：<br> 递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFSTraverse</span><span class="params">(Graph G, Status (*Visit)(<span class="type">int</span> v))</span> </span>&#123;</span><br><span class="line">VisitFunc = Visit;        <span class="comment">//使用全局变量VisitFunc，使DFS不必设函数指针参数。</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) visited[v] = FALSE; <span class="comment">//访问标志数组初始化</span></span><br><span class="line"><span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">  <span class="keyword">if</span>(!visited[v]) <span class="built_in">DFS</span>(G, v);    <span class="comment">//对未访问的顶点调用DFS</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从第v个顶点出发递归地深度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    visited[v] = TRUE; <span class="built_in">VisitFunc</span>(v);    <span class="comment">//访问第v个顶点</span></span><br><span class="line">    <span class="keyword">for</span> (w = <span class="built_in">FirstNeighbor</span>(G, v); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, v, w))</span><br><span class="line">        <span class="keyword">if</span>(!visited[w]) <span class="built_in">DFS</span>(G, w);    <span class="comment">//对v的尚未访问的邻接顶点w递归调用DFS</span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p> 非递归算法</p>
+   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按深度优先非递归遍历图G，使用辅助栈S和访问标记数组visited</span></span><br><span class="line"><span class="comment">//栈S来记忆下一步可能访问的顶点</span></span><br><span class="line"><span class="comment">//visited标记顶点是否被访问过，防止多次访问。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> w;            <span class="comment">//顶点序号</span></span><br><span class="line">    <span class="built_in">InitStack</span>(S);    <span class="comment">//初始化栈S</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; G.vexnum; i++) visited[i] = FALSE;</span><br><span class="line">    <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v) </span><br><span class="line">        <span class="keyword">if</span>(!visited[v]) &#123;</span><br><span class="line">            <span class="built_in">Push</span>(S, v); visited[v] = TRUE;    <span class="comment">//v入栈</span></span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">IsEmpty</span>(S)) &#123;</span><br><span class="line">                k = <span class="built_in">Pop</span>(S); <span class="built_in">visit</span>(k);    <span class="comment">//访问栈顶结点</span></span><br><span class="line">                <span class="keyword">for</span>(w = <span class="built_in">FirstNeighbor</span>(G, k); w &gt;= <span class="number">0</span>; w = <span class="built_in">NextNeighbor</span>(G, k, w))</span><br><span class="line">                <span class="keyword">if</span>(!visited[w]) &#123;</span><br><span class="line">                    <span class="built_in">Push</span>(S, w);</span><br><span class="line">                    visited[w] = TRUE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="最小生成树算法"><a href="#最小生成树算法" class="headerlink" title="最小生成树算法"></a>最小生成树算法</h2><ol>
+<li><p>Prim算法：适合边稠密的图</p>
+<ol>
+<li><p>算法思想：初始时从图中任取一顶点加入树T，此时树中只含有一个顶点，之后选择一个与当前T中顶点集合距离最近的顶点，并将该顶点和相应的边加入T，每次操作后T中顶点数和边数都增1.以此类推，直至图中所有的顶点都并入T，得到的T就是最小生成树。</p>
+</li>
+<li><p>所需添加的数据结构closedge[]，记录从U到V-U具有最小代价的边</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> &#123;</span><br><span class="line">VertexType adjvex;    <span class="comment">//最小代价的边在U中依附的顶点</span></span><br><span class="line">VRType lowcost;        <span class="comment">//最小代价的边的权值；</span></span><br><span class="line">&#125; closedge[ MAX_VERTEX_NUM ]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>算法实现（一般不考）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PRIM</span><span class="params">(MGraph G, VertexType u)</span> </span>&#123;</span><br><span class="line">k = <span class="built_in">LocateVex</span>(G, u);</span><br><span class="line"><span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j)     <span class="comment">//初始化辅助数组</span></span><br><span class="line">  <span class="keyword">if</span>(j != k) closedge[j] = &#123;u, G.arcs[k][j].adj&#125;;</span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>;        <span class="comment">//初始，U=&#123;u&#125;</span></span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; G.vexnum; ++i) &#123;</span><br><span class="line">  k = <span class="built_in">minimum</span>(closedge);        <span class="comment">//离当前生成树距离最短的点作为下一顶点</span></span><br><span class="line">  <span class="built_in">printf</span>(closedge[k].adjvex, G.vexs[k]);    <span class="comment">//输出生成树的边</span></span><br><span class="line">  closedge[k].lowcost = <span class="number">0</span>;    <span class="comment">//将该点并入生成树U集</span></span><br><span class="line">  <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; G.vexnum; ++j) <span class="comment">//更新未并入U的点离生成树的距离。</span></span><br><span class="line">      <span class="keyword">if</span>(G.arcs[k][j].adj &lt; closedge[j].lowcost)    </span><br><span class="line">          closedge[j] = &#123;G.vexs[k], G.arcs[k][j].adj&#125;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每一步的状态表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/1379805/1632216066656-3768a3d0-a6bb-4826-aca9-2077804df767.jpeg" alt="1A18DDB3-14CA-433F-8F92-A97B744CB996.jpeg"></p>
+<ol start="2">
+<li><p>Kruskal算法：适合边稀疏而顶点较多的图</p>
+<ol>
+<li>算法思想：初始时为只有n个顶点而无边的非连通图T&#x3D;{V, {} }，每个顶点自成一个连通分量，然后按照边的权值由小到大的顺序，不断选取当前未被选取过且权值最小的边，若该边依附的顶点落在T中不同的连通分量上，则将此边加入T，否则舍弃此边而选取下一条权值最小的边。以此类推，直至T中所有顶点都在一个连通分量上。</li>
+</ol>
+</li>
+</ol>
+<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><ol>
+<li><p>Dijkstra算法，求单个点到其他点的最短路径。</p>
+<ol>
+<li><p>所需辅助数组</p>
+<ol>
+<li>dist[]：记录从源点到其他各顶点当前的最短路径长度，如两个点未直接相连置为∞</li>
+<li>path[]：表示从源点到顶点i之间最短路径上i之前的一个结点。用于最后追溯最短路径。</li>
+</ol>
+</li>
+<li><p>算法过程：贪心策略，按长度递增的次序产生各最短路径。</p>
+<ol>
+<li><p>初始化dist，和集合S&#x3D;{0}</p>
+</li>
+<li><p>从顶点集合V-S中选出dist最小的点 j ，并入S</p>
+</li>
+<li><p>更新dist[k] &#x3D; dist[j] + arcs[j][k] &lt; dsit[k] ? dist[j]+arcs[j][k] : dsit[k]</p>
+</li>
+<li><p>重复2-3步，直到所有点都并入S</p>
+</li>
+</ol>
+</li>
+<li><p>求解过程表（重要）</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111632152.jpeg" alt="850BE2D4-C874-45CF-B587-1C2E74312442.jpeg"></p>
+<ol start="2">
+<li><p>Floyd算法，求所有点间的最短距离。</p>
+<ol>
+<li><p>算法思想：用每个顶点作为中间结点计算路径长度并与原路径长度进行比较，更新矩阵为较小的值。重复n次就得到所有的最短路径长度。</p>
+</li>
+<li><p>算法伪代码（不重要）要会算每次迭代的矩阵，初始的矩阵为邻接矩阵。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FLOYD</span><span class="params">(Mgraph G, DistancMatrix D)</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span>(u = <span class="number">0</span>; u &lt; G.vexnum; ++u)</span><br><span class="line">  <span class="keyword">for</span>(v = <span class="number">0</span>; v &lt; G.vexnum; ++v)</span><br><span class="line">      <span class="keyword">for</span>(w = <span class="number">0</span>; w &lt; G.vexnum; ++w)</span><br><span class="line">          <span class="keyword">if</span>(D[v][u] + D[u][w] &lt; D[v][w]) &#123; <span class="comment">//从v经过u到w的一条路径更短。</span></span><br><span class="line">              D[v][w] = D[v][u] + D[u][w];</span><br><span class="line">          &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ol start="3">
+<li>直接插入排序</li>
+</ol>
+<p>思想：假设前部分序列已经有序，从后部分无序序列中选择元素插入到前面有序序列的合适位置，最终整体有序。是稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A[0] 用作哨兵, n为数组长度</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; i++)        <span class="comment">// 依次将A[2]-A[n]插入到前面已排序序列</span></span><br><span class="line">        <span class="keyword">if</span>(A[i] &lt; A[i<span class="number">-1</span>]) &#123;        <span class="comment">//若A[i]&lt;A[i-1]</span></span><br><span class="line">            A[<span class="number">0</span>] = A[i];        <span class="comment">//把A[i]复制为哨兵</span></span><br><span class="line">            <span class="keyword">for</span>(j = i<span class="number">-1</span>; A[<span class="number">0</span>] &lt; A[j]; --j)    <span class="comment">//在前端有序队列中查找插入位置</span></span><br><span class="line">                A[j+<span class="number">1</span>] = A[j];    <span class="comment">//将前面有序序列的元素后移，空出位置。</span></span><br><span class="line">            A[j+<span class="number">1</span>] = A[<span class="number">0</span>];        <span class="comment">//插入到空出来的位置。</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>折半插入排序</li>
+</ol>
+<p>思想：将直接插入排序中移位操作中的比较单独提出来。变成，折半查找出元素的待插入位置，然后再移动元素</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        A[<span class="number">0</span>] = A[i];</span><br><span class="line">        low = <span class="number">1</span>; high = i - <span class="number">1</span>;    <span class="comment">//设置折半查找范围</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt;= high) &#123;    <span class="comment">//折半查找</span></span><br><span class="line">            mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(A[mid] &gt; A[<span class="number">0</span>]) high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> low = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(j = i<span class="number">-1</span>; j &gt;= high+<span class="number">1</span>; --j)</span><br><span class="line">            A[j+<span class="number">1</span>] = A[j];</span><br><span class="line">        A[high+<span class="number">1</span>] = A[<span class="number">0</span>];    <span class="comment">//插入</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>希尔排序</li>
+</ol>
+<p>思想（重要）：先将待排序表分割成若干由相隔某个增量的记录组成的一个子表，对各个子表分别进行直接插入排序，当整个表中元素已经基本有序时，再对全体记录进行一次直接插入排序。<br />不稳定的排序方法。</p>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ol start="4">
+<li>冒泡排序</li>
+</ol>
+<p>思想：从后往前两两比较相邻元素的值，若为逆序，则交换他们，直到序列比较完。若第n趟结束时没有交换，则冒泡排序结束。是一种稳定的排序方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(j = n<span class="number">-1</span>; j &gt; i; j--)     <span class="comment">//一趟冒泡过程</span></span><br><span class="line">            <span class="keyword">if</span>(A[j<span class="number">-1</span>] &gt; A[j]) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(A[j<span class="number">-1</span>], A[j]);</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="literal">false</span>) <span class="keyword">return</span>;    <span class="comment">//本趟遍历后没有发生交换，已经有序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>快速排序（重要）</li>
+</ol>
+<p>思想：基于分治思想。通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行快速排序。 不稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一趟快速排序的过程，划分算法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(ElemTYpe A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    pivot = A[low];            <span class="comment">//用子表的第一个记录作枢轴记录，用pivot记录枢轴关键字</span></span><br><span class="line">    <span class="keyword">while</span>(low &lt; high) &#123;        <span class="comment">//从表两边交替地向中间扫描</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[high] &gt;= pivot) --high;</span><br><span class="line">        A[low] = A[high];    <span class="comment">//将比枢轴小的记录移到低端</span></span><br><span class="line">        <span class="keyword">while</span>(low &lt; high &amp;&amp; A[low] &lt;= pivot) ++low;</span><br><span class="line">        A[high] = A[low];    <span class="comment">//比枢轴大的记录移到高端</span></span><br><span class="line">    &#125;</span><br><span class="line">    A[low] = pivot;            <span class="comment">//枢轴记录到位</span></span><br><span class="line">    <span class="keyword">return</span> low;                <span class="comment">//返回枢轴位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归主程序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low &lt; high) &#123;</span><br><span class="line">        <span class="type">int</span> pivotpos = <span class="built_in">Partition</span>(A, low, high);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, low, pivotpos<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, pivotpos+<span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ol start="6">
+<li>简单选择排序</li>
+</ol>
+<p>思想：第i趟排序从L[i···n]中选择关键字最小的元素与L(i)交换。经过n-1次就得到有序。不稳定的排序算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; ++i) &#123;</span><br><span class="line">        min = i;</span><br><span class="line">        <span class="keyword">for</span>(j = i+<span class="number">1</span>; j &lt; n; ++j) </span><br><span class="line">            <span class="keyword">if</span>(A[j] &lt; A[min]) min = j;</span><br><span class="line">        <span class="keyword">if</span>(min != i) <span class="built_in">swap</span>(A[i], A[min]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>堆排序</li>
+</ol>
+<p>堆：是一颗完全二叉树，所有根结点小于等于或大于等于其孩子节点值。为方便运算，A[0]为空。<br />思想：若在输出堆顶的最小值后，使得剩余n-1个元素的序列重又建成一个堆，则输出n个元素的次小值。如此反复执行，便得到一个有序序列，这个过程称为堆排序。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//建立大根堆的算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(i = len/<span class="number">2</span>; i &gt; <span class="number">0</span>; i--)    <span class="comment">//从非叶子结点开始调整</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, i, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调整以元素k为根的子树为堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[], <span class="type">int</span> k, <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    A[<span class="number">0</span>] = A[k];                        <span class="comment">//A[0]暂存子树的根结点。</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>*k; i &lt;= len; i *= <span class="number">2</span>) &#123;    <span class="comment">//沿key较大的子节点向下筛选</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; len &amp;&amp; A[i] &lt; A[i+<span class="number">1</span>])</span><br><span class="line">            i++;                        <span class="comment">//取key较大的子节点的下标</span></span><br><span class="line">        <span class="keyword">if</span>(A[<span class="number">0</span>] &gt;= A[i]) <span class="keyword">break</span>;            <span class="comment">//筛选结束</span></span><br><span class="line">        <span class="keyword">else</span> &#123;                            </span><br><span class="line">            A[k] = A[i];                <span class="comment">//将A[i]调整到双亲结点上</span></span><br><span class="line">            k = i;                        <span class="comment">//修改k，继续向下筛选。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    A[k] = A[<span class="number">0</span>];                        <span class="comment">//被筛选节点的值放入最终位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//堆排序算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeapSort</span><span class="params">(ElemType A[], <span class="type">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">BuildMaxHeap</span>(A, len);</span><br><span class="line">    <span class="keyword">for</span>(i = len; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">        <span class="built_in">Swap</span>(A[i], A[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, <span class="number">1</span>, i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol start="8">
+<li>归并排序</li>
+</ol>
+<p>思想：将两个或两个以上的有序表组合成一个新的有序表。稳定的排序方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ElemType *B = (ElemTYpe *)<span class="built_in">malloc</span>((n+<span class="number">1</span>) * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(ElemType A[], <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k = low; k &lt;= high; k++) </span><br><span class="line">        B[k] = A[k];</span><br><span class="line">    <span class="keyword">for</span>(i = low, j = mid+<span class="number">1</span>; k = i; i &lt;= mid &amp;&amp; j &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(B[i] &lt;= B[j])</span><br><span class="line">            A[k] = B[i++];</span><br><span class="line">        <span class="keyword">else</span> A[k] = B[j++];</span><br><span class="line">    &#125;</span><br><span class="line">       <span class="keyword">while</span>(i &lt;= mid) A[k++] = B[i++];    <span class="comment">//如果表1未检测完，直接复制</span></span><br><span class="line">    <span class="keyword">while</span>(j &lt;= high) A[k++] = B[j++];    <span class="comment">//如果表2未检测完，直接复制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>基数排序</li>
+</ol>
+<p>思想：一种借助多关键字排序的思想对单逻辑关键字进行排序的方法。<br />链式基数排序：收集时是从下往上收集的。<br /><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111633646.jpeg" alt="AFA561CF-09F2-4A79-823D-B99981F78B38.jpeg"></p>
+<h2 id="真题中的多次考到的算法"><a href="#真题中的多次考到的算法" class="headerlink" title="真题中的多次考到的算法"></a>真题中的多次考到的算法</h2><h3 id="树的孩子兄弟表示法的遍历"><a href="#树的孩子兄弟表示法的遍历" class="headerlink" title="树的孩子兄弟表示法的遍历"></a>树的孩子兄弟表示法的遍历</h3><p>以求家族中共有多少代并输出最后一代的所有成员为例。<br />思想：根据孩子兄弟表示法，创建结构体，包括名字，第一个孩子节点和兄弟节点。再将此结构体与其结点高度组成一个新结构体（在不同类型的题目中，该结构体内容根据需要进行修改）。通过求层次遍历最后一个结点的高度得到共有多少代，再通过遍历所有结点找到高度最大的结点，即最后一代。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">char</span> name;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *firstchild;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">BTNode</span> *brother;</span><br><span class="line">&#125;BTNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> lno; <span class="comment">//表示结点高度;</span></span><br><span class="line">    BTNode *p;</span><br><span class="line">&#125;NodeInfo;         <span class="comment">//这个结构体及后续队列的变形应用是精髓。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FamilyTree</span><span class="params">(BTNode &amp;b)</span> </span>&#123;</span><br><span class="line">    NodeInfo Q[maxsize];</span><br><span class="line">    <span class="type">int</span> front = <span class="number">0</span>, rear = <span class="number">0</span>; <span class="comment">//初始化自定义队列</span></span><br><span class="line">    <span class="type">int</span> Lno;        <span class="comment">//暂存结点高度；</span></span><br><span class="line">    <span class="type">int</span> i, j = <span class="number">0</span>;    <span class="comment">//j记录最后一代人数</span></span><br><span class="line">    BTNode *q;</span><br><span class="line">    ++rear;</span><br><span class="line">    Q[rear].p = b; Q[rear].lno=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (rear != front) &#123;</span><br><span class="line">        ++front;</span><br><span class="line">        q = Q[front].p; Lno = Q[front].lno;    <span class="comment">//出队</span></span><br><span class="line">        <span class="keyword">if</span>(q-&gt;brother != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;brother;</span><br><span class="line">            Q[rear].lno = Lno;        <span class="comment">//兄弟结点与该结点高度一致；</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(q-&gt;firstchild != null) &#123;</span><br><span class="line">            ++rear;</span><br><span class="line">            Q[rear].p = q-&gt;firstchild;</span><br><span class="line">            Q[rear].lno = Lno + <span class="number">1</span>;    <span class="comment">//孩子结点比当前结点高1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(Lno); <span class="comment">//输出共有多少代</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= rear; i++) &#123;    <span class="comment">//输出最后一代成员并计算人数</span></span><br><span class="line">        <span class="keyword">if</span>(Q[i].lno == Lno) &#123;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="built_in">print</span>(Q[i].p-&gt;name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2021/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BF%85%E8%83%8C%E7%AE%97%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/829%E4%B8%93%E4%B8%9A%E8%AF%BE/" rel="tag">829专业课</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/06/30/MySQL%20ERROR%201698%20(28000)%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL ERROR 1698 (28000) 解决方案
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/09/08/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%AE%80%E7%AD%94%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">专业课简答题</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="KONSIN个人小站"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
