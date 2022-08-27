@@ -109,9 +109,10 @@ search:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
 - type: 'git'
+  repo: git@github.com:konsin/konsin.git
+  branch: main
+  
+- type: 'git'
   repo: git@gitee.com:konsin/konsin.git
   branch: master
 
-- type: 'git'
-  repo: git@github.com:konsin/konsin.git
-  branch: main
