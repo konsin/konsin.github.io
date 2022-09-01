@@ -1113,7 +1113,7 @@ a[-1],访问末尾第一个
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm get registry</span><br></pre></td></tr></table></figure>
 
 <h1 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h1><p>可以在安装git后设置SSH公钥。</p>
-<p>Gitee生成&#x2F;添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成&#x2F;添加SSH公钥 - Gitee.com</a></p>
+<p>Gitee生成/添加SSH公钥教程：<a href="https://gitee.com/help/articles/4181#article-header0">生成/添加SSH公钥 - Gitee.com</a></p>
 <h1 id="Step3：安装Hexo"><a href="#Step3：安装Hexo" class="headerlink" title="Step3：安装Hexo"></a>Step3：安装Hexo</h1><p>使用 npm 安装 Hexo。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
@@ -1162,6 +1162,7 @@ a[-1],访问末尾第一个
 <p>在文章中使用分类只需要在抬头中添加<code>categories: XXX</code>即可，Hexo会自动创建分类索引。</p>
 <p>一篇文章只能设置一个分类。</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 使用Hexo及Gitee搭建博客</span><br><span class="line">date: <span class="number">2022</span>-<span class="number">07</span>-<span class="number">09</span> <span class="number">21</span>:<span class="number">09</span>:<span class="number">06</span></span><br><span class="line">categories: 配置教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h1 id="图床问题"><a href="#图床问题" class="headerlink" title="图床问题"></a>图床问题</h1><p>可以自建Github仓库作为图床，使用<a href="https://picx.xpoet.cn/">PicX</a>方便快速的管理。</p>
 ]]></content>
       <categories>
         <category>配置教程</category>
@@ -1256,13 +1257,13 @@ a[-1],访问末尾第一个
 <li><p>面向对象和面向过程的优缺点</p>
 <p>面向过程</p>
 <ul>
-<li>优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源;比如单片机、嵌入式开发、Linux&#x2F;Unix等一般采用面向过程开发，性能是最重要的因素。 </li>
-<li>缺点：没有面向对象易维护、易复用、易扩展</li>
+<li>优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源;比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。 </li>
+<li>缺点：没有面向对象易维护、易复用、易扩展 </li>
 </ul>
 <p>面向对象</p>
 <ul>
 <li>优点：易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统更加灵活、更加易于维护 </li>
-<li>缺点：性能比面向过程低</li>
+<li>缺点：性能比面向过程低 </li>
 </ul>
 </li>
 </ul>
@@ -1339,12 +1340,12 @@ a[-1],访问末尾第一个
 <tr>
 <td align="left">float</td>
 <td align="left">4 个字节</td>
-<td align="left">精度型占4个字节（32位）内存空间，+&#x2F;- 3.4e +&#x2F;- 38 (~7 个数字)</td>
+<td align="left">精度型占4个字节（32位）内存空间，+/- 3.4e +/- 38 (~7 个数字)</td>
 </tr>
 <tr>
 <td align="left">double</td>
 <td align="left">8 个字节</td>
-<td align="left">双精度型占8 个字节（64位）内存空间，+&#x2F;- 1.7e +&#x2F;- 308 (~15 个数字)</td>
+<td align="left">双精度型占8 个字节（64位）内存空间，+/- 1.7e +/- 308 (~15 个数字)</td>
 </tr>
 <tr>
 <td align="left">long double</td>
@@ -1502,7 +1503,9 @@ a[-1],访问末尾第一个
 </ol>
 </li>
 </ol>
-<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2>]]></content>
+<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><p><strong>运算符</strong>：告诉编译器执行特定数学或逻辑操作的符号。（算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、杂项运算符）</p>
+<p><strong>表达式</strong>：使用运算符将操作数连接而成的式子，每一个表达式都有自己的值，表达式都有运算结果</p>
+]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
