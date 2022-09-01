@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">770</span>
+            <span class="post-count">766</span>
         </span>
     </span>
 
@@ -114,7 +114,7 @@
 <h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p>这里我们使用apache2作为服务器，通过以下命令安装apache2.80端口被封的话自己改端口</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
 
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>NextCloud可用的数据库有MySQL&#x2F;MariaDB，PostgreSQL，Oracle。官方推荐MySQL&#x2F;MariaDB，这里以mysql为例，执行以下指令安装mysql：</p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>NextCloud可用的数据库有MySQL/MariaDB，PostgreSQL，Oracle。官方推荐MySQL/MariaDB，这里以mysql为例，执行以下指令安装mysql：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
 
 <p>期间会让你设置root密码和密码强度，请自行判断。</p>
@@ -157,11 +157,11 @@
 <p>打开config.php文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /var/www/html/nextcloud/config</span><br></pre></td></tr></table></figure>
 
-<p>配置储存盘&#x2F;数据目录.我是将NTFS格式的U盘挂载到了<code>/home/pi/mydisk/</code>并创建了nextcloud文件</p>
+<p>配置储存盘/数据目录.我是将NTFS格式的U盘挂载到了<code>/home/pi/mydisk/</code>并创建了nextcloud文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;datadirectory&#x27; =&gt; &#x27;/home/pi/mydisk/nextcloud&#x27;,</span><br></pre></td></tr></table></figure>
 
 <p>当提示数据目录要0770权限时:</p>
-<p>在nextcloud目录下config&#x2F;config.php文件中加入</p>
+<p>在nextcloud目录下config/config.php文件中加入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;check_data_directory_permissions&#x27; =&gt; false</span><br></pre></td></tr></table></figure>
 
 <p>这一条语句是取消文件权限检测.</p>

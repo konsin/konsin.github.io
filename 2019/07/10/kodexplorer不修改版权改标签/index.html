@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">305</span>
+            <span class="post-count">304</span>
         </span>
     </span>
 
@@ -118,9 +118,8 @@
 <p>admin账号-&gt;系统设置-&gt;其他-&gt;自定义css</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.copyright-content</span>&#123;<span class="attribute">display</span>:none&#125;</span><br></pre></td></tr></table></figure>
 
-<p>然后可以自定义在页面底部显示自己的信息,方法是&#96; admin账号-&gt;系统设置-&gt;其他-&gt;自定义html</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var html = document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML;</span><br><span class="line">document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML = html + &quot;Copyright@ 1611253728@qq.com&quot;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<p>然后可以自定义在页面底部显示自己的信息,方法是` admin账号-&gt;系统设置-&gt;其他-&gt;自定义html</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var html = document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML;</span><br><span class="line">document.getElementsByClassName(&quot;common-footer&quot;)[0].innerHTML = html + &quot;Copyright@ 1611253728@qq.com&quot;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
 <li><p>隐藏设置界面和下拉菜单中的<code>免费版</code>字样</p>
 <p>这里我通过添加自定义css没有效果所以是直接修改的css文件.请做好备份</p>
 <ol>
@@ -133,8 +132,7 @@
 <li><p>ctrl+f 输入刚才复制的标签名进行搜索.</p>
 </li>
 <li><p>在属性中添加<code>visibility: hidden;</code>,并将<code>height</code>值改为0.</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.version-vip</span>&#123;<span class="attribute">visibility</span>: hidden;<span class="attribute">height</span>:<span class="number">0px</span>;</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.version-vip</span>&#123;<span class="attribute">visibility</span>: hidden;<span class="attribute">height</span>:<span class="number">0px</span>;</span><br></pre></td></tr></table></figure></li>
 <li><p>保存后就可以看到效果了</p>
 </li>
 </ol>

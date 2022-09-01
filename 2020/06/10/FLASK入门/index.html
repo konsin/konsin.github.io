@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">470</span>
+            <span class="post-count">466</span>
         </span>
     </span>
 
@@ -112,7 +112,7 @@
        
   <h1 id="FLASK入门"><a href="#FLASK入门" class="headerlink" title="FLASK入门"></a>FLASK入门</h1><ol>
 <li><p>装饰器: 函数前使用<code>@app.*</code></p>
-<p><code>route(&#39;/&#39;)</code>设置url 路径,’&#x2F;‘为根目录</p>
+<p><code>route(&#39;/&#39;)</code>设置url 路径,’/‘为根目录</p>
 </li>
 <li><p>变量规则</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#x27;/user/&lt;username&gt;&#x27;)</span><br><span class="line">def show_user_profile(username):</span><br><span class="line">    # 显示用户名</span><br><span class="line">    return &#x27;User &#123;&#125;&#x27;.format(username)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/post/&lt;int:post_id&gt;&#x27;)</span><br><span class="line">def show_post(post_id):</span><br><span class="line">    # 显示提交整型的用户&quot;id&quot;的结果，注意&quot;int&quot;是将输入的字符串形式转换为整型数据</span><br><span class="line">    return &#x27;Post &#123;&#125;&#x27;.format(post_id)</span><br></pre></td></tr></table></figure>
@@ -127,7 +127,7 @@
 </thead>
 <tbody><tr>
 <td>string</td>
-<td>默认的数据类型，接受没有任何斜杠“&#x2F;”的字符串</td>
+<td>默认的数据类型，接受没有任何斜杠“/”的字符串</td>
 </tr>
 <tr>
 <td>int</td>
@@ -139,7 +139,7 @@
 </tr>
 <tr>
 <td>path</td>
-<td>和 string 类似，但是接受斜杠“&#x2F;”</td>
+<td>和 string 类似，但是接受斜杠“/”</td>
 </tr>
 <tr>
 <td>uuid</td>
@@ -156,7 +156,7 @@
 <p>用 <code>redirect()</code> 函数重定向用户到其它地方。能够用 <code>abort()</code> 函数提前中断一个请求并带有一个错误代码。</p>
 <p><strong>URL构建</strong></p>
 <p>去构建一个 URL 来匹配一个特定的函数可以使用 <code>url_for()</code> 方法。</p>
-<p><code>url_for(&#39;static&#39;, filename=&#39;style.css&#39;)</code>这个文件应该存储在文件系统上的 static&#x2F;style.css 。</p>
+<p><code>url_for(&#39;static&#39;, filename=&#39;style.css&#39;)</code>这个文件应该存储在文件系统上的 static/style.css 。</p>
 </li>
 <li><p>渲染模板</p>
 <p> <code>render_template()</code> 来渲染模板,<code>render_template(&#39;hello.html&#39;, name=name)</code></p>
@@ -169,8 +169,7 @@
 </li>
 <li><p>文件上传</p>
 <p>HTML表单中需要设置属性<code>enctype=&quot;multipart/form-data&quot;</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/&#x27;</span> + secure_filename(f.filename))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/&#x27;</span> + secure_filename(f.filename))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></li>
 <li></li>
 </ol>
  

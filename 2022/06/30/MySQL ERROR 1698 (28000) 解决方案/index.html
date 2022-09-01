@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">140</span>
+            <span class="post-count">137</span>
         </span>
     </span>
 
@@ -122,7 +122,7 @@
 <p>5、root的plugin应该和剩下的三种一样为 mysql_native_password</p>
 <p>即正确为：</p>
 <p>6、所以我们只需要修改过来就可以了</p>
-<p>mysql&gt; update mysql.user set authentication_string&#x3D;PASSWORD(‘newPwd’), plugin&#x3D;’mysql_native_password’ where user&#x3D;’root’;</p>
+<p>mysql&gt; update mysql.user set authentication_string=PASSWORD(‘newPwd’), plugin=’mysql_native_password’ where user=’root’;</p>
 <p>mysql&gt; flush privileges;</p>
 <p>mysql&gt; quit；</p>
  
