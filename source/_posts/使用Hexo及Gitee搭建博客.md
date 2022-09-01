@@ -179,3 +179,5 @@ date: 2022-07-09 21:09:06
 categories: 配置教程
 ---
 ```
+# 图床问题
+可以自建Github仓库作为图床，使用[PicX](https://picx.xpoet.cn)方便快速的管理。
