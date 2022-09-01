@@ -2561,4 +2561,22 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
         <tag>计算机组成原理</tag>
       </tags>
   </entry>
+  <entry>
+    <title>openwrt折腾笔记</title>
+    <url>/2022/09/01/openwrt%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>本文记录使用Winserver环境下使用Hyper-V安装OpenWRT的过程。</p>
+<h2 id="下载OpenWRT固件"><a href="#下载OpenWRT固件" class="headerlink" title="下载OpenWRT固件"></a>下载OpenWRT固件</h2><p>推荐下载别人已经编译好的OpenWRT固件。我这里使用的是由<a href="https://op.supes.top/firmware/x86_64/">Kiddin</a>二次编译过的LuCI的固件。</p>
+<h2 id="转为虚拟磁盘文件"><a href="#转为虚拟磁盘文件" class="headerlink" title="转为虚拟磁盘文件"></a>转为虚拟磁盘文件</h2><p>下载安装<code>StarWind V2V Converter</code>软件。然后点击Local File转换镜像文件<br><img src="https://git.poker/konsin/images/blob/main/image.3o033mqvamo0.jpg?raw=true" alt="image"><br>然后继续选择Local File，在之后的界面选择VHD/VHDX，最后再选择磁盘镜像的具体格式即可选择导出路径进行转换。<br><img src="https://git.poker/konsin/images/blob/main/image.oyaxaxxqs28.jpg?raw=true" alt="image"></p>
+<h2 id="导入Hyper-V"><a href="#导入Hyper-V" class="headerlink" title="导入Hyper-V"></a>导入Hyper-V</h2><p>正常创建虚拟机，但是再连接虚拟硬盘这一步要选择使用现有虚拟硬盘。<br><img src="https://git.poker/konsin/images/blob/main/image.4vu9ma90l5k0.jpg?raw=true" alt="image"></p>
+<h2 id="配置OpenWRT的IP"><a href="#配置OpenWRT的IP" class="headerlink" title="配置OpenWRT的IP"></a>配置OpenWRT的IP</h2><p>打开虚拟机，在终端输入<code>vim /etc/config/network</code>使用vim手动编辑IP设置。<br>修改lan口设置为固定ip<br><img src="https://git.poker/konsin/images/blob/main/image.5ihqux07rhs0.jpg?raw=true" alt="image"></p>
+<h2 id="进入OpenWRT网页管理界面继续设置"><a href="#进入OpenWRT网页管理界面继续设置" class="headerlink" title="进入OpenWRT网页管理界面继续设置"></a>进入OpenWRT网页管理界面继续设置</h2><p>在浏览器输入刚才修改的IP即可进入管理界面。默认密码为空。<br><img src="https://git.poker/konsin/images/blob/main/image.jsw8wd2cop8.jpg?raw=true" alt="image"></p>
+]]></content>
+      <categories>
+        <category>配置教程</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>openwrt</tag>
+      </tags>
+  </entry>
 </search>
