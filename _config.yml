@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: KONSIN个人小站
+title: 不想当咸鱼王
 subtitle: ''
 description: 'Konsin个人学习笔记记录小站'
 keywords:
@@ -109,9 +109,10 @@ search:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
 - type: 'git'
+  repo: git@github.com:konsin/konsin.git
+  branch: main
+  
+- type: 'git'
   repo: git@gitee.com:konsin/konsin.git
   branch: master
 
-- type: 'git'
-  repo: git@github.com:konsin/konsin.git
-  branch: main
