@@ -1,10 +1,10 @@
 ---
 title: openwrt折腾笔记
 date: 2022-09-01 09:08:45
-tags:
--linux
--openwrt
 categories: 配置教程
+tags: 
+- linux
+- openwrt
 ---
 本文记录使用Winserver环境下使用Hyper-V安装OpenWRT的过程。
 ## 下载OpenWRT固件
