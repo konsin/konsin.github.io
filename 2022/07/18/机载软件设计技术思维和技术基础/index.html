@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>机载软件设计技术思维和技术基础 |  不想当咸鱼王</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-机载软件设计技术思维和技术基础"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  机载软件设计技术思维和技术基础
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/18/%E6%9C%BA%E8%BD%BD%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%8A%80%E6%9C%AF%E6%80%9D%E7%BB%B4%E5%92%8C%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2022-07-18T03:20:20.000Z" itemprop="datePublished">2022-07-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">6.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">21 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="机载软件设计技术思维和技术基础"><a href="#机载软件设计技术思维和技术基础" class="headerlink" title="机载软件设计技术思维和技术基础"></a>机载软件设计技术思维和技术基础</h1><h2 id="机载软件设计技术的思想（计算的原理）"><a href="#机载软件设计技术的思想（计算的原理）" class="headerlink" title="机载软件设计技术的思想（计算的原理）"></a>机载软件设计技术的思想（计算的原理）</h2><h3 id="计算与计算机器"><a href="#计算与计算机器" class="headerlink" title="计算与计算机器"></a>计算与计算机器</h3><ol>
+<li>机载软件设计技术核心要求</li>
+</ol>
+<p>    机载软件核心：高可靠，高安全<br>    设计技术核心：建模、分析、验证</p>
+<ol start="2">
+<li>什么是计算？</li>
+</ol>
+<p>    个人回答：根据输入从开始状态经过有限步的状态转换，并对这个输入进行修改最终到达结束状态或停机状态得到输出的这个过程。并且这个过程无二义性。</p>
+<p>    图灵眼中的计算：就是一个读写头在一条纸带上按照一个状态转移图进行操作的过程。</p>
+<p>    1:  计算通过在一条被划分成方格的纸带上写下符号来进行<br>    2: 执行计算的人在每一步都只注意其中一个方格的符号<br>    3: 她的下一步仅仅取决与这个符号 和 她的头脑中的状态<br>    4: 她的下一下将做:<br>       她在当前注意的方格里写下一个符号,<br>       然后 把注意力转向它的左边或者右边的相邻方格</p>
+<ol start="3">
+<li>以运算器为中心的冯诺依曼计算机</li>
+</ol>
+<h3 id="计算思维"><a href="#计算思维" class="headerlink" title="计算思维"></a>计算思维</h3><ol>
+<li><p>定义</p>
+<p>计算思维是运用计算机科学的基础概念进行问题求解、系统设计、以及人类行为理解等涵盖计算机科学之广度的一系列思维活动。</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111228897.png" title="" alt="" data-align="left"></li>
+</ol>
+<h3 id="机载系统"><a href="#机载系统" class="headerlink" title="机载系统"></a>机载系统</h3><p>机载软件不能脱离系统。把机载软件当作复杂的系统来考量。</p>
+<p><strong>机载软件系统属于复杂安全关键系统</strong></p>
+<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111234989.png" alt="" width="533">
+
+<p><strong>发展趋势</strong>：综合模块化，分布式体系化，可软件定义</p>
+<p><strong>机载软件的重要性</strong>：</p>
+<p>       1. 软件规模越来越大<br>          2. 软件比重越来越大<br>                    3. 软件复杂度越来越高<br>                       4. 软件问题越来越突出</p>
+<h3 id="计算与系统工程"><a href="#计算与系统工程" class="headerlink" title="计算与系统工程"></a>计算与系统工程</h3><ol>
+<li><p>系统与系统工程</p>
+<ol>
+<li>系统</li>
+</ol>
+<p>    我们把极其复杂的研制对象称为“系统”，即由相互作用和相互依赖的若干组成部分结合成的具有特定功能的有机整体，而且这个“系统”本身又是它所从属的一个更大系统的组成部分。</p>
+<ol start="2">
+<li>系统工程</li>
+</ol>
+<p>    “系统工程”是组织管理“系统”的规划、研究、设计、制造、试验和使用的科学方法，是一种对所有“系统”都具有普遍意义的科学方法。</p>
+<ol start="3">
+<li>强有力的工具<br>系统工程不仅需要科学理论工具，而且需要强有力的运算手段——电子数字计算机</li>
+</ol>
+</li>
+<li><p>基于模型的系统工程（MBSE:model-based systems engineering method）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111234529.png"></p>
+<p><strong>研发思路</strong></p>
+<ol>
+<li><p>基于MBSE的基本V型模型</p>
+</li>
+<li><p>通过<strong>数字模型</strong>对系统进行描述，实现方案的<strong>早期动态仿真</strong></p>
+</li>
+<li><p>实现以模型为核心的研发<strong>模型数据中心</strong>建立研发数据的关联</p>
+</li>
+<li><p>实现<strong>继承性设计</strong>，设计数据通过模型方式传递，可自动生成设计文档</p>
+</li>
+<li><p>实现<strong>可追溯性验证</strong>，验证数据来自上游设计结果，验证结果可以自动反馈到设计需求，可自动生成验证文档</p>
+</li>
+<li><p>建立具备支撑上述过程的<strong>工具链</strong>体系</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="软件设计的工程化"><a href="#软件设计的工程化" class="headerlink" title="软件设计的工程化"></a>软件设计的工程化</h3><p>SysML是对UML的一个扩展。</p>
+<p>软件的过程管理与控制： CMM / CMMI</p>
+<h2 id="需求建模（思想、标准、建模）"><a href="#需求建模（思想、标准、建模）" class="headerlink" title="需求建模（思想、标准、建模）"></a>需求建模（思想、标准、建模）</h2><h3 id="机载软件的适航标准（DO-178B-C）"><a href="#机载软件的适航标准（DO-178B-C）" class="headerlink" title="机载软件的适航标准（DO-178B/C）"></a>机载软件的适航标准（DO-178B/C）</h3><p><strong>适航</strong></p>
+<ul>
+<li><p>航空器能在<strong>预期的环境</strong>中<strong>安全飞行</strong>（起飞和着陆）的<strong>固有品质</strong>，这种品质可以通过<strong>合适的</strong>维修而继续保持。</p>
+</li>
+<li><p>要考虑： 飞机的运行环境、正常操作下的安全、使用寿命内的安全性，符合标准的维修。</p>
+</li>
+<li><p>如何确定民机的安全标准：安全水平应等同于人的自然意外死亡率。</p>
+</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111234622.png" title="" alt="" width="623">
+
+<p>DO-178B是”机载系统和设备合格审定中对软件的考虑”，是做什么而不是怎么做。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111234767.png"></p>
+<h3 id="DO-178C"><a href="#DO-178C" class="headerlink" title="DO-178C"></a>DO-178C</h3><p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235958.png"></p>
+<p><strong>目的</strong>：为机载软件的研制提供指南，保证其按照适航要求的安全性实现其预期功能</p>
+<p><strong>内容</strong>：各软件生命周期过程中所要达到的目标；<br>            为达到目标实施的工作和设计考虑；<br>            表明目标已满足的以软件生命周期数据的形式描述的证据；<br>            因等级不同，在目标（objectives）、独立性（independence,）、数据（software life cycle data）、构型控制（control categories）上的不同；<br>            各项特殊考虑（PDS（previously developed software）等）；<br>            定义和术语</p>
+<p><strong>66个目标</strong>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235925.png"></p>
+<p><strong>6个过程</strong>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235829.png"></p>
+<p><strong>20个资料</strong>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235158.png"></p>
+<h4 id="与软件开发相关的系统方面"><a href="#与软件开发相关的系统方面" class="headerlink" title="与软件开发相关的系统方面"></a>与软件开发相关的系统方面</h4><h5 id="分配给软件的系统需求"><a href="#分配给软件的系统需求" class="headerlink" title="分配给软件的系统需求"></a>分配给软件的系统需求</h5><p>包括与安全相关的需求，被开发并细化为软件需求，通过软件验证过程活动验证并验证。</p>
+<ul>
+<li><p>功能和操作方面的要求。</p>
+</li>
+<li><p>接口要求。</p>
+</li>
+<li><p>性能要求。</p>
+</li>
+<li><p>系统安全目标。</p>
+</li>
+<li><p>与安全相关的要求，包括安全策略、设计约束和设计方法，如分区、差异、冗余或安全监控。如果系统是另一个系统的组成部分，则该其他系统的需求和故障条件也可以构成分配给软件的系统需求的一部分。</p>
+</li>
+<li><p>安全要求。</p>
+</li>
+<li><p>维护要求。</p>
+</li>
+<li><p>认证要求，包括任何适用的认证机构规定、签发文件等</p>
+</li>
+<li><p>辅助系统生命周期过程所需的额外要求。</p>
+</li>
+</ul>
+<h5 id="系统和软件生命周期过程之间的信息流"><a href="#系统和软件生命周期过程之间的信息流" class="headerlink" title="系统和软件生命周期过程之间的信息流"></a>系统和软件生命周期过程之间的信息流</h5><p>包括：从系统流程到软件流程的信息流、从软件流程到系统流程的信息流以及软件与硬件之间的信息流。</p>
+<p>软件生命周期过程分析确定的系统需求不充分或不正确可能会影响系统安全评估和系统需求细节和修改</p>
+<h5 id="系统安全评估流程和软件级别"><a href="#系统安全评估流程和软件级别" class="headerlink" title="系统安全评估流程和软件级别"></a>系统安全评估流程和软件级别</h5><p>软件错误可能是潜在的，因此，不会立即产生故障。导致从软件错误到故障状态的事件序列可能很复杂，并且不容易用一系列事件来表示。</p>
+<h6 id="故障状态分类"><a href="#故障状态分类" class="headerlink" title="故障状态分类"></a>故障状态分类</h6><ol>
+<li><p>灾难级（Catastrophic）：会导致多人死亡，通常是由于飞机的失事。</p>
+</li>
+<li><p>危险级（Hazardous）：会降低飞机能力或机组人员应对不利操作条件的能力。（大幅降低、会造成严重或致命伤害）</p>
+</li>
+<li><p>严重级（Major）：会降低飞机能力或机组人员应对不利操作条件的能力。（显著降低、可能受伤）</p>
+</li>
+<li><p>轻微级（Minor）：不会显著降低飞机安全的故障条件及机组人员在其能力范围内的行动。（轻微、不适）</p>
+</li>
+<li><p>无影响级（No Effect）：对安全没有影响。</p>
+</li>
+</ol>
+<h6 id="软件等级"><a href="#软件等级" class="headerlink" title="软件等级"></a>软件等级</h6><p>用后续软件开发的生命周期数据来验证应用程序具有更高的软件级别可能是困难的。</p>
+<p>如果一个软件组件的异常导致了多个故障条件以最严重的评级</p>
+<p>对于由操作规程规定的，但不影响飞机的适航性的机载系统和设备。在某些情况下，软件级别可以在设备的最低性能标准中指定。</p>
+<ol>
+<li><p>Level A：系统安全评估过程中显示的异常会导致或加剧系统功能故障并导致飞机出现灾难级故障。</p>
+</li>
+<li><p>Level B：系统安全评估过程中显示的异常会导致或加剧系统功能故障并导致飞机出现灾难级故障。</p>
+</li>
+<li><p>Level C：系统安全评估过程中显示的异常会导致或加剧系统功能故障并导致飞机出现严重级故障。</p>
+</li>
+<li><p>Level D：系统安全评估过程中显示的异常会导致或加剧系统功能故障并导致飞机出现轻微级故障。</p>
+</li>
+<li><p>Level E：系统安全评估过程所显示的异常将导致或加剧系统功能故障，而不影响飞机操作能力或飞行员工作量。</p>
+</li>
+</ol>
+<h4 id="软件规划过程"><a href="#软件规划过程" class="headerlink" title="软件规划过程"></a>软件规划过程</h4><p><strong>目标</strong>：定义生产能够满足系统需求的软件的方法，并提供与软件水平相一致的置信度水平。</p>
+<h4 id="软件开发过程"><a href="#软件开发过程" class="headerlink" title="软件开发过程"></a>软件开发过程</h4><p>软件开发过程要保证可追溯性。</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235194.png" style="zoom:50%;" />
+
+<ol>
+<li><strong>软件需求过程</strong></li>
+</ol>
+<p>通过对系统需求和系统架构的分析，直接产生<strong>高级需求</strong>。通常，这些高级需求会在软件设计过程中得到进一步的开发，从而产生一个或多个连续的、较低级别的需求。但是，如果源代码是直接从高级需求生成的，那么高级需求也被认为是低级需求。<strong>低级需求</strong>是指软件需求，其中源代码可以直接实现，而不需要进一步的信息。</p>
+<ol start="2">
+<li><strong>软件设计过程</strong></li>
+</ol>
+<p>高级需求通过软件设计过程中的一个或多次迭代进行改进，以开发软件体系结构和可用于实现源代码的低级需求。</p>
+<ol start="3">
+<li><strong>软件编码过程</strong></li>
+</ol>
+<p>在软件编码过程中，源代码是从软件架构和低级需求中实现的。</p>
+<p>开发的源代码是可追踪的、可验证的、一致的，并正确地实现了低级需求。</p>
+<ol start="4">
+<li><strong>软件集成过程</strong></li>
+</ol>
+<p>将软件编码过程中的目标计算机、源代码和目标代码与链接和加载数据一起使用，以开发集成的系统或设备。</p>
+<p>可执行对象代码将被加载到目标硬件中，以进行硬件/软件集成。</p>
+<h4 id="软件验证过程"><a href="#软件验证过程" class="headerlink" title="软件验证过程"></a>软件验证过程</h4><p>软件验证过程按照软件规划过程和软件验证计划的定义对输出进行的技术评估。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235306.png"></p>
+<h2 id="系统设计建模-（Enterprise-Architect软件）"><a href="#系统设计建模-（Enterprise-Architect软件）" class="headerlink" title="系统设计建模 （Enterprise Architect软件）"></a>系统设计建模 （Enterprise Architect软件）</h2><h3 id="SysML（System-Modeling-Language）复杂系统的建模语言"><a href="#SysML（System-Modeling-Language）复杂系统的建模语言" class="headerlink" title="SysML（System Modeling Language）复杂系统的建模语言"></a>SysML（System Modeling Language）复杂系统的建模语言</h3><p>SysML 是一种表述（Specifying）、分析、设计以及验证复杂系统的通用图形化建模语言；复杂系统可能包括软件、硬件、信息、人员、过程和设备等其他系统元素。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235689.png"></p>
+<p><strong>静态视图</strong>：定义结构化的元素 (模块) 和他们之间的关系</p>
+<p><strong>动态视图</strong>：定义系统范围• 组织需求到用例中    (“内容表”)</p>
+<p>SysML通用结构（<strong>外框</strong>、<strong>内容框</strong>、<strong>头部</strong>）</p>
+<p><strong>头部</strong>包含（图的类型：图的缩写即表示图的类型；模型元素类型：图所表示的模型元素是模型层级关系；模型元素名称：用户自定义；图的名称：用户自定义。）示例：<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235117.png"></p>
+<h3 id="SysML中的结构模型（Structure）"><a href="#SysML中的结构模型（Structure）" class="headerlink" title="SysML中的结构模型（Structure）"></a>SysML中的结构模型（Structure）</h3><h4 id="模块定义图-（BDD：Block-Definition-Diagram）"><a href="#模块定义图-（BDD：Block-Definition-Diagram）" class="headerlink" title="模块定义图 （BDD：Block Definition Diagram）"></a>模块定义图 （BDD：Block Definition Diagram）</h4><p>类似UML中的<strong>类图</strong>，可以通过该图展示不同类型的模型元素和组合来说明<strong>系统结构的信息</strong>。</p>
+<p>在模块定义图中显示的模型元素有：<strong>模块、执行者、值类型、约束模块、流说明、接口</strong>等。</p>
+<p><strong>不同时期的作用</strong>：</p>
+<ul>
+<li><p>在系统分析阶段：模块定义图主要用于表达 角色和提供系统行为的实体的职责；</p>
+</li>
+<li><p>在系统设计阶段：模块图主要用于表达 组成系统体系结构的模块结构；</p>
+</li>
+<li><p>系统编码阶段：根据模块定义图中的模块及它们之间的关系实现系统的功能。</p>
+</li>
+</ul>
+<p>模块可通过<strong>分割框</strong>划分不同属性。分割框属性分为：组成部分、参考、值、约束、操作、接收、标准端口、流端口、完整端口、代理端口、流属性等</p>
+<p>模块<strong>结构属性</strong>：</p>
+<ol>
+<li><p>组成部分属性(parts)</p>
+<p>模块的组成部分；组成部分属性代表模块的内部结构。表示一种从属关系。</p>
+</li>
+<li><p>引用属性（reference）</p>
+<p>表示模块外部的一种结构。通常可以用于描述“需求的关系”。</p>
+</li>
+<li><p>值属性（value）</p>
+<p>本质上就是表示一个模块中所包含的变量信息。</p>
+<p><strong>原始值类型</strong>：String、Boolean、Integer和Real。</p>
+<p><strong>结构值类型</strong>：拥有内部结构的值类型，以一个定义好的模块为类型的类型。</p>
+<p><strong>枚举值类型</strong>：定义一系列数值。</p>
+</li>
+<li><p>约束属性（constraint）</p>
+<p>一般代表一种数学关系。</p>
+<p>此外约束属性可以作为一个**约束模块(constraint module)**：扩展了基本模块，其也是一种定义元素，它定义了一种布尔型的约束表达式。</p>
+<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235560.png" alt="" width="430"></li>
+<li><p>端口（port）</p>
+<p>代表模块与外部环境进行交互的不同出入口的性质。又可分为流端口和标准端口。</p>
+<ul>
+<li><p>流端口（flow port）：为在边界交互点流入、流出模块的事件、能量或者数据建模。</p>
+</li>
+<li><p>标准端口：模块在边界交互点上提供或者请求的服务的模型。（类似于标准库函数调用）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="SysML中的行为模型（Behavior）"><a href="#SysML中的行为模型（Behavior）" class="headerlink" title="SysML中的行为模型（Behavior）"></a>SysML中的行为模型（Behavior）</h3><h4 id="SysML-BDD图中"><a href="#SysML-BDD图中" class="headerlink" title="SysML BDD图中"></a>SysML BDD图中</h4><p>SysML BDD图中提供了两种类型的行为特性：操作和接收。</p>
+<ol>
+<li>操作（operation）：表示客户端调用模块的时候它所执行的行为。操作由调用事件触发，操作代表的是一种同步行为。</li>
+<li>接收（receive ）：当客户端发送信号(signal)来触发的时候，模块就会执行该行为。接收是由信号事件触发的，它是一种异步的行为。</li>
+</ol>
+<p><strong>执行者(actor)</strong>: 表示人、组织或者其他系统在与当前系统交互时所扮演的角色。</p>
+<p><strong>注释</strong>：一种模型元素。它包含唯一的属性：一段文字。‘</p>
+<p><strong>关系</strong>：</p>
+<ul>
+<li>模块之间关联关系<ul>
+<li>引用关联：两个模块之间的引用关联意味着系统的模块实例可以存在一种彼此访问的连接。</li>
+<li>组合关联关系：是一种特殊的关联关系：两个模块之间的组合关联表示<strong>结构上的分解</strong></li>
+</ul>
+</li>
+<li>模块之间泛化关系：泛化是模块中的继承关系，子模块完全继承父模块的所有保护和公有的属性、操作等。</li>
+<li>模块之间依赖关系：依赖表示当提供者元素发生改变时，客户端元素可能也需要改变。</li>
+</ul>
+<h4 id="系统内部模块图-IBD：Internal-Block-Diagram"><a href="#系统内部模块图-IBD：Internal-Block-Diagram" class="headerlink" title="系统内部模块图(IBD：Internal Block Diagram)"></a>系统内部模块图(IBD：Internal Block Diagram)</h4><p>是模块定义图（BDD）中模块内容的补充。组成部分属性和引用部分属性之间的连接；在连接之间流动的事件、能量和数据的类型；以通过连接提供和请求服务。</p>
+<p>BDD：首先定义模块和它的属性；IBD：显示对某个模块的合法配置</p>
+<h4 id="系统约束参数图（Par：Parametric-Diagrams）"><a href="#系统约束参数图（Par：Parametric-Diagrams）" class="headerlink" title="系统约束参数图（Par：Parametric Diagrams）"></a>系统约束参数图（Par：Parametric Diagrams）</h4><p>参数图用于说明系统的约束。参数图与BDD的关系，就类似于IBD与BDD的关系，是互补的视图。</p>
+<h3 id="活动图（act：Activity-Diagrams）"><a href="#活动图（act：Activity-Diagrams）" class="headerlink" title="活动图（act：Activity Diagrams）"></a>活动图（act：Activity Diagrams）</h3><p>活动图可以表达复杂的控制逻辑，这要比序列图和状态图更强；且活动图是唯一能够说明连续系统行为的图；（动作执行顺序、动作执行结构、动作触发结构）</p>
+<h4 id="Petri-Nets-Petri网"><a href="#Petri-Nets-Petri网" class="headerlink" title="Petri Nets  Petri网"></a>Petri Nets  Petri网</h4><p>**Place(库所)**：表示系统部件及其状态，如：一个磁盘驱动器，一个程序，某种资源等等；<br><strong>Transition（变迁）</strong>：表示能够改变系统状态的动作/事件；如：从磁盘读取数据动作，向磁盘写入数据，等等；<br><strong>Arc（有向弧）</strong>：表示Place和Transition之间的关系；<br><strong>Token（令牌）</strong>：表示了整个Petri Nets的状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111235862.png"></p>
+<p><strong>形式化定义</strong>：</p>
+<p>A Petri net as a five tuple, M= (P, T,I, O,MP)：<br>P represents a set of places, P = {P<sub>l</sub>, P<sub>2</sub>…. ,P<sub>n</sub>},<br>T represents a set of transitions, T= {t<sub>1</sub>, t<sub>2</sub>, … ,t<sub>m</sub>},<br>I represents a bag of sets of input functions for all transitions, I = {I<sub>(t1)</sub>,I<sub>t2</sub>. . . . . I<sub>tm</sub>}, mapping places to transitions;<br>O represents a bag of sets of output functions for all transitions, O = {O<sub>tl</sub>, O<sub>t2</sub>, … ,O<sub>tm</sub>},；<br>MP represents the marking of places with tokens. </p>
+<p><strong>作用</strong>：系统中多个进程进行资源共享的行为建模。</p>
+<h4 id="活动图与Petri网对应"><a href="#活动图与Petri网对应" class="headerlink" title="活动图与Petri网对应"></a>活动图与Petri网对应</h4><p>直角方框表示place；需要特殊强调的place用大直角框；一般的也可用小方框依附在Transition圆角框并在旁用文字标注。如图有三个place。</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236986.png" title="" alt="" width="508">
+
+<p>圆角方框表示Transition</p>
+<p>Token不直接在活动图中显示</p>
+<h4 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h4><ol>
+<li><p>动作节点：一个动作表示：某种类型的处理或者转换；</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236032.png" title="" alt="" width="248"></li>
+<li><p>对象节点：出现在<strong>两个动作之间</strong>，以表示第一个动作会产生出对象令牌作为输出，第二个动作会将这些对象令牌作为输入。</p>
+<ul>
+<li><p>一般的对象节点：<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236319.png" alt="" width="327"></p>
+</li>
+<li><p>栓（Pin）：是一种特殊类型的对象节点。栓可以附加到动作上<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236169.png" alt="" width="306"></p>
+</li>
+<li><p>活动参数：附加在活动图的外框上，表示整个活动图的输入或输出。</p>
+<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236051.png" title="" alt="" width="309"></li>
+<li><p>流与非流：非流要等动作结束才能继续，流直接传递token。</p>
+<p>流行为要在栓旁标注{Stream}<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236242.png" title="" alt="" width="243"></p>
+</li>
+</ul>
+</li>
+<li><p>边：</p>
+<ul>
+<li><p><strong>对象流</strong>是一种边，用于传输对象令牌（传数据？）</p>
+</li>
+<li><p><strong>控制流</strong> 常用虚线箭头来表示控制流，当对象流无法有效表示活动/动作的传递序列的时候，可以使用控制流来表示一系列动作的序列约束；（不传数据？）</p>
+</li>
+</ul>
+</li>
+<li><p>特殊的动作：</p>
+<ul>
+<li><p>调用行为动作：将一个高层次的行为分解成一系列低层次的行为。</p>
+</li>
+<li><p>发送信号动作、接受信号动作<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236150.png" alt="" width="316"></p>
+</li>
+<li><p>发送信号动作、接受事件动作</p>
+</li>
+<li><p>等待时间动作<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236295.png" title="" alt="" width="294"></p>
+</li>
+</ul>
+</li>
+<li><p>控制节点：引导活动沿着路径执行，可以指引活动中控制令牌的流，也可以指引活动中对象令牌的流。</p>
+<ul>
+<li><p>初始节点标记活动的起点 <img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236367.png" style="zoom:67%;" />：如果活动图有活动参数（在外框上的），可以不需要初始节点</p>
+</li>
+<li><p>活动最终节点 <img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236495.png" title="" alt="" width="50" style="zoom:67%;" >： 表示整个该活动图的流程结束</p>
+</li>
+<li><p>流最终节点<img title="" src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236720.png" alt="" width="50" style="zoom: 50%;" >：表示活动图中的该动作流结束。</p>
+</li>
+<li><p>判定节点、合并节点<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236408.png">：都用菱形表示，但是出入边数量不同，且判定节点输出边要有条件。</p>
+</li>
+<li><p>分支节点：拥有一条输入边和多条输出边。当一个令牌——可能是对象令牌，也可能是控制令牌——到达分支节点的时候，它会被复制到所有输出边上。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236891.png" title="" alt="" width="278"><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207111236627.png" title="" alt="" width="266"></p>
+</li>
+<li><p>汇聚（集合）节点：标记活动中并发序列的结束（同步点）。汇聚节点一般拥有两条或多条输入边，而只有一条输出边。</p>
+</li>
+</ul>
+</li>
+<li><p>活动分区：用泳道</p>
+</li>
+</ol>
+<h3 id="状态机图-stm-state-machine-diagram"><a href="#状态机图-stm-state-machine-diagram" class="headerlink" title="状态机图 (stm: state machine diagram)"></a>状态机图 (stm: state machine diagram)</h3><p>通常用于模块的详细设计阶段，可以自动生成代码框架；</p>
+<ol>
+<li><p>初始状态和终止状态：</p>
+<ul>
+<li>一个状态只能有一个初态；复合状态中可以使用新的初态；</li>
+<li>终态的数目可以不确定。</li>
+</ul>
+</li>
+<li><p>简单状态：</p>
+<ul>
+<li>状态名（name）</li>
+<li>进入/退出动作（entry/exit）：原子动作</li>
+<li>执行动作（do）：非原子动作</li>
+<li>内部转换（internal transition）：不导致状态改变的转换，不会执行 entry 和 exit 动作</li>
+</ul>
+</li>
+<li><p>复合状态：（圆角方框表示；可选extry,exit和do行为；拥有内嵌的子状态）</p>
+<p>复合状态可以从其边界跳出；也可以从其中的某个子状态直接跳出；</p>
+</li>
+<li><p>伪状态</p>
+<p>引入伪状态的目的：在状态转换之间增加较为复杂的逻辑控制，伪状态用于更为简便的表示。不能在伪状态上停留</p>
+</li>
+</ol>
+<h4 id="转换："><a href="#转换：" class="headerlink" title="转换："></a>转换：</h4><p>状态之间的变化联系：</p>
+<ul>
+<li>触发器（trigger）:某个事件，能够触发状态发生变化</li>
+<li>守卫（guard）：布尔表达式，T/F</li>
+<li>影响（effect）：转换过程中的执行行为（原子行为）</li>
+</ul>
+<p>转换中的事件：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207141553115.png" alt="image-20220714155339020"></p>
+<ol>
+<li><p>信号事件(signal)：接受到别人发生的信号从而调用这个事件。如上图的commLinkLost</p>
+</li>
+<li><p>调用事件(call)：如上图的 acquireTarget( orderedAttitude :Attitude )</p>
+</li>
+<li><p>时间事件(time)：</p>
+<p>相对时间事件：用关键词at 开头<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207141556027.png" alt="image-20220714155617002" style="zoom: 50%;" /></p>
+<p>绝对时间事件：用关键词 after 开头<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207141556140.png" alt="image-20220714155620118" style="zoom:50%;" /></p>
+</li>
+<li><p>改变事件(change)：定义为一个布尔表达式。在系统执行过程中，每当某个特定的布尔表达式从假切换为真的时候，其对应的改变事件就会发生。（对比：不变式，断言）<code>when（。。。）/ 。。。</code></p>
+</li>
+</ol>
+<p>特殊的转换-&gt;内部转换：是改变事件的直接应用，表示系统在某个状态内部的细节变化，但不会触发entry/exit行为。</p>
+<h4 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h4><p>分区的作用：与活动图中类似，用于表示并发的行为。</p>
+<h3 id="系统建模之序列图（sd：-sequence-diagram）"><a href="#系统建模之序列图（sd：-sequence-diagram）" class="headerlink" title="系统建模之序列图（sd： sequence diagram）"></a>系统建模之序列图（sd： sequence diagram）</h3><p>目的：序列图的目的在于描述系统中各个模块实例按照时间顺序的<strong>交互</strong>过程。</p>
+<p>在系统的详细设计阶段也常常会用到序列图，用于仿真和代码框架的自动生成。</p>
+<h4 id="模型元素"><a href="#模型元素" class="headerlink" title="模型元素"></a>模型元素</h4><ol>
+<li><p>生命线：表示参与交互场景的系统、模块、子系统等的实例；</p>
+<ol>
+<li>头部：矩形方框</li>
+<li>虚线：时间线（从上至下，时间增长）</li>
+</ol>
+</li>
+<li><p>消息</p>
+<ol>
+<li>异步：带开口箭头的实线</li>
+<li>同步：带有实心箭头的实线，</li>
+<li>回复：带有开口箭头的虚线，可在图中忽略不表示</li>
+<li>创建：带开口箭头的虚线，指向一个对象实例。</li>
+</ol>
+<p>与消息有关的事件：</p>
+<p>消息发送事件、消息接收事件、生命线创建事件、生命线销毁事件、行为执行开始事件、行为执行结束事件</p>
+</li>
+<li><p>增加语义</p>
+<ul>
+<li><p>时间约束：<img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207160933037.png" alt="image-20220716093350954" style="zoom:50%;" /></p>
+</li>
+<li><p>状态常量：可以用关联的状态机中的状态名来标示，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207160937661.png" alt="image-20220716093709632"></p>
+</li>
+<li><p>逻辑操作：</p>
+<ul>
+<li>opt （条件 ， T/F）满足条件 就执行opt 框中的交互序列</li>
+<li>alt  （多选一） alt框中有虚线（划分 true，else分支）；alt条件只能同时有且只有一个为真；</li>
+<li>loop （循环） Loop(min,max);</li>
+<li>par  （并行）表示多个场景的交互处于并发执行的语义；</li>
+<li>ref操作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="用例图（ud-usecase-digram）"><a href="#用例图（ud-usecase-digram）" class="headerlink" title="用例图（ud: usecase digram）"></a>用例图（ud: usecase digram）</h3><p>用例图是从用户角度描述系统功能，是用户所能观察到的系统功能的模型图。是系统的一种黑盒视图。</p>
+<p>用例图需要配置用例说明书，对用例进行详尽描述。先用自然语言描述清楚，然后进行图形化/形式化建模、分析与验证</p>
+<h4 id="用例图中事物及关系"><a href="#用例图中事物及关系" class="headerlink" title="用例图中事物及关系"></a>用例图中事物及关系</h4><ol>
+<li><p>参与者（执行者）</p>
+<p>是指存在于系统外部并直接与系统进行交互的实体。</p>
+<p>参与者不仅可以由人承担，还可以是<strong>其他系统、硬件设备，甚至是时钟</strong>。</p>
+</li>
+<li><p>用例（系统功能）系统外部可见的一个<strong>系统功能单元</strong>。</p>
+</li>
+<li><p>系统边界：系统边界是指系统与环境之间的界限。用例图中的系统边界用来表示正在建模系统的边界，边界内表示系统的组成部分，边界外表示系统的外部。</p>
+</li>
+<li><p>用例图中的关系</p>
+<ul>
+<li>关联：参与者与用例之间的关系</li>
+<li>包含和扩展：用例之间的关系<code>&quot;include&quot;</code> 、<code>&quot;extend&quot;</code></li>
+<li>泛化：参与者之间的关系</li>
+</ul>
+</li>
+</ol>
+<h3 id="需求图-req-requirment-diagram"><a href="#需求图-req-requirment-diagram" class="headerlink" title="需求图(req: requirment diagram)"></a>需求图(req: requirment diagram)</h3><p>需求是用户解决问题或达到领域目标所需的系统功能；包括系统及子系统/模块等都要满足合同、标准，规范或其它正式规定文档所需具有的条件或能力。</p>
+<p>需求分析的目的是确定系统应具备哪些功能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/konsin/images@main/202207161022575.png" alt="image-20220716102254532"></p>
+<h2 id="机载系统-软件的需求建模与分析方法"><a href="#机载系统-软件的需求建模与分析方法" class="headerlink" title="机载系统/软件的需求建模与分析方法"></a>机载系统/软件的需求建模与分析方法</h2><h3 id="基于模型的系统工程（MBSE）与SCR方法"><a href="#基于模型的系统工程（MBSE）与SCR方法" class="headerlink" title="基于模型的系统工程（MBSE）与SCR方法"></a>基于模型的系统工程（MBSE）与SCR方法</h3><p><img src="https://git.poker/konsin/images/blob/main/image.7s1q75w13uw.jpg?raw=true" alt="image"><br>什么是系统？系统就是<strong>交互</strong>的<strong>元素</strong>组织起来的组合，以实现一个或多个特定的<strong>目的</strong>。<br>概念：</p>
+<ol>
+<li>需求（requirements）：能满足用户期望的各种系统各种特征的集合</li>
+<li>需求规约（requirement specification ）：用某种<strong>准确</strong>的描述方式将需求内容表达出来，使得能够进行有效的需求层级分析、验证等工作。（条目化-&gt;图形化-&gt;形式化）</li>
+<li>需求模型(requirement model): 在MBSE框架下，需求规约就是需求模型<br>需求要满足：明确、正确、完整、一致、可追溯、可实现、可验证</li>
+</ol>
+<p>形式化方法（Formal Methods）：是在计算机系统（包括硬件和软件）的规约、设计和构造中使用逻辑和离散数学中的技术<br>    提供了一种计算手段，因而可以在一个数字系统的实现之前预测它的行为会是怎样。<br>    需要建立形式化模型；(建模语言)；形式化分析需要一个工具来实现，这需要对这个工具进行鉴定。（工具输入／输出）</p>
+<h3 id="SCR方法概述"><a href="#SCR方法概述" class="headerlink" title="SCR方法概述"></a>SCR方法概述</h3><h2 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h2> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2022/07/18/%E6%9C%BA%E8%BD%BD%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%8A%80%E6%9C%AF%E6%80%9D%E7%BB%B4%E5%92%8C%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/08/18/%E9%87%8D%E5%AD%A6C/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            重学C++
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/07/11/%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF%E4%BB%A3%E7%90%86%E4%B8%8A%E4%BC%A0Git/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">如何开启代理上传Git</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="不想当咸鱼王"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
