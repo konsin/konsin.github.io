@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.2k</span>
+            <span class="post-count">7.2k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">21 分钟</span>
+            <span class="post-count">24 分钟</span>
         </span>
     </span>
 </div>
@@ -509,10 +509,76 @@
 <ol>
 <li>需求（requirements）：能满足用户期望的各种系统各种特征的集合</li>
 <li>需求规约（requirement specification ）：用某种<strong>准确</strong>的描述方式将需求内容表达出来，使得能够进行有效的需求层级分析、验证等工作。（条目化-&gt;图形化-&gt;形式化）</li>
-<li>需求模型(requirement model): 在MBSE框架下，需求规约就是需求模型<br>需求要满足：明确、正确、完整、一致、可追溯、可实现、可验证</li>
+<li>需求模型(requirement model): 在MBSE框架下，需求规约就是需求模型<br>需求要满足：明确、正确、完整、一致、可追溯、可实现、可验证<br>一个好的需求模型（规约）应该是以某种方法学为基础来进行良好的<strong>设计</strong>来得到的</li>
 </ol>
-<p>形式化方法（Formal Methods）：是在计算机系统（包括硬件和软件）的规约、设计和构造中使用逻辑和离散数学中的技术<br>    提供了一种计算手段，因而可以在一个数字系统的实现之前预测它的行为会是怎样。<br>    需要建立形式化模型；(建模语言)；形式化分析需要一个工具来实现，这需要对这个工具进行鉴定。（工具输入／输出）</p>
-<h3 id="SCR方法概述"><a href="#SCR方法概述" class="headerlink" title="SCR方法概述"></a>SCR方法概述</h3><h2 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h2> 
+<p><strong>形式化方法</strong>（Formal Methods）：是在计算机系统（包括硬件和软件）的规约、设计和构造中使用逻辑和离散数学中的技术<br>    提供了一种计算手段，因而可以在一个数字系统的实现之前预测它的行为会是怎样。<br>    需要建立形式化模型；(建模语言)；形式化分析需要一个工具来实现，这需要对这个工具进行鉴定。（工具输入／输出）</p>
+<p><strong>形式化方法带来的挑战</strong>：</p>
+<ul>
+<li>缺少形式化方法的培训导致不理解（培训学习和用户友好的工具）；</li>
+<li>并非适用于所有问题（在最关键的地方使用）；</li>
+<li>形式化方法和非形式化方法的混合会带来困难（作为需求定义和验证活动的一个子集，与传统的过程集成）；</li>
+<li>形式化方法专家太少（培训＋工具）；</li>
+<li>有较高资源的需求（在关键、复杂区域使用，成本效益高）</li>
+<li>对形式化方法验证能力有过高的信心（建立正确的系统 v.s. 正确的建立系统）</li>
+<li>对测试存在偏见（测试仍然是需要，特别是基于目标机的测试来验证硬／软件的集成）</li>
+<li>工业和合格审定指南还没有标准化（DO-333是重要一步）</li>
+<li>工具支持仍不完整（需要适用于软件生命周期＋领域工程师使用）</li>
+</ul>
+<h3 id="SCR方法概述"><a href="#SCR方法概述" class="headerlink" title="SCR方法概述"></a>SCR方法概述</h3><p><img src="https://git.poker/konsin/images/blob/main/image.4hvicy6rr6w0.jpg?raw=true" alt="image"></p>
+<p>Software Cost Reduction（SCR）目的是评价软件工程技术在实际工程应用中的有效性和可扩展性。<br><strong>真正核心出发点是落在系统上</strong></p>
+<p>A-7E OFP 需求文档中建立了<strong>三种SCR方法中主要方面</strong>：</p>
+<ol>
+<li>标识出所有的输出，并将每个输出表示为系统运行状态和环境变化的数学函数；</li>
+<li>使用表格的形式来描述这些输出及关系；</li>
+<li>建立了需求文档的评价准则</li>
+</ol>
+<p>为了准确定义所需要的系统行为，在A－7的需求文档中引入了“条件（condition）”、“事件（event）”、“模式/模式类（mode/mode class）”以及“项/宏（term）”等基本概念。</p>
+<ul>
+<li>条件: 定义在单个系统状态上的约束;（如变量取值）</li>
+<li>事件: 定义在系统状态发生变化时所触发的约束；</li>
+<li>模式／模式类：系统总是运行在某些<strong>特定工作状态</strong>下；（大概就是不同的功能方面的划分？）</li>
+<li>项（宏）：表示中间辅助说明变量。</li>
+</ul>
+<p>需求文档需要满足的<strong>基本准则</strong>： 完整性；与系统如何实现无关；内容组织合理（如同编撰良好的参考手册）；</p>
+<p><strong>SCR利用表格定义函数</strong><br><img src="https://git.poker/konsin/images/blob/main/image.6yp12yorff40.jpg?raw=true" alt="image"><br>表格符号的优点：相比于逻辑符号，错误发生较少(表的结构消除了逻辑符号容易产生的错误); 比其他符号简单.</p>
+<h3 id="基于SCR方法的需求建模"><a href="#基于SCR方法的需求建模" class="headerlink" title="基于SCR方法的需求建模"></a>基于SCR方法的需求建模</h3><p><strong>四变量模型(FVM, Four Variable Model)</strong></p>
+<ul>
+<li>需求的说明包含以下两步：<ul>
+<li>理想的系统行为（即系统的正常行为）</li>
+<li>真实的系统行为</li>
+</ul>
+</li>
+<li>系统行为通常根据其所处环境量表示</li>
+</ul>
+<p>四变量：</p>
+<ol>
+<li>监视变量(Monitored Variables)：系统监视的环境量(如：温度，压力，高度)</li>
+<li>受控变量(Controlled Variables): 受系统控制的环境量（如：显示器  的显示——数值、文本、图形，作动器的阈值）</li>
+<li>输入(Inputs): 该变量来自于监视变量的估量</li>
+<li>输出(Outputs): 该变量对受控变量产生影响</li>
+</ol>
+<p>为了定义理想的系统行为，需求规范必须</p>
+<ul>
+<li>从环境中识别和指明受控变量</li>
+<li>从环境中识别和指明监视变量</li>
+<li>指明监视变量和受控变量之间的关系</li>
+</ul>
+<p>为了指明真实的系统行为</p>
+<ul>
+<li>在理想系统中使系统简化的假设需要移除</li>
+<li>输入和输出变量的值能够从输入和输出设备中读出</li>
+</ul>
+<p>监视变量与受控变量之间的关系对应着系统需求，输入变量和输出变量之间的关系对应着软件需求。<br>在监视变量和受控变量上的两种关系</p>
+<ul>
+<li>NAT: 环境约束（如：物理规律，系统所处环境的一些自然约束） </li>
+<li>REQ: 为了实现系统的要求，所添加的系统约束</li>
+</ul>
+<p>另外两种关系</p>
+<ul>
+<li>IN: 监视变量和输入变量之间的关系</li>
+<li>OUT: 输出变量和受控变量之间的关系 </li>
+</ul>
+<h2 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h2> 
       <!-- reward -->
       
     </div>
