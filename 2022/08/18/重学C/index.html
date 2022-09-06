@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">4 分钟</span>
+            <span class="post-count">6 分钟</span>
         </span>
     </span>
 </div>
@@ -148,9 +148,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><ol>
-<li><p>数据类型</p>
-<table>
+<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
 <thead>
 <tr>
 <th align="left">类型</th>
@@ -239,9 +237,7 @@
 <td align="left">1 个宽字符</td>
 </tr>
 </tbody></table>
-</li>
-<li><p>关键字</p>
-<table>
+<h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><table>
 <thead>
 <tr>
 <th>asm</th>
@@ -341,18 +337,12 @@
 <td></td>
 </tr>
 </tbody></table>
-</li>
-<li><p>命名建议：变量名尽量使用“名词”或“形容词+名词”；函数名用“动词+名词”。原则上长度不超过32位</p>
-</li>
-<li><p>常用命名规则</p>
-<ol>
+<h3 id="命名建议：变量名尽量使用“名词”或“形容词-名词”；函数名用“动词-名词”。原则上长度不超过32位"><a href="#命名建议：变量名尽量使用“名词”或“形容词-名词”；函数名用“动词-名词”。原则上长度不超过32位" class="headerlink" title="命名建议：变量名尽量使用“名词”或“形容词+名词”；函数名用“动词+名词”。原则上长度不超过32位"></a>命名建议：变量名尽量使用“名词”或“形容词+名词”；函数名用“动词+名词”。原则上长度不超过32位</h3><h3 id="常用命名规则"><a href="#常用命名规则" class="headerlink" title="常用命名规则"></a>常用命名规则</h3><ol>
 <li>匈牙利命名法：开头字母用变量类型缩写后面用变量的英文或缩写</li>
 <li>Camel命名法：首单词小写，后面单词首字母大写</li>
 <li>Pascal命名法：每个单词第一个字母都大写</li>
 </ol>
-</li>
-<li><p>常量与变量</p>
-<ol>
+<h3 id="常量与变量"><a href="#常量与变量" class="headerlink" title="常量与变量"></a>常量与变量</h3><ol>
 <li><p>常量：在程序运行过程中，值一直保持不变的量</p>
 <ul>
 <li><p>定义方法</p>
@@ -382,8 +372,6 @@
 </ul>
 </li>
 </ol>
-</li>
-</ol>
 <h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><p><strong>运算符</strong>：告诉编译器执行特定数学或逻辑操作的符号。（算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、杂项运算符）</p>
 <p><strong>表达式</strong>：使用运算符将操作数连接而成的式子，每一个表达式都有自己的值，表达式都有运算结果</p>
 <p><strong>注释的建议</strong>：</p>
@@ -392,7 +380,35 @@
 <li>在重要代码段、或复杂代码处先写注释再写代码，这样思路更清晰，同时可以保证代码和注释的一致性。</li>
 <li>注释不是越多越好，它是对代码的提示，如果要写就写清楚，并且保证和代码一致。如果更新的代码，清更新相应的注释。</li>
 </ol>
-<p><strong>补码</strong>：<br>  无符号数编码 </p>
+<p><strong>补码</strong>：<br>  有符号数另一种计算方式：<img src="https://git.poker/konsin/images/blob/main/image.7ka0cc9pftg0.jpg?raw=true" alt="image"><br>  常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1</p>
+<p><strong>大端方式</strong> 数字高位在低地址<br><strong>小段方式</strong> 数字低位在低地址</p>
+<h2 id="第三章-1"><a href="#第三章-1" class="headerlink" title="第三章"></a>第三章</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
+<ol>
+<li>通过下下标可以直接访问任意一个元素</li>
+<li>下标从0开始到元素个数减一为止</li>
+<li>超过范围的下标不可以使用</li>
+<li>数组名称和下标可以表示数组里的元素</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>可以编写循环依次处理数组里的所有元素</li>
+<li>循环变量依次代表所有有效下标</li>
+</ol>
+<p><strong>差一错误</strong>：high - low + 1</p>
+<h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。<br>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code><br>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></p>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>定义方式：<br>  <code>char str[] = &#123;&quot;hello&quot;&#125;</code><br>  <code>char str[6] = &#123;&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;&#125;</code><br>字符串变量：</p>
+<ul>
+<li>字符串是以空字符(‘\0’)结束的字符数组</li>
+<li>空字符 ‘\0’自动添加到字符串的内部表示中<br>字符串常量：</li>
+<li>字符串常量是一对双引号括起来的字符串数组</li>
+<li>字符串中每个字符作为一个数组元素存储</li>
+</ul>
+<p>Unicode编码：目的-&gt;把世界上的文字都映射到一套字符空间中</p>
+<ol>
+<li>UTF-8：1byte表示字符，可以兼容ASCII码；特点是存储效率高，变长（不方便内部随机访问），无字节序问题（可作为外部编码）</li>
+<li>UTF-16：分为UTF-16BE（big endian）、UTF-16LE(little endian)。特点是定长（方便内部随机访问），有字节序问题（不可作为外部编码）</li>
+<li>UTF-32：分为UTF-32BE、UTF-32LE。特点是定长（方便内部随机访问），有字节序问题（不可作为外部编码）</li>
+</ol>
  
       <!-- reward -->
       
