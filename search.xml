@@ -1578,7 +1578,13 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
 <li>循环变量依次代表所有有效下标</li>
 </ol>
 <p><strong>差一错误</strong>：high - low + 1</p>
-<h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。<br>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code><br>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></p>
+<h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p><code>#include &lt;vector&gt;</code><br>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。</p>
+<ul>
+<li>查询大小：<code>s.size()</code></li>
+<li>查询容量：<code>s.capacity()</code></li>
+<li>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code></li>
+<li>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></li>
+</ul>
 <h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义方式</strong>：<br>  <code>char str[] = &#123;&quot;hello&quot;&#125;</code><br>  <code>char str[6] = &#123;&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;&#125;</code><br><strong>字符串变量</strong>：</p>
 <ul>
 <li>字符串是以空字符(‘\0’)结束的字符数组</li>
@@ -1606,7 +1612,21 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 </li>
 </ul>
 <p><strong>常见操作</strong>：<br>  <code>strlen(s)</code>：返回s的长度<br>  <code>strcmp(s1, s2)</code>: 自左到右按ASCII值大小比较 s1 == s2 返回 0； s1 &lt; s2 返回 -； s1 &gt; s2 返回+；<br>  <code>strcpy(s1, s2)</code>: 复制s2到s1；<br>  <code>strncpy(s1, s2, n)</code> 将字符串s2中前n个字符拷贝到s1中<br>  <code>strcat(s1, s2)</code> 将字符串s2接到s1后面<br>  <code>strchr(s1,ch)</code> 查找ch在s1中第一次出现位置<br>  <code>strstr(s1, s2)</code> 查找s2在s1中第一次出现位置。</p>
-<h3 id="string字符串"><a href="#string字符串" class="headerlink" title="string字符串"></a>string字符串</h3>]]></content>
+<h3 id="string字符串"><a href="#string字符串" class="headerlink" title="string字符串"></a>string字符串</h3><p><code>#include &lt;string&gt;</code><br>使用string可以更为方便和安全的管理字符串。<br>定义：<code>string s</code>; <code>string s = &quot;hello&quot;</code>; <code>string s(&quot;hello&quot;)</code>; <code>string s = string(&quot;hello&quot;)</code>;<br><strong>常用操作</strong></p>
+<ul>
+<li>获取长度：<ul>
+<li><code>s.length()</code> </li>
+<li><code>s.size()</code></li>
+<li><code>s.capacity()</code> 容量 != 长度</li>
+</ul>
+</li>
+<li>字符串比较：<code>==</code> <code>!=</code> <code>&gt;</code> <code>&gt;=</code> <code>&lt;</code> <code>&lt;=</code></li>
+<li>转换为C风格字符串 char*<br><code>const char *c_s = s.c_str(); </code></li>
+<li>可通过下标进行随机访问。</li>
+<li>可通过<code>=</code>进行字符串拷贝</li>
+<li></li>
+</ul>
+]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
@@ -2603,10 +2623,10 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
     <url>/2022/09/01/openwrt%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>本文记录使用Winserver环境下使用Hyper-V安装OpenWRT的过程。</p>
 <h2 id="下载OpenWRT固件"><a href="#下载OpenWRT固件" class="headerlink" title="下载OpenWRT固件"></a>下载OpenWRT固件</h2><p>推荐下载别人已经编译好的OpenWRT固件。我这里使用的是由<a href="https://op.supes.top/firmware/x86_64/">Kiddin</a>二次编译过的LuCI的固件。</p>
-<h2 id="转为虚拟磁盘文件"><a href="#转为虚拟磁盘文件" class="headerlink" title="转为虚拟磁盘文件"></a>转为虚拟磁盘文件</h2><p>下载安装<code>StarWind V2V Converter</code>软件。然后点击Local File转换镜像文件<br><img src="https://git.poker/konsin/images/blob/main/image.3o033mqvamo0.jpg?raw=true" alt="image"><br>然后继续选择Local File，在之后的界面选择VHD/VHDX，最后再选择磁盘镜像的具体格式即可选择导出路径进行转换。<br><img src="https://git.poker/konsin/images/blob/main/image.oyaxaxxqs28.jpg?raw=true" alt="image"></p>
-<h2 id="导入Hyper-V"><a href="#导入Hyper-V" class="headerlink" title="导入Hyper-V"></a>导入Hyper-V</h2><p>正常创建虚拟机，但是再连接虚拟硬盘这一步要选择使用现有虚拟硬盘。<br><img src="https://git.poker/konsin/images/blob/main/image.4vu9ma90l5k0.jpg?raw=true" alt="image"></p>
-<h2 id="配置OpenWRT的IP"><a href="#配置OpenWRT的IP" class="headerlink" title="配置OpenWRT的IP"></a>配置OpenWRT的IP</h2><p>打开虚拟机，在终端输入<code>vim /etc/config/network</code>使用vim手动编辑IP设置。<br>修改lan口设置为固定ip<br><img src="https://git.poker/konsin/images/blob/main/image.5ihqux07rhs0.jpg?raw=true" alt="image"></p>
-<h2 id="进入OpenWRT网页管理界面继续设置"><a href="#进入OpenWRT网页管理界面继续设置" class="headerlink" title="进入OpenWRT网页管理界面继续设置"></a>进入OpenWRT网页管理界面继续设置</h2><p>在浏览器输入刚才修改的IP即可进入管理界面。默认密码为空。<br><img src="https://git.poker/konsin/images/blob/main/image.jsw8wd2cop8.jpg?raw=true" alt="image"></p>
+<h2 id="转为虚拟磁盘文件"><a href="#转为虚拟磁盘文件" class="headerlink" title="转为虚拟磁盘文件"></a>转为虚拟磁盘文件</h2><p>下载安装<code>StarWind V2V Converter</code>软件。然后点击Local File转换镜像文件<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.3o033mqvamo0.jpg" alt="image"><br>然后继续选择Local File，在之后的界面选择VHD/VHDX，最后再选择磁盘镜像的具体格式即可选择导出路径进行转换。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.oyaxaxxqs28.jpg" alt="image"></p>
+<h2 id="导入Hyper-V"><a href="#导入Hyper-V" class="headerlink" title="导入Hyper-V"></a>导入Hyper-V</h2><p>正常创建虚拟机，但是再连接虚拟硬盘这一步要选择使用现有虚拟硬盘。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4vu9ma90l5k0.jpg" alt="image"></p>
+<h2 id="配置OpenWRT的IP"><a href="#配置OpenWRT的IP" class="headerlink" title="配置OpenWRT的IP"></a>配置OpenWRT的IP</h2><p>打开虚拟机，在终端输入<code>vim /etc/config/network</code>使用vim手动编辑IP设置。<br>修改lan口设置为固定ip<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.5ihqux07rhs0.jpg" alt="image"></p>
+<h2 id="进入OpenWRT网页管理界面继续设置"><a href="#进入OpenWRT网页管理界面继续设置" class="headerlink" title="进入OpenWRT网页管理界面继续设置"></a>进入OpenWRT网页管理界面继续设置</h2><p>在浏览器输入刚才修改的IP即可进入管理界面。默认密码为空。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.jsw8wd2cop8.jpg" alt="image"></p>
 ]]></content>
       <categories>
         <category>配置教程</category>
@@ -3014,7 +3034,7 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <h3 id="需求图-req-requirment-diagram"><a href="#需求图-req-requirment-diagram" class="headerlink" title="需求图(req: requirment diagram)"></a>需求图(req: requirment diagram)</h3><p>需求是用户解决问题或达到领域目标所需的系统功能；包括系统及子系统/模块等都要满足合同、标准，规范或其它正式规定文档所需具有的条件或能力。</p>
 <p>需求分析的目的是确定系统应具备哪些功能。</p>
 <p><img src="https://fastly.jsdelivr.net/gh/konsin/images@main/202207161022575.png" alt="image-20220716102254532"></p>
-<h2 id="机载系统-软件的需求建模与分析方法"><a href="#机载系统-软件的需求建模与分析方法" class="headerlink" title="机载系统/软件的需求建模与分析方法"></a>机载系统/软件的需求建模与分析方法</h2><h3 id="基于模型的系统工程（MBSE）与SCR方法"><a href="#基于模型的系统工程（MBSE）与SCR方法" class="headerlink" title="基于模型的系统工程（MBSE）与SCR方法"></a>基于模型的系统工程（MBSE）与SCR方法</h3><p><img src="https://git.poker/konsin/images/blob/main/image.7s1q75w13uw.jpg?raw=true" alt="image"><br>什么是系统？系统就是<strong>交互</strong>的<strong>元素</strong>组织起来的组合，以实现一个或多个特定的<strong>目的</strong>。<br>概念：</p>
+<h2 id="机载系统-软件的需求建模与分析方法"><a href="#机载系统-软件的需求建模与分析方法" class="headerlink" title="机载系统/软件的需求建模与分析方法"></a>机载系统/软件的需求建模与分析方法</h2><h3 id="基于模型的系统工程（MBSE）与SCR方法"><a href="#基于模型的系统工程（MBSE）与SCR方法" class="headerlink" title="基于模型的系统工程（MBSE）与SCR方法"></a>基于模型的系统工程（MBSE）与SCR方法</h3><p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.7s1q75w13uw.jpg" alt="image"><br>什么是系统？系统就是<strong>交互</strong>的<strong>元素</strong>组织起来的组合，以实现一个或多个特定的<strong>目的</strong>。<br>概念：</p>
 <ol>
 <li>需求（requirements）：能满足用户期望的各种系统各种特征的集合</li>
 <li>需求规约（requirement specification ）：用某种<strong>准确</strong>的描述方式将需求内容表达出来，使得能够进行有效的需求层级分析、验证等工作。（条目化-&gt;图形化-&gt;形式化）</li>
@@ -3033,7 +3053,7 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>工业和合格审定指南还没有标准化（DO-333是重要一步）</li>
 <li>工具支持仍不完整（需要适用于软件生命周期＋领域工程师使用）</li>
 </ul>
-<h3 id="SCR方法概述"><a href="#SCR方法概述" class="headerlink" title="SCR方法概述"></a>SCR方法概述</h3><p><img src="https://git.poker/konsin/images/blob/main/image.4hvicy6rr6w0.jpg?raw=true" alt="image"></p>
+<h3 id="SCR方法概述"><a href="#SCR方法概述" class="headerlink" title="SCR方法概述"></a>SCR方法概述</h3><p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4hvicy6rr6w0.jpg" alt="image"></p>
 <p>Software Cost Reduction（SCR）目的是评价软件工程技术在实际工程应用中的有效性和可扩展性。<br><strong>真正核心出发点是落在系统上</strong></p>
 <p>A-7E OFP 需求文档中建立了<strong>三种SCR方法中主要方面</strong>：</p>
 <ol>
@@ -3049,7 +3069,7 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>项（宏）：表示中间辅助说明变量。</li>
 </ul>
 <p>需求文档需要满足的<strong>基本准则</strong>： 完整性；与系统如何实现无关；内容组织合理（如同编撰良好的参考手册）；</p>
-<p><strong>SCR利用表格定义函数</strong><br><img src="https://git.poker/konsin/images/blob/main/image.6yp12yorff40.jpg?raw=true" alt="image"><br>表格符号的优点：相比于逻辑符号，错误发生较少(表的结构消除了逻辑符号容易产生的错误); 比其他符号简单.</p>
+<p><strong>SCR利用表格定义函数</strong><br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.6yp12yorff40.jpg" alt="image"><br>表格符号的优点：相比于逻辑符号，错误发生较少(表的结构消除了逻辑符号容易产生的错误); 比其他符号简单.</p>
 <h3 id="基于SCR方法的需求建模"><a href="#基于SCR方法的需求建模" class="headerlink" title="基于SCR方法的需求建模"></a>基于SCR方法的需求建模</h3><p><strong>四变量模型(FVM, Four Variable Model)</strong></p>
 <ul>
 <li>需求的说明包含以下两步：<ul>

@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.1k</span>
+            <span class="post-count">2.2k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7 分钟</span>
+            <span class="post-count">8 分钟</span>
         </span>
     </span>
 </div>
@@ -395,7 +395,13 @@
 <li>循环变量依次代表所有有效下标</li>
 </ol>
 <p><strong>差一错误</strong>：high - low + 1</p>
-<h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。<br>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code><br>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></p>
+<h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p><code>#include &lt;vector&gt;</code><br>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。</p>
+<ul>
+<li>查询大小：<code>s.size()</code></li>
+<li>查询容量：<code>s.capacity()</code></li>
+<li>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code></li>
+<li>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></li>
+</ul>
 <h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义方式</strong>：<br>  <code>char str[] = &#123;&quot;hello&quot;&#125;</code><br>  <code>char str[6] = &#123;&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;&#125;</code><br><strong>字符串变量</strong>：</p>
 <ul>
 <li>字符串是以空字符(‘\0’)结束的字符数组</li>
@@ -423,7 +429,21 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 </li>
 </ul>
 <p><strong>常见操作</strong>：<br>  <code>strlen(s)</code>：返回s的长度<br>  <code>strcmp(s1, s2)</code>: 自左到右按ASCII值大小比较 s1 == s2 返回 0； s1 &lt; s2 返回 -； s1 &gt; s2 返回+；<br>  <code>strcpy(s1, s2)</code>: 复制s2到s1；<br>  <code>strncpy(s1, s2, n)</code> 将字符串s2中前n个字符拷贝到s1中<br>  <code>strcat(s1, s2)</code> 将字符串s2接到s1后面<br>  <code>strchr(s1,ch)</code> 查找ch在s1中第一次出现位置<br>  <code>strstr(s1, s2)</code> 查找s2在s1中第一次出现位置。</p>
-<h3 id="string字符串"><a href="#string字符串" class="headerlink" title="string字符串"></a>string字符串</h3> 
+<h3 id="string字符串"><a href="#string字符串" class="headerlink" title="string字符串"></a>string字符串</h3><p><code>#include &lt;string&gt;</code><br>使用string可以更为方便和安全的管理字符串。<br>定义：<code>string s</code>; <code>string s = &quot;hello&quot;</code>; <code>string s(&quot;hello&quot;)</code>; <code>string s = string(&quot;hello&quot;)</code>;<br><strong>常用操作</strong></p>
+<ul>
+<li>获取长度：<ul>
+<li><code>s.length()</code> </li>
+<li><code>s.size()</code></li>
+<li><code>s.capacity()</code> 容量 != 长度</li>
+</ul>
+</li>
+<li>字符串比较：<code>==</code> <code>!=</code> <code>&gt;</code> <code>&gt;=</code> <code>&lt;</code> <code>&lt;=</code></li>
+<li>转换为C风格字符串 char*<br><code>const char *c_s = s.c_str(); </code></li>
+<li>可通过下标进行随机访问。</li>
+<li>可通过<code>=</code>进行字符串拷贝</li>
+<li></li>
+</ul>
+ 
       <!-- reward -->
       
     </div>
