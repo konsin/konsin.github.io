@@ -155,15 +155,18 @@ C语言中数组下标：从0开始，使用非对称区间`[,)`，下届可以�
 **差一错误**：high - low + 1
 
 ### vector数组
+`#include <vector>`
 引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。
-使用sort对vector排序
-`sort(num.begin(), num.end());`
-插入数据的方式
-尾插 `push_back(val)`
-尾删 `pop_back()`
-插入 `insert()`
-删除 `erase()`
-清空 `clear()`
+- 查询大小：`s.size()`
+- 查询容量：`s.capacity()`
+- 使用sort对vector排序
+  `sort(num.begin(), num.end());`
+- 插入数据的方式
+  尾插 `push_back(val)`
+  尾删 `pop_back()`
+  插入 `insert()`
+  删除 `erase()`
+  清空 `clear()`
 
 ### 字符串
 **定义方式**：
@@ -206,6 +209,18 @@ C语言中数组下标：从0开始，使用非对称区间`[,)`，下届可以�
   `strstr(s1, s2)` 查找s2在s1中第一次出现位置。
 
 ### string字符串
-
-
+`#include <string>`
+使用string可以更为方便和安全的管理字符串。
+定义：`string s`; `string s = "hello"`; `string s("hello")`; `string s = string("hello")`;
+**常用操作**
+  - 获取长度：
+    - `s.length()` 
+    - `s.size()`
+    - `s.capacity()` 容量 != 长度
+  - 字符串比较：`==` `!=` `>` `>=` `<` `<=`
+  - 转换为C风格字符串 char*
+    `const char *c_s = s.c_str(); `
+  - 可通过下标进行随机访问。
+  - 可通过`=`进行字符串拷贝
+  - 
 
