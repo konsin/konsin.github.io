@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k</span>
+            <span class="post-count">2.1k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6 分钟</span>
+            <span class="post-count">7 分钟</span>
         </span>
     </span>
 </div>
@@ -396,20 +396,34 @@
 </ol>
 <p><strong>差一错误</strong>：high - low + 1</p>
 <h3 id="vector数组"><a href="#vector数组" class="headerlink" title="vector数组"></a>vector数组</h3><p>引入原因：使用最简单的数组，无法实现动态扩容插入元素，因为容量有限。<br>使用sort对vector排序<br><code>sort(num.begin(), num.end());</code><br>插入数据的方式<br>尾插 <code>push_back(val)</code><br>尾删 <code>pop_back()</code><br>插入 <code>insert()</code><br>删除 <code>erase()</code><br>清空 <code>clear()</code></p>
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>定义方式：<br>  <code>char str[] = &#123;&quot;hello&quot;&#125;</code><br>  <code>char str[6] = &#123;&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;&#125;</code><br>字符串变量：</p>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义方式</strong>：<br>  <code>char str[] = &#123;&quot;hello&quot;&#125;</code><br>  <code>char str[6] = &#123;&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;&#125;</code><br><strong>字符串变量</strong>：</p>
 <ul>
 <li>字符串是以空字符(‘\0’)结束的字符数组</li>
-<li>空字符 ‘\0’自动添加到字符串的内部表示中<br>字符串常量：</li>
+<li>空字符 ‘\0’自动添加到字符串的内部表示中</li>
+</ul>
+<p><strong>字符串常量</strong>：</p>
+<ul>
 <li>字符串常量是一对双引号括起来的字符串数组</li>
 <li>字符串中每个字符作为一个数组元素存储</li>
 </ul>
-<p>Unicode编码：目的-&gt;把世界上的文字都映射到一套字符空间中</p>
+<p><strong>Unicode编码</strong>：目的-&gt;把世界上的文字都映射到一套字符空间中</p>
 <ol>
 <li>UTF-8：1byte表示字符，可以兼容ASCII码；特点是存储效率高，变长（不方便内部随机访问），无字节序问题（可作为外部编码）</li>
 <li>UTF-16：分为UTF-16BE（big endian）、UTF-16LE(little endian)。特点是定长（方便内部随机访问），有字节序问题（不可作为外部编码）</li>
 <li>UTF-32：分为UTF-32BE、UTF-32LE。特点是定长（方便内部随机访问），有字节序问题（不可作为外部编码）</li>
 </ol>
- 
+<p><strong>字符串指针</strong>：</p>
+<ul>
+<li>指针表示方法： <code>char* pStr = &quot;hello&quot;;</code></li>
+<li>char[] 和 char* 的区别：<ul>
+<li>地址和地址存储的信息</li>
+<li>可变与不可变。<br>如果数组指针初始化指向字符串常量，那么这个指针所指内容不可发生改变。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *ps = <span class="string">&quot;hello&quot;</span>;  <span class="comment">//字符串常量指针</span></span><br><span class="line"><span class="type">char</span> s[] = &#123;<span class="string">&quot;hello&quot;</span>&#125;;</span><br><span class="line"><span class="type">char</span> *ps2 = s;       <span class="comment">//字符串变量指针</span></span><br></pre></td></tr></table></figure>
+s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于所指区间的存储区域是否可变。</li>
+</ul>
+</li>
+</ul>
+<p><strong>常见操作</strong>：<br>  <code>strlen(s)</code>：返回s的长度<br>  <code>strcmp(s1, s2)</code>: 自左到右按ASCII值大小比较 s1 == s2 返回 0； s1 &lt; s2 返回 -； s1 &gt; s2 返回+；<br>  <code>strcpy(s1, s2)</code>: 复制s2到s1；<br>  <code>strncpy(s1, s2, n)</code> 将字符串s2中前n个字符拷贝到s1中<br>  <code>strcat(s1, s2)</code> 将字符串s2接到s1后面<br>  <code>strchr(s1,ch)</code> 查找ch在s1中第一次出现位置<br>  <code>strstr(s1, s2)</code> 查找s2在s1中第一次出现位置。</p>
+<h3 id="string字符串"><a href="#string字符串" class="headerlink" title="string字符串"></a>string字符串</h3> 
       <!-- reward -->
       
     </div>
