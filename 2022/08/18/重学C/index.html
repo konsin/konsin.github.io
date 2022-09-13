@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.2k</span>
+            <span class="post-count">2.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">8 分钟</span>
+            <span class="post-count">10 分钟</span>
         </span>
     </span>
 </div>
@@ -382,7 +382,7 @@
 </ol>
 <p><strong>补码</strong>：<br>  有符号数另一种计算方式：<img src="https://git.poker/konsin/images/blob/main/image.7ka0cc9pftg0.jpg?raw=true" alt="image"><br>  常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1</p>
 <p><strong>大端方式</strong> 数字高位在低地址<br><strong>小段方式</strong> 数字低位在低地址</p>
-<h2 id="第三章-1"><a href="#第三章-1" class="headerlink" title="第三章"></a>第三章</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
+<h2 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
 <ol>
 <li>通过下下标可以直接访问任意一个元素</li>
 <li>下标从0开始到元素个数减一为止</li>
@@ -441,8 +441,37 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>转换为C风格字符串 char*<br><code>const char *c_s = s.c_str(); </code></li>
 <li>可通过下标进行随机访问。</li>
 <li>可通过<code>=</code>进行字符串拷贝</li>
-<li></li>
+<li>可通过<code>+</code>、<code>+=</code>连接字符串</li>
 </ul>
+<h2 id="第五章-指针"><a href="#第五章-指针" class="headerlink" title="第五章 指针"></a>第五章 指针</h2><p><strong>C++中内存单元内容与地址</strong><br>指针的本质：内存划分内存单元用来存放各种类型的数据。计算机对内存单元进行编号，称为内存地址，决定内存单元在内存中的位置。C++编译器让我们通过名字来访问这些内存位置。<br>指针定义的基本形式： 指针本身就是一个变量，其符合变量定义的基本形式，存储的是值的地址。对类型T，T*是‘到T的指针’类型。通过一个指针访问所指向地址的过程称为间接访问或引用指针。<br>  小结：</p>
+<ol>
+<li><p>一个变量有三个重要信息：</p>
+<ol>
+<li>变量的地址位置</li>
+<li>变量所存的信息</li>
+<li>变量的类型</li>
+</ol>
+</li>
+<li><p>指针变量是一个专门用来记录变量的地址的变量，通过指针变量可以间接的访问改变另一个变量的值</p>
+<h3 id="C-中原始指针"><a href="#C-中原始指针" class="headerlink" title="C++中原始指针"></a>C++中原始指针</h3></li>
+<li><p>一般类型指针T*</p>
+</li>
+<li><p>指针的数组与数组的指针<br>指针的数组 T* t[]<br>数组的指针 T (*t)[]</p>
+</li>
+<li><p>const pointer 和 pointer to const<br><code>char const</code> 和 <code>const char</code> 是等价的。<br>看const修饰部分：</p>
+<ul>
+<li>看左侧最近的部分</li>
+<li>如果左侧没有则看右侧</li>
+</ul>
+</li>
+<li><p>指向指针的指针<br><code>*</code>操作符具有从右向左的结合性<br><code>**</code>表达式相当于<code>*(*c)</code>，必须从里向外逐层求值</p>
+</li>
+<li><p>未初始化和非法的指针<br>如果定义到了一个非法地址，程序会出错，从而终止。<br>如果定位到一个可以访问的地址，无意修改了它，这种错误难以捕捉，引发的错误可能与原先用于操作的代码完全不相干。</p>
+</li>
+<li><p>NULL指针<br>一个特殊的指针，表示不指向任何东西。这种方法来表示特定的指针目前未指向任何东西<br>注意事项：<br>对应于一个指针如果已经知道被初始化为什么地址，如果不赋值就设置为NULL<br>引用指针前先判断是否为NULL</p>
+</li>
+<li></li>
+</ol>
  
       <!-- reward -->
       
