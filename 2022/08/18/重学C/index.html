@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.7k</span>
+            <span class="post-count">2.8k</span>
         </span>
     </span>
 
@@ -445,34 +445,32 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 </ul>
 <h2 id="第五章-指针"><a href="#第五章-指针" class="headerlink" title="第五章 指针"></a>第五章 指针</h2><p><strong>C++中内存单元内容与地址</strong><br>指针的本质：内存划分内存单元用来存放各种类型的数据。计算机对内存单元进行编号，称为内存地址，决定内存单元在内存中的位置。C++编译器让我们通过名字来访问这些内存位置。<br>指针定义的基本形式： 指针本身就是一个变量，其符合变量定义的基本形式，存储的是值的地址。对类型T，T*是‘到T的指针’类型。通过一个指针访问所指向地址的过程称为间接访问或引用指针。<br>  小结：</p>
 <ol>
-<li><p>一个变量有三个重要信息：</p>
-<ol>
+<li>一个变量有三个重要信息：<ol>
 <li>变量的地址位置</li>
 <li>变量所存的信息</li>
 <li>变量的类型</li>
 </ol>
 </li>
-<li><p>指针变量是一个专门用来记录变量的地址的变量，通过指针变量可以间接的访问改变另一个变量的值</p>
-<h3 id="C-中原始指针"><a href="#C-中原始指针" class="headerlink" title="C++中原始指针"></a>C++中原始指针</h3></li>
-<li><p>一般类型指针T*</p>
-</li>
-<li><p>指针的数组与数组的指针<br>指针的数组 T* t[]<br>数组的指针 T (*t)[]</p>
-</li>
-<li><p>const pointer 和 pointer to const<br><code>char const</code> 和 <code>const char</code> 是等价的。<br>看const修饰部分：</p>
-<ul>
+<li>指针变量是一个专门用来记录变量的地址的变量，通过指针变量可以间接的访问改变另一个变量的值<h3 id="C-中原始指针"><a href="#C-中原始指针" class="headerlink" title="C++中原始指针"></a>C++中原始指针</h3></li>
+<li>一般类型指针T*</li>
+<li>指针的数组与数组的指针<br>指针的数组 T* t[]<br>数组的指针 T (*t)[]</li>
+<li>const pointer 和 pointer to const<br><code>char const</code> 和 <code>const char</code> 是等价的。<br>看const修饰部分：<ul>
 <li>看左侧最近的部分</li>
 <li>如果左侧没有则看右侧</li>
 </ul>
 </li>
-<li><p>指向指针的指针<br><code>*</code>操作符具有从右向左的结合性<br><code>**</code>表达式相当于<code>*(*c)</code>，必须从里向外逐层求值</p>
-</li>
-<li><p>未初始化和非法的指针<br>如果定义到了一个非法地址，程序会出错，从而终止。<br>如果定位到一个可以访问的地址，无意修改了它，这种错误难以捕捉，引发的错误可能与原先用于操作的代码完全不相干。</p>
-</li>
-<li><p>NULL指针<br>一个特殊的指针，表示不指向任何东西。这种方法来表示特定的指针目前未指向任何东西<br>注意事项：<br>对应于一个指针如果已经知道被初始化为什么地址，如果不赋值就设置为NULL<br>引用指针前先判断是否为NULL</p>
-</li>
-<li></li>
+<li>指向指针的指针<br><code>*</code>操作符具有从右向左的结合性<br><code>**</code>表达式相当于<code>*(*c)</code>，必须从里向外逐层求值</li>
+<li>未初始化和非法的指针<br>如果定义到了一个非法地址，程序会出错，从而终止。<br>如果定位到一个可以访问的地址，无意修改了它，这种错误难以捕捉，引发的错误可能与原先用于操作的代码完全不相干。</li>
+<li>NULL指针<br>一个特殊的指针，表示不指向任何东西。这种方法来表示特定的指针目前未指向任何东西<br>注意事项：<br>对应于一个指针如果已经知道被初始化为什么地址，如果不赋值就设置为NULL<br>引用指针前先判断是否为NULL</li>
 </ol>
- 
+<p><strong>杜绝野指针</strong><br>if等判断对野指针不起作用，因为没有置NULL<br>一般有三种情况：</p>
+<ol>
+<li>指针变量没有初始化</li>
+<li>已经释放不用的指针没有置NULL，如delete和free之后的指针</li>
+<li>指针操作超越了变量的作用范围。</li>
+</ol>
+<p>没有初始化的，不用的或者超出范围的指针把值置为NULL</p>
+<h3 id="指针的基本运算"><a href="#指针的基本运算" class="headerlink" title="指针的基本运算"></a>指针的基本运算</h3> 
       <!-- reward -->
       
     </div>
