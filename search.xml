@@ -1626,7 +1626,7 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>可通过<code>=</code>进行字符串拷贝</li>
 <li>可通过<code>+</code>、<code>+=</code>连接字符串</li>
 </ul>
-<h2 id="第五章-指针"><a href="#第五章-指针" class="headerlink" title="第五章 指针"></a>第五章 指针</h2><p><strong>C++中内存单元内容与地址</strong><br>指针的本质：内存划分内存单元用来存放各种类型的数据。计算机对内存单元进行编号，称为内存地址，决定内存单元在内存中的位置。C++编译器让我们通过名字来访问这些内存位置。<br>指针定义的基本形式： 指针本身就是一个变量，其符合变量定义的基本形式，存储的是值的地址。对类型T，T*是‘到T的指针’类型。通过一个指针访问所指向地址的过程称为间接访问或引用指针。<br>  小结：</p>
+<h2 id="第五章-指针"><a href="#第五章-指针" class="headerlink" title="第五章 指针"></a>第五章 指针</h2><p>指针的缺点：使用指针是非常危险的行为，可能存在空指针，野指针的问题，并可能造成内存泄漏问题。<br>优点：指针非常的高效<br><strong>C++中内存单元内容与地址</strong><br>指针的本质：内存划分内存单元用来存放各种类型的数据。计算机对内存单元进行编号，称为内存地址，决定内存单元在内存中的位置。C++编译器让我们通过名字来访问这些内存位置。<br>指针定义的基本形式： 指针本身就是一个变量，其符合变量定义的基本形式，存储的是值的地址。对类型T，T*是‘到T的指针’类型。通过一个指针访问所指向地址的过程称为间接访问或引用指针。<br>  小结：</p>
 <ol>
 <li>一个变量有三个重要信息：<ol>
 <li>变量的地址位置</li>
@@ -1660,9 +1660,35 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li><code>++</code>与<code>--</code>操作符</li>
 <li>关于<code>++++</code>与<code>----</code>等运算符<br>编译程序分解成符号的方法是：一个字符一个字符的读入，如果该字符可能组成一个符号，那么读入下一个字符，一直到读入的字符不能再组成一个有意义的符号。 a+++b 相当于 a++ +b</li>
 </ol>
-<h3 id="CPP程序存储区域划分"><a href="#CPP程序存储区域划分" class="headerlink" title="CPP程序存储区域划分"></a>CPP程序存储区域划分</h3><ol>
+<h3 id="CPP程序存储区域划分"><a href="#CPP程序存储区域划分" class="headerlink" title="CPP程序存储区域划分"></a>CPP程序存储区域划分</h3><p>全局变量、常量在常量区，变量在栈区，动态申请变量在堆区。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/5-11-CPP%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AD%98%E5%82%A8%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86%E6%80%BB%E7%BB%93-00_05_34-2022_09_20_14_23_02-(2).6mgazj6rwp00.jpg" alt="5-11-CPP程序的存储区域划分总结-00_05_34-2022_09_20_14_23_02-(2)"></p>
+<ol>
 <li>栈和队列<br>栈：先进后出<br>队列：先进先出</li>
-<li></li>
+<li>动态分配资源-堆（heap）<br>程序通常需要牵涉到三个内存管理器的操作：<ol>
+<li>分配某个大小的内存块；</li>
+<li>释放一个之前分配的内存块；</li>
+<li>垃圾收集操作，寻找不再使用的内存块并予以释放。（这个回收策略需要实现性能、实时性、额外开销等各方面的平衡，很难有统一和高效的做法）<br>C++做了1、2，Java做了1、3。</li>
+</ol>
+</li>
+</ol>
+<h3 id="资源管理方案–RAII-Resource-Acquisition-Is-Initialization"><a href="#资源管理方案–RAII-Resource-Acquisition-Is-Initialization" class="headerlink" title="资源管理方案–RAII(Resource Acquisition Is Initialization)"></a>资源管理方案–RAII(Resource Acquisition Is Initialization)</h3><ol>
+<li>主流的编程语言中，C++是唯一一个依赖RAII做资源管理的。</li>
+<li>RAII依托<strong>栈</strong>和<strong>析构函数</strong>，来对所有的资源——包括堆内存在内进行管理。对RAII的使用，使得C++不需要类似Java那样的垃圾收集方法也能有效地对内存进行管理。</li>
+<li>RAII有些比较成熟的智能指针代表：<code>std::auto_ptr</code>、<code>boost::shared_ptr</code></li>
+</ol>
+<h3 id="C-中几种变量对比"><a href="#C-中几种变量对比" class="headerlink" title="C++中几种变量对比"></a>C++中几种变量对比</h3><p>栈和堆中的变量对比<br>| | 栈区| 堆区|<br>|:————|:————|:————–|<br>|作用域|函数体内，语句块{}作用域|整个程序范围内，由<code>new</code>,<code>malloc</code>开始，<code>delete</code>、<code>free</code>结束|<br>|编译间大小确定|变量大小范围确定|变量大小不确定，需要运行期确定|<br>|大小范围|Windows默认栈大小1M，linux默认栈大小8M或10M|所有系统的堆空间上限是接近内存（虚拟内存）的总大小的|<br>|内存分配方式|地址由高到低减少|地址由低到高增加|<br>|内容是否可变|可变|可变|<br>全局静态存储区和常量存储区的变量对比<br>||全局静态存储区|常量存储区|<br>|:-|:-|:-|<br>|存储内容|全局变量，静态变量|常量|<br>|编译期间大小是否确定|确定|确定|<br>|内容是否可变|可变|不可变|</p>
+<h3 id="内存泄漏（Memory-Leak）问题"><a href="#内存泄漏（Memory-Leak）问题" class="headerlink" title="内存泄漏（Memory Leak）问题"></a>内存泄漏（Memory Leak）问题</h3><ol>
+<li>什么是内存泄漏问题：<br>指程序中已动态分配的<strong>堆内存由于某种原因程序未释放或无法释放</strong>，造成系统内存的浪费，导致<strong>程序运行速度减慢甚至系统崩溃等严重后果</strong>。</li>
+<li>内存泄漏发生原因和排查方式：<ol>
+<li>内存泄漏主要发生在<strong>堆内存分配方式</strong>中，即“配置了内存后，所有指向该内存的指针都遗失了”。若缺乏语言这样的垃圾回收机制，这样的内存片就无法归还系统。</li>
+<li>因为内存泄漏属于程序运行中的问题，无法通过编译识别，<strong>所以只能在程序运行过程中来判别和诊断</strong>。<br>比指针更安全的解决方案</li>
+</ol>
+</li>
+<li>使用更安全的指针-智能指针</li>
+<li>不使用指针，使用更安全的方式-引用</li>
+</ol>
+<h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h3><p>C++中四种常用智能指针: unique_ptr、shared_ptr、weak_ptr、在C++17中已经废弃的auto_ptr</p>
+<ol>
+<li><code>auto_ptr</code><br>由<code>new expression</code>获取对象，在<code>auto_ptr</code>对象销毁时，其所管理的对象也会自动被<code>delete</code>掉。<br>所有权转移：不小心把它传递给另外的智能指针，原来的指针就不再拥有这个对象了。在拷贝/赋值过程中，会直接剥夺指针对原对象内存的控制权，转交给新对象，然后再将**原对象指针置为<code>nullptr</code>**。<br><code>auto_ptr&lt;int&gt; pl(new int(10))</code></li>
 </ol>
 ]]></content>
       <categories>
