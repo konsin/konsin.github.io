@@ -1689,6 +1689,23 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h3><p>C++中四种常用智能指针: unique_ptr、shared_ptr、weak_ptr、在C++17中已经废弃的auto_ptr</p>
 <ol>
 <li><code>auto_ptr</code><br>由<code>new expression</code>获取对象，在<code>auto_ptr</code>对象销毁时，其所管理的对象也会自动被<code>delete</code>掉。<br>所有权转移：不小心把它传递给另外的智能指针，原来的指针就不再拥有这个对象了。在拷贝/赋值过程中，会直接剥夺指针对原对象内存的控制权，转交给新对象，然后再将**原对象指针置为<code>nullptr</code>**。<br><code>auto_ptr&lt;int&gt; pl(new int(10))</code></li>
+<li><code>unique_ptr</code><br><code>unique_ptr</code>是<strong>专属所有权</strong>，所以<code>unique_ptr</code>管理的内存，只能被一个对象持有，不支持复制和赋值。<br>移动语义：<code>unique_ptr</code>禁止了拷贝语义，但是可以使用 <code>std::move()</code>进行控制所有权的转移。</li>
+<li><code>shared_ptr</code><br><code>shared_ptr</code><strong>通过一个引用计数共享一个对象</strong>，<code>shared_ptr</code>是为了解决<code>auto_ptr</code>在对象所有权上的局限性，在使用引用计数的机制上提供了可以共享所有权的智能指针。因为引入了引用计数，所以造成了额外的资源浪费，不如<code>unique_ptr</code>轻量。<br>当引用计数为0时，说明对象没有被使用，可以析构。<br>问题：<br>循环引用：引用计数会带来循环引用的问题，循环引用会导致堆里的内存无法正常回收，造成内存泄漏。</li>
+<li><code>weak_ptr</code><br><strong><code>weak_ptr</code>被设计为与<code>shared_ptr</code>共同工作</strong>，用一种观察者模式工作。<br>意味着<code>weak_ptr</code>只对<code>shared_ptr</code>进行引用而不改变其引用计数。</li>
+</ol>
+<h3 id="C-的引用"><a href="#C-的引用" class="headerlink" title="C++的引用"></a>C++的引用</h3><p>引用是一种特殊的指针，不允许修改的指针。<br>：1. 不存在空引用；2. 必须初始化； 3. 一个引用永远指向它初始化的那个对象。</p>
+<ol>
+<li>引用的基本使用：可以认为值指定变量的别名，使用时可以认为是变量本身。<br><code>int&amp; rx = x</code>, <code>cout &lt;&lt; rx; </code>等同于<code>cout &lt;&lt; x;</code></li>
+<li>有了指针为什么还需要引用？ 为了支持函数运算符重载。</li>
+<li>有了引用为什么还需要指针？ 为了兼容C语言。</li>
+</ol>
+<p>对内置基础类型（int、double等)而言，在函数中传值（pass by value）更高效。<br>对OO面向对象中自定义类型而言，在函数中传引用(pass by reference to const)更高效。</p>
+<h2 id="第六章-C-基础句法"><a href="#第六章-C-基础句法" class="headerlink" title="第六章 C++基础句法"></a>第六章 C++基础句法</h2><p>单一语句： 在任何一个表达式后面加上分号<code>;</code><br>复合语句：用一对花括号<code>&#123;&#125;</code>括起来的语句块，在语法上等效于一个单一的语句。</p>
+<h3 id="分支语句"><a href="#分支语句" class="headerlink" title="分支语句"></a>分支语句</h3><ol>
+<li><p><code>if</code>语句<br>if语句是最常用的一种分支语句，也称为条件语句。<br>（比较好的编程规范是if的花括号不允许不写，即使只是一个单一语句）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(...)</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>switch</code>语句</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span>(表达式)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">1</span>: 语句<span class="number">1</span>;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">2</span>: 语句<span class="number">2</span>;  <span class="keyword">break</span>;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">case</span> 常数n: 语句n;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>: 语句n+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 ]]></content>
       <categories>
