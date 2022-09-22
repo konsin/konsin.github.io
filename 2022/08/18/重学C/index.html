@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.5k</span>
+            <span class="post-count">4.9k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">16 分钟</span>
+            <span class="post-count">18 分钟</span>
         </span>
     </span>
 </div>
@@ -522,9 +522,32 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li><p><code>if</code>语句<br>if语句是最常用的一种分支语句，也称为条件语句。<br>（比较好的编程规范是if的花括号不允许不写，即使只是一个单一语句）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(...)</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><p><code>switch</code>语句</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(表达式)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">1</span>: 语句<span class="number">1</span>;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">2</span>: 语句<span class="number">2</span>;  <span class="keyword">break</span>;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">case</span> 常数n: 语句n;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>: 语句n+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(表达式)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">1</span>: 语句<span class="number">1</span>;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> 常数<span class="number">2</span>: 语句<span class="number">2</span>;  <span class="keyword">break</span>;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">case</span> 常数n: 语句n;  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>: 语句n+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举结构"><a href="#枚举结构" class="headerlink" title="枚举结构"></a>枚举结构</h3></li>
+<li><p>使用<code>#define</code>和const创建符号常量，而使用enum不仅能够创建符号常量，还能<strong>定义新的数据类型</strong>。</p>
+</li>
+<li><p>枚举类型enum(enumeration)的声明和定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">wT</span> &#123;</span><br><span class="line"> Monday, Tuesday, Wednesday, Tursday, Friday, Saturday, Sunday</span><br><span class="line">&#125;; <span class="comment">//声明枚举类型</span></span><br><span class="line">wT weekday; <span class="comment">//定义枚举变量</span></span><br></pre></td></tr></table></figure>
+<h3 id="结构体和联合体"><a href="#结构体和联合体" class="headerlink" title="结构体和联合体"></a>结构体和联合体</h3></li>
+<li><p><code>struct</code>定义结构体<br>各成员各自拥有自己的内存，各自使用互不干涉，同时存在的，遵循内存对齐原则。一个struct变量的总长度等于所有成员的长度之和。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> </span><br><span class="line">&#123;</span><br><span class="line">   <span class="type">char</span> name[<span class="number">6</span>];</span><br><span class="line">   <span class="type">int</span> age;</span><br><span class="line">   Score s;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>union</code>定义联合体<br>各成员共用一块内存空间，并且同时只有一个成员可以得到这块内存的使用权(对该内存的读写)，各变量共用一个内存首地址。<br>联合体的内存大小：1、至少要容纳最大的成员变量 2、必须是所有成员变量类型大小的整数倍</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="title class_">Score</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">double</span> sc;</span><br><span class="line"> <span class="type">char</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
- 
+<p><strong>结构体中内存对齐问题</strong>：综合考虑内存对数据的处理及最大的数据类型所占字节<br>   缺省对齐原则：<br>   32位cpu：</p>
+<ul>
+<li>char: 任何地址</li>
+<li>short: 偶数地址</li>
+<li>int: 4的整数倍地址</li>
+<li>double： 4的整数倍地址<br>可以修改默认编译选项,设置内存按n字节寻址<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Visual C++：</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(n)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//g++:</span></span><br><span class="line">__attribute__(<span class="built_in">aligned</span>(n))</span><br><span class="line">__attribute__(__packed__)</span><br></pre></td></tr></table></figure>
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3></li>
+</ul>
+<ol>
+<li>while循环</li>
+<li>do while循环</li>
+<li>for循环</li>
+</ol>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3> 
       <!-- reward -->
       
     </div>
