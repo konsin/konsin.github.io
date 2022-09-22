@@ -378,3 +378,55 @@ switch(表达式)
   default: 语句n+1;
 }
 ```
+### 枚举结构
+1. 使用`#define`和const创建符号常量，而使用enum不仅能够创建符号常量，还能**定义新的数据类型**。
+2. 枚举类型enum(enumeration)的声明和定义：
+   ```cpp
+   enum wT {
+    Monday, Tuesday, Wednesday, Tursday, Friday, Saturday, Sunday
+   }; //声明枚举类型
+   wT weekday; //定义枚举变量
+   ```
+### 结构体和联合体
+1. `struct`定义结构体
+   各成员各自拥有自己的内存，各自使用互不干涉，同时存在的，遵循内存对齐原则。一个struct变量的总长度等于所有成员的长度之和。
+   ```cpp
+   struct Student 
+   {
+      char name[6];
+      int age;
+      Score s;
+   };
+   ```
+2. `union`定义联合体
+   各成员共用一块内存空间，并且同时只有一个成员可以得到这块内存的使用权(对该内存的读写)，各变量共用一个内存首地址。
+   联合体的内存大小：1、至少要容纳最大的成员变量 2、必须是所有成员变量类型大小的整数倍
+   ```cpp
+   union Score
+   {
+    double sc;
+    char level;
+   }
+   ```
+**结构体中内存对齐问题**：综合考虑内存对数据的处理及最大的数据类型所占字节
+   缺省对齐原则：
+   32位cpu：
+   - char: 任何地址
+   - short: 偶数地址
+   - int: 4的整数倍地址
+   - double： 4的整数倍地址
+  可以修改默认编译选项,设置内存按n字节寻址
+  ```cpp
+  //Visual C++：
+  #pragma pack(n)
+
+  //g++:
+  __attribute__(aligned(n))
+  __attribute__(__packed__)
+  ```
+### 循环语句
+1. while循环
+2. do while循环
+3. for循环
+
+### 函数
