@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">5.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">18 分钟</span>
+            <span class="post-count">20 分钟</span>
         </span>
     </span>
 </div>
@@ -148,7 +148,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
+<h2 id="第二章-C-基础语法"><a href="#第二章-C-基础语法" class="headerlink" title="第二章 C++基础语法"></a>第二章 C++基础语法</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
 <thead>
 <tr>
 <th align="left">类型</th>
@@ -372,7 +372,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><p><strong>运算符</strong>：告诉编译器执行特定数学或逻辑操作的符号。（算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、杂项运算符）</p>
+<h2 id="第三章-C-运算符与表达式"><a href="#第三章-C-运算符与表达式" class="headerlink" title="第三章 C++运算符与表达式"></a>第三章 C++运算符与表达式</h2><p><strong>运算符</strong>：告诉编译器执行特定数学或逻辑操作的符号。（算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、杂项运算符）</p>
 <p><strong>表达式</strong>：使用运算符将操作数连接而成的式子，每一个表达式都有自己的值，表达式都有运算结果</p>
 <p><strong>注释的建议</strong>：</p>
 <ol>
@@ -382,7 +382,7 @@
 </ol>
 <p><strong>补码</strong>：<br>  有符号数另一种计算方式：<img src="https://git.poker/konsin/images/blob/main/image.7ka0cc9pftg0.jpg?raw=true" alt="image"><br>  常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1</p>
 <p><strong>大端方式</strong> 数字高位在低地址<br><strong>小段方式</strong> 数字低位在低地址</p>
-<h2 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
+<h2 id="第四章-C-基础容器"><a href="#第四章-C-基础容器" class="headerlink" title="第四章 C++基础容器"></a>第四章 C++基础容器</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
 <ol>
 <li>通过下下标可以直接访问任意一个元素</li>
 <li>下标从0开始到元素个数减一为止</li>
@@ -547,7 +547,46 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>do while循环</li>
 <li>for循环</li>
 </ol>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3> 
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>函数将一段逻辑封装起来便于复用。一个C++程序是由若干个源程序文件构成，而一个源程序是由若干函数构成。</p>
+<ol>
+<li>函数组成部分：<ul>
+<li>返回类型：一个函数可以返回一个值。</li>
+<li>函数名称：是函数的实际名称，函数名和参数列表一起构成了函数签名。(SDK提供的<code>undname.exe</code>程序的作用就是为我们还原函数签名。)</li>
+<li>参数</li>
+<li>函数主体：函数主题包含一组定义函数执行任务的语句。</li>
+</ul>
+</li>
+<li>函数重载overload 与C++ Name Mangling：相同函数名称然后不同参数则是不同的函数。<br><code>int test(int a);</code>、<code>int test(double a);</code></li>
+<li>指向函数的指针与返回指针的函数<br>每一个函数都占用一段内存单元，它们有一个起始地址，指向函数入口地址的指针称为函数指针。</li>
+</ol>
+<ul>
+<li>一般形式：数据类型(*指针变量名)(参数表)； 如<code>int(*p)(int);</code></li>
+<li>与返回指针的函数之间的区别：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span>(*p)(<span class="type">int</span>); <span class="comment">//是指针，指向一个函数入口地址</span></span><br><span class="line"><span class="function"><span class="type">int</span>* <span class="title">p</span><span class="params">(<span class="type">int</span>)</span></span>;  <span class="comment">//是函数，返回的值是一个指针</span></span><br></pre></td></tr></table></figure>
+<h3 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h3>命名空间这个概念可作为附加信息来区分不同库中相同名称的函数、类、变量等，命名空间即定义了上下文。<br>本质上，命名空间就是定义了一个范围。</li>
+<li>定义命名空间<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> konsin</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">test</span><span class="params">(<span class="type">int</span> a)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>使用命名空间，可以再函数内声明这个函数使用的命名空间，也可以全局<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> konsin; <span class="comment">//使用命名空间内所有的函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> konsin::test; <span class="comment">//使用命名空间内的test函数</span></span><br><span class="line"></span><br><span class="line">konsin::<span class="built_in">test</span>(a);  <span class="comment">//直接调用命名空间内的test函数</span></span><br></pre></td></tr></table></figure>
+<h3 id="内联函数（inline）"><a href="#内联函数（inline）" class="headerlink" title="内联函数（inline）"></a>内联函数（inline）</h3>如果一个函数是内联的，那么在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方。<br>目的是为了解决程序中函数调用的效率问题。（空间换时间）<br>注意：内联函数内部不能有太复杂的逻辑，编译器有事会有自己的优化策略，内联不一定起作用。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">test</span><span class="params">()</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3>递归背后的数学逻辑是数学归纳法。</li>
+</ul>
+<p>递归四个基本准则：</p>
+<ol>
+<li>基准情形：无需递归就能解出；</li>
+<li>不断推进：每一次递归调用都必须使求解状况朝接近基准情形的方向推进；</li>
+<li>设计法则：假设所有的递归调用都能运行；</li>
+<li>合成效益法则：求解一个问题的同一个实例时，切勿在不同递归调用中做重复性工作。</li>
+</ol>
+<p>递归的缺陷:</p>
+<ol>
+<li>空间上需要开辟大量的栈空间。</li>
+<li>时间上可能需要有大量的重复运算。</li>
+</ol>
+<p>递归的优化：</p>
+<ol>
+<li>尾递归：所有递归形式的调用都出现在函数的末尾；</li>
+<li>使用循环代替</li>
+<li>使用动态规划，空间换时间。</li>
+</ol>
+<h2 id="第七章-C-高级语法"><a href="#第七章-C-高级语法" class="headerlink" title="第七章 C++高级语法"></a>第七章 C++高级语法</h2> 
       <!-- reward -->
       
     </div>
