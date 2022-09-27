@@ -490,5 +490,108 @@ inline int test(){};
 3. 使用动态规划，空间换时间。
   
 ## 第七章 C++高级语法
+面向对象三大特性：抽象，封装，继承。
+### 面向对象的误区
+1. 对象是对现实世界中具体物体的反映，继承是对物体分类的反映？
+   错，类只是一个概念的抽象，而不是对现实世界的反映。
 
+### 类
+C++使用struct、class来定义一个类，struct的默认成员权限是public，class的默认成员权限是private。
+成员权限有：public、protected、private。
+1. 构造类Complex `class Complex{}`
+2. 构造函数：定义方法`Complex();`,不需要指定返回值类型。在实例化类对象时会自动调用构造函数创建类对象。系统会自动生成一个无参数的默认构造函数，而手动创建有参数的构造函数之后，则系统不会再去创建默认构造函数，会引起部分情况下错误。因此如果手动创建了构造函数，则也需要手动定义无参数的构造函数。
+3. 析构函数：定义方法`virtual ~Complex();`，不需要指定返回值类型。在销毁对象时自动调用。
+4. 运算符重载：
+   - 加、减、乘、除符号重载声明：
+   ```cpp 
+    Complex operator+ (const Complex& x) {
+      return Complex(ref + x.ref);
+    }
+    ```
+   - 等号重载声明
+    ```cpp
+    Complex& operator= (const Complex& c) {
+	    if (this != &c) {
+        ref = c.ref;
+	    }
+	    return *this;
+    };
+    ```
+     - ++、--重载
+     ```cpp
+    Complex& Complex::operator++ () {
+     	ref++;
+     	return *this;
+    }
 
+    Complex Complex::operator++ (int) {
+     	return Complex(ref++);
+    }
+     ``` 
+    - <<、>>流运算符重载。
+    标准流无法直接访问类的private属性，此时可以采用友元来解决。
+      - 友元函数：在定义一个类的时候，可以把一些函数（包括全局函数和其他类的成员函数）声明为“友元”，这样那些函数就成为该类的友元函数，在友元函数内部就可以访问该类对象的私有成员了。
+      - 友元类：一个类 A 可以将另一个类 B 声明为自己的友元，类 B 的所有成员函数就都可以访问类 A 对象的私有成员。
+
+    ```cpp
+    friend ostream& operator<<(ostream& os, const Complex &x) {
+     	os << "value is  " << x.ref;
+     	return os;
+    }
+
+    friend istream& operator >> (istream& is, Complex &x) {
+     	is >> x.ref;
+     	return is;
+     }
+    ```
+### IO流
+1. C和C++中I/O流对比：
+   传统的C中I/O有printf、scanf等函数：
+   1. 不可编程，仅仅能识别固有的数据类型
+   2. 代码可移植性差，有很多的坑。
+   C++中I/O流istream和ostream等：
+   1. 可编程，对于类库的设计者来说很有用。
+   2. 简化编程，能使得I/O的风格一致。
+
+2. C++中I/O流类层次结构图
+|类名|作用|在哪个头文件中声明|
+|:-|:-|:-|
+|ios|抽象基类|iostream|
+||||
+|istream|通用输入流和其他输入流的基类|iostream|
+|ostream|通用输出流和其他输出流的基类|iostream|
+ ||通用输入||
+|iostream |输出流和其他输入输出流的基类|iostream|
+||||
+|ifstream|输入文件流类|fstream|              
+|ofstream|输出文件流类|fstream| 
+|fstream|输入输出文件流类|fstream|
+||||
+|istrstream|输入字符串流类|strstream|
+|ostrstream|输出字符串流类|strstream|
+|strstream|输入输出字符串流类|strstream|
+3. IO缓存区
+   标准IO提供三种类型的缓存模式：
+      1. 按块缓存：如文件系统
+      2. 按行缓存：\n
+      3. 不缓存。
+### 文件操作
+1. 文件操作步骤
+   1. 打开文件用于读和写 open；
+      文件打开方式：
+      - ios::in 打开文件进行读操作（ifstream默认模式）
+      - ios::out 打开文件进行写操作（ofstream默认模式）
+      - ios::ate 打开一个已有输入或输出文件并查找到文件尾
+      - ios::app 打开文件以便再文件尾部添加数据
+      - ios::nocreate 如果文件不存在则打开失败
+      - ios::trunc 如果文件存在，清除文件原有内容
+      - ios::binary 以二进制方式打开  
+      `fstrream f;`、 `f.open("x.text", ios::app | ios::binary);`。
+   2. 检查打开是否成功 fail；
+      `if(!f)` 或者 `if(f.fail)`
+   3. 读或者写 read，write；
+      `streamsize count = f.gcount();`获取读取到数据大小 。
+   4. 检查是否读完 EOF (end of file)；
+      `while (!f.eof())`
+   5. 使用完文件后关闭文件 close;
+      `f.close();`
