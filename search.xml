@@ -1769,7 +1769,150 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>使用循环代替</li>
 <li>使用动态规划，空间换时间。</li>
 </ol>
-<h2 id="第七章-C-高级语法"><a href="#第七章-C-高级语法" class="headerlink" title="第七章 C++高级语法"></a>第七章 C++高级语法</h2>]]></content>
+<h2 id="第七章-C-高级语法"><a href="#第七章-C-高级语法" class="headerlink" title="第七章 C++高级语法"></a>第七章 C++高级语法</h2><p>面向对象三大特性：抽象，封装，继承。</p>
+<h3 id="面向对象的误区"><a href="#面向对象的误区" class="headerlink" title="面向对象的误区"></a>面向对象的误区</h3><ol>
+<li>对象是对现实世界中具体物体的反映，继承是对物体分类的反映？<br>错，类只是一个概念的抽象，而不是对现实世界的反映。</li>
+</ol>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>C++使用struct、class来定义一个类，struct的默认成员权限是public，class的默认成员权限是private。<br>成员权限有：public、protected、private。</p>
+<ol>
+<li><p>构造类Complex <code>class Complex&#123;&#125;</code></p>
+</li>
+<li><p>构造函数：定义方法<code>Complex();</code>,不需要指定返回值类型。在实例化类对象时会自动调用构造函数创建类对象。系统会自动生成一个无参数的默认构造函数，而手动创建有参数的构造函数之后，则系统不会再去创建默认构造函数，会引起部分情况下错误。因此如果手动创建了构造函数，则也需要手动定义无参数的构造函数。</p>
+</li>
+<li><p>析构函数：定义方法<code>virtual ~Complex();</code>，不需要指定返回值类型。在销毁对象时自动调用。</p>
+</li>
+<li><p>运算符重载：</p>
+<ul>
+<li>加、减、乘、除符号重载声明：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Complex <span class="keyword">operator</span>+ (<span class="type">const</span> Complex&amp; x) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Complex</span>(ref + x.ref);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>等号重载声明<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Complex&amp; <span class="keyword">operator</span>= (<span class="type">const</span> Complex&amp; c) &#123;</span><br><span class="line"> <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;c) &#123;</span><br><span class="line">    ref = c.ref;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>++、–重载<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Complex&amp; Complex::<span class="keyword">operator</span>++ () &#123;</span><br><span class="line"> 	ref++;</span><br><span class="line"> 	<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Complex Complex::<span class="keyword">operator</span>++ (<span class="type">int</span>) &#123;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="built_in">Complex</span>(ref++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>&lt;&lt;、&gt;&gt;流运算符重载。<br>标准流无法直接访问类的private属性，此时可以采用友元来解决。<ul>
+<li>友元函数：在定义一个类的时候，可以把一些函数（包括全局函数和其他类的成员函数）声明为“友元”，这样那些函数就成为该类的友元函数，在友元函数内部就可以访问该类对象的私有成员了。</li>
+<li>友元类：一个类 A 可以将另一个类 B 声明为自己的友元，类 B 的所有成员函数就都可以访问类 A 对象的私有成员。</li>
+</ul>
+</li>
+</ul>
+ <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, <span class="type">const</span> Complex &amp;x) &#123;</span><br><span class="line"> 	os &lt;&lt; <span class="string">&quot;value is  &quot;</span> &lt;&lt; x.ref;</span><br><span class="line"> 	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">friend</span> istream&amp; <span class="keyword">operator</span> &gt;&gt; (istream&amp; is, Complex &amp;x) &#123;</span><br><span class="line"> 	is &gt;&gt; x.ref;</span><br><span class="line"> 	<span class="keyword">return</span> is;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h3></li>
+<li><p>C和C++中I/O流对比：<br>传统的C中I/O有printf、scanf等函数：</p>
+<ol>
+<li>不可编程，仅仅能识别固有的数据类型</li>
+<li>代码可移植性差，有很多的坑。<br>C++中I/O流istream和ostream等：</li>
+<li>可编程，对于类库的设计者来说很有用。</li>
+<li>简化编程，能使得I/O的风格一致。</li>
+</ol>
+</li>
+<li><p>C++中I/O流类层次结构图</p>
+<table>
+<thead>
+<tr>
+<th align="left">类名</th>
+<th align="left">作用</th>
+<th align="left">在哪个头文件中声明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ios</td>
+<td align="left">抽象基类</td>
+<td align="left">iostream</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">istream</td>
+<td align="left">通用输入流和其他输入流的基类</td>
+<td align="left">iostream</td>
+</tr>
+<tr>
+<td align="left">ostream</td>
+<td align="left">通用输出流和其他输出流的基类</td>
+<td align="left">iostream</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">通用输入</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">iostream</td>
+<td align="left">输出流和其他输入输出流的基类</td>
+<td align="left">iostream</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">ifstream</td>
+<td align="left">输入文件流类</td>
+<td align="left">fstream</td>
+</tr>
+<tr>
+<td align="left">ofstream</td>
+<td align="left">输出文件流类</td>
+<td align="left">fstream</td>
+</tr>
+<tr>
+<td align="left">fstream</td>
+<td align="left">输入输出文件流类</td>
+<td align="left">fstream</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">istrstream</td>
+<td align="left">输入字符串流类</td>
+<td align="left">strstream</td>
+</tr>
+<tr>
+<td align="left">ostrstream</td>
+<td align="left">输出字符串流类</td>
+<td align="left">strstream</td>
+</tr>
+<tr>
+<td align="left">strstream</td>
+<td align="left">输入输出字符串流类</td>
+<td align="left">strstream</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>IO缓存区<br>标准IO提供三种类型的缓存模式：</p>
+<ol>
+<li>按块缓存：如文件系统</li>
+<li>按行缓存：\n</li>
+<li>不缓存。<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3></li>
+</ol>
+</li>
+<li><p>文件操作步骤</p>
+<ol>
+<li>打开文件用于读和写 open；<br>文件打开方式：<ul>
+<li>ios::in 打开文件进行读操作（ifstream默认模式）</li>
+<li>ios::out 打开文件进行写操作（ofstream默认模式）</li>
+<li>ios::ate 打开一个已有输入或输出文件并查找到文件尾</li>
+<li>ios::app 打开文件以便再文件尾部添加数据</li>
+<li>ios::nocreate 如果文件不存在则打开失败</li>
+<li>ios::trunc 如果文件存在，清除文件原有内容</li>
+<li>ios::binary 以二进制方式打开<br><code>fstrream f;</code>、 <code>f.open(&quot;x.text&quot;, ios::app | ios::binary);</code>。</li>
+</ul>
+</li>
+<li>检查打开是否成功 fail；<br><code>if(!f)</code> 或者 <code>if(f.fail)</code></li>
+<li>读或者写 read，write；<br><code>streamsize count = f.gcount();</code>获取读取到数据大小 。</li>
+<li>检查是否读完 EOF (end of file)；<br><code>while (!f.eof())</code></li>
+<li>使用完文件后关闭文件 close;<br><code>f.close();</code></li>
+</ol>
+</li>
+</ol>
+]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
