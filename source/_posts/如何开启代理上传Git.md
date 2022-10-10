@@ -13,7 +13,7 @@ tags:
 
 先开启Clash的系统代理`System Proxy`
 
-![image-20220711180300486](https://cdn.jsdelivr.net/gh/konsin/images@main/202207111803521.png)
+![image-20220711180300486](https://cdn.staticaly.com/gh/konsin/images@main/202207111803521.png)
 
 然后再终端执行如下代码开启代理
 

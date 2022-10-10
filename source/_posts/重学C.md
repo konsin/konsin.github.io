@@ -627,4 +627,46 @@ C++使用struct、class来定义一个类，struct的默认成员权限是public
 浅拷贝：只拷贝指针地址，C++默认拷贝构造函数与赋值运算符重载都是浅拷贝。节省空间，但容易引发多次释放。
 深拷贝：**重新分配堆内存**，拷贝指针指向内容。浪费空间，但不会导致多次释放。
 
-## 第八章 C++编程思想
+## 第八章 C++编程思想9
+### 软件的设计模式
+一个模式描述了一个不断发生的问题及这个问题的解决方案；模式是前人的设计经验上总结出来的对于一些普遍存在的问题提供的通用解决方案。
+23种面向对象可复用设计模式。
+1. **单例模式**
+整个程序中有且只有一个实例。便于访问控制和维护。
+
+实现思路：
+      1. Singleton拥有一个私有构造函数，确保用户无法通过new直接实例它；
+      2. 包含一个静态私有成员变量`instance`与静态公有方法`instance()`；
+   
+实现样例：
+```cpp
+class Singleton
+{
+public:
+	static const Singleton* getInstance()
+   {
+   	if (!This)
+   	{
+   		This = new Singleton;
+   	}
+   	return This;
+   };
+	static void DoSomething()
+	{
+		cout << "Do Something" << endl;
+	}
+// 将构造和析构函数私有化，防止外部访问
+private:
+	Singleton();
+	~Singleton();
+
+	static Singleton* This; // 使用静态变量帮助解决资源的分配和释放
+};
+```
+调用方法其中的DoSomething()方法：`Singleton::getInstance()->DoSomething();`
+不能实例化后再调用，而是通过提供的getInstance方法获取实例。
+
+2. **观察者模式**
+观察者模式中，观察者需要直接订阅目标事件；在目标发出内容改变事件后，直接接收事件并作出响应，对象常是一对多的关系。 常用于各种MVC框架中，Model的变化通知View。
+
+实现思路：将问题的职责解耦合，将Observable和Observer抽象开，分清抽象和实体。
