@@ -670,3 +670,242 @@ private:
 观察者模式中，观察者需要直接订阅目标事件；在目标发出内容改变事件后，直接接收事件并作出响应，对象常是一对多的关系。 常用于各种MVC框架中，Model的变化通知View。
 
 实现思路：将问题的职责解耦合，将Observable和Observer抽象开，分清抽象和实体。
+![image](https://cdn.staticaly.com/gh/konsin/images@main/image.619ssrb6vm80.webp)
+
+在设计观察者模式时要注意以下几点：
+- 要明确谁是观察者，谁是被观察者。明白了关注对象，问题也就清楚了；
+- Observable在发送广播通知时，无须指定具体的Observer，观察者可以自己决定是否要订阅Observable的通知；
+- 被观察者至少有三个方法： 添加监听者、删除监听者和通知监听者；观察者至少有一个方法：更新方法。
+观察者模式的应用场景如下：
+- 一个对象的数据或状态更新需要其它对象同步更新时；
+- 系统存在事件多级触发时；
+- 一个对象仅需要将自己的更新通知给其它对象而不需要知道其它对象细节时，如消息推送；
+- 跨系统的消息交换场景，如通信过程中的消息队列处理机制。
+
+Observer抽象类定义，具体实现由其继承子类实现：
+```cpp
+#pragma once
+
+# ifndef OBSEVER_H_1
+# define OBSEVER_H_1
+class Observer
+{
+public:
+	Observer() { ; }
+	virtual ~Observer() { ; }
+
+	// 当被观察对象发生变化时，通知被观察者调用这个方法
+	virtual void Update(void* pArg) = 0;
+};
+# endif
+```
+Observable类定义：
+```cpp
+#pragma once
+
+class Observer;
+
+#include <string>
+#include <list>
+using namespace std;
+class Observerable
+{
+public:
+	Observerable();
+	virtual ~Observerable();
+
+	// 注册观察者
+	void Attach(Observer* pOb);
+	// 反注册观察者
+	void Detach(Observer* pOb);
+
+	virtual void GetSomeNews(string str)
+	{
+		SetChange(str);
+	}
+protected:
+	void  SetChange(string news);   // 有变化，需要通知
+
+private:
+	void Notify(void* pArg);
+
+private:
+	bool _bChange;
+	list<Observer*> _Obs;
+};
+```
+Obseverable类实现
+```cpp
+#include "Observerable.h"
+
+
+Observerable::Observerable():_bChange(false)
+{
+}
+
+
+Observerable::~Observerable()
+{
+}
+
+
+// 注册观察者
+void Observerable::Attach(Observer* pOb)
+{
+	if (pOb == NULL)
+	{
+		return;
+	}
+	// 看看当前列表中是否有这个观察者
+	auto it = _Obs.begin();
+	for (; it != _Obs.end(); it++)
+	{
+		if (*it == pOb)
+		{
+			return;
+		}
+	}
+
+	_Obs.push_back(pOb);
+}
+// 反注册观察者
+void Observerable::Detach(Observer* pOb)
+{
+	if ((pOb == NULL) || (_Obs.empty() == true))
+	{
+		return;
+	}
+
+	_Obs.remove(pOb);
+}
+
+void Observerable::SetChange(string news)
+{
+	_bChange = true;
+
+	Notify( ( (void*)news.c_str() ));
+}
+
+
+void Observerable::Notify(void* pArg)
+{
+	if (_bChange == false)
+	{
+		return;
+	}
+
+	// 看看当前列表中是否有这个观察者
+	auto it = _Obs.begin();
+	for (; it != _Obs.end(); it++)
+	{
+		(*it)->Update(pArg);
+	}
+
+	_bChange = false;
+}
+```
+3. 适配器模式（Adapter）
+适配器将类接口转换为客户端期望的另一个接口。使用适配器可防止类由于接口不兼容而一起工作。适配器模式的动机是，如果可以更改接口，则可以重用现有软件。
+- 第一种适配的方式：**使用多重继承**。
+```cpp
+class LegacyRectangle
+{
+public:
+	LegacyRectangle(double x1, double y1, double x2, double y2) { ... }
+
+	void LegacyDraw() { ... }
+
+private:
+	...
+};
+
+class Rectangle
+{
+public:
+	virtual void Draw(string str) = 0;
+};
+
+class RectangleAdapter: public Rectangle, public LegacyRectangle
+{
+public:
+	RectangleAdapter(double x, double y, double w, double h) :
+		LegacyRectangle(x, y, x + w, y + h)
+	{
+		...
+	}
+
+	virtual void Draw(string str)
+	{
+		LegacyDraw();
+	}
+};
+```
+- 第二种方式：组合方式的Adapter
+```cpp
+
+class RectangleAdapter :public Rectangle
+{
+public:
+	RectangleAdapter2(double x, double y, double w, double h) :
+		_lRect(x, y, x + w, y + h)
+	{
+		...
+	}
+
+	virtual void Draw(string str)
+	{
+		_lRect.LegacyDraw();
+	}
+private:
+	LegacyRectangle _lRect;
+};
+```
+
+
+### 类型转换
+**`void*`,NULL 和 nullptr**
+   在C语言中 `#define NULL((void*) 0)`，`void*` 可以转换为任意类型的指针进行传递。
+   在C++11中，nullptr用来代替`(void*) 0`，NULL则只表示0。当然如果创建指针时使用NULL，此时NULL则代表空指针。
+
+   C类型转换：
+   1. 隐式类型转换: 存在丢失精度的问题。
+   2. 显式类型转换：(类型)(表达式)
+   
+   C++类型转换：
+   1. const_cast：用于转换指针或引用，去掉const属性。int a = const_cast<int>(b);
+   2. reinterpret_cast: 重新解释类型，既不检查指向内容，也不检查指针类型本身。但要求转换前后的类型所占用内存大小一致，否则引发编译时的错误。**不安全的**
+   3. static_cast: 用于基本类型转换，有继承关系类对象和类指针之间转换。可以替换C的显式类型转换。不会产生动态转换的类型安全检查开销。`static_cast<double>(i);`
+   4. dynamic_cast：只能用于含有虚函数的类，必须用在多态体系中，用于类层次间的向上和向下转化；向下转化时，如果是非法的，对于指针返回NULL。（防止向下转换）
+
+### 泛型编程
+不同于面向对象的动态期多态，泛型编程是一种静态期多态，通过编译器生成最直接的代码；
+泛型编程可以将算法与特定类型、结构剥离，尽可能复用代码。
+使用模板类，模板函数实现，`template`关键字。
+1. 模板函数示例
+   ```cpp
+   template<class T>
+   T max(T a, T b)
+   {
+   	return a > b ? a:b;
+   }
+   ```
+   对于某一数据类型的特例，可以采用特化的方法。
+   ```cpp
+   template<>
+   char* max(char* a, char* b)
+   {
+   	return (strcmp(a, b) > 0 ?  (a) : (b));
+   }
+   ```
+   对于模板函数参数不一致的情况，或者固定的返回值情况。
+   ```cpp
+   template<class T1, class T2>
+   int max(T1 a, T2 b)
+   {
+   	return static_cast<int>(a > b ? a : b);
+   }
+   ```
+   
+
+
+
