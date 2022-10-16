@@ -877,7 +877,7 @@ private:
    3. static_cast: 用于基本类型转换，有继承关系类对象和类指针之间转换。可以替换C的显式类型转换。不会产生动态转换的类型安全检查开销。`static_cast<double>(i);`
    4. dynamic_cast：只能用于含有虚函数的类，必须用在多态体系中，用于类层次间的向上和向下转化；向下转化时，如果是非法的，对于指针返回NULL。（防止向下转换）
 
-### 泛型编程
+### 泛型编程（模板）
 不同于面向对象的动态期多态，泛型编程是一种静态期多态，通过编译器生成最直接的代码；
 泛型编程可以将算法与特定类型、结构剥离，尽可能复用代码。
 使用模板类，模板函数实现，`template`关键字。
@@ -905,7 +905,136 @@ private:
    	return static_cast<int>(a > b ? a : b);
    }
    ```
-   
+2. 模板类示例
+   在函数后面加 `:_a(a)`代表赋值操作，等同于在函数内`_a = a;`
+   ```cpp
+   template <class T>
+   class TC
+   {
+   public:
+   	TC(T a, T b,  T c);
+
+   	T Min()
+   	{
+   	T minab = _a < _b ? _a : _b;
+   	return minab < _c ? minab : _c;
+   	};
+
+   private:
+   	T _a, _b, _c;
+   };
+
+   template<class T>
+   TC<T>::TC(T a, T b, T c):
+   	_a(a), _b(b), _c(c)
+   {
+       ;
+   }
+   ```
+## 第九章 C++进阶
+### STL算法
+STL算法是泛型的，不与任何特定的数据结构和对象绑定，不必在环境类似的情况下重写代码。
+STL算法可以量身定做，并具有很高的效率。
+STL可以进行扩充，你可以编写自己的组件，并能与STL标准的组件进行很好的配合。
+#### STL容器
+序列式容器（Sequence Containers）：其中的元素都是可排序的(ordered),STL提供了`vector`, `list`,`deque`等序列式容器,而`stack`, `queue`, `priority_queue`则是容器适配器;
+关联式容器(Associative Containers)：每个数据元素都是由一个键(key)和值(Value)组成，当元素被插入到容器时，按其键以某种特定规则放入适当位置;常见的STL关联容器如: `set`, `multiset`, `map`, `multimap`;
+
+- STL函数 `for_each`：具有三个参数，（迭代起始位置，迭代终止位置，函数）
+  STL源码：
+  ```cpp
+  template <class _InIt, class _Fn>
+  _CONSTEXPR20 _Fn for_each(_InIt _First, _InIt _Last, _Fn _Func) { // perform function for each element [_First, _Last)
+      _Adl_verify_range(_First, _Last);
+      auto _UFirst      = _Get_unwrapped(_First);
+      const auto _ULast = _Get_unwrapped(_Last);
+      for (; _UFirst != _ULast; ++_UFirst) {
+          _Func(*_UFirst);
+      }
+
+      return _Func;
+  }
+   ```
+   使用方式：
+   ```cpp
+   struct Display //定义仿函数,可以通过构造函数的方法传入参数。
+  {
+  	void operator()(int i) //重载了括号运算符，等同于直接定义Display函数
+  	{
+  		cout << i << " ";
+  	}
+  };
+  for_each( iVector.begin(), iVector.end(), Display() ); //调用方式
+   ```
+- map使用
+  - 定义及插入方式
+  ```cpp
+   #include<map>
+   map<string, double> studentSocres;
+   studentSocres["LiMing"] = 95.0;
+   studentSocres.insert( pair<string, double>("zhangsan", 100.0) );
+   studentSocres.insert(map<string, double>::value_type("zhaoliu", 95.5) );
+  ```
+  - 遍历方式，查询方式
+  ```cpp
+   map<string, double>::iterator iter;
+   iter = studentSocres.find("zhaoliu");
+   iter->first;   iter->second;
+   for_each(studentSocres.begin(), studentSocres.end(), Display());
+   for (iter = studentSocres.begin(); iter != studentSocres.end(); iter++);
+  ```
+### 仿函数（functor）
+仿函数主要是为了搭配STL算法使用。
+函数指针不能满足STL对抽象性的要求，不能满足软件积木的要求，无法和STL其他组件搭配。
+本质是类重载了一个operator()，创建了一个行为类似函数的对象。看上文`Display`结构体.
+```cpp
+// C++仿函数模板
+template<class T>
+struct SortTF
+{
+	bool operator() (T const& a, T const& b) const
+	{
+		return a < b;
+	}
+};
+```
+### STL算法和lambda表达式
+常见算法包括：查找、排序和通用算法、排列组合算法、数值算法、集合算法等。STL算法包含于\<algorithm\>、\<numeric\>、\<functional\>。分为：
+1. 非可变序列算法:指不直接修改其所操作的容器内容的算法;
+2. 可变序列算法:指可以修改它们所操作的容器内容的算法;
+3. 排序算法:包括对序列进行排序和合并的算法、搜索算法以及有序序列上的集合操作;
+4. 数值算法:对容器内容进行数值计算;
+
+**transform()** 可以将函数应用到序列的元素上，并将这个函数返回的值保存到另一个序列中，它返回的迭代器指向输出序列所保存的最后一个元素的下一个位置。
+1. 版本一和 for_each() 相似，可以将一个一元函数应用到元素序列上来改变它们的值
+2. 第二个版本的 transform() 允许将二元函数应用到两个序列相应的元素上。
+   1. 一元函数使用方式
+      共有四个参数：它的前两个参数是定义输入序列的输入迭代器，第 3 个参数是目的位置的第一个元素的输出迭代器，第 4 个参数是一个二元函数。
+      
+      例： `transform(begin(deg_C), end(deg_C), rbegin(deg_F),[](double temp){ return 32.0 + 9.0*temp/5.0; });` 
+      将函数处理后的deg_C数值保存在deg_F中
+
+   2. 二元函数使用方式
+      应用二元函数的这个版本的 transform() 含有 5 个参数：
+      前两个参数是第一个输入序列的输入迭代器。
+      第3个参数是第二个输入序列的开始迭代器，显然，这个序列必须至少包含和第一个输入序列同样多的元素。
+      第4个参数是一个序列的输出迭代器，它所指向的是用来保存应用函数后得到的结果的序列的开始迭代器。
+      第5个参数是一个函数对象，它定义了一个接受两个参数的函数，这个函数接受来自两个输入序列中的元素作为参数，返回一个可以保存在输出序列中的值。
+     
+      例：`transform(ones, ones + 5, twos, results, std::plus<int>());` 将one和tow的值相加保存在results中。
+
+**lambda表达式**：定义了一个匿名函数，并且可以捕获一定范围内的变量。
+格式为`[ capture ] ( params ) opt -> ret { body; };`，示例：
+```cpp
+[ ](int a)->void {
+		cout << a << endl; }
+```
+
+
+
+
+
+
 
 
 
