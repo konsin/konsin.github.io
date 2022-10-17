@@ -1029,9 +1029,41 @@ struct SortTF
 [ ](int a)->void {
 		cout << a << endl; }
 ```
+**bind方法绑定参数**
+在C++14中lambda支持多态，完全可以不用bind方法了。
+`#include <functional>`
+`bind1st()`和`bind2nd()`都是把二元函数转化为一元函数，方法是绑定其中一个参数。
+`bind1st()`是绑定第一个参数。`bind2nd()`是绑定第二个参数。
 
+`bind()`方法：可以绑定任意个参数`bind (Fn&& fn, Args&&... args);`具体使用见下文`count_if`
+`std::placeholders::_1` 占位符位于std命名空间的placeholders命名空间中。其中_1, _2, _3是未指定的数字对象，用于function的bind中。 _1用于代替回调函数中的第一个参数， _2用于代替回调函数中的第二个参数。
+```cpp
+int TestFunc(int a, char c, float f)
+auto bindFunc3 = bind(TestFunc, std::placeholders::_2, std::placeholders::_3, std::placeholders::_1);
+bindFunc3(100.1, 30, 'C');
+```
+在bind的时候，第一个位置是TestFunc，除了这个，参数的第一个位置为占位符std::placeholders::_2，这就表示，调用bindFunc3的时候，它的第二个参数和TestFunc的第一个参数匹配，以此类推。
 
+**查找函数**
+`count`函数查找元素并返回个数。`count(begin, end, num)`
+`count_if`:可加条件判断。 `count_if(numbers, numbers + 6, bind(less<int>(), std::placeholders::_1, 40));`
+`binary_search`二分查找：查找元素是否存在。`binary_search(arr, arr + len, 9)`
+`search`查找子序列：`*search(arr, arr + len, iA.begin(), iA.end())` 前两个参数指定序列，后两个参数指定子序列。返回一个地址，间接引用得到下标。
 
+### 迭代器（iterator）
+迭代器本质上是一种smater pointer，用于访问顺序容器和关联容器中的元素，相当于容器和操作容器算法之间的中介。
+按定义方式分类：1. 正向迭代器(iterator); 2. 常量正向迭代器(const_iterator); 3. 反向迭代器(reverse_iterator); 4. 常量反向迭代器(const_reverse_iterator)
+|容器|迭代器功能|
+|:-|:-|
+|vector|随机访问|
+|deque|随机访问|
+|list|双向访问|
+|set/multiset|双向访问|
+|map/multimap|双向访问|
+|stack|不支持迭代器|
+|queue|不支持迭代器|
+|priority_queue|不支持迭代器|
+使用示例：`for (vector<int>:: iteratorit = v.begin(); it != v.end(); it++)`。迭代器不支持`<`、`>`
 
 
 
