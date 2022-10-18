@@ -586,6 +586,21 @@ C++使用struct、class来定义一个类，struct的默认成员权限是public
       1. 按块缓存：如文件系统
       2. 按行缓存：\n
       3. 不缓存。
+4. IO流的奇技淫巧
+   使用IO流可以灵活的转换字符串为数或数转为字符串。
+   ```cpp
+   #include <string>       // std::string
+   #include <iostream>     // std::cout
+   #include <sstream>      // std::stringstream
+    
+   int main () {
+     std::stringstream ss;
+     ss << 100;
+     int foo,bar;
+     ss >> foo;
+     std::cout << "foo: " << foo << '\n';   
+     return 0;
+   ```
 ### 文件操作
 1. 文件操作步骤
    1. 打开文件用于读和写 open；
@@ -984,6 +999,7 @@ STL可以进行扩充，你可以编写自己的组件，并能与STL标准的�
    for (iter = studentSocres.begin(); iter != studentSocres.end(); iter++);
   ```
 ### 仿函数（functor）
+STL仿函数在\<functional\>头文件内。
 仿函数主要是为了搭配STL算法使用。
 函数指针不能满足STL对抽象性的要求，不能满足软件积木的要求，无法和STL其他组件搭配。
 本质是类重载了一个operator()，创建了一个行为类似函数的对象。看上文`Display`结构体.
@@ -1065,6 +1081,25 @@ bindFunc3(100.1, 30, 'C');
 |priority_queue|不支持迭代器|
 使用示例：`for (vector<int>:: iteratorit = v.begin(); it != v.end(); it++)`。迭代器不支持`<`、`>`
 
+### 适配器(adapter)
+1. stack 堆栈：一种”先进后出”的容器，底层数据结构是使用的deque;
+2. queue 队列：一种”先进先出”的容器，底层数据结构是使用的deque;
+3. priority_queue 优先队列：一种特殊的队列，它能够在队列中进行排序(堆排序)，底层实现结构是vector或者deque;
+```cpp
+priority_queue<int> pq;  // 默认是最大值优先
+priority_queue<int, vector<int>, greater<int> > pq3; // 最小值优先
+```
+
+### 空间配置器(allocator)
+allocator隐藏在其他组件中默默工作，不需要关心。allocator的分析可以体现C++在性能和资源管理上优化思想。是理解STL最先分析的组件。
+要学很底层再看。。。
+
+### Boost库
+早期C++使用Boost库可以避免重复造轮子，现在？
+https://www.boost.org/
+https://www.boost.org/users/download/
+
+### 多线程
 
 
 
