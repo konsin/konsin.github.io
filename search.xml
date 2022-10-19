@@ -3572,4 +3572,109 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
         <tag>Latex</tag>
       </tags>
   </entry>
+  <entry>
+    <title>C++与正则表达式</title>
+    <url>/2022/10/19/C-%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="引入方式"><a href="#引入方式" class="headerlink" title="引入方式"></a>引入方式</h2><p>   C++中正则表达式的API基本上都位于<code>&lt;regex&gt;</code>头文件中。<code>#include &lt;regex&gt;</code><br>   引入正则后，定义正则表达式：<code>regex ex(string)</code></p>
+<h2 id="基本的正则文法（regex-syntaxes）"><a href="#基本的正则文法（regex-syntaxes）" class="headerlink" title="基本的正则文法（regex syntaxes）"></a>基本的正则文法（regex syntaxes）</h2><p>std::regex默认使用是ECMAScript文法，这种文法比较好用，且威力强大，常用符号的意义如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">符号</th>
+<th align="left">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>^</code></td>
+<td align="left">匹配行的开头</td>
+</tr>
+<tr>
+<td align="left"><code>$</code></td>
+<td align="left">匹配行的结尾</td>
+</tr>
+<tr>
+<td align="left"><code>.</code></td>
+<td align="left">匹配任意单个字符</td>
+</tr>
+<tr>
+<td align="left"><code>[…]</code></td>
+<td align="left">匹配[]中的任意一个字符</td>
+</tr>
+<tr>
+<td align="left"><code>(…)</code></td>
+<td align="left">设定分组</td>
+</tr>
+<tr>
+<td align="left"><code>\</code></td>
+<td align="left">转义字符</td>
+</tr>
+<tr>
+<td align="left"><code>\d</code></td>
+<td align="left">匹配数字[0-9]</td>
+</tr>
+<tr>
+<td align="left"><code>\D</code></td>
+<td align="left">\d 取反</td>
+</tr>
+<tr>
+<td align="left"><code>\w</code></td>
+<td align="left">匹配字母[a-z]，数字，下划线</td>
+</tr>
+<tr>
+<td align="left"><code>\W</code></td>
+<td align="left">\w 取反</td>
+</tr>
+<tr>
+<td align="left"><code>\s</code></td>
+<td align="left">匹配空格</td>
+</tr>
+<tr>
+<td align="left"><code>\S</code></td>
+<td align="left">\s 取反</td>
+</tr>
+<tr>
+<td align="left"><code>+</code></td>
+<td align="left">前面的元素重复1次或多次</td>
+</tr>
+<tr>
+<td align="left"><code>*</code></td>
+<td align="left">前面的元素重复任意次</td>
+</tr>
+<tr>
+<td align="left"><code>?</code></td>
+<td align="left">前面的元素重复0次或1次</td>
+</tr>
+<tr>
+<td align="left"><code>&#123;n&#125;</code></td>
+<td align="left">前面的元素重复n次</td>
+</tr>
+<tr>
+<td align="left"><code>&#123;n,&#125;</code></td>
+<td align="left">前面的元素重复至少n次</td>
+</tr>
+<tr>
+<td align="left"><code>&#123;n,m&#125;</code></td>
+<td align="left">前面的元素重复至少n次，至多m次</td>
+</tr>
+<tr>
+<td align="left">`</td>
+<td align="left">`</td>
+</tr>
+</tbody></table>
+<h2 id="正则匹配"><a href="#正则匹配" class="headerlink" title="正则匹配"></a>正则匹配</h2><p>匹配是判断给定的字符串是否符合某个正则表达式。使用<code>regex_match</code>函数，匹配成功返回<code>true</code>。<br><code>bool ret = std::regex_match(string_given, ex);</code><br>如果要获得匹配结果可以使用<code>regex_match</code>的重载形式。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::cmatch cm; <span class="comment">//C风格字符串。</span></span><br><span class="line">std::smatch sm; <span class="comment">//string字符串，sm.str()获取值</span></span><br><span class="line"><span class="keyword">auto</span> ret = std::<span class="built_in">regex_match</span>(string_given, m, ex));</span><br></pre></td></tr></table></figure>
+<h2 id="正则搜索"><a href="#正则搜索" class="headerlink" title="正则搜索"></a>正则搜索</h2><p>搜索是在一大段文本中搜索匹配的目标,并非完全匹配。。使用<code>regex_search</code><br>使用方式：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">regex_search</span>(string_given, ex);</span><br><span class="line"><span class="built_in">regex_search</span>(string_given, match, ex); <span class="comment">//match保存搜索结果</span></span><br></pre></td></tr></table></figure>
+<h2 id="正则分割（Tokenize）"><a href="#正则分割（Tokenize）" class="headerlink" title="正则分割（Tokenize）"></a>正则分割（Tokenize）</h2><p>C++没有提供很快捷的字符串分割算法，可以用正则。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">mail</span><span class="params">(<span class="string">&quot;123@qq.vip.com,456@gmail.com,789@163.com,abcd@my.com&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">std::regex <span class="title">reg</span><span class="params">(<span class="string">&quot;,&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">std::sregex_token_iterator <span class="title">pos</span><span class="params">(mail.begin(), mail.end(), reg, <span class="number">-1</span>)</span></span>; <span class="comment">//-1表示获取正则匹配序列之前的字符串。0表示匹配的子串</span></span><br><span class="line">std::sregex_token_iterator end;</span><br><span class="line"><span class="keyword">for</span> (; pos != end; ++pos)   <span class="comment">//遍历分割后的数组</span></span><br><span class="line">&#123;</span><br><span class="line">	std::cout &lt;&lt; pos-&gt;<span class="built_in">str</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="正则替换"><a href="#正则替换" class="headerlink" title="正则替换"></a>正则替换</h2><p>正则表达式内容替换为指定内容，使用<code>regex_replace</code>方法。<br><code>string r = regex_replace(pre_str, ex, need_str);</code></p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>正则表达式</tag>
+      </tags>
+  </entry>
 </search>
