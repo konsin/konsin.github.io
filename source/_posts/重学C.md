@@ -1070,7 +1070,7 @@ bindFunc3(100.1, 30, 'C');
 迭代器本质上是一种smater pointer，用于访问顺序容器和关联容器中的元素，相当于容器和操作容器算法之间的中介。
 按定义方式分类：1. 正向迭代器(iterator); 2. 常量正向迭代器(const_iterator); 3. 反向迭代器(reverse_iterator); 4. 常量反向迭代器(const_reverse_iterator)
 |容器|迭代器功能|
-|:-|:-|
+|--|--|
 |vector|随机访问|
 |deque|随机访问|
 |list|双向访问|
