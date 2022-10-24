@@ -128,7 +128,7 @@ tags: C++
   3. 注释不是越多越好，它是对代码的提示，如果要写就写清楚，并且保证和代码一致。如果更新的代码，清更新相应的注释。
 
 **补码**：
-  有符号数另一种计算方式：![image](https://git.poker/konsin/images/blob/main/image.7ka0cc9pftg0.jpg?raw=true)
+  有符号数另一种计算方式：![image](https://cdn.staticaly.com/gh/konsin/images@main/image.7ka0cc9pftg0.jpg)
   常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1
 
 **大端方式** 数字高位在低地址
@@ -601,6 +601,35 @@ C++使用struct、class来定义一个类，struct的默认成员权限是public
      std::cout << "foo: " << foo << '\n';   
      return 0;
    ```
+5. IO格式化输出 iomanip库
+   ipmanip库也包含了
+   |流操纵算子|	功能描述|
+   |:--|:--|
+   |setbase(b)	|以进制基数 b 为输出整数值|
+   |setprecision(n)	|将浮点精度设置为 n|
+   |setiosflags(long)	|设置特定的格式标志位|
+   |setw(n)|	按照 n 个字符来读或者写|
+   |setfill(ch)|	用 ch 填充空白字符|
+   |flush	|刷新 ostream 缓冲区|
+   |ends	|输出空字符|
+   |endl|	输出换行符并刷新 ostream 缓冲区|
+   |ws|	跳过空白字符（用于输入）|
+
+   |标志值|	含义|
+   |:--|:--|
+   |ios::skipws|	在输入中跳过空白|
+   |ios::left	|左对齐，用填充字符填充右边。|
+   |ios::right	|右对齐，用填充字符填充左边(缺省对齐方式)。|
+   |ios::dec	|以基 10（十进制）格式化数值（缺省进制）|
+   |ios::oct	|以基 8（八进制）格式化数值|
+   |ios::hex	|以基 16（十六进制）格式化数值|
+   |ios::showbase	|以 C++ 编译器能读的格式显示数值常量|
+   |ios::showpoint	|按精度把后面的空白补 0 输出|
+   |ios::uppercase	|对于十六进制数值显示大写字母 A 到 F，对于科学格式显示大写字母 E。|
+   |ios::showpos	|对于正数显示正号（+）|
+   |ios::scientific	|以科学格式显示浮点数值|
+   |ios::fixed	|以定点格式显示浮点数值|
+
 ### 文件操作
 1. 文件操作步骤
    1. 打开文件用于读和写 open；
