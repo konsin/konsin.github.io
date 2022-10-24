@@ -1563,7 +1563,7 @@ most_common() 方法返回最常见的元素及其计数，顺序为最常见到
 <li>在重要代码段、或复杂代码处先写注释再写代码，这样思路更清晰，同时可以保证代码和注释的一致性。</li>
 <li>注释不是越多越好，它是对代码的提示，如果要写就写清楚，并且保证和代码一致。如果更新的代码，清更新相应的注释。</li>
 </ol>
-<p><strong>补码</strong>：<br>  有符号数另一种计算方式：<img src="https://git.poker/konsin/images/blob/main/image.7ka0cc9pftg0.jpg?raw=true" alt="image"><br>  常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1</p>
+<p><strong>补码</strong>：<br>  有符号数另一种计算方式：<img src="https://cdn.staticaly.com/gh/konsin/images@main/image.7ka0cc9pftg0.jpg" alt="image"><br>  常用计算方式：正数不变；复数 符号位不变，其余位取反，最后加1</p>
 <p><strong>大端方式</strong> 数字高位在低地址<br><strong>小段方式</strong> 数字低位在低地址</p>
 <h2 id="第四章-C-基础容器"><a href="#第四章-C-基础容器" class="headerlink" title="第四章 C++基础容器"></a>第四章 C++基础容器</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>概念：代表内存里一组连续的同类型存储区；可以用来把多个存储区合并成一个整体<br>C语言中数组下标：从0开始，使用非对称区间<code>[,)</code>，下届可以取到值，上界取不到值。<br>   好处：<br>      1. 取值范围的大小：上界 - 下届；<br>      2. 如果这个取值范围为空， 上界值 == 下界值<br>      3. 即使取值范围为空，上界值永远不可能小于下界值。<br>使用：</p>
 <ol>
@@ -1903,10 +1903,112 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 </ol>
 </li>
 <li><p>IO流的奇技淫巧<br>使用IO流可以灵活的转换字符串为数或数转为字符串。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>       <span class="comment">// std::string</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>     <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span>      <span class="comment">// std::stringstream</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">  std::stringstream ss;</span><br><span class="line">  ss &lt;&lt; <span class="number">100</span>;</span><br><span class="line">  <span class="type">int</span> foo,bar;</span><br><span class="line">  ss &gt;&gt; foo;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo: &quot;</span> &lt;&lt; foo &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;   </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3></li>
-<li><p>文件操作步骤</p>
-<ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>       <span class="comment">// std::string</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>     <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span>      <span class="comment">// std::stringstream</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">  std::stringstream ss;</span><br><span class="line">  ss &lt;&lt; <span class="number">100</span>;</span><br><span class="line">  <span class="type">int</span> foo,bar;</span><br><span class="line">  ss &gt;&gt; foo;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo: &quot;</span> &lt;&lt; foo &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;   </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>IO格式化输出 iomanip库<br>ipmanip库也包含了</p>
+<table>
+<thead>
+<tr>
+<th align="left">流操纵算子</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">setbase(b)</td>
+<td align="left">以进制基数 b 为输出整数值</td>
+</tr>
+<tr>
+<td align="left">setprecision(n)</td>
+<td align="left">将浮点精度设置为 n</td>
+</tr>
+<tr>
+<td align="left">setiosflags(long)</td>
+<td align="left">设置特定的格式标志位</td>
+</tr>
+<tr>
+<td align="left">setw(n)</td>
+<td align="left">按照 n 个字符来读或者写</td>
+</tr>
+<tr>
+<td align="left">setfill(ch)</td>
+<td align="left">用 ch 填充空白字符</td>
+</tr>
+<tr>
+<td align="left">flush</td>
+<td align="left">刷新 ostream 缓冲区</td>
+</tr>
+<tr>
+<td align="left">ends</td>
+<td align="left">输出空字符</td>
+</tr>
+<tr>
+<td align="left">endl</td>
+<td align="left">输出换行符并刷新 ostream 缓冲区</td>
+</tr>
+<tr>
+<td align="left">ws</td>
+<td align="left">跳过空白字符（用于输入）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">标志值</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ios::skipws</td>
+<td align="left">在输入中跳过空白</td>
+</tr>
+<tr>
+<td align="left">ios::left</td>
+<td align="left">左对齐，用填充字符填充右边。</td>
+</tr>
+<tr>
+<td align="left">ios::right</td>
+<td align="left">右对齐，用填充字符填充左边(缺省对齐方式)。</td>
+</tr>
+<tr>
+<td align="left">ios::dec</td>
+<td align="left">以基 10（十进制）格式化数值（缺省进制）</td>
+</tr>
+<tr>
+<td align="left">ios::oct</td>
+<td align="left">以基 8（八进制）格式化数值</td>
+</tr>
+<tr>
+<td align="left">ios::hex</td>
+<td align="left">以基 16（十六进制）格式化数值</td>
+</tr>
+<tr>
+<td align="left">ios::showbase</td>
+<td align="left">以 C++ 编译器能读的格式显示数值常量</td>
+</tr>
+<tr>
+<td align="left">ios::showpoint</td>
+<td align="left">按精度把后面的空白补 0 输出</td>
+</tr>
+<tr>
+<td align="left">ios::uppercase</td>
+<td align="left">对于十六进制数值显示大写字母 A 到 F，对于科学格式显示大写字母 E。</td>
+</tr>
+<tr>
+<td align="left">ios::showpos</td>
+<td align="left">对于正数显示正号（+）</td>
+</tr>
+<tr>
+<td align="left">ios::scientific</td>
+<td align="left">以科学格式显示浮点数值</td>
+</tr>
+<tr>
+<td align="left">ios::fixed</td>
+<td align="left">以定点格式显示浮点数值</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><ol>
+<li>文件操作步骤<ol>
 <li>打开文件用于读和写 open；<br>文件打开方式：<ul>
 <li>ios::in 打开文件进行读操作（ifstream默认模式）</li>
 <li>ios::out 打开文件进行写操作（ofstream默认模式）</li>
