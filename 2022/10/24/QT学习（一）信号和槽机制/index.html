@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>QT学习（一）信号和槽机制 |  不想当咸鱼王</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-QT学习（一）信号和槽机制"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  QT学习（一）信号和槽机制
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/24/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2022-10-24T10:56:29.000Z" itemprop="datePublished">2022-10-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>槽的本质是类的成员函数。参数任意，可以是虚函数。槽通常和信号连接在一起，当信号被发出时，与这个信号连接的槽函数就会被调用。</p>
+<h3 id="语法："><a href="#语法：" class="headerlink" title="语法："></a><strong>语法：</strong></h3><pre><code>`connect(sender, SIGNAL(signal), reveiver, SLOT(slot));`
+参数如下：
+- sender：发出信号的对象，指向发送信号对象的指针。
+- signal：发送对象发出的信号。不带参数的函数名，SIGNAL()将函数名转为字符串并传入connect()中
+- receiver：接收信号的对象，指向包含槽函数的对象的指针。
+- slot：接收对象在接收到信号之后需要调用的函数。不带参数的函数名，SLOT()将函数名转为字符串并传入connect()中
+</code></pre>
+<p><strong>信号与槽的连接移除示例：</strong></p>
+<ol>
+<li>一个信号连接多个槽<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiverB, <span class="built_in">SLOT</span>(slotB));</span><br></pre></td></tr></table></figure></li>
+<li>多个信号连接同一个槽<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(senderA, <span class="built_in">SIGNAL</span>(signalA), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br><span class="line"><span class="built_in">connect</span>(senderB, <span class="built_in">SIGNAL</span>(signalB), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br></pre></td></tr></table></figure></li>
+<li>一个信号连接另一个信号<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signalA), reveiver, <span class="built_in">SIGNAL</span>(signalB));</span><br></pre></td></tr></table></figure></li>
+<li>移除信号与槽的连接<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">disconnect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiver, <span class="built_in">SLOT</span>(slot));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="QT信号槽机制的优缺点："><a href="#QT信号槽机制的优缺点：" class="headerlink" title="QT信号槽机制的优缺点："></a><strong>QT信号槽机制的优缺点：</strong></h3><ul>
+<li>可减少程序员编写的代码量。</li>
+<li>信号可以对应多个槽，也可以多个槽映射一个信号。</li>
+<li>信号和槽的建立与解除绑定十分自由。</li>
+<li>信号和槽相对于回调函数时间损耗很大。</li>
+<li>信号和槽参数限定很多，不能携带模板类参数，不能出现宏定义等。</li>
+</ul>
+<p>示例代码文件解读：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *widget.h 头文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QPushButton&gt;</span> <span class="comment">//引入按钮模块</span></span></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE <span class="comment">//定义自己命名空间</span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123; <span class="keyword">class</span> <span class="title class_">Widget</span>; &#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Widget</span> : <span class="keyword">public</span> QWidget <span class="comment">//继承自基类QWidget</span></span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT <span class="comment">//Q_OBJECT宏，只有继承了QOBJECT类的宏才具有信号和槽。该宏是任何实现信号、槽或属性的强制性要求。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Widget</span>(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~<span class="built_in">Widget</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Widget *ui;</span><br><span class="line">    QPushButton button1; <span class="comment">//声明一个按钮</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;./ui_widget.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//ui-&gt;setupUi(this);</span></span><br><span class="line">    button1.<span class="built_in">setParent</span>(<span class="keyword">this</span>); <span class="comment">//绑定窗口和按钮</span></span><br><span class="line">    button1.<span class="built_in">setText</span>(<span class="string">&quot;关闭&quot;</span>); <span class="comment">//按钮中文本</span></span><br><span class="line">    button1.<span class="built_in">move</span>(<span class="number">100</span>, <span class="number">100</span>); <span class="comment">//定义按钮的位置，以左上角为原点。</span></span><br><span class="line">    <span class="built_in">connect</span>(&amp;button1, &amp;QPushButton::pressed, <span class="keyword">this</span>, &amp;Widget::close);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//delete ui;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>代码中在类定义的第一行写上了<code>Q_OBJECT</code>来声明<code>Q_OBJECT</code>宏。这个宏为类提供了信号和槽机制、国际化机制、以及Qt提供的不基于C++ RTTI（Runtime Type Identification）的反射能力。其他很多操作都会依赖这个宏，即使类中不需要使用信号和槽也需要添加这个宏。</p>
+</blockquote>
+<h3 id="自定义槽函数和自定义信号"><a href="#自定义槽函数和自定义信号" class="headerlink" title="自定义槽函数和自定义信号"></a><strong>自定义槽函数和自定义信号</strong></h3><p>要点：</p>
+<ul>
+<li>发送者和接受者都需要QObject的派生类（槽函数是全局函数、Lambda表达式等无需接收者的时候除外）</li>
+<li>使用<code>signals</code>标记信号，信号是一个函数声明，返回void，不需要实现函数代码。</li>
+<li>使用<code>emit</code>在恰当位置发送信号。</li>
+<li>可以在main.cpp中使用<code>QObject::connect()</code>函数连接信号和槽函数。</li>
+<li>槽函数可以传入参数，但是没有返回值。</li>
+<li>任何成员函数、静态成员函数、全局函数及Lambda表达式都可以作为参函数。与信号函数不同，槽函数必须自己完成实现代码。槽函数就是普通的成员函数。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * newspaper.h文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> NEWSPAPER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NEWSPAPER_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QMainWindow&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE</span><br><span class="line"><span class="keyword">namespace</span> Ui &#123; <span class="keyword">class</span> <span class="title class_">NewsPaper</span>; &#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NewsPaper</span> : <span class="keyword">public</span> QMainWindow</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">NewsPaper</span>(<span class="type">const</span> QString name):<span class="built_in">m_name</span>(name)&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">NewsPaper</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">sent</span><span class="params">()</span></span>;    <span class="comment">//定义发送自定义信号的函数</span></span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">newPaper</span><span class="params">(<span class="type">const</span> QString &amp;name)</span></span>; <span class="comment">//定义信号，无需实现，可以有参数，返回类型必须为void</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::NewsPaper *ui;</span><br><span class="line">    QString m_name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// NEWSPAPER_H</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * reader.h文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> READER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> READER_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Reader</span> : <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Reader</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">receiveNews</span><span class="params">(<span class="type">const</span> QString &amp;name)</span></span>; <span class="comment">//简单函数，负责输出接收到的参数name。</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// READER_H</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * newspaper.cpp文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;newspaper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;./ui_newspaper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NewsPaper::~<span class="built_in">NewsPaper</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">NewsPaper::sent</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">emit <span class="title">newPaper</span><span class="params">(m_name)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * reader.cpp文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;reader.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;QDebug&quot;</span><span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">Reader::Reader()</span></span></span><br><span class="line"><span class="string"><span class="meta">&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br><span class="line"><span class="string"><span class="meta">void Reader::receiveNews(const QString &amp;name)&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">    qDebug() &lt;&lt; &quot;</span>reveive news: <span class="string">&quot; &lt;&lt; name;</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br><span class="line"><span class="string"><span class="meta"></span></span></span><br><span class="line"><span class="string"><span class="meta">/**</span></span></span><br><span class="line"><span class="string"><span class="meta"> * main.cpp文件</span></span></span><br><span class="line"><span class="string"><span class="meta"> **/</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &quot;</span>newspaper.h<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &quot;</span>reader.h<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &lt;QApplication&gt;</span></span></span><br><span class="line"><span class="string"><span class="meta"></span></span></span><br><span class="line"><span class="string"><span class="meta">int main(int argc, char *argv[])</span></span></span><br><span class="line"><span class="string"><span class="meta">&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">    QApplication a(argc, argv);</span></span></span><br><span class="line"><span class="string"><span class="meta">    NewsPaper newsPaper(&quot;</span>NewsPaper:A <span class="string">&quot;);</span></span></span><br><span class="line"><span class="string"><span class="meta">    Reader reader;</span></span></span><br><span class="line"><span class="string"><span class="meta">    QObject::connect(&amp;newsPaper,&amp;NewsPaper::newPaper, &amp;reader, &amp;Reader::receiveNews);</span></span></span><br><span class="line"><span class="string"><span class="meta">    newsPaper.sent();</span></span></span><br><span class="line"><span class="string"><span class="meta">    return a.exec();</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上文输出采用了qDebug，这是因为std::cout不支持QString字符串的输出，如果要用cout需要把字符串转为stdString</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a><strong>Lambda表达式</strong></h3><p>基本语法:</p>
+<blockquote>
+<p>[函数对象参数] (操作符重载函数参数) mutable或exception -&gt;返回值{函数体}</p>
+</blockquote>
+<ol>
+<li>函数对象参数：<br>以<code>[]</code>标识一个Lambda表达式的开始。函数对象参数是传递给编译器自动生成桉树对象类的构造函数的。函数对象参数只能使用那些到定义Lambda表达式为止时Lambda所在作用范围内可见的局部变量（包括所在类的this）。参数形式：<ul>
+<li>空，没有使用任何函数对象参数。</li>
+<li>“=”，函数体内可以使用Lambda表达式所在作用范围内所有可见的局部变量（包括所在类的this）。是值传递方式</li>
+<li>“&amp;”，函数体内可以使用Lambda表达式所在作用范围内所有可见的局部变量（包括所在类的this）。是引用传递方式</li>
+</ul>
+</li>
+<li>操作符重载函数参数、<br>以<code>()</code>标识重载的操作符的参数，没有参数时，可以省略。参数可以通过按值和按引用两种方式进行传递。</li>
+<li>可修改标识符<br>mutable声明，可省略。按值传递函数对象参数时，加上mutable后可以修改按值传递进来的副本。</li>
+<li>错误抛出标识符<br>exception声明，这部分也可以声乐。exception声明用于指定函数抛出的异常，使用throw()方法</li>
+<li>函数返回值<br>以<code>-&gt;</code>标识函数返回值类型。当返回值为void或者只有一处返回时可以省略，因为编译器可以自动推导类型。</li>
+<li>函数体<br>不可省略，但可为空。<br>示例：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(&amp;button1, &amp;QPushButton::pressed,<span class="keyword">this</span>,</span><br><span class="line">            [=]()-&gt; <span class="type">void</span> &#123;</span><br><span class="line">        button1.<span class="built_in">setText</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2022/10/24/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD%E6%9C%BA%E5%88%B6/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/" rel="tag">QT</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/10/24/EclipseRCP%E6%A1%86%E6%9E%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">EclipseRCP框架</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="不想当咸鱼王"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.konsin.top/about/">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

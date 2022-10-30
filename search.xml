@@ -3779,4 +3779,112 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
         <tag>正则表达式</tag>
       </tags>
   </entry>
+  <entry>
+    <title>EclipseRCP框架</title>
+    <url>/2022/10/24/EclipseRCP%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<p>基于RCP3.x进行学习。</p>
+<h2 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h2><ol>
+<li><p>Display<br> 应用程序一般只需要一个Display对象，该对象实际是一个SWT对象,代表了底层图形系统的实现。<br> Display的主要任务是事件处理，负责从操作系统的时间队列中读取事件，传递给RCP的事件监听器以便完成具体的任务。<br> <code>Display display = new Display()</code></p>
+</li>
+<li><p>Shell<br> 每一个窗口都有一个Shell对象。Shell对象代表了与用户交互的窗口框架，并处理与窗口关联的诸如移动、改变大小等常见行为。<br> <code>Shell shell = new Shell(display);</code> 或者 <code>Shell shell = Display.getCurrent().getActiveShell();</code></p>
+</li>
+<li><p>Workbench<br>Workbench是工作台，代表用户界面的UI元素。有各种窗口、图标、按钮和空间，用户可以在工作台上做各种操作。<br><code>IWorkbench wb = PlatformUI.getWorkbench();</code><br>方法：</p>
+<ul>
+<li><code>wb.restart()</code>，关闭应用程序并立即重新启动。</li>
+<li><code>wb.close()</code>，正常关闭应用程序。</li>
+</ul>
+</li>
+<li><p>Advisor<br> 配置用户主界面宽度、高度、图标、菜单、工具栏、颜色、操作等。</p>
+<ul>
+<li>WorkbenchAdvisor。应用程序级别。每个应用程序只有一个Workbench，WorkbenchAdvisor负责该工作台生命周期的管理，也负责该Workbench的异常处理，并负责向Workbench提供一些重要参数。</li>
+<li>WorkbenchWindowAdvisor。窗口级别。每一个窗口都有一个WorkbenchWindowAdvisor实例。负责具体窗口生命周期的管理，也可以处理窗口的各种事件例程。</li>
+<li>ActionBarAdvisor。窗口级别。每一个窗口都有，负责管理窗口菜单栏、状态栏、工具栏的外观和行为。</li>
+</ul>
+</li>
+<li><p>View和Editor<br>用户通过视图和编辑器来与程序交互。视图是可以浮动的工作窗口，负责显示。编辑器提供对数据进行各种操作的交互能力。</p>
+</li>
+<li><p>Perspective<br>Perspective被称之为透视图，RCP程序通过透视图对窗口内容进行安排和布局，应用程序都有一个默认的透视图，每个工作台窗口则包含一个或多个透视图。透视图需要实现IPerspectiveFactory接口。IPerspectiveFactory可以说是产生初始页面布局和可视性透视图的工厂。</p>
+<h2 id="生成的类文件分析"><a href="#生成的类文件分析" class="headerlink" title="生成的类文件分析"></a>生成的类文件分析</h2></li>
+<li><p>Application.java<br>RCP程序运行开始于Application，Application实现了IPlatformRunnable接口，在RCP启动时将执行start方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> <span class="keyword">implements</span> <span class="title class_">IApplication</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">start</span><span class="params">(IApplicationContext context)</span> &#123;</span><br><span class="line">	<span class="type">Display</span> <span class="variable">display</span> <span class="operator">=</span> PlatformUI.createDisplay();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//应用程序主窗口只在该句调用之后才会打开并可视化。主窗口启动之后将处于持续打开状态直到用户关闭程序。</span></span><br><span class="line">           <span class="comment">//在打开主窗口之前可以进行用户登录，连接数据库等操作。</span></span><br><span class="line">		<span class="type">int</span> <span class="variable">returnCode</span> <span class="operator">=</span> PlatformUI.createAndRunWorkbench(display, <span class="keyword">new</span> <span class="title class_">ApplicationWorkbenchAdvisor</span>()); </span><br><span class="line">		<span class="keyword">if</span> (returnCode == PlatformUI.RETURN_RESTART) &#123;</span><br><span class="line">			<span class="keyword">return</span> IApplication.EXIT_RESTART;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> IApplication.EXIT_OK;</span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		display.dispose();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>RCP框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>QT学习（一）信号和槽机制</title>
+    <url>/2022/10/24/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>槽的本质是类的成员函数。参数任意，可以是虚函数。槽通常和信号连接在一起，当信号被发出时，与这个信号连接的槽函数就会被调用。</p>
+<h3 id="语法："><a href="#语法：" class="headerlink" title="语法："></a><strong>语法：</strong></h3><pre><code>`connect(sender, SIGNAL(signal), reveiver, SLOT(slot));`
+参数如下：
+- sender：发出信号的对象，指向发送信号对象的指针。
+- signal：发送对象发出的信号。不带参数的函数名，SIGNAL()将函数名转为字符串并传入connect()中
+- receiver：接收信号的对象，指向包含槽函数的对象的指针。
+- slot：接收对象在接收到信号之后需要调用的函数。不带参数的函数名，SLOT()将函数名转为字符串并传入connect()中
+</code></pre>
+<p><strong>信号与槽的连接移除示例：</strong></p>
+<ol>
+<li>一个信号连接多个槽<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiverB, <span class="built_in">SLOT</span>(slotB));</span><br></pre></td></tr></table></figure></li>
+<li>多个信号连接同一个槽<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">connect</span>(senderA, <span class="built_in">SIGNAL</span>(signalA), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br><span class="line"><span class="built_in">connect</span>(senderB, <span class="built_in">SIGNAL</span>(signalB), reveiverA, <span class="built_in">SLOT</span>(slotA));</span><br></pre></td></tr></table></figure></li>
+<li>一个信号连接另一个信号<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">connect</span>(sender, <span class="built_in">SIGNAL</span>(signalA), reveiver, <span class="built_in">SIGNAL</span>(signalB));</span><br></pre></td></tr></table></figure></li>
+<li>移除信号与槽的连接<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">disconnect</span>(sender, <span class="built_in">SIGNAL</span>(signal), reveiver, <span class="built_in">SLOT</span>(slot));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="QT信号槽机制的优缺点："><a href="#QT信号槽机制的优缺点：" class="headerlink" title="QT信号槽机制的优缺点："></a><strong>QT信号槽机制的优缺点：</strong></h3><ul>
+<li>可减少程序员编写的代码量。</li>
+<li>信号可以对应多个槽，也可以多个槽映射一个信号。</li>
+<li>信号和槽的建立与解除绑定十分自由。</li>
+<li>信号和槽相对于回调函数时间损耗很大。</li>
+<li>信号和槽参数限定很多，不能携带模板类参数，不能出现宏定义等。</li>
+</ul>
+<p>示例代码文件解读：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *widget.h 头文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QPushButton&gt;</span> <span class="comment">//引入按钮模块</span></span></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE <span class="comment">//定义自己命名空间</span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123; <span class="keyword">class</span> <span class="title class_">Widget</span>; &#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Widget</span> : <span class="keyword">public</span> QWidget <span class="comment">//继承自基类QWidget</span></span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT <span class="comment">//Q_OBJECT宏，只有继承了QOBJECT类的宏才具有信号和槽。该宏是任何实现信号、槽或属性的强制性要求。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Widget</span>(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~<span class="built_in">Widget</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Widget *ui;</span><br><span class="line">    QPushButton button1; <span class="comment">//声明一个按钮</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;./ui_widget.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//ui-&gt;setupUi(this);</span></span><br><span class="line">    button1.<span class="built_in">setParent</span>(<span class="keyword">this</span>); <span class="comment">//绑定窗口和按钮</span></span><br><span class="line">    button1.<span class="built_in">setText</span>(<span class="string">&quot;关闭&quot;</span>); <span class="comment">//按钮中文本</span></span><br><span class="line">    button1.<span class="built_in">move</span>(<span class="number">100</span>, <span class="number">100</span>); <span class="comment">//定义按钮的位置，以左上角为原点。</span></span><br><span class="line">    <span class="built_in">connect</span>(&amp;button1, &amp;QPushButton::pressed, <span class="keyword">this</span>, &amp;Widget::close);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//delete ui;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>代码中在类定义的第一行写上了<code>Q_OBJECT</code>来声明<code>Q_OBJECT</code>宏。这个宏为类提供了信号和槽机制、国际化机制、以及Qt提供的不基于C++ RTTI（Runtime Type Identification）的反射能力。其他很多操作都会依赖这个宏，即使类中不需要使用信号和槽也需要添加这个宏。</p>
+</blockquote>
+<h3 id="自定义槽函数和自定义信号"><a href="#自定义槽函数和自定义信号" class="headerlink" title="自定义槽函数和自定义信号"></a><strong>自定义槽函数和自定义信号</strong></h3><p>要点：</p>
+<ul>
+<li>发送者和接受者都需要QObject的派生类（槽函数是全局函数、Lambda表达式等无需接收者的时候除外）</li>
+<li>使用<code>signals</code>标记信号，信号是一个函数声明，返回void，不需要实现函数代码。</li>
+<li>使用<code>emit</code>在恰当位置发送信号。</li>
+<li>可以在main.cpp中使用<code>QObject::connect()</code>函数连接信号和槽函数。</li>
+<li>槽函数可以传入参数，但是没有返回值。</li>
+<li>任何成员函数、静态成员函数、全局函数及Lambda表达式都可以作为参函数。与信号函数不同，槽函数必须自己完成实现代码。槽函数就是普通的成员函数。<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * newspaper.h文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> NEWSPAPER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NEWSPAPER_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QMainWindow&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE</span><br><span class="line"><span class="keyword">namespace</span> Ui &#123; <span class="keyword">class</span> <span class="title class_">NewsPaper</span>; &#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NewsPaper</span> : <span class="keyword">public</span> QMainWindow</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">NewsPaper</span>(<span class="type">const</span> QString name):<span class="built_in">m_name</span>(name)&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">NewsPaper</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">sent</span><span class="params">()</span></span>;    <span class="comment">//定义发送自定义信号的函数</span></span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">newPaper</span><span class="params">(<span class="type">const</span> QString &amp;name)</span></span>; <span class="comment">//定义信号，无需实现，可以有参数，返回类型必须为void</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::NewsPaper *ui;</span><br><span class="line">    QString m_name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// NEWSPAPER_H</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * reader.h文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> READER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> READER_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Reader</span> : <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Reader</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">receiveNews</span><span class="params">(<span class="type">const</span> QString &amp;name)</span></span>; <span class="comment">//简单函数，负责输出接收到的参数name。</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// READER_H</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * newspaper.cpp文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;newspaper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;./ui_newspaper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NewsPaper::~<span class="built_in">NewsPaper</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">NewsPaper::sent</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">emit <span class="title">newPaper</span><span class="params">(m_name)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * reader.cpp文件</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;reader.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;QDebug&quot;</span><span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">Reader::Reader()</span></span></span><br><span class="line"><span class="string"><span class="meta">&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br><span class="line"><span class="string"><span class="meta">void Reader::receiveNews(const QString &amp;name)&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">    qDebug() &lt;&lt; &quot;</span>reveive news: <span class="string">&quot; &lt;&lt; name;</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br><span class="line"><span class="string"><span class="meta"></span></span></span><br><span class="line"><span class="string"><span class="meta">/**</span></span></span><br><span class="line"><span class="string"><span class="meta"> * main.cpp文件</span></span></span><br><span class="line"><span class="string"><span class="meta"> **/</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &quot;</span>newspaper.h<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &quot;</span>reader.h<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">#include &lt;QApplication&gt;</span></span></span><br><span class="line"><span class="string"><span class="meta"></span></span></span><br><span class="line"><span class="string"><span class="meta">int main(int argc, char *argv[])</span></span></span><br><span class="line"><span class="string"><span class="meta">&#123;</span></span></span><br><span class="line"><span class="string"><span class="meta">    QApplication a(argc, argv);</span></span></span><br><span class="line"><span class="string"><span class="meta">    NewsPaper newsPaper(&quot;</span>NewsPaper:A <span class="string">&quot;);</span></span></span><br><span class="line"><span class="string"><span class="meta">    Reader reader;</span></span></span><br><span class="line"><span class="string"><span class="meta">    QObject::connect(&amp;newsPaper,&amp;NewsPaper::newPaper, &amp;reader, &amp;Reader::receiveNews);</span></span></span><br><span class="line"><span class="string"><span class="meta">    newsPaper.sent();</span></span></span><br><span class="line"><span class="string"><span class="meta">    return a.exec();</span></span></span><br><span class="line"><span class="string"><span class="meta">&#125;</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上文输出采用了qDebug，这是因为std::cout不支持QString字符串的输出，如果要用cout需要把字符串转为stdString</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a><strong>Lambda表达式</strong></h3><p>基本语法:</p>
+<blockquote>
+<p>[函数对象参数] (操作符重载函数参数) mutable或exception -&gt;返回值{函数体}</p>
+</blockquote>
+<ol>
+<li>函数对象参数：<br>以<code>[]</code>标识一个Lambda表达式的开始。函数对象参数是传递给编译器自动生成桉树对象类的构造函数的。函数对象参数只能使用那些到定义Lambda表达式为止时Lambda所在作用范围内可见的局部变量（包括所在类的this）。参数形式：<ul>
+<li>空，没有使用任何函数对象参数。</li>
+<li>“=”，函数体内可以使用Lambda表达式所在作用范围内所有可见的局部变量（包括所在类的this）。是值传递方式</li>
+<li>“&amp;”，函数体内可以使用Lambda表达式所在作用范围内所有可见的局部变量（包括所在类的this）。是引用传递方式</li>
+</ul>
+</li>
+<li>操作符重载函数参数、<br>以<code>()</code>标识重载的操作符的参数，没有参数时，可以省略。参数可以通过按值和按引用两种方式进行传递。</li>
+<li>可修改标识符<br>mutable声明，可省略。按值传递函数对象参数时，加上mutable后可以修改按值传递进来的副本。</li>
+<li>错误抛出标识符<br>exception声明，这部分也可以声乐。exception声明用于指定函数抛出的异常，使用throw()方法</li>
+<li>函数返回值<br>以<code>-&gt;</code>标识函数返回值类型。当返回值为void或者只有一处返回时可以省略，因为编译器可以自动推导类型。</li>
+<li>函数体<br>不可省略，但可为空。<br>示例：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">connect</span>(&amp;button1, &amp;QPushButton::pressed,<span class="keyword">this</span>,</span><br><span class="line">            [=]()-&gt; <span class="type">void</span> &#123;</span><br><span class="line">        button1.<span class="built_in">setText</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>QT</tag>
+      </tags>
+  </entry>
 </search>
