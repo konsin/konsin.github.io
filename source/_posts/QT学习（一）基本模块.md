@@ -1,6 +1,5 @@
 ---
-layout: qt学习（一）
-title: 基本模块
+layout: qt学习（一）基本模块
 date: 2022-10-24 18:56:29
 tags: 
 - QT
