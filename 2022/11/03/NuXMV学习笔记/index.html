@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>NuXMV学习笔记 |  不想当咸鱼王</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-NuXMV学习笔记"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  NuXMV学习笔记
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/03/NuXMV%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2022-11-03T08:07:34.000Z" itemprop="datePublished">2022-11-03</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">10 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><h3 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h3><blockquote>
+<ul>
+<li>等宽字体：表示语法类别（非终结符）、</li>
+<li><strong>粗体字符</strong> 令牌和字符集成员（终结符）</li>
+<li><code>[]</code>表示可选的语法结果</li>
+<li><code>|</code>用于分割语法规则中的备选项<br>如果是加粗的符号<code>[]</code>和<code>|</code>就是正常字符。<br>标识符以字母开头且标识符中只能包含 {A-Za-z0-9 $#-}中的字符<br>任何以两个破折号(<code>——</code>)开头并以换行符结尾的字符串都是注释，解析器会忽略它。多行注释以<code>/——</code>开始，以<code>——/</code>结束。</li>
+</ul>
+</blockquote>
+<h3 id="NuXMV保留关键字"><a href="#NuXMV保留关键字" class="headerlink" title="NuXMV保留关键字"></a>NuXMV保留关键字</h3><blockquote>
+<p>@F<del>, @O</del>, A, ABF, ABG, abs, AF, AG, array, ASSIGN, at next, at last, AX, bool, boolean, BU, case, Clock, clock, COMPASSION, COMPID, COMPUTE, COMPWFF, CONSTANTS, CONSTARRAY,CONSTRAINT, cos, count, CTLSPEC, CTLWFF, DEFINE, E, EBF, EBG, EF, EG, esac, EX, exp, extend, F, FAIRNESS, FALSE, floor, FROZENVAR, FUN, G, H, IN, in, INIT, init, Integer, integer, INVAR, INVARSPEC, ISA, ITYPE, IVAR, JUSTICE, ln, LTLSPEC, LTLWFF, MAX, max, MDEFINE, MIN, min, MIRROR, mod, MODULE, NAME, next, NEXTWFF, noncontinuous, O, of, PRED, PREDICATES, pi, pow, PSLSPEC, PARSYNTH, READ, Real, real, resize, S, SAT, self, signed, SIMPWFF, sin, sizeof, SPEC, swconst, T, tan, time, time since, time until, toint, TRANS, TRUE, typeof, U, union, unsigned, URGENT, uwconst, V, VALID, VAR, Word, word, word1, WRITE, X, xnor, xor, X~ Y, Y~, Z</p>
+</blockquote>
+<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><ol>
+<li>Boolean<br>布尔类型由符号值FALSE和TRUE组成。</li>
+<li>枚举类型 Enumeration Types<br>enum类型。<br>我们实际上只处理两种枚举类型:符号枚举和整数符号枚举。这些类型是可区分的，并且允许对它们进行不同的操作。<br>纯整数枚举没有必要，布尔类型枚举不被允许。</li>
+<li>字类型 Word<br>unsigned word 无符号单词[•]和 signed word 有符号单词[•]类型用于建模位向量(布尔值)，允许按位进行逻辑和算术操作(分别为无符号和有符号)。这些类型可以通过宽度来区分。例如，类型无符号单词[3]表示3位的向量，允许无符号操作，类型有符号单词[7]表示7位的向量，允许有符号操作。<br>当无符号字[N]的值被解释为整数时，所使用的位表示是最受欢迎的，即每个位表示0(位号0)到$2^N−1$(位号N−1)之间的连续2次幂。因此无符号字[N]能够表示0到$2^N−1$的值。<br>有符号词[N]类型的位表示是”二进制补码”，即它与无符号词[N]相同，只是最高位(数字N−1)的值为$−2^{N−1}$。因此，符号词[N]可能的值从$−2^{N−1}$到$2^N−1$。</li>
+<li>整型 Integer<br>首先，在某些模型检查引擎和算法中不允许使用整数。其次，目前，整型枚举类型有实现相关的约束，因为整型数只能在$−2^{32}  +1$到$2^{32}−1$的范围内(更准确地说，这些值等价于C/ c++宏INT MIN +1和INT MAX)。</li>
+<li>实数 Real<br> 类似于float型</li>
+<li>时钟类型Clock<br>时钟类型仅在TTS(2.4)中支持。该类型的域取决于模块的时间域:<ul>
+<li>continuous时间域:时钟类型域等价于实类型域;</li>
+<li>none 时间域:不能表示时钟类型。</li>
+</ul>
+</li>
+<li>数组类型 Array<br>数组声明时使用索引的下限和上限，以及数组中元素的类型。例如<br><code>array 0..3 of boolean</code><br><code>array 1..8 of array -1..2 of unsigned word[5]</code><br>数组类型与set类型不兼容，即数组元素不能为set类型。</li>
+<li>字类型数组 WordArray<br>字数组类型用于为数组建模，数组的大小是有限制的，并使用无符号单词[•]类型指定。数组的元素可以是某种类型的。例如,<br><code>array word[5] of unsigned word[3];</code></li>
+<li>整型数组 IntArray<br><code>array integer of integer;</code></li>
+<li>集合类型 Set<br>集合类型用于标识表示一组值的表达式。集合有四种类型:boolean set,integer set, symbolic set, integers-and-symbolic set.。set类型的使用方式非常有限。特别是，变量不能为set类型。只有范围常量和联合运算符可以用来创建set类型的表达式，并且只有在、case、(•?•:•)，而assignment1表达式可以具有set类型的立即操作数。</li>
+<li>类型顺序<br>integer小于integer -symbolic enum且小于real;符号枚举小于整数和符号枚举，等等。无符号词[•]和有符号词[•]类型不能与任何其他类型比较，也不能相互比较。任何类型都等于它本身。<br>注意，只包含整数的枚举类型为integer。</li>
+<li>表达式<ol>
+<li>隐式类型转换<br> 在某些表达式中，操作数可以从一种类型转换为与其对应的set类型<br> 在NUXMV中也不再支持隐式整数&lt;-&gt;布尔类型转换，必须使用显式强制转换操作符。</li>
+<li>常数表达式<br>常量可以是布尔值、整数、实数、符号、字或范围常量。</li>
+<li>基本表达式<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">basic_expr ::</span><br><span class="line">   constant -- a constant</span><br><span class="line">   | variable_identifier -- a variable identifier</span><br><span class="line">   | define_identifier -- a define identifier</span><br><span class="line">   | function_call -- a call to a function</span><br><span class="line">   | ( basic_expr )</span><br><span class="line">   | pi -- the pi constant</span><br><span class="line">   | <span class="built_in">abs</span> ( basic expr ) -- absolute value</span><br><span class="line">   | <span class="built_in">max</span> ( basic expr , basic expr ) -- max</span><br><span class="line">   | <span class="built_in">min</span> ( basic expr , basic expr ) -- min</span><br><span class="line">   | <span class="built_in">sin</span> ( basic expr ) -- sin</span><br><span class="line">   | <span class="built_in">cos</span> ( basic expr ) -- cos</span><br><span class="line">   | <span class="built_in">exp</span> ( basic expr ) -- exp</span><br><span class="line">   | <span class="built_in">tan</span> ( basic expr ) -- tan</span><br><span class="line">   | <span class="built_in">ln</span> ( basic expr ) -- ln</span><br><span class="line">   | ! basic_expr -- logical <span class="keyword">or</span> bitwise NOT</span><br><span class="line">   | basic_expr &amp; basic_expr -- logical <span class="keyword">or</span> bitwise AND</span><br><span class="line">   | basic_expr | basic_expr -- logical <span class="keyword">or</span> bitwise OR</span><br><span class="line">   | basic_expr <span class="keyword">xor</span> basic_expr -- logical <span class="keyword">or</span> bitwise exclusive OR</span><br><span class="line">   | basic_expr xnor basic_expr -- logical <span class="keyword">or</span> bitwise NOT exclusive OR</span><br><span class="line">   | basic_expr -&gt; basic_expr -- logical <span class="keyword">or</span> bitwise implication</span><br><span class="line">   | basic_expr &lt;-&gt; basic_expr -- logical <span class="keyword">or</span> bitwise equivalence</span><br><span class="line">   | basic_expr = basic_expr -- equality</span><br><span class="line">   | basic_expr != basic_expr -- inequality</span><br><span class="line">   | basic_expr &lt; basic_expr -- less than</span><br><span class="line">   | basic_expr &gt; basic_expr -- greater than</span><br><span class="line">   | basic_expr &lt;= basic_expr -- less than <span class="keyword">or</span> equal</span><br><span class="line">   | basic_expr &gt;= basic_expr -- greater than <span class="keyword">or</span> equal</span><br><span class="line">   | - basic_expr -- integer <span class="keyword">or</span> real <span class="keyword">or</span> word unary minus</span><br><span class="line">   | basic_expr + basic_expr -- integer <span class="keyword">or</span> real <span class="keyword">or</span> word addition</span><br><span class="line">   | basic_expr - basic_expr -- integer <span class="keyword">or</span> real <span class="keyword">or</span> word subtraction</span><br><span class="line">   | basic_expr * basic_expr -- integer <span class="keyword">or</span> real <span class="keyword">or</span> word multiplication</span><br><span class="line">   | basic_expr / basic_expr -- integer <span class="keyword">or</span> real <span class="keyword">or</span> word division</span><br><span class="line">   | basic_expr mod basic_expr -- integer <span class="keyword">or</span> word remainder</span><br><span class="line">   | basic_expr &gt;&gt; basic_expr -- bit shift right</span><br><span class="line">   | basic_expr &lt;&lt; basic_expr -- bit shift left</span><br><span class="line">   | basic_expr [ index ] -- index subscript</span><br><span class="line">   | basic_expr [ basic_expr : basic_expr ]</span><br><span class="line">   -- word bits selection</span><br><span class="line">   | basic_expr :: basic_expr -- word concatenation</span><br><span class="line">   | <span class="built_in">word1</span> ( basic_expr ) -- boolean to <span class="type">unsigned</span> word[<span class="number">1</span>] conversion</span><br><span class="line">   | <span class="built_in">bool</span> ( basic_expr ) -- <span class="type">unsigned</span> word[<span class="number">1</span>] <span class="keyword">and</span> <span class="type">int</span> to boolean conversion</span><br><span class="line">   | <span class="built_in">toint</span> ( basic_expr ) -- word <span class="keyword">and</span> boolean to integer constant conversion</span><br><span class="line">   | <span class="built_in">count</span> ( basic_expr_list ) -- count of <span class="literal">true</span> boolean expressions</span><br><span class="line">   | <span class="built_in">swconst</span> ( basic_expr , basic_expr )</span><br><span class="line">   -- integer to <span class="type">signed</span> word constant conversion</span><br><span class="line">   | <span class="built_in">uwconst</span> ( basic_expr, basic_expr )</span><br><span class="line">   -- integer to <span class="type">unsigned</span> word constant conversion</span><br><span class="line">   | <span class="built_in">signed</span> ( basic_expr ) -- <span class="type">unsigned</span> word to <span class="type">signed</span> word conversion</span><br><span class="line">   | <span class="built_in">unsigned</span> ( basic_expr ) -- <span class="type">signed</span> word to <span class="type">unsigned</span> word conversion</span><br><span class="line">   | <span class="built_in">sizeof</span> ( basic_expr ) -- word size as an integer</span><br><span class="line">   | <span class="built_in">floor</span> ( basic_expr ) -- from a real to an integer</span><br><span class="line">   | <span class="built_in">extend</span> ( basic_expr , basic_expr)</span><br><span class="line">   -- word width extension</span><br><span class="line">   | <span class="built_in">resize</span> ( basic_expr , basic_expr)</span><br><span class="line">   -- word width resize</span><br><span class="line">   | <span class="type">signed</span> word[N] ( basic_expr ) -- integer to <span class="type">signed</span> word conversion</span><br><span class="line">   | <span class="type">unsigned</span> word[N] ( basic_expr ) -- integer to <span class="type">unsigned</span> word conversion</span><br><span class="line">   | basic_expr <span class="keyword">union</span> basic_expr -- <span class="keyword">union</span> of set expressions</span><br><span class="line">   | &#123; set_body_expr &#125; -- set expression</span><br><span class="line">   | basic_expr in basic_expr -- inclusion in a set expression</span><br><span class="line">   | basic_expr ? basic_expr : basic_expr</span><br><span class="line">   -- <span class="keyword">if</span>-then-<span class="keyword">else</span> expression</span><br><span class="line">   | <span class="built_in">READ</span> ( basic_expr , basic_expr ) -- read function with first argument</span><br><span class="line">   -- an array <span class="keyword">and</span> second index</span><br><span class="line">   | <span class="built_in">WRITE</span> ( basic_expr, basic_expr, basic_expr ) -- write function with first</span><br><span class="line">   -- argument an array, second index, <span class="keyword">and</span> third value to be stored</span><br><span class="line">   | <span class="built_in">CONSTARRAY</span> ( <span class="built_in">typeof</span> ( variable_identifer ), basic_expr ) -- constant array</span><br><span class="line">   -- constructor function that takes the type of the array variable indentifier</span><br><span class="line">   | <span class="built_in">CONSTARRAY</span> ( array word[n] of subtype, basic_expr ) -- constant array</span><br><span class="line">   -- constructor function <span class="keyword">for</span> word-array that takes the array type explicitly</span><br><span class="line">   | <span class="built_in">CONSTARRAY</span> ( array integer of subtype, basic_expr ) -- constant array</span><br><span class="line">   -- constructor function <span class="keyword">for</span> <span class="type">int</span>-array that takes the array type explicitly</span><br><span class="line">   | case_expr -- <span class="keyword">case</span> expression</span><br><span class="line">   | basic_next_expr -- next expression</span><br><span class="line">   basic_expr_list ::</span><br><span class="line">      basic_expr</span><br><span class="line">      | basic_expr_list , basic_expr</span><br></pre></td></tr></table></figure></li>
+<li>操作符及顺序<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[ ]  下标索引, [ : ] 位选择运算[high : low]</span><br><span class="line">! 非运算</span><br><span class="line">::  连接操作符</span><br><span class="line">- (unary minus)</span><br><span class="line">* / mod</span><br><span class="line">+ -</span><br><span class="line">&lt;&lt; &gt;&gt;</span><br><span class="line">union</span><br><span class="line">in</span><br><span class="line">= != &lt; &gt; &lt;= &gt;=   </span><br><span class="line">&amp;</span><br><span class="line">| xor xnor</span><br><span class="line">(• ? • : •)</span><br><span class="line">&lt;-&gt;</span><br><span class="line">-&gt;</span><br></pre></td></tr></table></figure></li>
+<li>变量和定义<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define_identifier :: complex_identifier</span><br><span class="line">variable_identifier :: complex_identifier</span><br></pre></td></tr></table></figure></li>
+<li>函数调用 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function call :: <span class="function">function <span class="title">identifier</span> <span class="params">( fun args list )</span></span></span><br><span class="line"><span class="function">function identifier :: complex identifier</span></span><br><span class="line"><span class="function">fun args list :: next expr | fun args list next expr</span></span><br></pre></td></tr></table></figure></li>
+<li>其他操作<ul>
+<li>连接字（:）<br>w1 := 0ub4 1101 and w2 := 0sb2 00, the result of w1::w2 is 0ub6 110100.</li>
+<li>字扩展（extend）<br>扩展操作符通过在左侧附加额外的位来增加单词的宽度。可以理解为扩展后右移，填充字节规则同C</li>
+<li>调整字大小（resize）</li>
+<li>set表达式<br>在NUXMV中不能有集合的集合。集合只能包含单例值，而不能包含其他集合。</li>
+<li>包含运算符 in ： 判断左操作数是否是右操作数的子集。</li>
+<li>read表达式<br>读取操作符’ read ‘提取数组中特定下标处的一个元素。操作符的第一个实参必须是word-array或int-array类型的表达式，第二个实参表达式的类型必须与第一个实参中的数组表达式的索引类型相同。</li>
+<li>write表达式<br>写操作符’ write ‘更新数组特定下标处的一个元素，并将更新后的数组作为新数组返回。操作符的第一个参数必须是word-array或int-array类型的表达式。<br>第二个和第三个参数表达式的类型必须与第一个参数中的数组表达式的索引类型和元素类型相同</li>
+<li>CONSTARRAY表达式<br>常量数组’ CONSTARRAY ‘是一个特殊的构造函数，用于创建给定类型的数组，其中的元素设置为统一的给定值。<br><code>CONSTARRAY(typeof(a), 0)</code></li>
+<li>typeof表达式。它主要用于获取数组变量的类型。</li>
+<li>case表达式<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">case</span><br><span class="line">  left_expression_1 : right_expression_1 ;</span><br><span class="line">  left_expression_2 : right_expression_2 ;</span><br><span class="line">  ...</span><br><span class="line">  left_expression_N : right_expression_N ;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure></li>
+<li><code>if then else</code> 表达式 或<code>(• ? • : •)</code>即<br>cond_expr ? basic_expr1 : basic_expr2</li>
+<li>next表达式<br>Next表达式指的是处于下一个状态的变量的值。例如，如果一个变量v是一个状态变量，那么next(v)指的是下一个时间步中的变量v。应用于复杂表达式的next是递归应用于表达式中所有变量的next的一种速记方法。例如:next((1 + a) + b)等价于(1 + next(a)) + next(b)。<br>注意，next操作符不能应用两次，即不允许next(next(a))。</li>
+<li>count表达式 count运算符计算为真表达式的个数。</li>
+</ul>
+</li>
+<li>类型转换操作符<ul>
+<li>整数转换操作符（toint）</li>
+<li>floor转换操作符 将一个实数映射到之前最大的整数。</li>
+<li>bool转换操作符<br>将无符号单词和任何整数类型的表达式(例如1 + 2)转换为布尔值。</li>
+<li>整型到字常量的转换<br>swconst、uwconst分别将整数常量转换为给定大小的有符号单词[•]常量或无符号单词[•]常量。</li>
+<li>Word1显式转换 bool转换为unsigned word[1]</li>
+<li>无符号和有符号字显式转换</li>
+<li>一般整数到字的转换<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned word[N](x) = −(unsigned word[N](−x))</span><br><span class="line">signed word[N](x) = signed(unsigned word[N](x))</span><br></pre></td></tr></table></figure>
+<h3 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h3></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2022/11/03/NuXMV%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NuXMV/" rel="tag">NuXMV</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/10/25/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD%E6%9C%BA%E5%88%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">QT学习（二）信号和槽机制</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="不想当咸鱼王"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.konsin.top/about/">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
