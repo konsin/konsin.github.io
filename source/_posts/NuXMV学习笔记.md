@@ -6,6 +6,40 @@ tags:
 categories:
 - 学习笔记
 ---
+
+# 快速入门
+## smv文件示例
+```js
+MODULE main                                 -- 新建一个模型，名为main
+VAR                                         -- 变量声明
+    bit0 : counter_cell(TRUE);              -- bit0是模型counter_cell的实例
+    bit1 : counter_cell(bit0.carry_out);
+    bit2 : counter_cell(bit1.carry_out);
+SPEC                                        -- CTL说明
+    AG AF bit2.carry_out                    -- AG(forall globally),AF(forall finally),检测bit2.carry_out的结果
+
+MODULE counter_cell(carry_in)               -- 新建一个模型，名为counter_cell
+VAR                                         -- 变量声明
+    value : boolean;                        -- 定义变量value,类型为boolean
+ASSIGN                                      -- 指定约束
+    init(value) := FALSE;                   -- 初始化value为FALSE
+    next(value) := value xor carry_in;      -- value下一状态为value和carry_in的异或值
+DEFINE                                      -- 定义声明
+    carry_out := value & carry_in;          -- carry_out是value和carry_in的与值
+```
+
+## 验证CTL
+> nuxmv -int
+进入nuxmv交互shell。 
+> read_model -i xx.smv
+读取smv文件
+> go
+初始化验证后端
+> check_ctlspec
+验证文件中的ctl范式
+
+
+# 详细内容
 ## 语法
 ### 基本规则
 >- 等宽字体：表示语法类别（非终结符）、
@@ -217,4 +251,5 @@ categories:
          unsigned word[N](x) = −(unsigned word[N](−x))
          signed word[N](x) = signed(unsigned word[N](x))
          ```
-### 变量声明
+### 变量声明 p27
+
