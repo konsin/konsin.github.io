@@ -15,7 +15,7 @@ VAR                                         -- 变量声明
     bit0 : counter_cell(TRUE);              -- bit0是模型counter_cell的实例
     bit1 : counter_cell(bit0.carry_out);
     bit2 : counter_cell(bit1.carry_out);
-SPEC                                        -- CTL说明
+CTLSPEC                                        -- CTL说明
     AG AF bit2.carry_out                    -- AG(forall globally),AF(forall finally),检测bit2.carry_out的结果
 
 MODULE counter_cell(carry_in)               -- 新建一个模型，名为counter_cell
@@ -253,3 +253,34 @@ DEFINE                                      -- 定义声明
          ```
 ### 变量声明 p27
 
+## CTL语法
+
+```js
+ctl_expr ::
+simple_expr -- 一个简单的布尔表达式
+| ( ctl_expr )
+| ! ctl_expr -- 逻辑非
+| ctl_expr & ctl_expr -- 逻辑与
+| ctl_expr | ctl_expr -- 逻辑或
+| ctl_expr xor ctl_expr -- 逻辑异或
+| ctl_expr xnor ctl_expr -- 逻辑同或
+| ctl_expr -> ctl_expr -- 逻辑蕴含
+| ctl_expr <-> ctl_expr -- 逻辑等价
+| EG ctl_expr -- 全局存在
+| EX ctl_expr -- 存在下一个状态
+| EF ctl_expr -- 最后存在
+| AG ctl_expr -- forall globally
+| AX ctl_expr -- forall next state
+| AF ctl_expr -- forall finally
+| E [ ctl_expr U ctl_expr ] -- exists until
+| A [ ctl_expr U ctl_expr ] -- forall until
+```
+
+> EX p 在状态$s$中为真：如果存在状态$s'$且$p$在$s'$为真，同时存在从状态$s'$到s的转移。
+> AX p 在状态$s$中为真：如果所有从状态$s$到$s'$的转移有$p$在$s'$为真。
+> EF p 在状态$s_0$中为真：如果存在一系列$s_0→s_1，s_1→s_2，……，s_{n−1}→s_n$的转换。
+> AF p 在状态$s_0$中为真: 如果对于任意一系列$s_0→s_1，s_1→s_2，……，s_{n−1}→s_n$转换且$p$在$s_n$中为真。
+> EG p 在状态$s_0$中为真：如果存在一个无限的转换$s_0→s_1，s_1→s_2，……$且p在每个$s_i$中都是真的,。
+> AG p 在状态$s_0$中为真：如果对于所有无限的转换$s_0→s_1，s_1→s_2，……$且p在每个$s_i$中都是真的。
+> E[p U q] 在状态$s_0$中为真：如果存在一系列的转换$s_0→s_1，s_1→s_2，……，s_{n−1}→s_n$，p在从s0到sn−1的每个状态下都为真，而q在状态sn中为真。
+> A[p U q] 在状态$s_0$中为真：如果对于所有一系列的转换$s_0→s_1，s_1→s_2，……，s_{n−1}→s_n$ p在从s0到sn−1的每个状态下都为真，而q在状态sn中为真。
