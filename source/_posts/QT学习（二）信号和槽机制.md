@@ -1,19 +1,60 @@
 ---
-title: QT学习（二）信号和槽机制
+title: QT学习（二）QObject及信号和槽机制
 date: 2022-10-25 15:37:23
 tags: 
 - QT
 - C++
 categories: 学习笔记
 ---
+## QObject
+### MOC 与 QObject
+元对象系统是一个C++扩展，使该语言更适合真正的组件化GUI编程。
+QObject类是所有使用元对象系统的类的基类。
+- 并不是所有Q开头的类都是Object的派生类，例如QString
+
+在一个类的private部分声明Q_OBJECT宏。
+>使用信号与槽机制，只有添加Q_OBJECT宏，moc才能对类里的信号与槽进行预处理
+
+MOC（元对象编译器）为每个QObject的子类提供必要的代码。
+>元对象编译器（Meta-Object Compiler，MOC）是一个预处理器，先将Qt的特性程序转换为标准C++程序，在由标准C++编译器进行编译
+
+```mermaid
+graph LR
+A(源代码)-->B[预处理]--Q_OBJECT宏-->C((MOC))-->D[编译器]-->E[链接器]-->F(应用程序)
+```
+### QObject
+QObject是Qt对象模型的核心。
+标准的C++对象模型在某些领域不够灵活。图形用户界面编程是一个**既需要运行效率又需要高度灵活性**的领域。QObject提供了灵活性。
+>QObject不支持拷贝！QObject 的拷贝构造函数和赋值运算符是私有的，并且使用了Q_DISABLE_COPY()宏
+
+QObject在对象树中组织自己。
+- 当以另一个对象作为父对象创建QObject时，该对象将自动将自身添加到父对象的子对象列表中。
+- 父对象删除时，它将自动删除其子对象。可以使用findChild（）或findChildren（）按名称和可选类型查找对象。
+
+
+
+
+
+## 信号和槽
 槽的本质是类的成员函数。参数任意，可以是虚函数。槽通常和信号连接在一起，当信号被发出时，与这个信号连接的槽函数就会被调用。
 ### **语法：**
-    `connect(sender, SIGNAL(signal), reveiver, SLOT(slot));`
+1. 使用SIGNAL和SLOT宏: `connect(sender, SIGNAL(signal), reveiver, SLOT(slot));`
     参数如下：
     - sender：发出信号的对象，指向发送信号对象的指针。
     - signal：发送对象发出的信号。不带参数的函数名，SIGNAL()将函数名转为字符串并传入connect()中
     - receiver：接收信号的对象，指向包含槽函数的对象的指针。
     - slot：接收对象在接收到信号之后需要调用的函数。不带参数的函数名，SLOT()将函数名转为字符串并传入connect()中
+2. 使用成员函数指针（**推荐**）: `connect(sender, &QObject::destroyed, this, &MyObject::objectDestroyed);`
+   优点：1、允许编译器检查信号是否与槽的参数兼容。2、编译器可以隐式转换参数。
+3. 使用仿函数或lambda表达式作为slot: `connect(sender, &QObject::destroyed, this, [=](){ this->m_objects.remove(sender); });`
+
+connect还可以添加第五个参数为Qt::ConnectionType类型的参数，表示信号与槽之间的关联方式：
+- Qt::AutoConnection（缺省值）：自动确定关联方式。
+- Qt::DirectConnection：信号被发射时，槽立即执行，槽函数与信号在同一线程
+- Qt::QueuedConnection：事件循环回到接收者线程后执行槽，槽与信号在不同线程
+- Qt::BlockingQueueConnection：与Qt::QueuedConnection相似，信号线程会被阻塞直到槽执行完毕。当槽函数与信号在同一线程，会造成死锁。
+
+
 **信号与槽的连接移除示例：**
 1. 一个信号连接多个槽
    ```cpp
@@ -221,6 +262,37 @@ connect(&button1, &QPushButton::pressed,this,
         button1.setText("Hello");
     });
 ```
+## 键盘鼠标事件示例
 
+```cpp
+#include "mainwindow.h"
+#include <QtWidgets>
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+{
+    setMouseTracking(true);  //设置一直跟踪鼠标
+    auto *quitBtn = new QPushButton("Quit", this); //设置一个Quit控件
+    quitBtn->setGeometry(50,25,100,50); //设置控件坐标及大小
+    connect(quitBtn,&QPushButton::clicked, qApp, &QApplication::quit); //关联控件点击到界面单例对象的退出操作
+}
 
+MainWindow::~MainWindow()
+{
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)    //响应键盘事件，在父类中提供了虚函数接口
+{
+    if(event->key() == Qt::Key_Escape) {    //判断键值
+        qApp->quit();   //单例对象退出操作。
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)     //响应鼠标事件
+{
+    int x = event->x();
+    int y = event->y();
+    this->statusBar()->showMessage("坐标"+QString::number(x) +", "+ QString::number(y));    
+}
+```
+qApp是一个宏，包含在头文件QApplication或者QCoreapplication中，指向一个当前实例。
 
