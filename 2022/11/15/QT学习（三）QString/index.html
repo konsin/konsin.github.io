@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>qt学习（一）基本模块 |  不想当咸鱼王</title>
+      <title>QT学习（三）QString操作 |  不想当咸鱼王</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-QT学习（一）基本模块"
+  id="post-QT学习（三）QString"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  qt学习（一）基本模块
+  QT学习（三）QString操作
 </h1>
  
 
@@ -74,8 +74,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/10/24/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%9D%97/" class="article-date">
-  <time datetime="2022-10-24T10:56:29.000Z" itemprop="datePublished">2022-10-24</time>
+      <a href="/2022/11/15/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89QString/" class="article-date">
+  <time datetime="2022-11-15T07:09:47.000Z" itemprop="datePublished">2022-11-15</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">440</span>
+            <span class="post-count">573</span>
         </span>
     </span>
 
@@ -95,113 +95,59 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
  
     </div>
       
-    <div class="tocbot"></div>
-
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="基本模块："><a href="#基本模块：" class="headerlink" title="基本模块："></a>基本模块：</h2><table>
-<thead>
-<tr>
-<th align="left">模块</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Qt Core</td>
-<td align="left">其他模块都用到的核心非图形类</td>
-</tr>
-<tr>
-<td align="left">Qt GUI</td>
-<td align="left">设计GUI的基础类，包括OpenGL</td>
-</tr>
-<tr>
-<td align="left">Qt Multimedia</td>
-<td align="left">音频、视频、摄像头及广播功能的类</td>
-</tr>
-<tr>
-<td align="left">Qt Multimedia Widgets</td>
-<td align="left">实现多媒体功能的界面组件类</td>
-</tr>
-<tr>
-<td align="left">Qt Network</td>
-<td align="left">使网络编程更简单和轻便的类</td>
-</tr>
-<tr>
-<td align="left">Qt QML</td>
-<td align="left">用于QML和JavaScript的类</td>
-</tr>
-<tr>
-<td align="left">Qt Quick</td>
-<td align="left">用于构建具有定制用户界面的动态应用程序的声明框架</td>
-</tr>
-<tr>
-<td align="left">Qt Quick Controls</td>
-<td align="left">创建桌面样式用户界面</td>
-</tr>
-<tr>
-<td align="left">Qt Quick Dialogs</td>
-<td align="left">通过Qt Quick创建系统对话框并与之交互的类型</td>
-</tr>
-<tr>
-<td align="left">Qt Quick Layouts</td>
-<td align="left">用于Qt Quick2界面元素的布局项</td>
-</tr>
-<tr>
-<td align="left">Qt SQL</td>
-<td align="left">使用SQL用于数据库操作的类</td>
-</tr>
-<tr>
-<td align="left">Qt Test</td>
-<td align="left">用于应用程序和库进行单元测试的类</td>
-</tr>
-<tr>
-<td align="left">Qt Widgets</td>
-<td align="left">用于构建GUI的C++图形组件类</td>
-</tr>
-</tbody></table>
-<h2 id="常用控件："><a href="#常用控件：" class="headerlink" title="常用控件："></a>常用控件：</h2><h3 id="QlineEdit-单行文本框控件"><a href="#QlineEdit-单行文本框控件" class="headerlink" title="QlineEdit 单行文本框控件"></a>QlineEdit 单行文本框控件</h3><p>QLineEdit类是一个单行文本框控件，可以输入单行字符串。<br>常用方法</p>
-<table>
-<thead>
-<tr>
-<th align="left">方法</th>
-<th align="left">功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">setText()</td>
-<td align="left">设置文本框的内容</td>
-</tr>
-<tr>
-<td align="left">setPlaceholderText()</td>
-<td align="left">设置文本框显示的文字</td>
-</tr>
-<tr>
-<td align="left">setAlignment()</td>
-<td align="left">按固定值方式对齐文本</td>
-</tr>
-</tbody></table>
-<h3 id="QGridLayout-网格布局控件"><a href="#QGridLayout-网格布局控件" class="headerlink" title="QGridLayout 网格布局控件"></a>QGridLayout 网格布局控件</h3><p>QGridLayout可将窗口分割成行和列的网格来进行排列，类似于控件的容器。<br>用户可使用<code>addWidget()</code>函数将被管理的控件添加到窗口中。<br>或使用<code>addLayout()</code>函数将布局添加到窗口中。</p>
-<ol>
-<li><code>addWidget()</code>函数：<br>给网格布局添加部件，设置指定的行数和列数，起始位置默认值为(0,0)<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">addWidget</span>(Qwdget Widget, <span class="type">int</span> row, <span class="type">int</span> col, <span class="type">int</span> alignment = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>widget：表示所添加的控件</li>
-<li>row：表示控件的行数，默认从0开始</li>
-<li>col：标示空间的列数，默认从0开始</li>
-<li>alignment：表示对其方式</li>
-</ul>
-</li>
-</ol>
+  <blockquote>
+<p>QString存储16位QChar（Unicode）字符串。<br>QString使用隐式共享（copy-on-write）来提高性能。</p>
+</blockquote>
+<p><strong>初始化方式</strong></p>
+<blockquote>
+<p>由于QString是Qchar类型，如果从C++ String转换为QString时，需要先通过c_str()转化为C风格字符串。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span>&#123; </span><br><span class="line">  QString str1 = <span class="string">&quot;The night train&quot;</span>; 	</span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str1; <span class="function">QString <span class="title">str2</span><span class="params">(<span class="string">&quot;A yellow rose&quot;</span>)</span></span>; 		</span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str2; QString str3 &#123;<span class="string">&quot;An old falcon&quot;</span>&#125;; 		</span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str3; std::string s1 = <span class="string">&quot;A blue sky&quot;</span>; </span><br><span class="line">  QString str4 = s1.<span class="built_in">c_str</span>(); 		</span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str4; std::string s2 = <span class="string">&quot;A thick fog&quot;</span>; </span><br><span class="line">  QString str5 = QString::<span class="built_in">fromLatin1</span>(s2.<span class="built_in">data</span>(), s2.<span class="built_in">size</span>()); </span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str5; <span class="type">char</span> s3[] = <span class="string">&quot;A deep forest&quot;</span>; </span><br><span class="line">  <span class="function">QString <span class="title">str6</span><span class="params">(s3)</span></span>; 			</span><br><span class="line">  <span class="built_in">qDebug</span>()  &lt;&lt; str6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>访问字符串元素：</strong><br>可以通过<code>[]</code>索引和at方式访问字符串元素。</p>
+<blockquote>
+<p>operator[]返回的是可以修改的QChar&amp;。<br>at返回为const QChar,为只读，更高效。</p>
+</blockquote>
+<p><strong>构建字符串</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QString s3 = <span class="string">&quot;We have %1 lemons and %2 oranges&quot;</span>; </span><br><span class="line"><span class="type">int</span> ln = <span class="number">12</span>; </span><br><span class="line"><span class="type">int</span> on = <span class="number">4</span>; <span class="built_in">qDebug</span>() &lt;&lt; s3.<span class="built_in">arg</span>(ln).<span class="built_in">arg</span>(on) ; </span><br></pre></td></tr></table></figure>
+
+<p><strong>截取字串的方式</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str.<span class="built_in">right</span>(<span class="number">5</span>); </span><br><span class="line">str.<span class="built_in">left</span>(<span class="number">9</span>); </span><br><span class="line">str.<span class="built_in">mid</span>(<span class="number">4</span>, <span class="number">5</span>); </span><br></pre></td></tr></table></figure>
+
+
+<p><strong>遍历字符串的几种方式</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (QChar qc: str) </span><br><span class="line">	out &lt;&lt; qc &lt;&lt; <span class="string">&quot; &quot;</span>; out &lt;&lt; endl; </span><br><span class="line"><span class="keyword">for</span> (QChar *it=str.<span class="built_in">begin</span>(); it!=str.<span class="built_in">end</span>(); ++it) </span><br><span class="line">	out &lt;&lt; *it &lt;&lt; <span class="string">&quot; &quot;</span> ; out &lt;&lt; endl; </span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; str.<span class="built_in">size</span>(); ++i) </span><br><span class="line">	out &lt;&lt; str.<span class="built_in">at</span>(i) &lt;&lt; <span class="string">&quot; &quot;</span>; </span><br></pre></td></tr></table></figure>
+
+<p><strong>字符串比较</strong><br>QString::compare返回整型：<br>0表示相等<br>负数表示小于<br>正数表示大于</p>
+<p><strong>字符类型判断</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (QChar s : str) &#123; </span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">isDigit</span>()) &#123;digits++;&#125;          <span class="comment">//判断数字</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isLetter</span>()) &#123;letters++;&#125;   <span class="comment">//判断字母</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isSpace</span>()) &#123;spaces++;&#125;     <span class="comment">//判断空白字符</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isPunct</span>()) &#123;puncts++;&#125;     <span class="comment">//判断标点符号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>字符串类型转换</strong><br>转为int型 s1.toInt()<br>转为字符串 setNum(n1) </p>
+<p><strong>字符串修改操作</strong><br><code>str.append(&quot; season&quot;)</code>：追加字符串<br><code>str.remove(10, 3)</code>：移除index =10 后的三个字符<br><code>str.replace(7, 3, &quot;girl&quot;)</code>：替换 index = 7 后的三个字符为新字符串<br><code>str.clear(); </code>：清空字符串</p>
+<p><strong>对齐字符串</strong><br>可以使用leftJustified和rightJustified来对齐字符串</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QString field3 &#123; <span class="string">&quot;Residence: &quot;</span> &#125;; </span><br><span class="line">QString field4 &#123; <span class="string">&quot;Marital status: &quot;</span> &#125;; </span><br><span class="line"><span class="type">int</span> width = field4.<span class="built_in">size</span>(); </span><br><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; field3.<span class="built_in">rightJustified</span>(width, <span class="string">&#x27; &#x27;</span>) &lt;&lt; <span class="string">&quot;New York&quot;</span>; </span><br><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; field4.<span class="built_in">rightJustified</span>(width, <span class="string">&#x27; &#x27;</span>) &lt;&lt; <span class="string">&quot;single&quot;</span>; </span><br></pre></td></tr></table></figure>
+<blockquote>
+<pre><code>Residence: New York
+</code></pre>
+<p>Marital status: single</p>
+</blockquote>
+<p><strong>转码为html格式</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QString allText = <span class="string">&quot;&lt;\&quot;hello the world!\&quot;&gt;&quot;</span>; </span><br><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; allText.<span class="built_in">toHtmlEscaped</span>(); </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>&lt;&quot;hello the world!&quot;&gt;</p>
+</blockquote>
  
       <!-- reward -->
       
@@ -266,7 +212,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2022/10/24/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%9D%97/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2022/11/15/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89QString/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -279,19 +225,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/10/25/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD%E6%9C%BA%E5%88%B6/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            QT学习（二）QObject及信号和槽机制
-          
-        </div>
-      </a>
     
-    
-      <a href="/2022/10/24/EclipseRCP%E6%A1%86%E6%9E%B6/" class="article-nav-link">
+      <a href="/2022/11/03/NuXMV%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">EclipseRCP框架</div>
+        <div class="article-nav-title">NuXMV学习笔记</div>
       </a>
     
   </nav>
