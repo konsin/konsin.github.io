@@ -4145,7 +4145,7 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <p><strong>字符类型判断</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (QChar s : str) &#123; </span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">isDigit</span>()) &#123;digits++;&#125;          <span class="comment">//判断数字</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isLetter</span>()) &#123;letters++;&#125;   <span class="comment">//判断字母</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isSpace</span>()) &#123;spaces++;&#125;     <span class="comment">//判断空白字符</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (s.<span class="built_in">isPunct</span>()) &#123;puncts++;&#125;     <span class="comment">//判断标点符号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>字符串类型转换</strong><br>转为int型 s1.toInt()<br>转为字符串 setNum(n1) </p>
-<p><strong>字符串修改操作</strong><br><code>str.append(&quot; season&quot;)</code>：追加字符串<br><code>str.remove(10, 3)</code>：移除index =10 后的三个字符<br><code>str.replace(7, 3, &quot;girl&quot;)</code>：替换 index = 7 后的三个字符为新字符串<br><code>str.clear(); </code>：清空字符串</p>
+<p><strong>字符串修改操作</strong><br><code>str.append(&quot; season&quot;)</code>：追加字符串<br><code>str.remove(10, 3)</code>：移除index =10 后的三个字符<br><code>str.replace(7, 3, &quot;girl&quot;)</code>：替换 index = 7 后的三个字符为新字符串<br><code>str.clear(); </code>：清空字符串<br>‘str.split(‘,’)’：按指定字符切割字符串，返回字符串列表QStringList<br>‘str.trimmed()’：去除字符串两侧的空格</p>
 <p><strong>对齐字符串</strong><br>可以使用leftJustified和rightJustified来对齐字符串</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">QString field3 &#123; <span class="string">&quot;Residence: &quot;</span> &#125;; </span><br><span class="line">QString field4 &#123; <span class="string">&quot;Marital status: &quot;</span> &#125;; </span><br><span class="line"><span class="type">int</span> width = field4.<span class="built_in">size</span>(); </span><br><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; field3.<span class="built_in">rightJustified</span>(width, <span class="string">&#x27; &#x27;</span>) &lt;&lt; <span class="string">&quot;New York&quot;</span>; </span><br><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; field4.<span class="built_in">rightJustified</span>(width, <span class="string">&#x27; &#x27;</span>) &lt;&lt; <span class="string">&quot;single&quot;</span>; </span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -4158,6 +4158,69 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <blockquote>
 <p>&lt;&quot;hello the world!&quot;&gt;</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>QT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>QT学习（四）常用容器</title>
+    <url>/2022/12/01/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<p>相对于C++ STL里的容器，QT也提供了容器，且与STL模板兼容。</p>
+<h2 id="顺序容器"><a href="#顺序容器" class="headerlink" title="顺序容器"></a>顺序容器</h2><h3 id="QList"><a href="#QList" class="headerlink" title="QList"></a>QList</h3><blockquote>
+<p>QList、QVector(在qt6中，QVector是QList别名)</p>
+</blockquote>
+<ol>
+<li>引入容器：<code>#include &lt;QList&gt; </code></li>
+<li>定义：<code>QList&lt;int&gt; vals = &#123;1, 2, 3, 4, 5&#125;; </code></li>
+<li>容器大小：<code> vals.size();</code></li>
+<li>首元素：<code> vals.first();</code></li>
+<li>尾元素：<code> vals.last();</code></li>
+<li>尾插：<code>vals.append()</code></li>
+<li>头插：<code>vals.prepend()</code></li>
+<li>一种遍历方式：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> val : vals) </span><br><span class="line">      <span class="built_in">qDebug</span>() &lt;&lt; val ; </span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p><strong>tips:</strong> QCollator类</p>
+</blockquote>
+<p>QCollator使用QLocale和可选的排序策略进行初始化。它尝试用指定的值初始化collator。然后，可以使用collator以依赖于语言环境的方式对字符串进行比较和排序。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">QLocale <span class="title">cn</span><span class="params">(QLocale::Chinese)</span></span>; </span><br><span class="line"><span class="function">QCollator <span class="title">collator</span><span class="params">(cn)</span></span>; </span><br><span class="line">std::<span class="built_in">sort</span>(authors.<span class="built_in">begin</span>(), authors.<span class="built_in">end</span>(), collator); </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>QStringList</p>
+</blockquote>
+<p>QStringList仍包含于QList中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">QString string = <span class="string">&quot;coin, book, cup, pencil, clock, bookmark&quot;</span>; </span><br><span class="line">QStringList items = string.<span class="built_in">split</span>(<span class="string">&quot;,&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>使用Java风格的const迭代器遍历QStringList</p>
+<ul>
+<li>hasNext()判断是否有下一项</li>
+<li>next()：返回下一项并将迭代器前进一个位置。<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">QStringListIterator <span class="title">it</span><span class="params">(items)</span></span>; </span><br><span class="line"><span class="keyword">while</span> (it.<span class="built_in">hasNext</span>()) </span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; it.<span class="built_in">next</span>(); </span><br></pre></td></tr></table></figure>
+使用C++风格的iterator迭代器遍历：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">QStringList::Iterator it=items.<span class="built_in">begin</span>(); </span><br><span class="line"><span class="keyword">while</span> (it!=items.<span class="built_in">end</span>()) </span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; (*it++).<span class="built_in">trimmed</span>() ;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="关联容器"><a href="#关联容器" class="headerlink" title="关联容器"></a>关联容器</h2><h3 id="QSet"><a href="#QSet" class="headerlink" title="QSet"></a>QSet</h3><ul>
+<li>提供具有快速查找功能的单值集。</li>
+<li>不支持排序。values方法返回一个QList，其中包含QSet中的元素。</li>
+<li>unite方法执行两个集合的并集。</li>
+</ul>
+<ol>
+<li>引入：<code>#include &lt;QSet&gt; </code></li>
+<li>定义：<code>QSet&lt;QString&gt; cols1 = &#123;&quot;yellow&quot;, &quot;red&quot;, &quot;blue&quot;&#125;;</code></li>
+<li>求并集：<code>cols1.unite(cols2); </code></li>
+<li>大小：<code>cols1.size()</code></li>
+<li>插入元素：<code>cols1.insert(&quot;brown&quot;); </code></li>
+<li>遍历方式：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">const</span> QString &amp;val : cols1) </span><br><span class="line">     out &lt;&lt; val &lt;&lt; endl; </span><br></pre></td></tr></table></figure>
+<h3 id="QMap"><a href="#QMap" class="headerlink" title="QMap"></a>QMap</h3></li>
+<li>引入：<code>#include &lt;QMap&gt; </code></li>
+<li>定义：<code>QMap&lt;QString, int&gt; items = &#123; &#123;&quot;coins&quot;, 5&#125;, &#123;&quot;books&quot;, 3&#125; &#125;; </code></li>
+<li>插入：<code>items.insert(&quot;bottles&quot;, 7);  </code></li>
+<li>大小：<code>items.size()</code></li>
+<li>获取所有值：<code>QList&lt;int&gt; values(items.cbegin(),items.cend());</code><br> 使用了cbegin()，cend()迭代器</li>
+<li>获取所有键：<code>QList&lt;QString&gt; keys(items.keyBegin(),items.keyEnd());</code><br>使用了keyBegin()，keyEnd()迭代器</li>
+<li></li>
+</ol>
 ]]></content>
       <categories>
         <category>学习笔记</category>
