@@ -80,6 +80,8 @@ for (QChar s : str) {
 `str.remove(10, 3)`：移除index =10 后的三个字符
 `str.replace(7, 3, "girl")`：替换 index = 7 后的三个字符为新字符串
 `str.clear(); `：清空字符串
+'str.split(',')'：按指定字符切割字符串，返回字符串列表QStringList
+'str.trimmed()'：去除字符串两侧的空格
 
 **对齐字符串**
 可以使用leftJustified和rightJustified来对齐字符串
