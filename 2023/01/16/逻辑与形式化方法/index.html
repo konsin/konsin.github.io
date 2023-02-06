@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta name="description" content="Konsin个人学习笔记记录小站" />
+      
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>逻辑与形式化方法 |  不想当咸鱼王</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-逻辑与形式化方法"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  逻辑与形式化方法
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2023/01/16/%E9%80%BB%E8%BE%91%E4%B8%8E%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2023-01-16T02:28:40.000Z" itemprop="datePublished">2023-01-16</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">5.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">24 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Model-Checking"><a href="#Model-Checking" class="headerlink" title="Model Checking"></a>Model Checking</h1><blockquote>
+<p><strong>Definition (Model checking)</strong> Given a Kripke structure M = (S,R,L), a designated initial state s0 ∈ S, and a temporal logic formula ϕ, the model-checking problem is to decide whether M is a model of ϕ, i.e., whether M,s0 |= ϕ.</p>
+</blockquote>
+<p>三个问题:</p>
+<ol>
+<li>模型Model:怎么把程序等转化成Model？怎么样建立有效的Model？有很多的Model在建立时已经决定了验证时是不确定的。</li>
+<li>形式化验证Specification：Properties很难写。LTL和CTL很难写</li>
+<li>算法Algorithm：软件和硬件系统是不是Properties的一个子集？不是说公式表达的状态越多越复杂，有时候反而会很简单。用BDD做model checking很难预测大小。故现在主要用SAT做验证<br>Higher-order theorem proving 是比 Testing 更强大的用于证明程序复杂性的</li>
+</ol>
+<h2 id="时序逻辑概述"><a href="#时序逻辑概述" class="headerlink" title="时序逻辑概述"></a>时序逻辑概述</h2><p>在一个模型中，公式的真与假不是静态的。</p>
+<h3 id="Kripke-Structures-克里普克结构"><a href="#Kripke-Structures-克里普克结构" class="headerlink" title="Kripke Structures 克里普克结构"></a>Kripke Structures 克里普克结构</h3><p>用来做Model Checking 很重要的一个Model。是有限有向图，其顶点用一组原子命题标记。图的顶点和边分别被称为“状态”和“转换”。</p>
+<blockquote>
+<p><strong>Definition (Kripke structure)</strong> Let AP be a finite set of atomic propositions.A Kripke structure is a triple (S,R,L) where S is a finite set of states, R ⊆ S × S is a transition relation, and $L: S \mapsto \mathcal{P}(AP)$ labels each state with a set of atomic propositions.</p>
+</blockquote>
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.1ax2g51vvif4.webp" alt="image"></p>
+<h3 id="分支时序逻辑-计算树逻辑（CTL）"><a href="#分支时序逻辑-计算树逻辑（CTL）" class="headerlink" title="分支时序逻辑-计算树逻辑（CTL）"></a>分支时序逻辑-计算树逻辑（CTL）</h3><p>CTL是一种分支时态逻辑，在状态上解释路径量词，在路径上解释时态运算符。可用于断言一条路径的存在。<br>复杂度大小为：Model大小 * formula大小<br><strong>路径量词</strong><br>$A$: 沿所有路径<br>$E$: 沿至少一条路径<br><strong>时态操作符</strong>（用于原子命题$p$和$q$）<br>$Xp$: $p$为真在<u>下一个状态</u><br>$Fp$: $p$为真在<u>某个未来状态</u><br>$Gq$: $q$为真在<u>所有未来状态</u><br>$qUp$: $p$在某个未来状态为真，在所有状态$q$一直为真，<u>直到</u> $p$为真</p>
+<p><strong>CTL语法定义</strong>：A为给定的原子命题</p>
+<blockquote>
+<p>If $p \in A$, then $p$ is a formula of CTL* .<br>If $\varphi$ and $\psi$ are formulas of CTL* , then $\varphi \vee \psi$, $\varphi \wedge \psi$, $\neg \varphi$, $A\varphi$, $E\varphi$, $X\varphi$, $F\varphi$, $G\psi$, and $\varPsi U \psi$ are formulas of CTL*.</p>
+</blockquote>
+<p><strong>CTL状态公式真值表</strong><br>$K$是一个Kripke structure，$\pi$是一个路径，$s$是一个状态，$p$是一个原子命题，$f$和$g$是状态公式，$\varphi$和$\psi$是CTL*公式</p>
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.1c1qesv09ev4.webp" alt="image"></p>
+<h3 id="线性时序逻辑（LTL）"><a href="#线性时序逻辑（LTL）" class="headerlink" title="线性时序逻辑（LTL）"></a>线性时序逻辑（LTL）</h3><p>LTL将时间建模成状态的序列，无限延伸到未来。这个状态序列称为计算路径。如果定义系统的一个状态满足一个LTL公式，则由给定状态出发的所有路径都满足该LTL。即LTL隐含着对所有路径做全称量词限定。LTL是CTL的一个语法子集？但是算法时间复杂度比CTL大。Model的大小 * formula的指数大小。</p>
+<blockquote>
+<p>If $p \in A$, then $p$ is a formula of LTL- .<br>If $\varphi$ and $\psi$ are formulas of LTL- , then $\varphi \vee \psi$, $\varphi \wedge \psi$, $\neg \varphi$, $X\varphi$, $F\varphi$, $G\psi$, and $\varPsi U \psi$ are formulas of LTL-.<br>If $\psi$ is a formula of LTL-, $A\psi$ is an LTL formula.</p>
+</blockquote>
+<h1 id="Modeling-Software-Systems"><a href="#Modeling-Software-Systems" class="headerlink" title="Modeling Software Systems"></a>Modeling Software Systems</h1><p>多线程系统相较于单线程系统存在新的问题：资源竞争、死锁、运算顺序等。<br>状态空间爆炸问题。</p>
+<h2 id="时序逻辑"><a href="#时序逻辑" class="headerlink" title="时序逻辑"></a>时序逻辑</h2><p>语言要求：Formal（规范）、Intuitive（易懂）、Succinct（简介）、Effective（有效）、Expressive（表达力）</p>
+<h3 id="Linear-Temporal-Logic：-LTL"><a href="#Linear-Temporal-Logic：-LTL" class="headerlink" title="Linear Temporal Logic： LTL"></a>Linear Temporal Logic： LTL</h3><p>LTL公式使用析取和否定的普通布尔连接词构造，并引入时序操作符next、previous、until和since。<br>$\varphi ::= (\varphi)|\neg\varphi|\varphi\vee\varphi|\varphi\wedge\varphi|\varphi U \varphi|\Box\varphi|\diamondsuit\varphi|\bigcirc\varphi|P$<br>$\bigcirc p$等同于$Xp$: $p$为真在<u>下一个状态</u><br>$\diamondsuit p$等同于$Fp$: $p$为真在<u>某个未来状态</u><br>$\Box q$等同于$Gq$: $q$为真在<u>所有未来状态</u><br>$qUp$: $p$在某个未来状态为真，在所有状态$q$一直为真，<u>直到</u> $p$为真<br>$P$为布尔变量</p>
+<h2 id="Explicit-State-Model-Checking"><a href="#Explicit-State-Model-Checking" class="headerlink" title="Explicit-State Model Checking"></a>Explicit-State Model Checking</h2><p>显式状态模型检验(Explicit-state model checking) 非常适合应用于软件验证，特别是交互异步进程系统的验证。</p>
+<ul>
+<li>基本的可达性分析最容易用于安全 属性的验证，例如不变量、断言的有效性，或者多进程系统中不存在死锁 。</li>
+<li>算法也可以用来证明活跃属性，包括所有可以在线性时序逻辑(LTL)中形式化的属性</li>
+</ul>
+<p>使用Explicit-State Model Checking需要满足两个假设：</p>
+<ul>
+<li>作为验证目标的系统必须是有限状态的</li>
+<li>系统执行可以被建模为一个单独的状态转换序列。</li>
+</ul>
+<p><strong>抽象很重要</strong></p>
+<h3 id="基本的搜索算法"><a href="#基本的搜索算法" class="headerlink" title="基本的搜索算法"></a>基本的搜索算法</h3><p>（使用DFS）？<br>状态机定义$A={S,s_0,L,T,F}$</p>
+<ul>
+<li>$S$是 状态的有限集，</li>
+<li>$s_0$是S中的一个元素，称为初始状态，</li>
+<li>$L$是一组符号，称为 标签集或字母表，</li>
+<li>$T\subseteq S \times L \times S$是过渡集，</li>
+<li>$F \subseteq S$是 最终状态集。</li>
+<li>自动机A接受任何以在$s\in F$状态下结束的有限执行。</li>
+</ul>
+<p><strong>BFS和DFS比较</strong>：</p>
+<ul>
+<li>同：两种算法具有相同的计算复杂度<ul>
+<li>在可达状态的数量上是线性</li>
+<li>这两种算法都可以在运行中工作，故不不需要预先知道可达图</li>
+</ul>
+</li>
+<li>异：行为不同<ul>
+<li>DFS:必须存储在集合D中使反例生成更小。</li>
+<li>DFS:很容易扩展，不仅支持安全性的验证，且支持活跃属性的验证，而不会增加搜索的计算复杂性。（显著优点）</li>
+<li>BFS:生成的任何反例往往更小</li>
+</ul>
+</li>
+</ul>
+<h3 id="omega-自动机"><a href="#omega-自动机" class="headerlink" title="$\omega$自动机"></a>$\omega$自动机</h3><p>任何LTL公式都可以机械地转换为Büchi自动机$B={S,s_0,L,T,F}$。$B$接受执行序列$\sigma$，当且仅当$\sigma$包含集合$F$的无穷多个状态时。即Büchi只接受无限序列。</p>
+<p><strong>模型检验的问题</strong>：<br>给定一个系统A，形式化为一个有限自动机 A，和一个Büchi自动机B， 形式化满足LTL公式的A的所有执行。在两个自动机接受的语言的交集中找到一个接受运行的问题。</p>
+<p>A 和B的交集是通过计算A × B得到的，A × B是一个Büchi 自动机。</p>
+<p>有限状态自动机A和B的同步积为有限状态自动机$P={S’,s_o’,L’,T’,F’}$</p>
+<ul>
+<li>$S’=A.S\times B.S$</li>
+<li>$s_0’=(A.s_0,B.s_0)$</li>
+<li>$L’=A.L\times B.L$</li>
+<li>$T’\in S’\times L’\times S’$, 其中$((A.s,B.t),(e,f ),<br>(A.s′,B.t′)) ⊆ T′,\  (A.s,e,A.s′) ∈ A.T, \ and (B.t,f,B.t′) ∈ B.T$</li>
+<li>$F’\subseteq A.S × B.S$，对于每一对$(e, F)\in F’$有$e\in A.F\wedge F\in B.F$</li>
+</ul>
+<p><strong>形式化如下</strong>：</p>
+<ul>
+<li>将LTL公式$f$转换为相应的Büchi自动机$B$。</li>
+<li>计算A0，…，AN的 交叉积(interleaving product) A。</li>
+<li>计算$A \times B$的同步积(synchronous product) P。</li>
+<li>使用Büchi接受规则找到自动机P的接受运行。</li>
+</ul>
+<h3 id="Nested-depth-first-search-嵌套DFS？"><a href="#Nested-depth-first-search-嵌套DFS？" class="headerlink" title="Nested depth-first search(嵌套DFS？)"></a>Nested depth-first search(嵌套DFS？)</h3><p>可以用嵌套的深度优先搜索算法有效地解决。在P中是否存在至少一个可到达的最终状态，也可以从它自身到达?</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Open D = &#123;&#125;; <span class="comment">// ordered set</span></span><br><span class="line">Visited V = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">State seed = nil;</span><br><span class="line"></span><br><span class="line"><span class="built_in">start</span>()</span><br><span class="line">&#123;   V!s0,<span class="number">0</span>; D!s0,<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">ndfs</span>(); <span class="comment">// start the first search</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">ndfs</span>()</span><br><span class="line">&#123;   Bit b; <span class="comment">// b=0: first search, b=1: nested search</span></span><br><span class="line">    D?s,b;</span><br><span class="line"></span><br><span class="line">    foreach (s,e,s’) in T</span><br><span class="line">    &#123;   <span class="keyword">if</span> (s’ == seed) <span class="comment">// seed reachable from itself</span></span><br><span class="line">        &#123;   <span class="built_in">liveness_violation</span>(); <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> !(s’,b ∈ V) <span class="comment">// if s’ not reached before</span></span><br><span class="line">        &#123;   V!s’,b; D!!s’,b; <span class="built_in">ndfs</span>(); <span class="comment">// continue search</span></span><br><span class="line">    &#125;   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in post-order, in first search only</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (s ∈ F &amp;&amp; b == <span class="number">0</span>)</span><br><span class="line">    &#123;   seed = s;   <span class="comment">// a reachable final state</span></span><br><span class="line">        D!!s,<span class="number">1</span>;     <span class="comment">// push s on stack D</span></span><br><span class="line">        <span class="built_in">ndfs</span>();     <span class="comment">// start the nested search</span></span><br><span class="line">        seed = nil; <span class="comment">// nested search completed</span></span><br><span class="line">&#125;   &#125;</span><br></pre></td></tr></table></figure>
+<p>算法中的符号定义：</p>
+<ul>
+<li>$X!y$将y添加到集合X中;如果X是有序的，那么它将y作为X的最后一个元素，</li>
+<li>$X!!y$将y添加到集合X中;如果X是有序的，那么它将y作为X的第一个元素，</li>
+<li>$X?y$从集合X中移除一个元素并命名为y;如果X有序，则删除的元素是X中的第一个元素，如果X为空，则操作返回空元素 $\emptyset$ 。</li>
+</ul>
+<h1 id="Binary-Decision-Diagrams"><a href="#Binary-Decision-Diagrams" class="headerlink" title="Binary Decision Diagrams"></a>Binary Decision Diagrams</h1><p>使用真值表或者二进制决策树来表示二进制布尔变量情况，其复杂度是指数倍增长的。采用二进制决策图来表示可以降低复杂度</p>
+<p>**二进制决策图(BDD)**：将布尔函数表示为无环有向图，</p>
+<ul>
+<li>非终端顶点用布尔变量标记<br>对于非终端顶点$v$，其变量记为$var(v)$，而对于叶顶点$v$，其值记为$val(v)$。<br>每个非终端顶点v都有两条出边:$hi(v)$，变量值为1;$lo(v)$变量值为0。</li>
+<li>叶子顶点用值1和0标记。<br>我们将$hi(v)$和$lo(v)$称为顶点$v$的$hi$和$lo$子结点。这两个叶结点被称为$1-leaf$和$0-leaf$。<blockquote>
+<p><strong>Definition 1 (BDD)</strong> Reduced ordered BDDs are canonical representations of Boolean propositional formulas. The BDD for a formula f , denoted by Bdd(f ), is a directed acyclic graph (DAG).</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="BDD相关规则"><a href="#BDD相关规则" class="headerlink" title="BDD相关规则"></a>BDD相关规则</h2><p><strong>ODBB表示布尔函数的规则：</strong><br>将函数$f_v$与图中的每个顶点$v$相关联来定义由BDD表示的布尔函数。BDD中的每个顶点都表示一个布尔函数</p>
+<ul>
+<li>对于两个叶子，相关联的值是 1 (1-leaf)和0 (0-leaf)。</li>
+<li>对于非终端顶点v，相关的函数定义为为$f_v = (var(v) \wedge f_{hi(v)}\vee (\neg var(v) ∧ f_{lo(v)}).$</li>
+</ul>
+<p>对于有序二进制决策图(obdd)，我们对与图顶点相关的变量强制执行一个排序规则 。（<strong>不同的排序规则会导致不同的BDD大小）</strong></p>
+<ul>
+<li>对于每个顶点$v$有 $var(v) = x_i$，对于顶点$u\in {hi(v)，lo(v)}$有$var(u) = x_j$且必须 $i &lt; j$。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left"><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.74vur33458s0.webp"><br><center>树表示</th>
+<th align="left"><img src=https://cdn.staticaly.com/gh/konsin/images@main/image.u8xh67186zk.webp><br><center> OBDD表示</th>
+</tr>
+</thead>
+</table>
+<center> (x1 ∧ x2 ∧ ¬x3) ∨ (¬x1 ∧ x3) 的表示。<br>图中，我们将lo子结点的弧表示为虚线，将hi子结点的弧表示为实线。</center>
+
+<p><strong>简化的OBDD定义为满足以下规则的OBDD:</strong></p>
+<ol>
+<li>一个叶子最多只能有一个给定的值。</li>
+<li>不可能有顶点v使得$hi(v) = lo(v)$。一个节点的两个孩子不能指向一个地方。</li>
+<li>不可能存在不同的非终端顶点u和v，使得$var(u) = var(v)， hi(u) = hi(v)， lo(u) = lo(v)$。没有另外一个节点跟当前节点表达同一个意思</li>
+</ol>
+<p><strong>化简为reduced OBDD的规则</strong>：</p>
+<ol>
+<li>如果叶u和v有val(u) = val(v)，那么消除其中一个，并将所有传入的边重定向到另一个。</li>
+<li>如果顶点v具有lo(v) = hi(v)，则消除顶点v并将所有传入的边重定向到它的子顶点。</li>
+<li>如果顶点u和v有var(u) = var(v)， hi(u) = hi(v)， lo(u) = lo(v)，那么消除其中一个顶点，并将所有传入的边重定向到另一个顶点。</li>
+</ol>
+<h2 id="布尔函数抽象数据类型的基本操作"><a href="#布尔函数抽象数据类型的基本操作" class="headerlink" title="布尔函数抽象数据类型的基本操作"></a>布尔函数抽象数据类型的基本操作</h2><p>图中$f$和$g$表示布尔函数(用obdd表示)，$i$是 1到n之间的变量索引，$b$是0或1, $\bold{a}$是n个0和1的向量。索引$I\subseteq {1,…,n}$,$X_I$表示对应的一组变量${x_i|i\in I}$<br>| 操作               | 结果                                         | 解释                     |<br>| :—————– | :——————————————- | :———————– |<br>| 基本函数           |<br>| $CONST(b)$         | $\bold{1} (b = 1)\ or\ \bold{0} (b = 0)$     |<br>| $VAR(i)$           | $x_i$                                        |<br>| 代数运算           |<br>| $NOT(f)$           | $\neg f$                                     |<br>| $AND(f,g)$         | $f \wedge g$                                 |<br>| $OR(f,g)$          | $f \vee g$                                   |<br>| $XOR(f,g)$         | $f \oplus g$                                 |<br>| 非代数操作         |<br>| $RESTRICT(f,i,b)$  | $ f\vert_{x_i} \leftarrow b$                 | 把$x_i$值替换成0或1      |<br>| $COMPOSE(f,i,g)$   | $ f  \vert_{ x_i} \leftarrow g $             | 把$x_i$值替换成布尔函数g |<br>| $EXISTS(f,I)$      | $ \exist X_I.f$                              |<br>| $FORALL(f,I)$      | $ \forall X_I.f$                             |<br>| $RELPROD(f,g,I)$   | $ \exist X_I.(f \wedge g)$                   |<br>| 检验函数           |<br>| $EQUAL(f,g)$       | $ f = g$                                     |<br>| $EVAL(f,\bold{a})$ | $ f (\bold{a})$                              |<br>| $SATISFY(f )$      | some $\bold{a}$ such that $f (\bold{a}) = 1$ |<br>| $SATISFY-ALL(f )$  | $ {\bold{a} \vert f (\bold{a}) = 1}$       |</p>
+<h2 id="APPLY算法"><a href="#APPLY算法" class="headerlink" title="APPLY算法"></a>APPLY算法</h2><center>Apply算法，一种实现二进制布尔代数运算的通用方法。<br>在从递归调用返回时从下往上生成一个简化的OBDD 。 </center>
+
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4gzb8uvgqhs0.webp" alt="image"></p>
+<h2 id="变量排序和重组"><a href="#变量排序和重组" class="headerlink" title="变量排序和重组"></a>变量排序和重组</h2><p>有些函数对变量排序非常敏感，甚至出现从线性到变量数量的指数级的复杂度的差异。<br>使用相邻变量的成对交换作为基本操作，大多数OBDD库通过称为筛选 [59]的过程实现动态变量排序。单个变量或一小组变量[57]，通过相邻变量交换序列在排序中上下移动，直到确定产生的位置(总顶点数可接受)。在筛选的原始公式中，变量在整个可能的位置范围内移动，然后返回到使整体OBDD大小最小化的位置。</p>
+<h2 id="表示非布尔函数"><a href="#表示非布尔函数" class="headerlink" title="表示非布尔函数"></a>表示非布尔函数</h2><p><strong>OBDD的关键属性</strong>:</p>
+<ul>
+<li>主要是通过子图的共享实现了紧凑性，， </li>
+<li>关键操作可以通过图算法实现，</li>
+<li>表示的函数的属性可以很容易地测试。</li>
+</ul>
+<p><strong>无界域上的函数</strong><br>当一个函数变量x在一个无限大的定义域D上时，我们不能简单地用一组二进制值来编码它的可能值，或者向决策图的顶点添加多个分支。然而，在某些应用程序中，<u>只需要捕获状态变量的一组有界属性。</u><br><strong>差异决策图(DDDs:Difference Decision Diagrams (DDDs))</strong><br>差分约束:每一种形式为$x_i−x_j≤c$或$x_i−x_j &lt; c$，其中$x_i$和$x_j$为时钟变量，c为整数或实值。<br>| <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.285elr5wge80.webp" alt="image">       | <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.2to7vq40v6q0.webp" alt="image">                          | <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.699t285smtc0.webp" alt="image">                      |<br>| :————————————————————————————– | :——————————————————————————————————— | :—————————————————————————————————– |<br>| $C_1 = (x_1 − x_2 &gt; 4) ∧ (x_1 − x_3 ≤ 12)$ <br> $C2 = (x_1 − x_2 ≤ 4) ∧ (x_2 − x_3 ≤5)$ | $C_1 = (x_1 − x_2 &gt; 4) ∧ (x_1 − x_3 ≤ 12)$ <br> $C’_2 = (x_1 − x_2 ≤ 4) ∧ (x_2 − x_3 ≤ 5) ∧ (x_1 −x_3&gt;10)$ | $C_1 = (x_1 − x_2 &gt; 4) ∧ (x_1 − x_3 ≤ 12)$ <br>$C_2’’ = (x1 − x2 ≤ 4) ∧ (x2 − x3 ≤ 5) ∧ (x1 − x3 ≤ 9)$ |</p>
+<center>差分决策图(DDD)示例。顶点由差分约束标记</center>
+
+<h1 id="BDD-Based-Symbolic-Model-Checking"><a href="#BDD-Based-Symbolic-Model-Checking" class="headerlink" title="BDD-Based Symbolic Model Checking"></a>BDD-Based Symbolic Model Checking</h1><ul>
+<li>BDDs用于符号表示所分析的自动机或Kripke结构的转换关系，以及由模型检查算法控制的状态集。</li>
+<li>表示和操作转换关系及状态集对于实现广泛的时序逻辑的模型检查算法是足够的</li>
+</ul>
+<p>基于bdd的符号模型检查对形式化验证和形式化方法的影响。</p>
+<ul>
+<li>首先，它实现了工业系统的实际验证。</li>
+<li>其次，它导致了bdd的重要发展，例如新类型的bdd[22]，变量排序启发式[2,24]和高效实现[31]。</li>
+<li>最后，它为其他形式的符号模型检查铺平了道路，</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.41162qpy4o20.webp" alt="image"><br>一个Kripke结构和一个BDD的转换关系 (虚线和实线分别表示BDD中的0和1边)</p>
+<h2 id="状态集-和-关系的表示"><a href="#状态集-和-关系的表示" class="headerlink" title="状态集 和 关系的表示"></a>状态集 和 关系的表示</h2><h3 id="状态集的表示："><a href="#状态集的表示：" class="headerlink" title="状态集的表示："></a><strong>状态集的表示</strong>：</h3><p>对于任意$X⊆S$，特征函数$[[X]]$用命题公式$f (X)$表示，定义为：$f (X) = \bigvee\limits_{s∈X}\chi (s)$<br>形式上，设$\chi$为从S到minterms的映射，定义为:$\chi(s) = l_1 ∧ ··· ∧ l_k\  where\  l_i =\left{\begin{matrix} p_i &amp; if\ p_i ∈ L(s) \ \neg p_i &amp; otherwise  \end{matrix}\right.$<br>以上图Kripke结构图为例。<br>$χ(s0) = p ∧ ¬q,\ χ(s1) = p ∧ q,\ χ(s2) = ¬p ∧ q,\ χ(s3) = ¬p ∧ ¬q$<br>让$X = \emptyset, Y = {s0,s1}, and Z = {s1,s3}$.那么 对应的特征函数的符号表示为:<br>$\begin{matrix} f (X) = FALSE &amp; f (Y) = (p ∧ ¬q) ∨ (p ∧ q) = p &amp;<br>f (Z) = (p ∧ q) ∨ (¬p ∧ ¬q)\end{matrix}$</p>
+<h3 id="关系的表示"><a href="#关系的表示" class="headerlink" title="关系的表示"></a><strong>关系的表示</strong></h3><p>对于任意$R⊆S × S$，特征函数$[[R]]$用命题公式$f (R)$表示为:$f (R) = \bigvee\limits_{(s, t)∈R}\chi (s, t)$</p>
+<p>为了表示转换关系$R⊆S × S$，我们引入了一组新的原子命题$AP’ = {p_1’，…, p_k’}$。<u>$p$为当前状态中的$p$，$p’$为当前状态可转换到的下一个状态中的$p$。</u><br>对于AP上的公式$f$，$Prime(f )=f [p_1,…,p_k/p_1′ ,…,p_k′]$，$UnPrime(f ) = f [p_1′ ,…,p_k′ /p_1,…,p_k]$<br>使用BDD 重命名操作将这些操作提升到BDD。我们现在将χ扩展为S × S与 minterms集合对AP∪AP’的双射：$χ(s,t) = χ(s) ∧ Prime(χ(t))$</p>
+<p>上图右侧为以下关系的BDD表示：<br>$f (R) =(p ∧ ¬q ∧ p’ ∧ q’) ∨ (p ∧ ¬q ∧ ¬p’ ∧ q’) ∨ (p ∧ q ∧ p’ ∧ q’)<br>∨ (p ∧ q ∧ ¬p’ ∧ q’) ∨ (¬p ∧ q ∧ ¬p’ ∧ ¬q’) ∨ (¬p ∧ ¬q ∧ ¬p’ ∧ ¬q’)<br>\=(p ∧ q’)∨ (¬p ∧ ¬p’ ∧ ¬q’)$</p>
+<h2 id="图像运算"><a href="#图像运算" class="headerlink" title="图像运算"></a>图像运算</h2><p>图像和预图像计算——即分别计算一组状态的后继集合或前身的集合——是任何模型检查算法的基本操作</p>
+<p>给定一组状态S，转换关系R下S的图像用Image (S,R)表示 ，定义为:<br>$Image(S,R) = {t \vert ∃s ∈ S_▪ (s,t) ∈ R}$ ，是过渡关系R中从S一步可达的状态集。</p>
+<p>设$\bold{S}$和$\bold{R}$分别是$\bold{S}$和$\bold{R}$用 BDD 对$AP$和$AP∪AP’$的符号表示。然后计算 $Image(\bold{S,R})$的符号表示，记为$BDDIMAGE(\bold{S,R})$，计算公式如下:<br>$BDDIMAGE(\bold{S,R}) = UnPrime(∃AP_▪ \bold{S ∧ R})$</p>
+<blockquote>
+<p>首先为S和R的合取构造BDD，然后使用存在量化投射所有的预状态变量$AP$，最后 将结果从$AP’$重命名为$AP$变量。</p>
+</blockquote>
+<p>以$BDDIMAGE(\bold{S,R})$为例，其中$R$为s上图中Kripke结构的跃迁关系，$\bold{S} = {s0}$:<br>$$<br>\begin{align*}<br>&amp; BDDIMAGE(S,R)\<br>&amp; = UnPrime(∃p,q_▪ (p ∧ ¬q) ∧ ((p ∧ q′) ∨ (¬p ∧ ¬p′ ∧ ¬q′)))\<br>&amp; = UnPrime(∃p,q_▪ (p ∧ ¬q) ∧ (p ∧ q′))\<br>&amp; = UnPrime(q’) = q = Bdd(f ({s1,s2}))<br>\end{align*}<br>$$<br>$(p ∧ ¬q)$为$S_0$，$((p ∧ q′) ∨ (¬p ∧ ¬p′ ∧ ¬q′)))$为化简后的转换关系符号表示$f(R)$</p>
+<p>$R$下$S$的预像记为$PreImage(S,R)$，定义为:$PreImage(T,R) = {s | ∃t ∈ T_▪ (s,t) ∈ R}$<br>$PreImage(S,R)$是由转换关系R的一步可以到达$S$中某个状态的所有状态的集合，给定T和R的符号表示T和R，$PreImage(T,R)$的符号表示为 $BDDPREIMAGE(T,R)$，计算公式如下:<br>$BDDPREIMAGE\bold{(T,R)} = ∃AP′ ▪ \bold{R} ∧ Prime(\bold{T})$</p>
+<p>以$BDDPREIMAGE(\bold{T,R})$为例，其中$R$为s上图中Kripke结构的跃迁关系，$\bold{T} = {s_1,s_2}$:<br>$$<br>\begin{align*}<br>&amp;BDDPREIMAGE(T,R) \<br>&amp;= ∃p′,q′ ▪ ((p ∧ q′) ∨ (¬p ∧ ¬p′ ∧ ¬q′)) ∧ Prime(q)\<br>&amp;= ∃p′,q′ ▪ (p ∧ q′) ∧ q′\<br>&amp;= p = Bdd(f ({s0,s1}))\<br>\end{align*}<br>$$</p>
+<h2 id="分区转换关系"><a href="#分区转换关系" class="headerlink" title="分区转换关系"></a>分区转换关系</h2><p>通常在实践中，即使$R, S$和$Image(S,R)$具有有效的BDD表示，中间结果也非常大。这通常被称为 图像计算的“驼峰”。在这种情况下，需要将转换关系$R$划分为一组BDDs，并直接对这样一个已分区的关系进行操作。</p>
+<h3 id="析取分解-Disjunctive-Decomposition"><a href="#析取分解-Disjunctive-Decomposition" class="headerlink" title="析取分解 Disjunctive Decomposition"></a>析取分解 Disjunctive Decomposition</h3><p><strong>当R是几个转换关系异步组合的结果时</strong>，通常会出现这种情况。<br>存在量词下的析取：$∃X ▪ A ∨ B ⇐⇒ (∃X ▪ A) ∨ (∃X ▪ B)$<br>假设R为一组BDD的集合$\bold{R}=\bigvee\limits_{1\le i\le n }\bold{R}<em>i$<br>$$\begin{align*}<br>BDDIMAGE(S,R) &amp;= UnPrime(∃AP ▪ S ∧ R)\<br>&amp;= UnPrime\left(∃AP ▪ S ∧\left( \bigvee\limits</em>{1≤i≤n} R_i\right)\right) \<br>&amp;= \bigvee\limits_{1≤i≤n}\underbrace{UnPrime(∃AP ▪ S ∧ Ri)}<em>{done\ one\ \bold{R}<em>i\ at\ a time}\<br>\end{align*}<br>$$<br>$$\begin{align*}<br>BDDPREIMAGE(S,R) &amp;= ∃AP’ ▪ Prime(S) ∧ R\<br>&amp;= ∃AP’ ▪ Prime(S)\wedge \left( \bigvee\limits</em>{1≤i≤n} R_i\right) \<br>&amp;= \bigvee\limits</em>{1≤i≤n}\underbrace{∃AP’ ▪ Prime(S) \wedge \bold{ R_i}}_{done\ one\ \bold{R}_i\ at\ a time}\<br>\end{align*}<br>$$</p>
+<h3 id="合取分解-Conjunctive-Decomposition"><a href="#合取分解-Conjunctive-Decomposition" class="headerlink" title="合取分解 Conjunctive Decomposition"></a>合取分解 Conjunctive Decomposition</h3><p><strong>当R是几个转换关系同步组合的结果时</strong>，通常会出现这种情况。<br>设X为一组变量，两个命题公式A、B且满足 $X\cap var(A) =\emptyset$。则$∃X ▪ A ∧ B ⇐⇒ A ∧ ∃X ▪ B$<br>假设R为一组BDD的集合 $\bold{R}=\bigwedge\limits_{1\le i\le n }\bold{R}<em>i$<br>$$\begin{align*}<br>BDDIMAGE(S,R) &amp;= UnPrime(∃AP ▪ S ∧ R)\<br>&amp;= UnPrime\left(∃AP ▪ S ∧\left( \bigwedge\limits</em>{1≤i≤n} R_i\right)\right) \<br>&amp;= UnPrime(∃V_1 ▪ (∃V_2 ▪ …∃Vn ▪ (S ∧ R_n)··· ∧ R_2) ∧ R1)\<br>&amp;\text{where, for}\ 1 ≤ i ≤ n,\ V_i = AP ∩ \left(Var(R_i)/ \bigcup\limits_{1≤j&lt;i}Var(R_j)\right)<br>\end{align*}<br>$$<br>$V_i$是原子命题p的集合，使得i是p出现在Ri中的最小值。<br>$$\begin{align*}<br>BDDPREIMAGE(S,R) &amp;= ∃AP’ ▪ Prime(S) ∧ R\<br>&amp;= ∃AP’ ▪ Prime(S)\wedge \left( \bigwedge\limits_{1≤i≤n} R_i\right) \<br>&amp;=  ∃V’<em>1 ▪ (∃V_2’ ▪ ···∃V_n’ ▪ (Prime(S) ∧ R_n)··· ∧ R_2) ∧ R1\<br>&amp; \text{where, for}\ 1 ≤ i ≤ n,\ V_i = AP’ ∩ \left(Var(R_i)/ \bigcup\limits</em>{1≤j&lt;i}Var(R_j)\right)\<br>\end{align*}<br>$$</p>
+<h2 id="Kripke结构的Model-Checking-（！！！算法，对应书的P231）"><a href="#Kripke结构的Model-Checking-（！！！算法，对应书的P231）" class="headerlink" title="Kripke结构的Model Checking （！！！算法，对应书的P231）"></a>Kripke结构的Model Checking （！！！算法，对应书的P231）</h2><p>我们假设M是一组原子命题AP上的Kripke结构$(S,R,L)$(即 我们的模型系统)；R用BDD表示，M有一个指定的初始状态$s_0∈S$，用BDD $s_0$表示。</p>
+<p>任何安全属性的模型检查都可以简化为表单$\bold{AG}p$的CTL公式的模型检查，其中p是单个原子命题。这是因为对任何安全属性的违反都可以简化为某些定义良好的坏状态的可达性。如果$M \models  \varphi$，则$\varphi$被称为$M$的一个不变量。<br>判断$M \models  \varphi$的算法如下：<br>工作原理是迭代计算从初始状态s0(第2-7行)可到达的状态集，然后检查是否存在不满足p (第8行)的可达状态。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.2z4cxjxt5t80.webp" alt="判断M |= AGp"></p>
+<h3 id="CTL-Model-Checking"><a href="#CTL-Model-Checking" class="headerlink" title="CTL Model Checking"></a>CTL Model Checking</h3><p>每个CTL公式$\varphi$是一个状态公式。当且仅当M的初始状态$s_0$满足$\varphi$时，$M \models  \varphi$</p>
+<p>将CTL的语法限制如下，其中$\varphi、\varphi_1、\varphi_2$为CTL公式，$p\in AP$:<br>$\varphi = p | ¬\varphi_1 | \varphi_1 ∧ \varphi_2 | EX\varphi_1 | EG\varphi_1 | E(\varphi_1 U \varphi_2)$。<br>用⊥和⊤分别表示$(p_0∧¬p_0)$和$¬⊥$，其中$p_0\in AP $是一个特殊的原子命题。其他操作符使用标准的等价符替换。见 <a href="#%E5%88%86%E6%94%AF%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91-%E8%AE%A1%E7%AE%97%E6%A0%91%E9%80%BB%E8%BE%91%EF%BC%88CTL%EF%BC%89">计算树逻辑（CTL)</a><br>CTL模型检测算法：<br>两步工作:</p>
+<ul>
+<li>使用辅助函数$CTLSTATES$来计算满足$\varphi$的关于M的状态集S;</li>
+<li>当且仅当$s0∈S$时返回true。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.6vmcu84747o0.webp" alt="CTL模型检测算法"><blockquote>
+<p>函数 <strong>EXSTATES(M,S)</strong> 使用章节中描述的<a href="#%E5%9B%BE%E5%83%8F%E8%BF%90%E7%AE%97">PreImage</a>方法计算S的前一状态集合。<br>函数 <strong>EGSTATES(M,S)</strong> 迭代地计算一个状态集，该状态集存在一个只包含集合S中的状态的路径。<br>函数 <strong>EUSTATES(M,S1,S2)</strong> 计算存在一条从S1到S2的路径的状态集。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="SAT求解器（Propositional-SAT-Solving）"><a href="#SAT求解器（Propositional-SAT-Solving）" class="headerlink" title="SAT求解器（Propositional SAT Solving）"></a>SAT求解器（Propositional SAT Solving）</h1><p>给定一个命题逻辑公式，确定是否存在一个变量赋值，使得公式的计算结果为真，这被称为布尔可满足性问题，通常缩写为SAT（Boolean Satisfiability Problem）。</p>
+<ul>
+<li>是一个NP完备问题。<ul>
+<li>不太可能存在任意多项式的SAT算法</li>
+<li>不排除找到足够高效的算法的可能性</li>
+</ul>
+</li>
+<li>完整的SAT求解者可以找到一个解(即一个令人满意的变量赋值)或证明不存在解。对于许多其他领域，包括使用模型检查的验证，主要任务是证明实例的不可满足性</li>
+<li>随机方法不能证明实例是不可满足的，即使他们可能能够为某些类型的可满足实例快速找到解决方案。<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2>布尔公式$\mathcal{F}$是在一组 命题变量是用标准逻辑连接词，¬，∧，∨归纳定义的，如下:</li>
+<li>原子(atom)$x$是布尔公式。</li>
+<li>如果$\mathcal{F}$是一个布尔公式，则$(¬\mathcal{F})$是一个布尔公式。(当$\mathcal{F}$表示一个原子$x$时，$¬\mathcal{F}$用$\overline{x}$表示。)</li>
+<li>如果$\mathcal{F}$和$\mathcal{G}$是布尔公式，那么$(\mathcal{F}∨\mathcal{G})$也是布尔公式。</li>
+<li>如果$\mathcal{F}$和$\mathcal{G}$为布尔公式，则$(\mathcal{F}∧\mathcal{G})$为布尔公式。</li>
+</ul>
+<p>表达方式：</p>
+<ul>
+<li>合取范式（ conjunctive normal form (CNF)）<br>任何命题公式，最终都能够化成$ (A 1 ∨A 2 )∧(A 3​ ∨A 4 ) $的形式</li>
+<li>析取范式（disjunctive normal form (DNF)）<br>任何命题公式，最终都能够化成 $( A 1 ∧ A 2 ) ∨ ( A 3 ∧ A 4 )$的形式</li>
+</ul>
+<p>给定一个公式$\mathcal{F}$，一个真值赋值$\mathcal{ν}$是一个从变量$\mathcal{F}$到$ {0,1}$的映射，$\mathcal{ν}: var(\mathcal{F}) \mapsto {0,1}$。公式所取的值(公式结果)为$\mathcal{F^v}$</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://konsin.gitee.io/2023/01/16/%E9%80%BB%E8%BE%91%E4%B8%8E%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/12/01/QT%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">QT学习（四）常用容器</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022-2023
+        <i class="ri-heart-fill heart_icon"></i> Konsin
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="不想当咸鱼王"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.konsin.top/about/">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
