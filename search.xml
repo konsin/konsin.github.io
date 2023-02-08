@@ -4233,7 +4233,8 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
   <entry>
     <title>逻辑与形式化方法</title>
     <url>/2023/01/16/%E9%80%BB%E8%BE%91%E4%B8%8E%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Model-Checking"><a href="#Model-Checking" class="headerlink" title="Model Checking"></a>Model Checking</h1><blockquote>
+    <content><![CDATA[<p>课程视频<a href="https://dl.ccf.org.cn/albumList/5719367269009408?_ack=1">杨子江-逻辑与形式化方法</a>；参考书籍<a href="https://pan.baidu.com/s/1VV5zVMk9ILYnB4WkYA5N6A?pwd=0fbh">Handbook of Model Checking</a></p>
+<h1 id="Model-Checking"><a href="#Model-Checking" class="headerlink" title="Model Checking"></a>Model Checking</h1><blockquote>
 <p><strong>Definition (Model checking)</strong> Given a Kripke structure M = (S,R,L), a designated initial state s0 ∈ S, and a temporal logic formula ϕ, the model-checking problem is to decide whether M is a model of ϕ, i.e., whether M,s0 |= ϕ.</p>
 </blockquote>
 <p>三个问题:</p>
@@ -4434,6 +4435,125 @@ s不可变，s[i]的值可变；<br>ps可变，ps[i]的值可不可变取决于�
 <li>析取范式（disjunctive normal form (DNF)）<br>任何命题公式，最终都能够化成 $( A 1 ∧ A 2 ) ∨ ( A 3 ∧ A 4 )$的形式</li>
 </ul>
 <p>给定一个公式$\mathcal{F}$，一个真值赋值$\mathcal{ν}$是一个从变量$\mathcal{F}$到$ {0,1}$的映射，$\mathcal{ν}: var(\mathcal{F}) \mapsto {0,1}$。公式所取的值(公式结果)为$\mathcal{F^v}$</p>
+<ul>
+<li>如果存在一个字面量$l\in c$，使得$l^ν = 1$，则子句$c$是满足的（<em>satisfied</em>）。</li>
+<li>如果所有$c$中的字面量取值都为0，则子句$c$是假的(<em>falsified</em>)。</li>
+<li>除一个字面值赋值为0外，其余的字面值未赋值,那么这个子句是单元（<em>unit</em>）。</li>
+<li>如果一个子句既没有 falsified ，也没有被satisfied，也没有unit，那么它就是未解决的unresolved。</li>
+<li>如果所有子句都satisfied,那么CNF公式satisfied。如果有至少一个子句falsified,那么CNF公式falsified。</li>
+<li>如果 $\mathcal{F^v} = 1$，则F的真值赋值是令人满意satisfying的(或简单地说是令人满意的真值赋值 a satisfying truth assignment)。公式F是可满足的前提是它有一个令人满意的真值赋值;否则是无法满足的。如果公式F是可满足的，则为$F \models\mkern-15mu/ ⊥$。如果公式F是 不满足的，则$F⊨⊥$。</li>
+</ul>
+<p>SAT求解器中的一个关键程序是单元子句规则unit clause rule:</p>
+<ul>
+<li>如果子句是单元，那么它唯一未赋值的字面量必须赋值1才能满足子句。</li>
+<li>单元子句规则的迭代应用称为单元传播（unit propagation）或 布尔约束传播(BCP：Boolean constraint propagation)。</li>
+<li>如果识别出一个falsified的子句，则声明冲突条件，且算法回溯。</li>
+</ul>
+<p>在CDCL SAT求解器中，每个变量x由许多属性来描述，包括值(value)、前项(antecedent)子句(或仅仅是前项)和决策级别(decision level)，分别用$ν(x)∈{0,u,1}， α(x)∈F∪{NIL}和 δ(x)∈{−1,0,1，…，| x |}$表示。</p>
+<ul>
+<li>一个变量x被作为应用单位子句规则的结果赋值，则被称为被推导的（implied）。用于推演变量x的单元子句c被认为是x的前项子句，$α(x) = c$。</li>
+<li>变量x的决策级别表示该变量被赋值为{0,1}的决策树的深度。未分配变量x的决策水平为−1，$δ(x) =−1$。<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4pygyqzbdgg0.webp" alt="image"><br>上图示例中，除了决策级别0之外，一个决策文字与每个决策级别相关联。例如，对于决策 级别1，决策文字为w，表示w被赋值为1。给定推导图，可以从传入边推断给定推导赋值的前项。例如，b被赋值为 1，因为a和x被赋值为1。因此，b的先行项是$(\overline{x}\vee \overline{a}\vee \overline{b})$。<h2 id="CDCL-SAT-Solvers"><a href="#CDCL-SAT-Solvers" class="headerlink" title="CDCL SAT Solvers"></a>CDCL SAT Solvers</h2><h3 id="Organization"><a href="#Organization" class="headerlink" title="Organization"></a>Organization</h3><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.5vrsehez7qo0.webp" alt="image"></li>
+</ul>
+<p>算法1显示了CDCL SAT求解器的标准组织，它基本上遵循DPLL的组织。与DPLL主要的区别是每次识别冲突时调用CONFLICTANALYSIS函数 ，以及在发生回溯时调用BACKTRACK。此外，BACKTRACK过程允许非按时间顺序进行回溯</p>
+<ul>
+<li><strong>UNITPROPAGATION</strong>由单元子句规则的迭代应用组成。如果识别出falsified的子句，则返回冲突指示。</li>
+<li><strong>PICKBRANCHINGVARIABLE</strong>由选择一个变量并为其赋值组成。</li>
+<li><strong>CONFLICTANALYSIS</strong>包括分析最近的冲突，并从冲突中学习一个新的从句。</li>
+<li><strong>BACKTRACK</strong>返回到由<strong>CONFLICTANALYSIS</strong>计算的决策级别。</li>
+<li><strong>ALLVARIABLESASSIGNED</strong> 测试是否所有变量都已赋值，在这种情况下，算法终止，表明CNF公式是可满足的。<h3 id="Clause-Learning-and-Non-chronological-Backtracking"><a href="#Clause-Learning-and-Non-chronological-Backtracking" class="headerlink" title="Clause Learning and Non-chronological Backtracking"></a>Clause Learning and Non-chronological Backtracking</h3>算法2总结了冲突分析(和 学习)过程的主要步骤。输入参数是CNF公式和当前赋值集。</li>
+<li>从⊥顶点(表示已证伪的子句)开始遍历当前决策级别上可推导的字面量。</li>
+<li>对于每个遍历的字面量，将分析先行词中的字面量。<ul>
+<li>在比当前决策级别低的决策级别分配的字面量将记录其补充字面量，</li>
+<li>而在当前决策级别分配的字面量将被安排遍历。</li>
+</ul>
+</li>
+<li>重复该过程直到访问当前决策级别的分支变量。</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4bis0lponxm0.webp" alt="image"></p>
+<p>图2显示了一个产生冲突的单元传播的简单示例。x推出a，z推出a、b，a、b导致冲突发生。<br>图3显示了冲突学习算法的处理过程。从冲突节点⊥开始。a、b、 和z会被访问，因为它们都分配在决策级别3。记录的文字是$\overline{x}$和$\overline{z}$。因此，所创建的子句是$(\overline{x}∨\overline{z})$。<br>图4还显示了 回溯后的结果。<br>| <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.5ot3l2vup380.webp" alt="image"> | <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.768ldpz365k0.webp" alt="image"> | <img src="https://cdn.staticaly.com/gh/konsin/images@main/image.5mxjx2e2nv40.webp" alt="image"> |<br>| :——————————————————————————– | :——————————————————————————– | :——————————————————————————– |</p>
+<h1 id="SAT-Based-Model-Checking"><a href="#SAT-Based-Model-Checking" class="headerlink" title="SAT-Based Model Checking"></a>SAT-Based Model Checking</h1><p>Modern satisfiability (SAT)求解器已成为许多模型检查器的核心技术。</p>
+<ul>
+<li>与基于bdd的模型 检查器相比，大大提高了容量。</li>
+<li>SAT解算器通常能够解决比基于二进制决策图(bdd)的经典技术更大的公式</li>
+<li>基于bdd的技术允许有效地实现量词消除，这对于符号定点算法中的终止检查至关重要。</li>
+</ul>
+<p>SAT-based bounded modelchecking (BMC) 有界模型检验？</p>
+<ul>
+<li>转换系统和属性的符号表示在给定的K个步骤中一起展开</li>
+<li>如果存在长度k以内的反例，则得到一个可满足的公式。</li>
+<li>然后，公式被传递给一个有效的SAT求解器。</li>
+</ul>
+<h2 id="Bounded-Model-Checking-on-Kripke-Structures"><a href="#Bounded-Model-Checking-on-Kripke-Structures" class="headerlink" title="Bounded Model Checking on Kripke Structures"></a>Bounded Model Checking on Kripke Structures</h2><p>这里仅限于线性时序逻辑(LTL)中给出的属性。<br><strong>安全属性(Safety Properties)</strong>:<br>$\bold{G}p$:对于这种性质，可以被给出满足¬p的状态s结束的有限路径作为反例。<br>$$<br>\exists s_{0}, \ldots, s_{k} . \quad I\left(s_{0}\right) \wedge \bigwedge_{i=0}^{k-1} T\left(s_{i}, s_{i+1}\right) \wedge \neg p\left(s_{k}\right) \quad(1)<br>$$<br>第一个连接符$I\left(s_{0}\right)$确保 状态$s_0$是初始状态之一。第二个连词对需求进行编码，即对于每个$i∈{0，…，k−1}$有从$s_i$到$s_{i+1}$的换。这相当于创建了转换关系T的k个副本。最后，连接符$\neg p\left(s_{k}\right)$断言状态$s_k$满足$¬p$ 。<br><strong>活跃属性(Liveness Properties)</strong>:<br>$\bold{F}p$:这种形式的属性的反例总是可以给出一个有限(可能是空的)前缀(称为词干)，后面跟着一个有限循环。路径上的所有状态满足¬p。<br>$$<br>\exists s_0,\ldots,s_k.\quad I(s_0)\wedge\bigwedge\limits_{i\equiv0}^{k-1}T(s_i,s_{i+1})\wedge\bigwedge\limits_{i=0}^{k-1}\neg p(s_i)\wedge\bigvee\limits_{i\equiv0}^{k-1}s_k=s_i\quad(2)<br>$$</p>
+<h1 id="Combining-Model-Checking-and-Testing"><a href="#Combining-Model-Checking-and-Testing" class="headerlink" title="Combining Model Checking and Testing"></a>Combining Model Checking and Testing</h1><p>模型检查是一种基于穷举状态空间探索的形式验证<br>在实践中，验证保证往往是有限的：仅检查程序或程序模型的特定属性，在一些特定的环境假设下，检查本身通常是近似的。</p>
+<p>模型检查应该更多地被视为“超级测试”，而不是严格数学意义上的形式验证：提供更好的覆盖范围，计算成本更高，在测试和正式验证之间提供了一个有吸引力的实际权衡</p>
+<p>模型检查的关键实用优势在于，它能够发现极其难以发现的bug</p>
+<p>软件模型检查的两种主要方法：<br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.3yfq5h4zvai0.webp" alt="image"></p>
+<ul>
+<li>一种方法使用抽象 abstraction:它包括通过静态分析其代码自动从软件应用程序中提取抽象模型，然后使用传统的模型检查算法分析该模型。</li>
+<li>另一种方法使用适配adaptation:包括将模型检查调整为一种适用于工业规模软件的系统测试形式</li>
+</ul>
+<h2 id="顺序软件的系统测试"><a href="#顺序软件的系统测试" class="headerlink" title="顺序软件的系统测试"></a>顺序软件的系统测试</h2><p>符号执行是指用符号值而不是具体值执行程序。赋值语句表示为其(符号)参数的函数，而条件语句 表示为对符号值的约束。可用于错误检测、程序修复、调试、维护和故障本地化。</p>
+<h3 id="测试生成的方式："><a href="#测试生成的方式：" class="headerlink" title="测试生成的方式："></a>测试生成的方式：</h3><ul>
+<li>静态测试生成是对程序进行静态分析的过程符号执行技术，试图计算驱动器的输入P沿着特定的执行路径或分支，而无需执行程序。<ul>
+<li><strong>静态测试生成</strong>不能通过条件语句的任何分支生成测试输入来驱动 程序模糊的执行:静态测试 生成对于这样的程序是无用的。</li>
+</ul>
+</li>
+<li><strong>动态测试生成</strong>执行程序p，它由执行程序P组成，通常从一些随机输入开始，同时动态执行符号执行，在执行过程中从分支语句中的谓词收集输入上的符号约束，然后使用约束求解器推断出前一个输入的变体，以便引导程序的下一次执行转向替代程序分支。<ul>
+<li>符号执行现在是具体执行的附属品。</li>
+<li>使用具体值和随机化可以缓解符号执行的不精确性</li>
+<li>动态测试生成是目前已知的最精确的代码驱动测试生成形式</li>
+</ul>
+</li>
+</ul>
+<p><strong>动态测试生成示例1：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">obscure</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (x == <span class="built_in">hash</span>(y)) <span class="built_in">abort</span>(); <span class="comment">// error</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// ok</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最初x =33. y = 42. </li>
+<li>假设hash(y)=567，路径约束变为$\phi_{\rho}=(x \neq 567)$</li>
+<li>新的输入向量x=567.y=42</li>
+</ul>
+<p><strong>动态测试生成示例2：</strong><br><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.4wr93lcevtw0.webp" alt="image"><br>考虑图5所示的函数h。函数h是有缺陷的，因为它对其输入向量 (由输入参数x和y组成)的某个值可能导致中止。但使用随机值运行x和y的程序不太可能发现错误。</p>
+<ul>
+<li>最初，x=269167349,y=889801541</li>
+<li>符号动态执行产生路径约束$\phi_{\rho}=(x\neq y)\wedge(2\cdot x\neq x+10)$。</li>
+<li>对当前路径约束的最后一个约束求反得到约束 $\phi_{\rho}’=(x\neq y)\wedge(2\cdot x= x+10)$</li>
+<li>新的路径约束的解是(x = 10,y = 889801541)。</li>
+</ul>
+<h3 id="优势与局限"><a href="#优势与局限" class="headerlink" title="优势与局限"></a>优势与局限</h3><p>优势：</p>
+<ul>
+<li>即使定向搜索通常不能在合理的时间内探索大型程序的所有可行路径，但它通常比纯随机测试获得更好的覆盖率，因此可以发现新的程序错误。</li>
+<li>可以增量地实现</li>
+</ul>
+<p>在高层次上，系统动态测试生成受到两个主要限制:</p>
+<ul>
+<li>沿个别路径符号执行的频繁不精确，以及</li>
+<li>通常需要探索的大量路径，或者路径爆炸。</li>
+</ul>
+<p>挑战</p>
+<ul>
+<li>从符号执行的不精确中恢复</li>
+<li>将符号执行扩展到数十亿条指令，有效地检查许多属性</li>
+<li>有关指针、不同大小的输入、浮点指令、无限循环的原因</li>
+<li>优先搜索</li>
+<li>跨代码更改重用以前的分析结果</li>
+</ul>
+<h2 id="数据输入并发软件的系统测试"><a href="#数据输入并发软件的系统测试" class="headerlink" title="数据输入并发软件的系统测试"></a>数据输入并发软件的系统测试</h2><p><a href="http://osl.cs.illinois.edu/software/jcute/">jCUTE</a>是一种动态测试生成技术：</p>
+<ul>
+<li>生成一个随机输入和一个计划，计划指定线程的执行顺序</li>
+<li>回溯并生成一个新的调度或新的输入，并再次执行程序</li>
+<li>继续执行，直到使用深度优先搜索策略探索了所有可能的不同执行路径</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/konsin/images@main/image.6ov8yqs3cn40.webp" alt="image"></p>
+<ol>
+<li>Z=2345354且顺序$(t_1,1) (t_2,, 1) (t_2,2)$是约束$〈2 ∗ z_0 + 1! = 2〉$的唯一执行路径</li>
+<li>约束求反$2 * z_0 +1 = 2$，仍无解</li>
+<li>回溯并生成一个调度，以便下一次执行变成$(t_2,, 1) (t_2,2)(t_1,1) $</li>
+<li>再次回溯(t2,1)(t1,1)(t2,2) 路径约束为$〈2 ∗ z_0 + 1! = 3〉$</li>
+<li>负约束$2 ∗ z0 + 1 = 3$有解$z0 = 1$</li>
+<li>(t2,1)(t1,1)(t2,2)(t2,3)导致中止</li>
+</ol>
+<h1 id="反例引导的抽象细化-CEGAR-CounterExample-Guided-Abstraction-Refinement"><a href="#反例引导的抽象细化-CEGAR-CounterExample-Guided-Abstraction-Refinement" class="headerlink" title="反例引导的抽象细化 (CEGAR:CounterExample-Guided Abstraction Refinement)"></a>反例引导的抽象细化 (CEGAR:CounterExample-Guided Abstraction Refinement)</h1><p>书13.5章</p>
+<h1 id="Partial-Order-Reduction"><a href="#Partial-Order-Reduction" class="headerlink" title="Partial-Order Reduction"></a>Partial-Order Reduction</h1><p>书6章</p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
